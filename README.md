@@ -1,4 +1,4 @@
-# SEMADEC IFCN
+# SEMADEC - IFCN
 
 Projeto desenvolvido com a finalidade de facilitar o gerenciamento da SEMADEC no IFRN Campus Currais Novos.
 
