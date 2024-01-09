@@ -1,6 +1,6 @@
 from re import sub
-from string import ascii_letters, digits, punctuation
 from secrets import SystemRandom
+from string import ascii_letters, digits, punctuation
 
 
 def generate_secret_key(k: int = 64) -> str:
