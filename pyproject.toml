@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "semadec-hub"
+version = "0.1.0"
+description = "Projeto desenvolvido com a finalidade de facilitar o gerenciamento da SEMADEC no IFRN Campus Currais Novos."
+authors = ["Joamerson Islan <joamersonislan38@gmail.com>, Sérgio Dantas <sergiodnts828@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Django = "^5.0.1"
+mysqlclient = "^2.2.1"
+python-dotenv = "^1.0.0"
+pillow = "^10.2.0"
+
+[tool.poetry.group.dev.dependencies]
+mysql-connector-python = "^8.3.0"
+pytest = "^7.4.4"
+pytest-django = "^4.7.0"
+coverage = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
