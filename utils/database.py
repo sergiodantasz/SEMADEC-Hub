@@ -25,14 +25,11 @@ class DB:
                 database=self.name,
                 user=self.user,
                 password=self.password,
-                host=self.host
+                host=self.host,
             )
         except ProgrammingError:
             connection = connect(
-                database='sys',
-                user=self.user,
-                password=self.password,
-                host=self.host
+                database='sys', user=self.user, password=self.password, host=self.host
             )
         print(f'The connection was started ({connection.database}).')
         return connection, connection.cursor(buffered=True)
