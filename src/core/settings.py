@@ -9,9 +9,7 @@ load_dotenv(BASE_DIR.parent / '.env', override=True)
 
 SECRET_KEY = getenv('SECRET_KEY', 'CHANGE')
 DEBUG = bool(int(getenv('DEBUG', '0')))
-ALLOWED_HOSTS = [
-    host for host in getenv('ALLOWED_HOSTS').split()
-]
+ALLOWED_HOSTS = [host for host in getenv('ALLOWED_HOSTS').split()]
 
 # Application definition
 
@@ -22,7 +20,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     # SEMADEC Hub
     'home',
     'competitions',
@@ -48,9 +45,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'base' / 'templates'
-        ],
+        'DIRS': [BASE_DIR / 'base' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -110,9 +105,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'base' / 'static'
-]
+STATICFILES_DIRS = [BASE_DIR / 'base' / 'static']
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
