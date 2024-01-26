@@ -1,6 +1,6 @@
 # Project
-src/static
-src/media
+/static
+/media
 local-only
 
 # Django #
