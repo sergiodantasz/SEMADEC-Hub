@@ -1,5 +1,6 @@
 from django.db import models
 
+from news.models import News
 from users.models import Administrator
 
 
@@ -35,11 +36,22 @@ class Collection(models.Model):
         null=False,
         blank=True,  # Can it be blank?
     )
-
-
-class CollectionTag(models.Model):
-    ...
+    # Add ManyToManyField into Tag model
 
 
 class File(models.Model):
-    ...
+    collection = models.ForeignKey(
+        Collection,
+        on_delete=models.CASCADE,  # Delete file when its collection is deleted
+        blank=False,
+        db_column='collection_id',
+    )
+    name = models.CharField(
+        max_length=250,
+        null=False,
+        blank=False,
+    )
+    size = models.PositiveBigIntegerField(  # Is this file type correct?
+        null=False,
+        blank=False,
+    )
