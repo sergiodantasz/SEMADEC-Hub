@@ -21,7 +21,19 @@ class Competition(models.Model):
 
 
 class Test(models.Model):
-    ...
+    title = models.CharField(
+        max_length=50,
+        null=False,
+        blank=False,
+    )
+    description = models.TextField(
+        null=False,
+        blank=True,
+    )
+    date_time = models.DateTimeField(  # Check it again later
+        null=True,
+        blank=True,
+    )
 
 
 class Sport(models.Model):
