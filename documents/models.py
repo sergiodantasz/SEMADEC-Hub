@@ -15,7 +15,11 @@ class Document(models.Model):
         null=False,
         blank=False,
     )
-    name = ...
+    name = models.CharField(
+        max_length=250,
+        null=False,
+        blank=False,
+    )
     slug = models.SlugField(
         unique=True,
         max_length=225,
