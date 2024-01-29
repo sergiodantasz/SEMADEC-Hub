@@ -32,6 +32,7 @@ class User(models.Model):
         on_delete=models.SET_NULL,
         blank=False,
         db_column='course_id',
+        default=None,
     )
     full_name = models.CharField(
         max_length=200,
@@ -69,6 +70,7 @@ class User(models.Model):
         blank=False,
     )
     photo_url = models.URLField(
+        unique=True,
         null=False,
         blank=False,
     )
@@ -78,6 +80,7 @@ class Administrator(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        unique=True,
         null=False,
         blank=False,
         db_column='user_registration',
