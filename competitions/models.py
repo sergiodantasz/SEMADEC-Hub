@@ -30,14 +30,27 @@ class Test(models.Model):
         null=False,
         blank=True,
     )
-    date_time = models.DateTimeField(  # Check it again later
+    date_time = models.DateTimeField(
         null=True,
-        blank=True,
+        blank=False,  # Is it good to allow null but not allow blank?
     )
 
 
 class Sport(models.Model):
-    ...
+    name = models.CharField(
+        max_length=30,
+        null=False,
+        blank=False,
+    )
+    category = models.CharField(  # Woudn't it be better to create another table?
+        max_length=15,
+        null=False,
+        blank=False,
+    )
+    date_time = models.DateTimeField(
+        null=True,
+        blank=False,  # Is it good to allow null but not allow blank?
+    )
 
 
 class TestOrSport(models.Model):
