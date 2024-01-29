@@ -3,20 +3,20 @@ from django.db import models
 from editions.models import Edition
 
 
-class Competition(models.Model):
-    edition = models.ForeignKey(
-        Edition,
-        on_delete=models.CASCADE,
+class Sport(models.Model):
+    name = models.CharField(
+        max_length=30,
         null=False,
         blank=False,
-        db_column='edition_year',
     )
-    test_or_sport = models.ForeignKey(
-        TestOrSport,
-        on_delete=models.CASCADE,
+    category = models.CharField(  # Woudn't it be better to create another table?
+        max_length=15,
         null=False,
         blank=False,
-        db_column='test_or_sport_id',
+    )
+    date_time = models.DateTimeField(
+        null=True,
+        blank=False,  # Is it good to allow null but not allow blank?
     )
 
 
@@ -36,22 +36,33 @@ class Test(models.Model):
     )
 
 
-class Sport(models.Model):
-    name = models.CharField(
-        max_length=30,
+class TestOrSport(models.Model):  # Check it again later
+    test = models.ForeignKey(
+        Test,
+        on_delete=models.CASCADE,
         null=False,
         blank=False,
     )
-    category = models.CharField(  # Woudn't it be better to create another table?
-        max_length=15,
+    sport = models.ForeignKey(
+        Sport,
+        on_delete=models.CASCADE,
         null=False,
         blank=False,
     )
-    date_time = models.DateTimeField(
-        null=True,
-        blank=False,  # Is it good to allow null but not allow blank?
+
+
+class Competition(models.Model):
+    edition = models.ForeignKey(
+        Edition,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+        db_column='edition_year',
     )
-
-
-class TestOrSport(models.Model):
-    ...
+    test_or_sport = models.ForeignKey(
+        TestOrSport,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+        db_column='test_or_sport_id',
+    )
