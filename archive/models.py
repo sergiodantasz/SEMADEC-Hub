@@ -22,7 +22,7 @@ class Collection(models.Model):
         null=False,
         blank=True,  # Can it be blank?
     )
-    slug = models.CharField(
+    slug = models.SlugField(
         unique=True,
         max_length=225,
         null=False,
