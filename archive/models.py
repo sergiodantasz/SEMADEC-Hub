@@ -8,6 +8,7 @@ class Collection(models.Model):
     administrator = models.ForeignKey(
         Administrator,
         on_delete=models.SET_NULL,
+        null=True,
         blank=False,
         db_column='administrator_id',
     )

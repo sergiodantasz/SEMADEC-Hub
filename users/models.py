@@ -24,12 +24,14 @@ class User(models.Model):
     campus = models.ForeignKey(
         Campus,
         on_delete=models.SET_NULL,
+        null=True,
         blank=False,
         db_column='campus_acronym',
     )
     course = models.ForeignKey(
         Course,
         on_delete=models.SET_NULL,
+        null=True,
         blank=False,
         db_column='course_id',
         default=None,
