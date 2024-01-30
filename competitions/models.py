@@ -3,16 +3,26 @@ from django.db import models
 from editions.models import Edition
 
 
+class SportCategory(models.Model):
+    name = models.CharField(
+        max_length=15,
+        null=False,
+        blank=False,
+    )
+
+
 class Sport(models.Model):
     name = models.CharField(
         max_length=30,
         null=False,
         blank=False,
     )
-    category = models.CharField(  # Woudn't it be better to create another table?
-        max_length=15,
+    category = models.ForeignKey(
+        SportCategory,
+        on_delete=models.CASCADE,
         null=False,
         blank=False,
+        db_column='category_id',
     )
     date_time = models.DateTimeField(
         null=True,
