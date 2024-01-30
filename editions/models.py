@@ -8,3 +8,7 @@ class Course(models.Model):
         null=False,
         blank=False,
     )
+
+
+class Edition(models.Model):
+    ...
