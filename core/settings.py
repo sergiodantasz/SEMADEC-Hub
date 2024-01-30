@@ -21,13 +21,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # SEMADEC Hub
-    'home',
-    'competitions',
-    'news',
-    'editions',
     'archive',
+    'competitions',
     'documents',
+    'editions',
+    'home',
     'users',
+    'news',
 ]
 
 MIDDLEWARE = [
