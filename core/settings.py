@@ -9,7 +9,7 @@ load_dotenv(BASE_DIR / '.env', override=True)
 
 SECRET_KEY = getenv('SECRET_KEY', 'CHANGE')
 DEBUG = bool(int(getenv('DEBUG', '0')))
-ALLOWED_HOSTS = [host for host in getenv('ALLOWED_HOSTS').split()]
+ALLOWED_HOSTS: list[str] = []
 
 # Application definition
 
@@ -64,12 +64,8 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': getenv('DB_ENGINE', ''),
-        'NAME': getenv('DB_NAME', ''),
-        'USER': getenv('DB_USER', ''),
-        'PASSWORD': getenv('DB_PASSWORD', ''),
-        'HOST': getenv('DB_HOST', ''),
-        'PORT': getenv('DB_PORT', ''),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
