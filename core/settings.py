@@ -10,6 +10,7 @@ load_dotenv(BASE_DIR / '.env', override=True)
 SECRET_KEY = getenv('SECRET_KEY', 'CHANGE')
 DEBUG = bool(int(getenv('DEBUG', '0')))
 ALLOWED_HOSTS = [host for host in getenv('ALLOWED_HOSTS').split()]
+
 # Application definition
 
 INSTALLED_APPS = [
