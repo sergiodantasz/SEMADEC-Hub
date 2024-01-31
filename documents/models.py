@@ -1,5 +1,7 @@
 from django.db import models
+from django.utils import timezone
 
+from home.models import Tag
 from users.models import Administrator
 
 
@@ -16,10 +18,11 @@ class Document(models.Model):
         null=False,
         blank=False,
     )
-    name = models.CharField(
-        max_length=250,
+    content = models.FileField(
+        unique=True,
         null=False,
         blank=False,
+        db_column='path',
     )
     slug = models.SlugField(
         unique=True,
@@ -27,12 +30,19 @@ class Document(models.Model):
         null=False,
         blank=False,
     )
-    creation_date = models.DateField(
+    created_at = models.DateTimeField(
         null=False,
-        blank=True,  # Can it be blank?
+        blank=False,
+        editable=False,
     )
-    update_date = models.DateField(
-        null=False,
-        blank=True,  # Can it be blank?
+    updated_at = models.DateTimeField(
+        blank=False,
+        default=None,
     )
     # Add ManyToManyField into Tag model
+
+    def save(self, *args, **kwargs):
+        if not self.id:  # type: ignore
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
+        return super().save(*args, **kwargs)
