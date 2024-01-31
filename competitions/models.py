@@ -3,9 +3,10 @@ from django.db import models
 from editions.models import Edition
 
 
-class SportCategory(models.Model):
+class Category(models.Model):
     name = models.CharField(
         max_length=15,
+        unique=True,
         null=False,
         blank=False,
     )
@@ -18,15 +19,15 @@ class Sport(models.Model):
         blank=False,
     )
     category = models.ForeignKey(
-        SportCategory,
+        Category,
         on_delete=models.CASCADE,
         null=False,
         blank=False,
         db_column='category_id',
     )
     date_time = models.DateTimeField(
-        null=True,
-        blank=False,  # Is it good to allow null but not allow blank?
+        blank=False,
+        default=None,
     )
 
 
@@ -41,23 +42,27 @@ class Test(models.Model):
         blank=True,
     )
     date_time = models.DateTimeField(
-        null=True,
-        blank=False,  # Is it good to allow null but not allow blank?
+        blank=False,
+        default=None,
     )
 
 
-class TestOrSport(models.Model):  # Check it again later
-    test = models.ForeignKey(
+class TestOrSport(models.Model):
+    test = models.OneToOneField(
         Test,
-        on_delete=models.CASCADE,
-        null=False,
+        on_delete=models.SET_NULL,
+        null=True,
         blank=False,
+        default=None,
+        db_column='test_id',
     )
-    sport = models.ForeignKey(
+    sport = models.OneToOneField(
         Sport,
-        on_delete=models.CASCADE,
-        null=False,
+        on_delete=models.SET_NULL,
+        null=True,
         blank=False,
+        default=None,
+        db_column='sport_id',
     )
 
 
