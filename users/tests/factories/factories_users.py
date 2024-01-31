@@ -1,5 +1,5 @@
-from factory import SubFactory
-from factory.django import DjangoModelFactory, ImageField
+from factory import Faker, SubFactory
+from factory.django import DjangoModelFactory
 
 
 class AdministratorFactory(DjangoModelFactory):
@@ -13,8 +13,8 @@ class CampusFactory(DjangoModelFactory):
     class Meta:
         model = 'users.Campus'
 
-    acronym = 'cn'
-    name = 'Currais Novos'
+    acronym = Faker('pystr', min_chars=2, max_chars=2)
+    name = Faker('city')
 
 
 class UserFactory(DjangoModelFactory):
