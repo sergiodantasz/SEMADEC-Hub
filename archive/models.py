@@ -1,6 +1,7 @@
 from django.db import models
+from django.utils import timezone
 
-from news.models import News
+from home.models import Tag
 from users.models import Administrator
 
 
@@ -20,39 +21,43 @@ class Collection(models.Model):
     )
     cover = models.ImageField(
         upload_to='',  # Change it later
-        null=False,
-        blank=True,  # Can it be blank?
+        blank=False,
+        default=None,
     )
     slug = models.SlugField(
-        unique=True,
         max_length=225,
+        unique=True,
         null=False,
         blank=False,
     )
-    creation_date = models.DateField(
+    created_at = models.DateTimeField(
         null=False,
-        blank=True,  # Can it be blank?
+        blank=False,
+        editable=False,
     )
-    update_date = models.DateField(
-        null=False,
-        blank=True,  # Can it be blank?
+    updated_at = models.DateTimeField(
+        blank=False,
+        default=None,
     )
     # Add ManyToManyField into Tag model
+
+    def save(self, *args, **kwargs):
+        if not self.id:  # type: ignore
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
+        return super().save(*args, **kwargs)
 
 
 class File(models.Model):
     collection = models.ForeignKey(
         Collection,
-        on_delete=models.CASCADE,  # Delete file when its collection is deleted
+        on_delete=models.CASCADE,
         blank=False,
         db_column='collection_id',
     )
-    name = models.CharField(
-        max_length=250,
+    content = models.FileField(
+        unique=True,
         null=False,
         blank=False,
-    )
-    size = models.PositiveBigIntegerField(  # Is this file type correct?
-        null=False,
-        blank=False,
+        db_column='path',
     )
