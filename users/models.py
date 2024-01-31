@@ -79,10 +79,9 @@ class User(models.Model):
 
 
 class Administrator(models.Model):
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        unique=True,
         null=False,
         blank=False,
         db_column='user_registration',
