@@ -1,13 +1,10 @@
 from django.db import models
 from django.utils import timezone
 
-from home.models import Tag
-from users.models import Administrator
-
 
 class Collection(models.Model):
     administrator = models.ForeignKey(
-        Administrator,
+        'users.Administrator',
         on_delete=models.SET_NULL,
         null=True,
         blank=False,
@@ -20,7 +17,7 @@ class Collection(models.Model):
         blank=False,
     )
     cover = models.ImageField(
-        upload_to='',  # Change it later
+        upload_to='',  # CHANGE IT LATER.
         blank=False,
         default=None,
     )
@@ -39,7 +36,9 @@ class Collection(models.Model):
         blank=False,
         default=None,
     )
-    # Add ManyToManyField into Tag model
+    tags = models.ManyToManyField(
+        to='home.Tag',
+    )
 
     def save(self, *args, **kwargs):
         if not self.id:  # type: ignore
@@ -50,7 +49,7 @@ class Collection(models.Model):
 
 class File(models.Model):
     collection = models.ForeignKey(
-        Collection,
+        'archive.Collection',
         on_delete=models.CASCADE,
         blank=False,
         db_column='collection_id',
