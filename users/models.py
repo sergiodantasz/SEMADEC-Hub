@@ -1,7 +1,5 @@
 from django.db import models
 
-from editions.models import Course
-
 
 class Campus(models.Model):
     acronym = models.CharField(
@@ -22,14 +20,14 @@ class User(models.Model):
         max_length=14,
     )
     campus = models.ForeignKey(
-        Campus,
+        'users.Campus',
         on_delete=models.SET_NULL,
         null=True,
         blank=False,
         db_column='campus_acronym',
     )
     course = models.ForeignKey(
-        Course,
+        'editions.Course',
         on_delete=models.SET_NULL,
         null=True,
         blank=False,
@@ -80,7 +78,7 @@ class User(models.Model):
 
 class Administrator(models.Model):
     user = models.OneToOneField(
-        User,
+        'users.User',
         on_delete=models.CASCADE,
         null=False,
         blank=False,
@@ -90,7 +88,7 @@ class Administrator(models.Model):
 
 class Email(models.Model):
     user = models.ForeignKey(
-        User,
+        'users.User',
         on_delete=models.CASCADE,
         null=False,
         blank=False,
