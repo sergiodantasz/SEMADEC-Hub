@@ -2,7 +2,7 @@ from factory import SubFactory
 from factory.django import DjangoModelFactory, DjangoOptions
 from factory.faker import faker
 
-from editions.tests.factories.factories_editions import CourseFactory
+from editions.tests.factories import CourseFactory
 
 fake = faker.Faker('pt_BR')
 
