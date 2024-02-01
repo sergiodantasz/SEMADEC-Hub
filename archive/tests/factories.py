@@ -2,14 +2,12 @@ from factory import SubFactory
 from factory.django import DjangoModelFactory, ImageField
 from factory.faker import faker
 
-from archive.models import Collection, File
-
 fake = faker.Faker('pt_BR')
 
 
 class CollectionFactory(DjangoModelFactory):
     class Meta:
-        model = Collection
+        model = 'archive.Collection'
 
     administrator = SubFactory('users.Administrator')  # Add later
     title = 'This is a placeholder title.'
@@ -21,4 +19,4 @@ class CollectionFactory(DjangoModelFactory):
 
 class FileFactory(DjangoModelFactory):
     class Meta:
-        model = File
+        model = 'archive.File'
