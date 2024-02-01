@@ -1,7 +1,5 @@
 from django.db import models
 
-from editions.models import Edition
-
 
 class Category(models.Model):
     name = models.CharField(
@@ -19,7 +17,7 @@ class Sport(models.Model):
         blank=False,
     )
     category = models.ForeignKey(
-        Category,
+        'competitions.Category',
         on_delete=models.CASCADE,
         null=False,
         blank=False,
@@ -40,6 +38,7 @@ class Test(models.Model):
     description = models.TextField(
         null=False,
         blank=True,
+        default='',
     )
     date_time = models.DateTimeField(
         blank=False,
@@ -49,7 +48,7 @@ class Test(models.Model):
 
 class TestOrSport(models.Model):
     test = models.OneToOneField(
-        Test,
+        'competitions.Test',
         on_delete=models.SET_NULL,
         null=True,
         blank=False,
@@ -57,7 +56,7 @@ class TestOrSport(models.Model):
         db_column='test_id',
     )
     sport = models.OneToOneField(
-        Sport,
+        'competitions.Sport',
         on_delete=models.SET_NULL,
         null=True,
         blank=False,
@@ -68,16 +67,20 @@ class TestOrSport(models.Model):
 
 class Competition(models.Model):
     edition = models.ForeignKey(
-        Edition,
+        'editions.Edition',
         on_delete=models.CASCADE,
         null=False,
         blank=False,
         db_column='edition_year',
     )
     test_or_sport = models.ForeignKey(
-        TestOrSport,
+        'competitions.TestOrSport',
         on_delete=models.CASCADE,
         null=False,
         blank=False,
         db_column='test_or_sport_id',
+    )
+    teams = models.ManyToManyField(
+        to='editions.Team',
+        through='editions.TeamCompetition',
     )
