@@ -1,9 +1,11 @@
-from factory import SubFactory
-from factory.django import DjangoModelFactory, ImageField
+from factory.django import DjangoModelFactory
+from factory.faker import faker
+
+fake = faker.Faker('pt_BR')
 
 
 class CourseFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.Course'
 
-    name = 'Curso Integrado em Informática'
+    name = fake.catch_phrase()
