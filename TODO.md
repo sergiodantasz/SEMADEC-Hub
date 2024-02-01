@@ -26,8 +26,6 @@ The models are grouped according to the apps.
 
 ### `documents`
 
-> Check it again later.
-
 - [x] Document
 
 ### `competitions`
@@ -39,11 +37,11 @@ The models are grouped according to the apps.
 
 ### `editions`
 
-- [ ] Edition
-- [ ] EditionTeam
-- [ ] Team
-- [ ] TeamCompetition
-- [ ] Class
+- [x] Edition
+- [x] Team
+- [x] TeamEdition
+- [x] TeamCompetition
+- [x] Class
 - [x] Course
 
 ### `home`
