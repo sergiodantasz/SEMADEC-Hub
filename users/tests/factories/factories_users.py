@@ -1,34 +1,40 @@
-from factory import Faker, SubFactory
-from factory.django import DjangoModelFactory
+from factory import SubFactory
+from factory.django import DjangoModelFactory, DjangoOptions
+from factory.faker import faker
 
+from editions.tests.factories.factories_editions import CourseFactory
 
-class AdministratorFactory(DjangoModelFactory):
-    class Meta:
-        model = 'users.Administrator'
-
-    user = SubFactory('users.User')
+fake = faker.Faker('pt_BR')
 
 
 class CampusFactory(DjangoModelFactory):
     class Meta:
         model = 'users.Campus'
 
-    acronym = Faker('pystr', min_chars=2, max_chars=2)
-    name = Faker('city')
+    acronym = fake.pystr(min_chars=2, max_chars=2)
+    name = fake.city()
 
 
-class UserFactory(DjangoModelFactory):
+class UserFactory(DjangoModelFactory, DjangoOptions):
     class Meta:
         model = 'users.User'
+        skip_postgeneration_save = True
 
-    registration = '20211034010020'
-    campus = SubFactory('users.Campus')
-    course = SubFactory('editions.Course')
-    full_name = 'Joamerson Islan Santos Amaral'
-    first_name = 'Joamerson'
-    last_name = 'Amaral'
-    cpf = '532.183.190-34'
-    link_type = 'aluno'
-    sex = 'm'
-    date_of_birth = '02/01/2006'
-    photo_url = 'https://suap.ifrn.edu.br/photos/photo.jpg'
+    registration = fake.pystr(min_chars=14, max_chars=14)
+    campus = SubFactory(CampusFactory)
+    course = SubFactory(CourseFactory)
+    full_name = fake.name()
+    first_name = fake.first_name()
+    last_name = fake.last_name()
+    cpf = fake.cpf()
+    link_type = fake.pystr(max_chars=20)
+    sex = fake.pystr(min_chars=1, max_chars=1)
+    date_of_birth = fake.date()
+    photo_url = fake.image_url(width=1000, height=1000)
+
+
+class AdministratorFactory(DjangoModelFactory):
+    class Meta:
+        model = 'users.Administrator'
+
+    user = SubFactory(UserFactory)
