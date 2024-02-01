@@ -7,9 +7,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / '.env', override=True)
 
-SECRET_KEY = getenv('SECRET_KEY', 'CHANGE')
+SECRET_KEY = getenv('SECRET_KEY', '')
 DEBUG = bool(int(getenv('DEBUG', '0')))
-ALLOWED_HOSTS = [host for host in getenv('ALLOWED_HOSTS').split()]
+ALLOWED_HOSTS = [host for host in getenv('ALLOWED_HOSTS').split()]  # type: ignore
 
 # Application definition
 
@@ -45,7 +45,9 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'base' / 'templates'],
+        'DIRS': [
+            BASE_DIR / 'base' / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -101,7 +103,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
-STATICFILES_DIRS = [BASE_DIR / 'base' / 'static']
+STATICFILES_DIRS = [
+    BASE_DIR / 'base' / 'static',
+]
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
