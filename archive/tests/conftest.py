@@ -6,10 +6,9 @@ from home.tests.conftest import tag_fixture
 
 @pytest.fixture
 def collection_fixture(tag_fixture):  # noqa: F811
-    tag1 = tag_fixture()
-
     def inner(title):
-        factory = CollectionFactory(tags=(tag1,), title=title)
+        # ...
+        factory = CollectionFactory.create(tags=(tag_fixture(),), title=title)
         return factory
 
     return inner
