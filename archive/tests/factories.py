@@ -10,6 +10,7 @@ fake = faker.Faker('pt_BR')
 class CollectionFactory(DjangoModelFactory):
     class Meta:
         model = 'archive.Collection'
+        # django_get_or_create = ['slug']
         skip_postgeneration_save = True
 
     administrator = SubFactory(AdministratorFactory)  # Add later
