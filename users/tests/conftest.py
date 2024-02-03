@@ -9,7 +9,6 @@ from users.tests.factories import (
 
 @pytest.fixture
 def campus_fixture():
-    # CampusFactory._meta.django_get_or_create = ('acronym',)
     return CampusFactory
 
 
