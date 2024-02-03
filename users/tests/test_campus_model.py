@@ -16,7 +16,7 @@ def test_campus_model_acronym_has_max_length_4(db, campus_fixture):
 
 def test_campus_model_name_is_unique(db, campus_fixture):
     with assert_raises(IntegrityError):
-        campus1 = campus_fixture(name='Currais novos')
+        campus1 = campus_fixture(name='Currais Novos')
         campus2 = campus_fixture(name='Currais Novos')
 
 
