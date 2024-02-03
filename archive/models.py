@@ -22,8 +22,8 @@ class Collection(models.Model):
         default=None,
     )
     slug = models.SlugField(
-        max_length=225,
         unique=True,
+        max_length=225,
         null=False,
         blank=False,
     )
