@@ -10,7 +10,7 @@ class CourseFactory(DjangoModelFactory):
         model = 'editions.Course'
         # django_get_or_create = ['name']
 
-    name = Sequence(lambda x: fake.catch_phrase())
+    name = Sequence(lambda x: fake.unique.catch_phrase())
 
 
 class EditionFactory(DjangoModelFactory):

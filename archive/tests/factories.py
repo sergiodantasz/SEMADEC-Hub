@@ -11,12 +11,12 @@ class CollectionFactory(DjangoModelFactory):
     class Meta:
         model = 'archive.Collection'
         # django_get_or_create = ['slug']
-        skip_postgeneration_save = True
+        # skip_postgeneration_save = True
 
     administrator = SubFactory(AdministratorFactory)  # Add later
-    title = fake.pystr(max_chars=200)
+    title = Sequence(lambda x: fake.unique.pystr(max_chars=200))
     cover = ImageField()
-    slug = Sequence(lambda x: fake.slug())
+    slug = Sequence(lambda x: fake.unique.slug())
     created_at = fake.date()
     updated_at = fake.date()
 

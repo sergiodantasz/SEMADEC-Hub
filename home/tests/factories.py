@@ -10,5 +10,5 @@ class TagFactory(DjangoModelFactory):
         model = 'home.Tag'
         # django_get_or_create = ['name', 'slug']
 
-    name = Sequence(lambda x: fake.pystr(max_chars=50))
-    slug = Sequence(lambda x: fake.slug())
+    name = Sequence(lambda x: fake.unique.pystr(max_chars=50))
+    slug = Sequence(lambda x: fake.unique.slug())

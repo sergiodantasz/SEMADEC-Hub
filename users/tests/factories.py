@@ -1,4 +1,4 @@
-from factory import Sequence, SubFactory
+from factory import Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory, DjangoOptions
 from factory.faker import faker
 
@@ -14,26 +14,32 @@ class CampusFactory(DjangoModelFactory):
     # acronym = fake.pystr(min_chars=2, max_chars=2)
     # acronym = fake.unique.pystr(min_chars=2, max_chars=2)
     acronym = Sequence(lambda x: fake.unique.pystr(min_chars=2, max_chars=2))
-    name = Sequence(lambda x: fake.city())
+    name = Sequence(lambda x: fake.unique.city())
 
 
 class UserFactory(DjangoModelFactory, DjangoOptions):
     class Meta:
         model = 'users.User'
-        # django_get_or_create = ['photo_url', 'registration']
         # skip_postgeneration_save = True
 
-    registration = Sequence(lambda x: fake.pystr(min_chars=14, max_chars=14))
+    registration = Sequence(lambda x: fake.unique.pystr(min_chars=14, max_chars=14))
     campus = SubFactory(CampusFactory)
     course = SubFactory(CourseFactory)
     full_name = fake.name()
     first_name = fake.first_name()
     last_name = fake.last_name()
-    cpf = Sequence(lambda x: fake.cpf())
+    cpf = Sequence(lambda x: fake.unique.cpf())
     link_type = fake.pystr(max_chars=20)
     sex = fake.pystr(min_chars=1, max_chars=1)
     date_of_birth = fake.date()
-    # photo_url = Sequence(lambda x: fake.image_url(width=1000, height=1000))
+    photo_url = Sequence(
+        lambda x: f'{fake.unique.image_url(width=1000, height=1000)}{x}'
+    )
+
+    # post_generation(lambda self, create, extracted: fake.unique.clear())
+    @post_generation
+    def clear_unique(self, *args):
+        fake.unique.clear()
 
 
 class AdministratorFactory(DjangoModelFactory):
