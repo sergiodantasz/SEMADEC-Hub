@@ -1,4 +1,4 @@
-from factory import SubFactory
+from factory import Sequence, SubFactory
 from factory.django import DjangoModelFactory, DjangoOptions
 from factory.faker import faker
 
@@ -11,30 +11,34 @@ class CampusFactory(DjangoModelFactory):
     class Meta:
         model = 'users.Campus'
 
-    acronym = fake.pystr(min_chars=2, max_chars=2)
-    name = fake.city()
+    # acronym = fake.pystr(min_chars=2, max_chars=2)
+    # acronym = fake.unique.pystr(min_chars=2, max_chars=2)
+    acronym = Sequence(lambda x: fake.unique.pystr(min_chars=2, max_chars=2))
+    name = Sequence(lambda x: fake.city())
 
 
 class UserFactory(DjangoModelFactory, DjangoOptions):
     class Meta:
         model = 'users.User'
-        skip_postgeneration_save = True
+        # django_get_or_create = ['photo_url', 'registration']
+        # skip_postgeneration_save = True
 
-    registration = fake.pystr(min_chars=14, max_chars=14)
+    registration = Sequence(lambda x: fake.pystr(min_chars=14, max_chars=14))
     campus = SubFactory(CampusFactory)
     course = SubFactory(CourseFactory)
     full_name = fake.name()
     first_name = fake.first_name()
     last_name = fake.last_name()
-    cpf = fake.cpf()
+    cpf = Sequence(lambda x: fake.cpf())
     link_type = fake.pystr(max_chars=20)
     sex = fake.pystr(min_chars=1, max_chars=1)
     date_of_birth = fake.date()
-    photo_url = fake.image_url(width=1000, height=1000)
+    # photo_url = Sequence(lambda x: fake.image_url(width=1000, height=1000))
 
 
 class AdministratorFactory(DjangoModelFactory):
     class Meta:
         model = 'users.Administrator'
+        # django_get_or_create = ['user']
 
     user = SubFactory(UserFactory)

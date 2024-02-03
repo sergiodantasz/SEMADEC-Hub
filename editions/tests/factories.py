@@ -1,4 +1,4 @@
-from factory import SubFactory
+from factory import Sequence
 from factory.django import DjangoModelFactory
 from factory.faker import faker
 
@@ -8,8 +8,9 @@ fake = faker.Faker('pt_BR')
 class CourseFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.Course'
+        # django_get_or_create = ['name']
 
-    name = fake.catch_phrase()
+    name = Sequence(lambda x: fake.catch_phrase())
 
 
 class EditionFactory(DjangoModelFactory):

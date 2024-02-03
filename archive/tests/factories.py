@@ -1,4 +1,4 @@
-from factory import SubFactory, post_generation
+from factory import Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory, ImageField
 from factory.faker import faker
 
@@ -16,7 +16,7 @@ class CollectionFactory(DjangoModelFactory):
     administrator = SubFactory(AdministratorFactory)  # Add later
     title = fake.pystr(max_chars=200)
     cover = ImageField()
-    slug = fake.slug()
+    slug = Sequence(lambda x: fake.slug())
     created_at = fake.date()
     updated_at = fake.date()
 
