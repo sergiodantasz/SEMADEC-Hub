@@ -30,3 +30,10 @@ class CollectionFactory(DjangoModelFactory):
 class FileFactory(DjangoModelFactory):
     class Meta:
         model = 'archive.File'
+
+    collection = SubFactory(CollectionFactory)
+    content = fake.unique.file_path()
+
+    @post_generation
+    def clear_unique(self, *args):
+        fake.unique.clear()
