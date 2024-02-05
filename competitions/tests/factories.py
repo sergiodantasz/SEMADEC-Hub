@@ -1,4 +1,4 @@
-from factory import SubFactory
+from factory import SubFactory, post_generation
 from factory.django import DjangoModelFactory
 from factory.faker import faker
 
@@ -8,6 +8,12 @@ fake = faker.Faker('pt_BR')
 class CategoryFactory(DjangoModelFactory):
     class Meta:
         model = 'competitions.Category'
+
+    name = fake.unique.pystr(max_chars=15)
+
+    @post_generation
+    def clear_unique(self, *args):
+        fake.unique.clear()
 
 
 class SportFactory(DjangoModelFactory):
