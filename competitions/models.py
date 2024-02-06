@@ -43,8 +43,8 @@ class Test(models.Model):
         default='',
     )
     date_time = models.DateTimeField(
-        null=True,
         blank=False,
+        null=True,
         default=None,
     )
 
