@@ -24,6 +24,7 @@ class Sport(models.Model):
         db_column='category_id',
     )
     date_time = models.DateTimeField(
+        null=True,
         blank=False,
         default=None,
     )
