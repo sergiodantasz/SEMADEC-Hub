@@ -20,6 +20,14 @@ class SportFactory(DjangoModelFactory):
     class Meta:
         model = 'competitions.Sport'
 
+    name = fake.unique.pystr(max_chars=30)
+    category = SubFactory(CategoryFactory)
+    date_time = None
+
+    @post_generation
+    def clear_unique(self, *args):
+        fake.unique.clear()
+
 
 class TestFactory(DjangoModelFactory):
     class Meta:
