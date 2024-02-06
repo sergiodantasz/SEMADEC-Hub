@@ -33,6 +33,7 @@ class Sport(models.Model):
 class Test(models.Model):
     title = models.CharField(
         max_length=50,
+        unique=True,  # I think it should have unique constraint
         null=False,
         blank=False,
     )
@@ -42,6 +43,7 @@ class Test(models.Model):
         default='',
     )
     date_time = models.DateTimeField(
+        null=True,
         blank=False,
         default=None,
     )
