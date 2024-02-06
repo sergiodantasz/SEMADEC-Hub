@@ -33,6 +33,14 @@ class TestFactory(DjangoModelFactory):
     class Meta:
         model = 'competitions.Test'
 
+    title = fake.unique.text(max_nb_chars=50)
+    description = fake.unique.text()
+    date_time = None
+
+    @post_generation
+    def clear_unique(self, *args):
+        fake.unique.clear()
+
 
 class TestOrSportFactory(DjangoModelFactory):
     class Meta:
