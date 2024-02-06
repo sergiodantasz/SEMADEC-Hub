@@ -90,3 +90,14 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 docstring-code-format = false
 docstring-code-line-length = "dynamic"
+
+[tool.coverage.run]
+branch = true
+omit = [
+    "*/venv/*",
+    "*/*test*.py",
+    "*/conftest.py",
+    "*/factory.py",
+    "manage.py",
+    "core/*.py"
+]
