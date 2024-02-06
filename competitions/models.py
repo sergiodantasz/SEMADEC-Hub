@@ -25,7 +25,7 @@ class Sport(models.Model):
     )
     date_time = models.DateTimeField(
         null=True,
-        blank=False,
+        blank=True,
         default=None,
     )
 
@@ -43,8 +43,8 @@ class Test(models.Model):
         default='',
     )
     date_time = models.DateTimeField(
-        blank=False,
         null=True,
+        blank=True,
         default=None,
     )
 
