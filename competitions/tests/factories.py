@@ -5,6 +5,20 @@ from factory.faker import faker
 fake = faker.Faker('pt_BR')
 
 
+class EditionFactory(DjangoModelFactory):
+    class Meta:
+        model = 'editions.Edition'
+
+    year = fake.unique.random_number(digits=4, fix_len=True)
+    name = fake.unique.pystr(max_chars=10)
+    edition_type = fake.pystr(max_chars=10)
+    theme = fake.pystr(max_chars=100)
+
+    @post_generation
+    def clear_unique(self, *args):
+        fake.unique.clear()
+
+
 class CategoryFactory(DjangoModelFactory):
     class Meta:
         model = 'competitions.Category'
@@ -46,7 +60,13 @@ class TestOrSportFactory(DjangoModelFactory):
     class Meta:
         model = 'competitions.TestOrSport'
 
+    test = SubFactory(TestFactory)
+    sport = SubFactory(SportFactory)
+
 
 class CompetitionFactory(DjangoModelFactory):
     class Meta:
         model = 'competitions.Competition'
+
+    edition = SubFactory(EditionFactory)
+    test_or_sport = SubFactory(TestOrSportFactory)
