@@ -49,6 +49,24 @@ class Team(models.Model):
     classes = models.ManyToManyField(
         to='editions.Class',
     )
+    competitions = models.ManyToManyField(
+        to='competitions.Competition',
+        through='editions.TeamCompetition',
+    )
+
+
+class TeamCompetition(models.Model):
+    team = models.ForeignKey(
+        'editions.Team',
+        on_delete=models.CASCADE,
+        db_column='team_id',
+    )
+    competition = models.ForeignKey(
+        'competitions.Competition',
+        on_delete=models.CASCADE,
+        db_column='competition_id',
+    )
+    winner = models.BooleanField()
 
 
 class TeamEdition(models.Model):
@@ -70,17 +88,3 @@ class TeamEdition(models.Model):
         null=True,
         default=None,
     )
-
-
-class TeamCompetition(models.Model):
-    team = models.ForeignKey(
-        'editions.Team',
-        on_delete=models.CASCADE,
-        db_column='team_id',
-    )
-    competition = models.ForeignKey(
-        'competitions.Competition',
-        on_delete=models.CASCADE,
-        db_column='competition_id',
-    )
-    winner = models.BooleanField()

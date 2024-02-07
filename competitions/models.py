@@ -61,14 +61,10 @@ class Competition(models.Model):
     edition = models.ForeignKey(
         'editions.Edition',
         on_delete=models.CASCADE,
-        db_column='edition_year',
+        db_column='year_edition',
     )
     test_or_sport = models.ForeignKey(
         'competitions.TestOrSport',
         on_delete=models.CASCADE,
         db_column='test_or_sport_id',
-    )
-    teams = models.ManyToManyField(
-        to='editions.Team',
-        through='editions.TeamCompetition',
     )
