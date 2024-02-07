@@ -17,7 +17,7 @@ class News(models.Model):
     )
     cover = models.ImageField(
         upload_to='',  # CHANGE IT LATER.
-        default=None,
+        default='/base/static/global/img/news_cover_placeholder.jpg',  # REVIEW LATER
     )
     content = models.TextField()
     slug = models.SlugField(

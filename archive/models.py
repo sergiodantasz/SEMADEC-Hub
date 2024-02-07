@@ -15,7 +15,7 @@ class Collection(models.Model):
     )
     cover = models.ImageField(
         upload_to='',  # CHANGE IT LATER.
-        default=None,
+        default='/base/static/global/img/collection_cover_placeholder.jpg',  # REVIEW LATER
     )
     slug = models.SlugField(
         unique=True,
