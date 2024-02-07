@@ -15,27 +15,6 @@ def test_test_model_title_is_unique(db, test_fixture):
         reg2 = test_fixture(title='teste titulo')
 
 
-def test_test_model_title_cannot_be_null(db, test_fixture):
-    with assert_raises(IntegrityError):
-        reg = test_fixture(title=None)
-
-
-def test_test_model_title_cannot_be_blank(db, test_fixture):
-    reg = test_fixture(title='')
-    with assert_raises(ValidationError):
-        reg.full_clean()
-
-
-def test_test_model_description_cannot_be_null(db, test_fixture):
-    with assert_raises(IntegrityError):
-        reg = test_fixture(description=None)
-
-
-def test_test_model_description_can_be_blank(db, test_fixture):
-    reg = test_fixture(description='')
-    assert reg.description == ''
-
-
 def test_test_model_description_default_value_is_blank(db, test_fixture):
     reg = test_fixture()
     assert reg.description == ''

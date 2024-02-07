@@ -3,6 +3,13 @@ from django.db.utils import IntegrityError
 from pytest import raises as assert_raises
 
 
+def test_collection_model_administrator_db_column_is_administrator_id(
+    db, collection_fixture
+):
+    reg = collection_fixture()
+    assert hasattr(reg, 'administrator_id')
+
+
 def test_collection_model_title_has_max_length_200(db, collection_fixture):
     reg = collection_fixture(title='a' * 201)
     with assert_raises(ValidationError):

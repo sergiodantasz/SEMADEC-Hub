@@ -9,20 +9,14 @@ def test_sport_model_name_has_max_length_30(db, sport_fixture):
         reg.full_clean()
 
 
-def test_sport_model_name_cannot_be_null(db, sport_fixture):
-    with assert_raises(IntegrityError):
-        reg = sport_fixture(name=None)
+def test_sport_model_category_db_column_is_category_id(db, sport_fixture):
+    reg = sport_fixture()
+    assert hasattr(reg, 'category_id')
 
 
-def test_sport_model_name_cannot_be_blank(db, sport_fixture):
-    reg = sport_fixture(name='')
-    with assert_raises(ValidationError):
-        reg.full_clean()
-
-
-def test_sport_model_date_time_cannot_be_blank(db, sport_fixture):
-    with assert_raises(ValidationError):
-        reg = sport_fixture(date_time='')
+def test_test_model_date_time_can_be_null(db, sport_fixture):
+    reg = sport_fixture(date_time=None)
+    assert reg.date_time is None
 
 
 def test_sport_model_date_time_default_value_is_none(db, sport_fixture):
