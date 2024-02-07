@@ -34,7 +34,7 @@ class TestFactory(DjangoModelFactory):
         model = 'competitions.Test'
 
     title = fake.unique.text(max_nb_chars=50)
-    description = fake.unique.text()
+    description = ''
     date_time = None
 
     @post_generation
