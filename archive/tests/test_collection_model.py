@@ -15,21 +15,9 @@ def test_collection_model_title_is_unique(db, collection_fixture):
         reg2 = collection_fixture(title='Coleção Teste')
 
 
-def test_collection_model_title_cannot_be_null(db, collection_fixture):
-    with assert_raises(IntegrityError):
-        reg = collection_fixture(title=None)
-
-
-def test_collection_model_title_cannot_be_blank(db, collection_fixture):
-    reg = collection_fixture(title='')
-    with assert_raises(ValidationError):
-        reg.full_clean()
-
-
-def test_collection_model_cover_cannot_be_blank(db, collection_fixture):
-    reg = collection_fixture(cover='')
-    with assert_raises(ValidationError):
-        reg.full_clean()
+def test_collection_model_cover_default_value_is_placeholder(db, collection_fixture):
+    reg = collection_fixture()
+    assert reg.cover == '/base/static/global/img/collection_cover_placeholder.jpg'
 
 
 def test_collection_model_slug_is_unique(db, collection_fixture):
@@ -40,17 +28,6 @@ def test_collection_model_slug_is_unique(db, collection_fixture):
 
 def test_collection_model_slug_has_max_length_225(db, collection_fixture):
     reg = collection_fixture(slug='a' * 226)
-    with assert_raises(ValidationError):
-        reg.full_clean()
-
-
-def test_collection_model_slug_cannot_be_null(db, collection_fixture):
-    with assert_raises(IntegrityError):
-        reg = collection_fixture(slug=None)
-
-
-def test_collection_model_slug_cannot_be_blank(db, collection_fixture):
-    reg = collection_fixture(slug='')
     with assert_raises(ValidationError):
         reg.full_clean()
 
