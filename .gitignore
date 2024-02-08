@@ -2,6 +2,7 @@
 /static
 /media
 local-only
+*/migrations/0*.py
 
 # Django #
 *.log

@@ -7,33 +7,23 @@ class Document(models.Model):
         'users.Administrator',
         on_delete=models.SET_NULL,
         null=True,
-        blank=False,
         db_column='administrator_id',
     )
     title = models.CharField(
         max_length=200,
-        null=False,
-        blank=False,
     )
     content = models.FileField(
         unique=True,
-        null=False,
-        blank=False,
         db_column='path',
     )
     slug = models.SlugField(
         unique=True,
         max_length=225,
-        null=False,
-        blank=False,
     )
     created_at = models.DateTimeField(
-        null=False,
-        blank=False,
         editable=False,
     )
     updated_at = models.DateTimeField(
-        blank=False,
         default=None,
     )
     tags = models.ManyToManyField(
