@@ -6,7 +6,7 @@ class Tag(models.Model):
         max_length=50,
         unique=True,
     )
-    slug = models.CharField(
+    slug = models.SlugField(
         max_length=75,
         unique=True,
     )
