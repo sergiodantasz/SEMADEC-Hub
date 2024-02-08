@@ -17,8 +17,8 @@ class Document(models.Model):
         db_column='path',
     )
     slug = models.SlugField(
-        unique=True,
         max_length=225,
+        unique=True,
     )
     created_at = models.DateTimeField(
         editable=False,
