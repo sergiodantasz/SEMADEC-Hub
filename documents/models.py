@@ -22,16 +22,11 @@ class Document(models.Model):
     )
     created_at = models.DateTimeField(
         editable=False,
+        auto_now_add=True,
     )
     updated_at = models.DateTimeField(
-        default=None,
+        auto_now=True,
     )
     tags = models.ManyToManyField(
         to='home.Tag',
     )
-
-    def save(self, *args, **kwargs):
-        if not self.id:  # type: ignore
-            self.created_at = timezone.now()
-        self.updated_at = timezone.now()
-        return super().save(*args, **kwargs)
