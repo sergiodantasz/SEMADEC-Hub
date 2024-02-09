@@ -16,8 +16,6 @@ class CollectionFactory(DjangoModelFactory):
     administrator = SubFactory(AdministratorFactory)  # Add later
     title = Sequence(lambda x: fake.unique.pystr(max_chars=200))
     slug = Sequence(lambda x: fake.unique.slug())
-    created_at = fake.date()
-    updated_at = fake.date()
 
     @post_generation
     def tags(self, create, extracted, **kwargs):

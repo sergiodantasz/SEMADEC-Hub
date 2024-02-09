@@ -15,8 +15,6 @@ class DocumentFactory(DjangoModelFactory):
     title = fake.text(max_nb_chars=200)
     content = FileField()
     slug = Sequence(lambda x: fake.unique.slug())
-    created_at = fake.date()
-    updated_at = fake.date()
 
     @post_generation
     def tags(self, create, extracted, **kwargs):
