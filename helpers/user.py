@@ -22,6 +22,15 @@ def format_photo_url(url: str) -> str:
 
 
 def download_photo(url: str, user_registration: str) -> ImageFile:
+    """Download the user's photo from a URL.
+
+    Args:
+        url (str): photo url.
+        user_registration (str): user registration.
+
+    Returns:
+        ImageFile: user's photo.
+    """
     if not isinstance(url, str):
         raise TypeError('The URL must be a string.')
     if not isinstance(user_registration, str):
