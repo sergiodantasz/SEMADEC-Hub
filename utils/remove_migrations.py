@@ -15,3 +15,7 @@ def remove_migrations() -> None:
                 file_path = join(root, file)
                 remove(file_path)
                 print(f'File removed: {file_path}')
+
+
+if __name__ == '__main__':
+    remove_migrations()

@@ -18,3 +18,7 @@ def generate_secret_key(k: int = 64) -> str:
     chosen_chars = SystemRandom().choices(chars, k=k)
     secret_key = ''.join(chosen_chars)
     return secret_key
+
+
+if __name__ == '__main__':
+    generate_secret_key()
