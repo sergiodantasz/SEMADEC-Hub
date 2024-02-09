@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 
-# Create your views here.
+
+def login(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('users:profile'))
+    return redirect(reverse('social:begin', kwargs={'backend': 'suap'}))

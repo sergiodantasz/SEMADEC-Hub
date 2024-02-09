@@ -1,0 +1,4 @@
+<a type="button" href="{% url "users:profile" %}" class="profile-button">
+  <img src="{{ user.photo.url }}" alt="User icon." class="user-icon user-photo">
+  {{ user.first_name }}
+</a>
