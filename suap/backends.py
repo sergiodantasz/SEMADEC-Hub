@@ -1,8 +1,8 @@
 from social_core.backends.oauth import BaseOAuth2
 
 from editions.models import Course
-from helpers.user import format_photo_url
-from users.models import Email, User
+from helpers.user import download_photo
+from users.models import Campus, Email, User
 
 
 class SuapOAuth2(BaseOAuth2):
@@ -35,26 +35,28 @@ class SuapOAuth2(BaseOAuth2):
         return response
 
     def get_user_details(self, response):
+        registration = response.get('identificacao')
         full_name = response.get('nome_registro')
         if social_name := response.get('nome_social'):
             full_name = social_name
         first_name, *_, last_name = full_name.split()
+        campus = Campus.objects.filter(acronym=response.get('campus')).first()
         course = Course.objects.filter(name=response.get('course')).first()
-        photo_url = format_photo_url(response.get('foto'))
+        photo = download_photo(response.get('foto'), registration)
         user_data = {
-            'registration': response.get('identificacao'),
+            'registration': registration,
             'full_name': full_name,
             'first_name': first_name,
             'last_name': last_name,
             'cpf': response.get('cpf'),
-            'campus': response.get('campus'),
+            'campus': campus,
             'course': course,
             'sex': response.get('sexo'),
             'link_type': response.get('tipo_usuario'),
             'date_of_birth': response.get('data_de_nascimento'),
-            'photo_url': photo_url,
+            'photo': photo,
         }
-        if not User.objects.filter(registration=response.get('identificacao')).exists():
+        if not User.objects.filter(registration=registration).exists():
             user = User.objects.create(**user_data)
             if personal_email := response.get('email_secundario'):
                 Email.objects.create(
@@ -69,7 +71,7 @@ class SuapOAuth2(BaseOAuth2):
                     address=school_email, email_type='School', user=user
                 )
         return {
-            'username': response.get('identificacao'),
+            'username': registration,
             'first_name': first_name,
             'last_name': last_name,
             'email': response.get('email_preferencial'),
