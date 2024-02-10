@@ -24,6 +24,10 @@ class CollectionFactory(DjangoModelFactory):
             return
         self.tags.add(*extracted)
 
+    @post_generation
+    def clear_unique(self, *args):
+        fake.unique.clear()
+
 
 class FileFactory(DjangoModelFactory):
     class Meta:
