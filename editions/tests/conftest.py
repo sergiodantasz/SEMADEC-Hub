@@ -7,11 +7,13 @@ from editions.tests.factories import (
     TeamCompetitionFactory,
     TeamEditionFactory,
     TeamFactory,
+    TeamWithCompetitionsAndEditionsFactory,
 )
 
-# @pytest.fixture
-# def class_fixture():
-#     return ClassFactory
+
+@pytest.fixture
+def class_fixture():
+    return ClassFactory
 
 
 @pytest.fixture
@@ -36,8 +38,4 @@ def team_edition_fixture():
 
 @pytest.fixture
 def team_fixture():
-    def inner(**kwargs):
-        factory = TeamFactory.create(tags=(class_fixture(),), **kwargs)
-        return factory
-
-    return inner
+    return TeamWithCompetitionsAndEditionsFactory
