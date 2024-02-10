@@ -1,5 +1,5 @@
 from factory import Sequence, SubFactory, post_generation
-from factory.django import DjangoModelFactory, DjangoOptions
+from factory.django import DjangoModelFactory, DjangoOptions, ImageField
 from factory.faker import faker
 
 from editions.tests.factories import CourseFactory
@@ -32,9 +32,7 @@ class UserFactory(DjangoModelFactory, DjangoOptions):
     link_type = fake.pystr(max_chars=20)
     sex = fake.pystr(min_chars=1, max_chars=1)
     date_of_birth = fake.date()
-    photo_url = Sequence(
-        lambda x: f'{fake.unique.image_url(width=1000, height=1000)}{x}'
-    )
+    photo = ImageField()
 
     # post_generation(lambda self, create, extracted: fake.unique.clear())
     @post_generation
