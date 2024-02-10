@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -7,5 +8,6 @@
     {% include "global/partials/_navigation-bar.html" %}
     {% block content %}{% endblock content %}
     {% include "global/partials/_footer.html" %}
+    <script src="{% static "global/js/mobile-menu.js" %}"></script>
   </body>
 </html>

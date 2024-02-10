@@ -1,0 +1,12 @@
+{% extends "global/pages/base.html" %}
+{% load static %}
+{% block content %}
+  <main class="content">
+    <h1>Profile</h1>
+    <form action="{% url "users:logout" %}" id="form-logout" method="post">
+      {% csrf_token %}
+      <button class="button-logout" type="submit">Sair</button>
+    </form>
+  </main>
+  <script src="{% static "users/js/logout.js" %}"></script>
+{% endblock content %}

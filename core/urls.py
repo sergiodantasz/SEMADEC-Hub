@@ -12,6 +12,7 @@ urlpatterns = [
     path('acervo/', include('archive.urls')),
     path('documentos/', include('documents.urls')),
     path('', include('users.urls')),
+    path('', include('social_django.urls'), name='social'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -50,8 +50,8 @@ class User(models.Model):
         max_length=1,
     )
     date_of_birth = models.DateField()
-    photo_url = models.URLField(
-        unique=True,
+    photo = models.ImageField(
+        upload_to='users',
     )
 
 
