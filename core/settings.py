@@ -11,6 +11,8 @@ SECRET_KEY = getenv('SECRET_KEY', '')
 DEBUG = bool(int(getenv('DEBUG', '0')))
 ALLOWED_HOSTS = [host for host in getenv('ALLOWED_HOSTS').split()]  # type: ignore
 
+DJANGO_DEBUG_TOOLBAR = bool(int(getenv('DJANGO_DEBUG_TOOLBAR', '0')))
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -128,3 +130,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 SOCIAL_AUTH_SUAP_KEY = getenv('SOCIAL_AUTH_SUAP_KEY', '')
 SOCIAL_AUTH_SUAP_SECRET = getenv('SOCIAL_AUTH_SUAP_SECRET', '')
+
+if DJANGO_DEBUG_TOOLBAR:
+    INTERNAL_IPS = ['127.0.0.1']
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
