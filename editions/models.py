@@ -1,3 +1,5 @@
+from email.policy import default
+
 from django.db import models
 
 
@@ -25,7 +27,6 @@ class Edition(models.Model):
     theme = models.CharField(
         max_length=100,
         blank=True,
-        default='',
     )
     teams = models.ManyToManyField(
         to='editions.Team',
@@ -52,6 +53,10 @@ class Team(models.Model):
     competitions = models.ManyToManyField(
         to='competitions.Competition',
         through='editions.TeamCompetition',
+    )
+    editions = models.ManyToManyField(
+        to='editions.Edition',
+        through='editions.TeamEdition',
     )
 
 
@@ -82,9 +87,11 @@ class TeamEdition(models.Model):
     )
     score = models.FloatField(
         null=True,
+        blank=True,
         default=None,
     )
     classification = models.PositiveSmallIntegerField(
         null=True,
+        blank=True,
         default=None,
     )
