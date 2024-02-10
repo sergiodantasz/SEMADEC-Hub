@@ -1,4 +1,4 @@
-from factory import SubFactory, post_generation
+from factory import Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory
 from factory.faker import faker
 
@@ -9,10 +9,9 @@ class EditionFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.Edition'
 
-    year = fake.unique.random_number(digits=4, fix_len=True)
-    name = fake.unique.pystr(max_chars=10)
+    year = Sequence(lambda x: fake.unique.random_number(digits=4, fix_len=True))
+    name = Sequence(lambda x: fake.unique.pystr(max_chars=10))
     edition_type = fake.pystr(max_chars=10)
-    theme = fake.pystr(max_chars=100)
 
     @post_generation
     def clear_unique(self, *args):

@@ -1,4 +1,4 @@
-from factory import Sequence
+from factory import Sequence, post_generation
 from factory.django import DjangoModelFactory
 from factory.faker import faker
 
@@ -12,3 +12,7 @@ class TagFactory(DjangoModelFactory):
 
     name = Sequence(lambda x: fake.unique.pystr(max_chars=50))
     slug = Sequence(lambda x: fake.unique.slug())
+
+    @post_generation
+    def clear_unique(self, *args):
+        fake.unique.clear()

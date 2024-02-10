@@ -2,6 +2,7 @@ from factory import Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory, ImageField
 from factory.faker import faker
 
+from home.tests.factories import TagFactory
 from users.tests.factories import AdministratorFactory
 
 fake = faker.Faker('pt_BR')

@@ -34,7 +34,7 @@ class TeamFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.Team'
 
-    name = fake.unique.pystr(max_chars=75)
+    name = fake.pystr(max_chars=75)
 
     @post_generation
     def classes(self, create, extracted, **kwargs):
@@ -57,17 +57,6 @@ class TeamEditionFactory(DjangoModelFactory):
         fake.unique.clear()
 
 
-class TeamWithEditionFactory(TeamFactory):
-    editions = RelatedFactory(
-        TeamEditionFactory,
-        factory_related_name='team',
-    )
-
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
-
-
 class TeamCompetitionFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.TeamCompetition'
@@ -81,23 +70,12 @@ class TeamCompetitionFactory(DjangoModelFactory):
         fake.unique.clear()
 
 
-class TeamWithCompetitionFactory(TeamFactory):
-    membership = RelatedFactory(
+class TeamWithCompetitionsAndEditionsFactory(TeamFactory):
+    competitions = RelatedFactory(
         TeamCompetitionFactory,
         factory_related_name='team',
     )
-
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
-
-
-# class CompetitionWithTeamFactory(TeamFactory):
-#     membership = RelatedFactory(
-#         TeamCompetitionFactory,
-#         factory_related_name='competition',
-#     )
-
-#     @post_generation
-#     def clear_unique(self, *args):
-#         fake.unique.clear()
+    editions = RelatedFactory(
+        TeamEditionFactory,
+        factory_related_name='team',
+    )
