@@ -10,3 +10,15 @@ class Tag(models.Model):
         max_length=75,
         unique=True,
     )
+    news = models.ManyToManyField(
+        to='news.News',
+        related_name='tags',
+    )
+    collection = models.ManyToManyField(
+        to='archive.Collection',
+        related_name='tags',
+    )
+    document = models.ManyToManyField(
+        to='documents.Document',
+        related_name='tags',
+    )
