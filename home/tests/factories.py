@@ -14,5 +14,23 @@ class TagFactory(DjangoModelFactory):
     slug = Sequence(lambda x: fake.unique.slug())
 
     @post_generation
+    def news(self, create, extracted, **kwargs):
+        if not create or not extracted:
+            return
+        self.news.add(*extracted)
+
+    @post_generation
+    def collection(self, create, extracted, **kwargs):
+        if not create or not extracted:
+            return
+        self.collection.add(*extracted)
+
+    @post_generation
+    def document(self, create, extracted, **kwargs):
+        if not create or not extracted:
+            return
+        self.document.add(*extracted)
+
+    @post_generation
     def clear_unique(self, *args):
         fake.unique.clear()
