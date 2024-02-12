@@ -49,8 +49,6 @@ class TeamEditionFactory(DjangoModelFactory):
 
     team = SubFactory(TeamFactory)
     edition = SubFactory(EditionFactory)
-    score = fake.random_number(digits=4, fix_len=True) / 100
-    classification = fake.random_number(digits=1, fix_len=True)
 
     @post_generation
     def clear_unique(self, *args):
