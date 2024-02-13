@@ -37,45 +37,12 @@ addopts = ["--doctest-modules", "--strict-markers", "-rP"]
 markers = ["slow", "fast"]
 
 [tool.ruff]
-exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".git-rewrite",
-    ".hg",
-    ".ipynb_checkpoints",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".pyenv",
-    ".pytest_cache",
-    ".pytype",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    ".vscode",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "site-packages",
-    "venv",
-    "migrations",
-]
-
 line-length = 88
 indent-width = 4
 
 target-version = "py312"
 
 [tool.ruff.lint]
-# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
-# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
-# McCabe complexity (`C901`) by default.
 select = ["E4", "E7", "E9", "F"]
 ignore = ["F401"]
 
@@ -100,5 +67,11 @@ omit = [
     "*/conftest.py",
     "*/factory.py",
     "manage.py",
-    "core/*.py"
+    "core/*.py",
+    "utils/*.py",
+    "**/__init__.py",
+    "*/migrations/*.py",
 ]
+
+[tool.coverage.html]
+directory = "coverage"
