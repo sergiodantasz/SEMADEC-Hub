@@ -3,6 +3,7 @@ import pytest
 from users.tests.factories import (
     AdministratorFactory,
     CampusFactory,
+    EmailFactory,
     UserFactory,
 )
 
@@ -20,3 +21,8 @@ def user_fixture():
 @pytest.fixture
 def administrator_fixture():
     return AdministratorFactory
+
+
+@pytest.fixture
+def email_fixture():
+    return EmailFactory

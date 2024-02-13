@@ -43,3 +43,16 @@ class AdministratorFactory(DjangoModelFactory):
         # django_get_or_create = ['user']
 
     user = SubFactory(UserFactory)
+
+    # post_generation(fake.unique.clear())
+
+
+class EmailFactory(DjangoModelFactory):
+    class Meta:
+        model = 'users.Email'
+
+    user = SubFactory(UserFactory)
+    address = Sequence(lambda x: fake.unique.email())
+    email_type = fake.pystr(max_chars=15)
+
+    # post_generation(fake.unique.clear())
