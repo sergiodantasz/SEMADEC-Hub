@@ -1,4 +1,10 @@
-from factory import RelatedFactory, Sequence, SubFactory, post_generation
+from factory import (
+    PostGeneration,
+    RelatedFactory,
+    Sequence,
+    SubFactory,
+    post_generation,
+)
 from factory.django import DjangoModelFactory
 from factory.faker import faker
 
@@ -14,9 +20,7 @@ class CourseFactory(DjangoModelFactory):
 
     name = Sequence(lambda x: fake.unique.catch_phrase())
 
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    post_generation(fake.unique.clear())
 
 
 class ClassFactory(DjangoModelFactory):
@@ -25,9 +29,7 @@ class ClassFactory(DjangoModelFactory):
 
     course = SubFactory(CourseFactory)
 
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    post_generation(fake.unique.clear())
 
 
 class TeamFactory(DjangoModelFactory):
@@ -35,12 +37,9 @@ class TeamFactory(DjangoModelFactory):
         model = 'editions.Team'
 
     name = fake.pystr(max_chars=75)
+    classes = PostGeneration(lambda obj, create, extracted: obj.classes)
 
-    @post_generation
-    def classes(self, create, extracted, **kwargs):
-        if not create or not extracted:
-            return
-        self.classes.add(*extracted)
+    post_generation(fake.unique.clear())
 
 
 class TeamEditionFactory(DjangoModelFactory):
@@ -50,9 +49,7 @@ class TeamEditionFactory(DjangoModelFactory):
     team = SubFactory(TeamFactory)
     edition = SubFactory(EditionFactory)
 
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    post_generation(fake.unique.clear())
 
 
 class TeamCompetitionFactory(DjangoModelFactory):
@@ -63,9 +60,7 @@ class TeamCompetitionFactory(DjangoModelFactory):
     competition = SubFactory(CompetitionFactory)
     winner = True
 
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    post_generation(fake.unique.clear())
 
 
 class TeamWithCompetitionsAndEditionsFactory(TeamFactory):
@@ -77,3 +72,5 @@ class TeamWithCompetitionsAndEditionsFactory(TeamFactory):
         TeamEditionFactory,
         factory_related_name='team',
     )
+
+    post_generation(fake.unique.clear())

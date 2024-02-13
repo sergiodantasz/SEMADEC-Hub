@@ -13,9 +13,7 @@ class EditionFactory(DjangoModelFactory):
     name = Sequence(lambda x: fake.unique.pystr(max_chars=10))
     edition_type = fake.pystr(max_chars=10)
 
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    post_generation(fake.unique.clear())
 
 
 class CategoryFactory(DjangoModelFactory):
@@ -24,9 +22,7 @@ class CategoryFactory(DjangoModelFactory):
 
     name = fake.unique.pystr(max_chars=15)
 
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    post_generation(fake.unique.clear())
 
 
 class SportFactory(DjangoModelFactory):
@@ -37,9 +33,7 @@ class SportFactory(DjangoModelFactory):
     category = SubFactory(CategoryFactory)
     date_time = None
 
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    post_generation(fake.unique.clear())
 
 
 class TestFactory(DjangoModelFactory):
@@ -50,9 +44,7 @@ class TestFactory(DjangoModelFactory):
     description = ''
     date_time = None
 
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    post_generation(fake.unique.clear())
 
 
 class TestOrSportFactory(DjangoModelFactory):
@@ -62,6 +54,8 @@ class TestOrSportFactory(DjangoModelFactory):
     test = SubFactory(TestFactory)
     sport = SubFactory(SportFactory)
 
+    post_generation(fake.unique.clear())
+
 
 class CompetitionFactory(DjangoModelFactory):
     class Meta:
@@ -69,3 +63,5 @@ class CompetitionFactory(DjangoModelFactory):
 
     edition = SubFactory(EditionFactory)
     test_or_sport = SubFactory(TestOrSportFactory)
+
+    post_generation(fake.unique.clear())

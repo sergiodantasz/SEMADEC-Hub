@@ -34,10 +34,7 @@ class UserFactory(DjangoModelFactory, DjangoOptions):
     date_of_birth = fake.date()
     photo = ImageField()
 
-    # post_generation(lambda self, create, extracted: fake.unique.clear())
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    post_generation(fake.unique.clear())
 
 
 class AdministratorFactory(DjangoModelFactory):

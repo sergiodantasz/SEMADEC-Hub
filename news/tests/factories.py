@@ -17,6 +17,4 @@ class NewsFactory(DjangoModelFactory):
     content = fake.text()
     slug = Sequence(lambda x: fake.unique.slug())
 
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    post_generation(fake.unique.clear())

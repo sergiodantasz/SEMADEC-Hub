@@ -1,4 +1,4 @@
-from factory import Sequence, SubFactory, post_generation
+from factory import PostGeneration, Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory, ImageField
 from factory.faker import faker
 
@@ -17,16 +17,8 @@ class CollectionFactory(DjangoModelFactory):
     administrator = SubFactory(AdministratorFactory)  # Add later
     title = Sequence(lambda x: fake.unique.pystr(max_chars=200))
     slug = Sequence(lambda x: fake.unique.slug())
-
-    @post_generation
-    def tags(self, create, extracted, **kwargs):
-        if not create or not extracted:
-            return
-        self.tags.add(*extracted)
-
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    tags = PostGeneration(lambda obj, create, extracted: obj.tags)
+    post_generation(fake.unique.clear())
 
 
 class FileFactory(DjangoModelFactory):
@@ -36,6 +28,4 @@ class FileFactory(DjangoModelFactory):
     collection = SubFactory(CollectionFactory)
     content = fake.unique.file_path()
 
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    post_generation(fake.unique.clear())

@@ -1,4 +1,4 @@
-from factory import Sequence, SubFactory, post_generation
+from factory import PostGeneration, Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory, FileField
 from factory.faker import faker
 
@@ -15,13 +15,6 @@ class DocumentFactory(DjangoModelFactory):
     title = fake.text(max_nb_chars=200)
     content = FileField()
     slug = Sequence(lambda x: fake.unique.slug())
+    tags = PostGeneration(lambda obj, create, extracted: obj.tags)
 
-    @post_generation
-    def tags(self, create, extracted, **kwargs):
-        if not create or not extracted:
-            return
-        self.tags.add(*extracted)
-
-    @post_generation
-    def clear_unique(self, *args):
-        fake.unique.clear()
+    post_generation(fake.unique.clear())
