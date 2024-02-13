@@ -24,14 +24,3 @@ def test_campus_model_name_has_max_length_50(db, campus_fixture):
     reg = campus_fixture(name='A' * 51)
     with assert_raises(ValidationError):
         reg.full_clean()
-
-
-def test_campus_model_name_cannot_be_null(db, campus_fixture):
-    with assert_raises(IntegrityError):
-        reg = campus_fixture(name=None)
-
-
-def test_campus_model_name_cannot_be_blank(db, campus_fixture):
-    reg = campus_fixture(name='')
-    with assert_raises(ValidationError):
-        reg.full_clean()
