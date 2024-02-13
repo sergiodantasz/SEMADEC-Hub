@@ -10,6 +10,7 @@ fake = faker.Faker('pt_BR')
 class NewsFactory(DjangoModelFactory):
     class Meta:
         model = 'news.News'
+        skip_postgeneration_save = True
 
     administrator = SubFactory(AdministratorFactory)
     title = fake.text(max_nb_chars=200)

@@ -10,6 +10,7 @@ fake = faker.Faker('pt_BR')
 class DocumentFactory(DjangoModelFactory):
     class Meta:
         model = 'documents.Document'
+        skip_postgeneration_save = True
 
     administrator = SubFactory(AdministratorFactory)
     title = fake.text(max_nb_chars=200)

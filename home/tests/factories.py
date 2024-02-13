@@ -8,7 +8,7 @@ fake = faker.Faker('pt_BR')
 class TagFactory(DjangoModelFactory):
     class Meta:
         model = 'home.Tag'
-        # django_get_or_create = ['name', 'slug']
+        skip_postgeneration_save = True
 
     name = Sequence(lambda x: fake.unique.pystr(max_chars=50))
     slug = Sequence(lambda x: fake.unique.slug())

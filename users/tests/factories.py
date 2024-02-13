@@ -10,9 +10,8 @@ fake = faker.Faker('pt_BR')
 class CampusFactory(DjangoModelFactory):
     class Meta:
         model = 'users.Campus'
+        skip_postgeneration_save = True
 
-    # acronym = fake.pystr(min_chars=2, max_chars=2)
-    # acronym = fake.unique.pystr(min_chars=2, max_chars=2)
     acronym = Sequence(lambda x: fake.unique.pystr(min_chars=2, max_chars=2))
     name = Sequence(lambda x: fake.unique.city())
 
@@ -20,7 +19,7 @@ class CampusFactory(DjangoModelFactory):
 class UserFactory(DjangoModelFactory, DjangoOptions):
     class Meta:
         model = 'users.User'
-        # skip_postgeneration_save = True
+        skip_postgeneration_save = True
 
     registration = Sequence(lambda x: fake.unique.pystr(min_chars=14, max_chars=14))
     campus = SubFactory(CampusFactory)
@@ -40,7 +39,7 @@ class UserFactory(DjangoModelFactory, DjangoOptions):
 class AdministratorFactory(DjangoModelFactory):
     class Meta:
         model = 'users.Administrator'
-        # django_get_or_create = ['user']
+        skip_postgeneration_save = True
 
     user = SubFactory(UserFactory)
 
@@ -50,6 +49,7 @@ class AdministratorFactory(DjangoModelFactory):
 class EmailFactory(DjangoModelFactory):
     class Meta:
         model = 'users.Email'
+        skip_postgeneration_save = True
 
     user = SubFactory(UserFactory)
     address = Sequence(lambda x: fake.unique.email())

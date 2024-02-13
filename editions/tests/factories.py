@@ -16,7 +16,7 @@ fake = faker.Faker('pt_BR')
 class CourseFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.Course'
-        # django_get_or_create = ['name']
+        skip_postgeneration_save = True
 
     name = Sequence(lambda x: fake.unique.catch_phrase())
 
@@ -26,6 +26,7 @@ class CourseFactory(DjangoModelFactory):
 class ClassFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.Class'
+        skip_postgeneration_save = True
 
     course = SubFactory(CourseFactory)
 
@@ -35,6 +36,7 @@ class ClassFactory(DjangoModelFactory):
 class TeamFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.Team'
+        skip_postgeneration_save = True
 
     name = fake.pystr(max_chars=75)
     classes = PostGeneration(lambda obj, create, extracted: obj.classes)
@@ -45,6 +47,7 @@ class TeamFactory(DjangoModelFactory):
 class TeamEditionFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.TeamEdition'
+        skip_postgeneration_save = True
 
     team = SubFactory(TeamFactory)
     edition = SubFactory(EditionFactory)
@@ -55,6 +58,7 @@ class TeamEditionFactory(DjangoModelFactory):
 class TeamCompetitionFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.TeamCompetition'
+        skip_postgeneration_save = True
 
     team = SubFactory(TeamFactory)
     competition = SubFactory(CompetitionFactory)

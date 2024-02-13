@@ -11,8 +11,7 @@ fake = faker.Faker('pt_BR')
 class CollectionFactory(DjangoModelFactory):
     class Meta:
         model = 'archive.Collection'
-        # django_get_or_create = ['slug']
-        # skip_postgeneration_save = True
+        skip_postgeneration_save = True
 
     administrator = SubFactory(AdministratorFactory)  # Add later
     title = Sequence(lambda x: fake.unique.pystr(max_chars=200))
@@ -24,6 +23,7 @@ class CollectionFactory(DjangoModelFactory):
 class FileFactory(DjangoModelFactory):
     class Meta:
         model = 'archive.File'
+        skip_postgeneration_save = True
 
     collection = SubFactory(CollectionFactory)
     content = fake.unique.file_path()
