@@ -19,7 +19,7 @@ class News(models.Model):
         upload_to='',  # CHANGE IT LATER.
         default='/base/static/global/img/news_cover_placeholder.jpg',  # REVIEW LATER
     )
-    content = models.TextField()
+    content = models.TextField()  # Does it need to be tested?
     slug = models.SlugField(
         max_length=225,
         unique=True,
