@@ -1,46 +1,4 @@
-:root {
-  /* Gray Colors */
-  --gray-50: #F6F7F6;
-  --gray-100: #E1E6E1;
-  --gray-200: #C4CCC3;
-  --gray-300: #9FAA9E;
-  --gray-400: #798879;
-  --gray-500: #6B7B6B;
-  --gray-600: #4B564B;
-  --gray-700: #3E473E;
-  --gray-800: #343B34;
-  --gray-900: #2E332F;
-  --gray-950: #181B18;
-  --green-50: #F0FDF4;
-
-  /* Green Colors */
-  --green-100: #DCFCE7;
-  --green-200: #BBF7D0;
-  --green-300: #86EFAC;
-  --green-400: #4ADE80;
-  --green-500: #22C55E;
-  --green-600: #16A34A;
-  --green-700: #15803D;
-  --green-800: #166534;
-  --green-900: #14532D;
-  --green-950: #052E16;
-
-  /* Font */
-  --font-family: 'Gabarito', sans-serif;
-
-  /* Heading Font Sizes */
-  --font-size-heading-huge: 4.8rem;
-  --font-size-heading-large: 4rem;
-  --font-size-heading-big: 3.2rem;
-  --font-size-heading-normal: 2.4rem;
-  --font-size-heading-small: 2rem;
-  --font-size-heading-tiny: 1.6rem;
-
-  /* Content Font Sizes */
-  --font-size-content-big: 2rem;
-  --font-size-content-normal: 1.8rem;
-  --font-size-content-small: 1.6rem;
-}
+@import url("variables.css");
 
 * {
   margin: 0;
