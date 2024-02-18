@@ -1,17 +1,19 @@
-from os import getenv
 from pathlib import Path
 
 from dotenv import load_dotenv
+from environ import Env
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / '.env', override=True)
 
-SECRET_KEY = getenv('SECRET_KEY', '')
-DEBUG = bool(int(getenv('DEBUG', '0')))
-ALLOWED_HOSTS = [host for host in getenv('ALLOWED_HOSTS').split()]  # type: ignore
+env = Env()
 
-DJANGO_DEBUG_TOOLBAR = bool(int(getenv('DJANGO_DEBUG_TOOLBAR', '0')))
+SECRET_KEY = env.str('SECRET_KEY')
+DEBUG = env.bool('DEBUG')
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+
+DEBUG_TOOLBAR = env.bool('DEBUG_TOOLBAR')
 
 # Application definition
 
@@ -128,10 +130,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-SOCIAL_AUTH_SUAP_KEY = getenv('SOCIAL_AUTH_SUAP_KEY', '')
-SOCIAL_AUTH_SUAP_SECRET = getenv('SOCIAL_AUTH_SUAP_SECRET', '')
+SOCIAL_AUTH_SUAP_KEY = env.str('SOCIAL_AUTH_SUAP_KEY')
+SOCIAL_AUTH_SUAP_SECRET = env.str('SOCIAL_AUTH_SUAP_SECRET')
 
-if DJANGO_DEBUG_TOOLBAR:
+if DEBUG_TOOLBAR:
     INTERNAL_IPS = ['127.0.0.1']
     INSTALLED_APPS.append('debug_toolbar')
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
