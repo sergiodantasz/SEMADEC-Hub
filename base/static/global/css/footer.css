@@ -1,50 +1,64 @@
 footer {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 3rem 22rem;
   background-color: var(--gray-900);
-  font-family: var(--font-family);
-  height: 33rem;
+  color: var(--gray-200);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  padding-block: 5rem;
 }
 
 .footer-container-top {
   display: flex;
-  width: 100%;
-  margin-bottom: 2.8rem;
   justify-content: space-between;
-  align-items: flex-start;
+  gap: 5rem;
+  flex-wrap: wrap;
 }
 
 .footer-container-bottom {
   display: flex;
-  width: 100%;
   justify-content: space-between;
   align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
-.footer-heading {
-  color: var(--gray-400);
-  margin-bottom: 1rem;
-}
-
-.footer-text {
-  color: var(--gray-200);
-  margin-bottom: 0.5rem; /*Test*/
-}
-
-.footer-column {
-  display: flex;
-  flex-flow: column nowrap;
-}
-
+.footer-heading,
 .footer-copyright {
   color: var(--gray-400);
 }
 
-.footer-logo {
-  width: 20rem;
-  /* height: 70px; */
-  color: var(--gray-400); /*Test*/
+.footer-heading {
+  margin-bottom: 1rem;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-logos {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.ifrn-logo {
+  height: 4rem;
+}
+
+.semadec-hub-logo {
+  width: max-content;
+  font-size: var(--font-size-content-big);
+  font-weight: 700;
+}
+
+.footer-divider {
+  width: 0.2rem;
+  height: 4rem;
+  border-radius: 1rem;
+  background-color: var(--gray-400);
 }
