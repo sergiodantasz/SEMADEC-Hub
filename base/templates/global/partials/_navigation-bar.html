@@ -5,26 +5,26 @@
     </header>
     <div class="navigation-bar-menu">
       <ul class="navigation-bar-options">
-        <li class="home" id="home">
+        <li class="home-option" id="home-option">
           <a href="">Início</a>
         </li>
-        <li class="competitions" id="competitions">
+        <li class="competitions-option" id="competitions-option">
           <a href="">Competições</a>
         </li>
-        <li class="news" id="news">
+        <li class="news-option" id="news-option">
           <a href="">Notícias</a>
         </li>
-        <li class="editions" id="editions">
+        <li class="editions-option" id="editions-option">
           <a href="">Edições</a>
         </li>
-        <li class="archive" id="archive">
+        <li class="archive-option" id="archive-option">
           <a href="">Acervo</a>
         </li>
-        <li class="documents" id="documents">
+        <li class="documents-option" id="documents-option">
           <a href="">Documentos</a>
         </li>
       </ul>
-      <hr class="vertical-divider">
+      <hr class="navigation-bar-divider">
       {% if request.user.is_authenticated %}
         {% include "global/partials/_profile-button.html" %}
       {% else %}
