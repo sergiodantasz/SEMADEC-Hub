@@ -15,8 +15,6 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 DEBUG_TOOLBAR = env.bool('DEBUG_TOOLBAR')
 
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -73,8 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# Database
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -88,8 +84,6 @@ AUTHENTICATION_BACKENDS = (
     # Django backend
     'django.contrib.auth.backends.ModelBackend',
 )
-
-# Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -106,17 +100,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-
 LANGUAGE_CODE = 'pt-br'
-
 TIME_ZONE = 'America/Fortaleza'
-
 USE_I18N = True
-
 USE_TZ = True
-
-# Static files (CSS, JavaScript, Images)
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
