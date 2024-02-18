@@ -21,4 +21,4 @@ def generate_secret_key(k: int = 64) -> str:
 
 
 if __name__ == '__main__':
-    generate_secret_key()
+    print(generate_secret_key())
