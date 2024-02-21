@@ -1,0 +1,8 @@
+{% extends "global/pages/base.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "archive/css/archive_item.css" %}">
+{% endblock additional_head %}
+{% block content %}
+  {% include "archive/partials/archive_item.html" %}
+{% endblock content %}
