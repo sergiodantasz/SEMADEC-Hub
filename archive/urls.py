@@ -1,7 +1,8 @@
 from django.urls import path
 
-app_name = 'archive'
+from archive import views
 
+app_name = 'archive'
 urlpatterns = [
-    path('', lambda request: '<h1>TEST</h1>', name='archive'),
+    path('', views.archive, name='archive'),
 ]

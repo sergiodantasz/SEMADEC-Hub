@@ -1,3 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def archive(request):
+    return render(
+        request,
+        'archive/pages/archive.html',
+        context={'title': 'Acervo - SEMADECHub'},
+    )
