@@ -28,6 +28,9 @@ class Collection(models.Model):
         auto_now=True,
     )
 
+    def __str__(self):
+        return str(self.title)
+
 
 class File(models.Model):
     collection = models.ForeignKey(
@@ -39,3 +42,6 @@ class File(models.Model):
         unique=True,
         db_column='path',
     )
+
+    def __str__(self):
+        return str(self.content.name)

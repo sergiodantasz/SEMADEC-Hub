@@ -22,3 +22,6 @@ class Tag(models.Model):
         to='documents.Document',
         related_name='tags',
     )
+
+    def __str__(self):
+        return str(self.name)

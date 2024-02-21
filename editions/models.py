@@ -9,6 +9,9 @@ class Course(models.Model):
         unique=True,
     )
 
+    def __str__(self):
+        return str(self.name)
+
 
 class Edition(models.Model):
     year = models.PositiveSmallIntegerField(
@@ -33,6 +36,9 @@ class Edition(models.Model):
         through='editions.TeamEdition',
     )
 
+    def __str__(self):
+        return str(self.name)
+
 
 class Class(models.Model):
     course = models.ForeignKey(
@@ -41,6 +47,9 @@ class Class(models.Model):
         null=True,
         db_column='course_id',
     )
+
+    def __str__(self):
+        return str(self.course.name)
 
 
 class Team(models.Model):
@@ -58,6 +67,9 @@ class Team(models.Model):
         to='editions.Edition',
         through='editions.TeamEdition',
     )
+
+    def __str__(self):
+        return str(self.name)
 
 
 class TeamCompetition(models.Model):

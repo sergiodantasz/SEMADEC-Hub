@@ -7,6 +7,9 @@ class Category(models.Model):
         unique=True,
     )
 
+    def __str__(self):
+        return str(self.name)
+
 
 class Sport(models.Model):
     name = models.CharField(
@@ -23,6 +26,9 @@ class Sport(models.Model):
         default=None,
     )
 
+    def __str__(self):
+        return str(self.name)
+
 
 class Test(models.Model):
     title = models.CharField(
@@ -38,6 +44,9 @@ class Test(models.Model):
         blank=True,
         default=None,
     )
+
+    def __str__(self):
+        return str(self.title)
 
 
 class TestOrSport(models.Model):
@@ -68,3 +77,6 @@ class Competition(models.Model):
         on_delete=models.CASCADE,
         db_column='test_or_sport_id',
     )
+
+    def __str__(self):
+        return str(self.edition.name)

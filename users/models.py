@@ -11,6 +11,9 @@ class Campus(models.Model):
         max_length=50,
     )
 
+    def __str__(self):
+        return str(self.name)
+
 
 class User(models.Model):
     registration = models.CharField(
@@ -54,6 +57,9 @@ class User(models.Model):
         upload_to='users',
     )
 
+    def __str__(self):
+        return str(self.full_name)
+
 
 class Administrator(models.Model):
     user = models.OneToOneField(
@@ -61,6 +67,9 @@ class Administrator(models.Model):
         on_delete=models.CASCADE,
         db_column='user_registration',
     )
+
+    def __str__(self):
+        return str(self.user.full_name)
 
 
 class Email(models.Model):
@@ -76,3 +85,6 @@ class Email(models.Model):
         max_length=15,
         db_column='type',
     )
+
+    def __str__(self):
+        return str(self.address)
