@@ -1,8 +1,9 @@
 from social_core.backends.oauth import BaseOAuth2
 
 from editions.models import Course
-from helpers.user import download_photo
-from users.models import Campus, Email, User
+from helpers.model import update_model_fields
+from helpers.user import create_emails, download_photo
+from users.models import Campus, User
 
 
 class SuapOAuth2(BaseOAuth2):
@@ -58,18 +59,22 @@ class SuapOAuth2(BaseOAuth2):
         }
         if not User.objects.filter(registration=registration).exists():
             user = User.objects.create(**user_data)
-            if personal_email := response.get('email_secundario'):
-                Email.objects.create(
-                    address=personal_email, email_type='Personal', user=user
-                )
-            if academic_email := response.get('email_academico'):
-                Email.objects.create(
-                    address=academic_email, email_type='Academic', user=user
-                )
-            if school_email := response.get('email_google_classroom'):
-                Email.objects.create(
-                    address=school_email, email_type='School', user=user
-                )
+            create_emails(
+                user,
+                response.get('email_secundario'),
+                response.get('email_google_classroom'),
+                response.get('email_academico'),
+            )
+        else:
+            user = User.objects.get(registration=registration)
+            update_model_fields(user, user_data, ['photo'])
+            if not user.photo.storage.exists(user.photo.name):
+                setattr(user, 'photo', photo)
+                user.save()
+            elif photo.read() != user.photo.read():  # Refactor later
+                user.photo.delete()
+                setattr(user, 'photo', photo)
+                user.save()
         return {
             'username': registration,
             'first_name': first_name,
