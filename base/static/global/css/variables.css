@@ -11,9 +11,9 @@
   --gray-800: #343b34;
   --gray-900: #2e332f;
   --gray-950: #181b18;
-  --green-50: #f0fdf4;
-
+  
   /* Green Colors */
+  --green-50: #f0fdf4;
   --green-100: #dcfce7;
   --green-200: #bbf7d0;
   --green-300: #86efac;
@@ -40,4 +40,7 @@
   --font-size-content-big: 2rem;
   --font-size-content-normal: 1.8rem;
   --font-size-content-small: 1.6rem;
+
+  /* Transition */
+  --transition: all 150ms ease-in-out;
 }
