@@ -1,19 +1,39 @@
+.archive-list {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .archive-item-container {
   display: flex;
   align-items: center;
   flex-direction: column;
-}
-
-.archive-item-image-wrapper {
-  width: 36rem;
-  height: 17rem;
-}
-
-.archive-item-image {
-  object-fit: cover;
+  gap: 2rem;
   border-radius: 2rem;
+  transition: var(--transition);
+  flex: 1 1 30rem;
+}
+
+.archive-item-container:hover {
+  background-color: var(--gray-100);
+}
+
+.archive-item-cover-wrapper {
+  border-radius: inherit;
+  height: 25rem;
+  width: 100%;
+}
+
+.archive-item-cover {
+  border-radius: inherit;
+  object-fit: cover;
+  object-position: center;
+  height: 100%;
+  width: 100%;
 }
 
 .archive-item-title {
-  font-weight: 400;
+  text-align: center;
+  margin: 0 2rem 2rem 2rem;
 }
