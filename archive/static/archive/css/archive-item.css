@@ -1,7 +1,7 @@
 .archive-item-container {
   display: flex;
-  flex-flow: column nowrap;
   align-items: center;
+  flex-direction: column;
 }
 
 .archive-item-image-wrapper {
@@ -11,12 +11,9 @@
 
 .archive-item-image {
   object-fit: cover;
-  border-radius: 2.2rem;
+  border-radius: 2rem;
 }
 
 .archive-item-title {
-  color: var(--green-950); /*Is this color correct?*/
-  font-family: var(--font-family);
-  font-size: 2.2rem;
-  font-weight: 500;
+  font-weight: 400;
 }
