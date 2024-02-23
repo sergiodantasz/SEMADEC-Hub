@@ -49,3 +49,24 @@ h6 {
   margin-inline: auto;
   padding-inline: 2rem;
 }
+
+.section {
+  padding-block: 10rem;
+}
+
+.section-header {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 5rem;
+}
+
+.section-header-line {
+  width: 35rem;
+  max-width: 100%;
+  background-color: var(--green-950);
+  border: 0.1rem solid var(--green-950);
+  border-radius: 1rem;
+}

@@ -1,0 +1,10 @@
+{% extends "global/pages/base.html" %}
+{% block main %}
+  <section class="content section">
+    <header class="section-header">
+      <h1 class="section-header-title">{% block header %}{% endblock header %}</h1>
+      <hr class="section-header-line">
+    </header>
+    {% block content %}{% endblock content %}
+  </section>
+{% endblock main %}

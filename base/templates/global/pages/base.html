@@ -7,8 +7,9 @@
   </head>
   <body>
     {% include "global/partials/_navigation-bar.html" %}
-    {% block content %}{% endblock content %}
+    {% block main %}{% endblock main %}
     {% include "global/partials/_footer.html" %}
     <script src="{% static "global/js/mobile-menu.js" %}"></script>
+    {% block additional_script %}{% endblock additional_script %}
   </body>
 </html>

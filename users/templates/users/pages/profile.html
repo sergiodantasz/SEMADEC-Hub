@@ -1,12 +1,12 @@
-{% extends "global/pages/base.html" %}
+{% extends "global/pages/base_header.html" %}
 {% load static %}
+{% block header %}Perfil{% endblock header %}
 {% block content %}
-  <main class="content">
-    <h1>Profile</h1>
-    <form action="{% url "users:logout" %}" id="form-logout" method="post">
-      {% csrf_token %}
-      <button class="button-logout" type="submit">Sair</button>
-    </form>
-  </main>
-  <script src="{% static "users/js/logout.js" %}"></script>
+  <form action="{% url "users:logout" %}" id="form-logout" method="post">
+    {% csrf_token %}
+    <button class="button-logout" type="submit">Sair</button>
+  </form>
 {% endblock content %}
+{% block additional_script %}
+  <script src="{% static "users/js/logout.js" %}"></script>
+{% endblock additional_script %}

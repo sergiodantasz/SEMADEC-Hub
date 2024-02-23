@@ -1,17 +1,15 @@
-{% extends "global/pages/base.html" %}
+{% extends "global/pages/base_header.html" %}
 {% load static %}
 {% block additional_head %}
   <link rel="stylesheet" href="{% static "archive/css/archive-item.css" %}">
 {% endblock additional_head %}
+{% block header %}Acervo{% endblock header %}
 {% block content %}
-  <section class="content">
-    <h1>Archive</h1>
-    <div class="archive-list">
-      {% include "archive/partials/_archive-item.html" %}
-      {% include "archive/partials/_archive-item.html" %}
-      {% include "archive/partials/_archive-item.html" %}
-      {% include "archive/partials/_archive-item.html" %}
-      {% include "archive/partials/_archive-item.html" %}
-    </div>
-  </section>
+  <div class="archive-list">
+    {% include "archive/partials/_archive-item.html" %}
+    {% include "archive/partials/_archive-item.html" %}
+    {% include "archive/partials/_archive-item.html" %}
+    {% include "archive/partials/_archive-item.html" %}
+    {% include "archive/partials/_archive-item.html" %}
+  </div>
 {% endblock content %}

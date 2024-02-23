@@ -1,16 +1,15 @@
-{% extends "global/pages/base.html" %}
+{% extends "global/pages/base_header.html" %}
 {% load static %}
 {% block additional_head %}
   <link rel="stylesheet" href="{% static "news/css/news-item.css" %}">
 {% endblock additional_head %}
+{% block header %}Notícias{% endblock header %}
 {% block content %}
-  <section class="content">
-    <h1>News</h1>
-    <div class="news-list">
-      {% include "news/partials/_news-item.html" %}
-      {% include "news/partials/_news-item.html" %}
-      {% include "news/partials/_news-item.html" %}
-      {% include "news/partials/_news-item.html" %}
-    </div>
-  </section>
+  <div class="news-list">
+    {% include "news/partials/_news-item.html" %}
+    {% include "news/partials/_news-item.html" %}
+    {% include "news/partials/_news-item.html" %}
+    {% include "news/partials/_news-item.html" %}
+    {% include "news/partials/_news-item.html" %}
+  </div>
 {% endblock content %}
