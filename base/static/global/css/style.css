@@ -10,7 +10,7 @@ html {
 }
 
 body {
-  font-size: 1.6rem;
+  font-size: var(--font-size-content-small);
   font-family: var(--font-family);
   color: var(--green-950);
 }
@@ -21,27 +21,27 @@ a {
 }
 
 h1 {
-  font-size: 4.8rem;
+  font-size: var(--font-size-heading-huge);
 }
 
 h2 {
-  font-size: 4rem;
+  font-size: var(--font-size-heading-large);
 }
 
 h3 {
-  font-size: 3.2rem;
+  font-size: var(--font-size-heading-big);
 }
 
 h4 {
-  font-size: 2.4rem;
+  font-size: var(--font-size-heading-normal);
 }
 
 h5 {
-  font-size: 2rem;
+  font-size: var(--font-size-heading-small);
 }
 
 h6 {
-  font-size: 1.6rem;
+  font-size: var(--font-size-heading-tiny);
 }
 
 .content {
