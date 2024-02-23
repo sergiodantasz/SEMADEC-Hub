@@ -6,19 +6,19 @@
     <div class="navigation-bar-menu">
       <ul class="navigation-bar-options">
         <li class="home-option" id="home-option">
-          <a href="">Início</a>
+          <a href="{% url "home:home" %}">Início</a>
         </li>
         <li class="competitions-option" id="competitions-option">
           <a href="">Competições</a>
         </li>
         <li class="news-option" id="news-option">
-          <a href="">Notícias</a>
+          <a href="{% url "news:news" %}">Notícias</a>
         </li>
         <li class="editions-option" id="editions-option">
           <a href="">Edições</a>
         </li>
         <li class="archive-option" id="archive-option">
-          <a href="">Acervo</a>
+          <a href="{% url "archive:archive" %}">Acervo</a>
         </li>
         <li class="documents-option" id="documents-option">
           <a href="">Documentos</a>
