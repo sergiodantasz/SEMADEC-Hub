@@ -1,0 +1,16 @@
+{% extends "global/pages/base.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "news/css/news-item.css" %}">
+{% endblock additional_head %}
+{% block content %}
+  <section class="content">
+    <h1>News</h1>
+    <div class="news-list">
+      {% include "news/partials/_news-item.html" %}
+      {% include "news/partials/_news-item.html" %}
+      {% include "news/partials/_news-item.html" %}
+      {% include "news/partials/_news-item.html" %}
+    </div>
+  </section>
+{% endblock content %}

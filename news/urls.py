@@ -1,7 +1,9 @@
 from django.urls import path
 
+from news import views
+
 app_name = 'news'
 
 urlpatterns = [
-    path('', lambda request: '<h1>TEST</h1>', name='news'),
+    path('', views.news, name='news'),
 ]
