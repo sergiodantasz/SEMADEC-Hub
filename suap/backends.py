@@ -82,8 +82,8 @@ class SuapOAuth2(BaseOAuth2):
             )
         else:
             user_reg = user_reg.first()
-            test = asdict(user_data)
-            for k, v in test.items():
+            user_dict = asdict(user_data)
+            for k, v in user_dict.items():
                 if getattr(user_reg, k) != getattr(user_data, k):
                     setattr(user_reg, k, v)
             user_reg.save()
