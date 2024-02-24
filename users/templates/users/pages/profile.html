@@ -1,11 +1,85 @@
 {% extends "global/pages/base_header.html" %}
 {% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "users/css/profile-content.css" %}">
+{% endblock additional_head %}
 {% block header %}Perfil{% endblock header %}
 {% block content %}
-  <form action="{% url "users:logout" %}" id="form-logout" method="post">
-    {% csrf_token %}
-    <button class="button-logout" type="submit">Sair</button>
-  </form>
+  <div class="profile-content-outer">
+    <div class="profile-content-inner-left">
+      <div class="profile-content-photo-wrapper">
+        <img class="profile-content-photo" src="{{ photo_url }}" alt="">
+      </div>
+      <form action="{% url "users:logout" %}" id="form-logout" method="post">
+        {% csrf_token %}
+        <button class="profile-content-button-leave">
+          <img src="{% static "users/img/logout_icon.svg" %}" alt="Ícone de sair">
+          <span>Sair</span>
+        </button>
+      </form>
+    </div>
+    <hr class="profile-content-divider">
+    <div class="profile-content-inner-right">
+      <div class="profile-content-info-column">
+        <div class="profile-content-info-wrapper">
+          <span class="profile-content-info-title">Matrícula</span>
+          <span class="profile-content-info-value">20211034010020</span>
+        </div>
+        <div class="profile-content-info-wrapper">
+          <span class="profile-content-info-title">Nome</span>
+          <span class="profile-content-info-value">
+            Joamerson Islan Santos Amaral
+          </span>
+        </div>
+        <div class="profile-content-info-wrapper">
+          <span class="profile-content-info-title">Curso</span>
+          <span class="profile-content-info-value">
+            Técnico em Informática
+          </span>
+        </div>
+      </div>
+      <div class="profile-content-info-column">
+        <div class="profile-content-info-wrapper">
+          <span class="profile-content-info-title">Campus</span>
+          <span class="profile-content-info-value">
+            Currais Novos
+          </span>
+        </div>
+        <div class="profile-content-info-wrapper">
+          <span class="profile-content-info-title">CPF</span>
+          <span class="profile-content-info-value">
+            912.132.532-85
+          </span>
+        </div>
+        <div class="profile-content-info-wrapper">
+          <span class="profile-content-info-title">Vínculo</span>
+          <span class="profile-content-info-value">Aluno</span>
+        </div>
+      </div>
+      <div class="profile-content-info-column">
+        <div class="profile-content-info-wrapper">
+          <span class="profile-content-info-title">
+            Data de Nascimento
+          </span>
+          <span class="profile-content-info-value">
+            01/02/2006
+          </span>
+        </div>
+        <div class="profile-content-info-wrapper">
+          <span class="profile-content-info-title">E-mails</span>
+          <span class="profile-content-info-value">
+            joamersonislan38@gmail.com
+          </span>
+          <span class="profile-content-info-value">
+            islan.j@escolar.ifrn.edu.br
+          </span>
+          <span class="profile-content-info-value">
+            j.islan@academico.ifrn.edu.br
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
 {% block additional_script %}
   <script src="{% static "users/js/logout.js" %}"></script>
