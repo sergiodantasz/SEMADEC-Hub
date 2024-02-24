@@ -18,6 +18,7 @@ def profile(request):
     if request.user.is_authenticated:
         user = User.objects.get(registration=request.user.username)
         context['user'] = user  # type: ignore
+        context['photo_url'] = user.photo.url
     return render(request, 'users/pages/profile.html', context)
 
 
