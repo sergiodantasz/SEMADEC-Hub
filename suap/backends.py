@@ -1,15 +1,12 @@
 import os
 from dataclasses import asdict, dataclass
-from io import BytesIO
-from pathlib import Path
 
 from django.core.files.images import ImageFile
-from requests import get
 from social_core.backends.oauth import BaseOAuth2
 
 from editions.models import Course
 from helpers.user import create_emails, download_photo
-from users.models import Campus, Email, User
+from users.models import Campus, User
 
 
 @dataclass(init=False)
