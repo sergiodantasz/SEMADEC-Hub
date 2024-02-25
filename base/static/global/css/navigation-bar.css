@@ -26,6 +26,44 @@
   gap: 3rem;
 }
 
+.navigation-bar-options > li {
+  position: relative;
+  transition: var(--transition);
+}
+
+.navigation-bar-options > li:hover {
+  color: var(--green-700);
+}
+
+.navigation-bar-options > li:active {
+  color: var(--green-800);
+}
+
+.navigation-bar-options > li::after {
+  content: "";
+  position: absolute;
+  background-color: var(--green-700);
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  transition: var(--transition);
+}
+
+.navigation-bar-options > li:hover::after {
+  width: 0.5rem;
+  height: 0.5rem;
+  bottom: -4rem;
+}
+
+.navigation-bar-options > li:active::after {
+  background-color: var(--green-800);
+}
+
 .navigation-bar-divider {
   width: 0.2rem;
   height: 3.8rem;
@@ -54,6 +92,31 @@
   gap: 3rem;
   padding: 0.3rem;
   padding-right: 3rem;
+  transition: var(--transition);
+}
+
+.login-button:hover,
+.profile-button:hover {
+  border-color: var(--green-700);
+  color: var(--green-700);
+}
+
+.login-button:active,
+.profile-button:active {
+  border-color: var(--green-800);
+  color: var(--green-800);
+}
+
+.login-button .user-icon path {
+  transition: var(--transition);
+}
+
+.login-button:hover .user-icon path {
+  fill: var(--green-700);
+}
+
+.login-button:active .user-icon path {
+  fill: var(--green-800);
 }
 
 .mobile-menu {
@@ -61,6 +124,15 @@
   cursor: pointer;
   width: 2.8rem;
   height: 2.8rem;
+  transition: var(--transition);
+}
+
+.mobile-menu:not(.active):hover {
+  gap: 1rem;
+}
+
+.mobile-menu.active:hover {
+  transform: rotate(90deg);
 }
 
 .navigation-bar-options.active {
