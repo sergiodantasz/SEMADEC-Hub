@@ -1,83 +1,67 @@
 {% extends "global/pages/base_header.html" %}
 {% load static %}
 {% block additional_head %}
-  <link rel="stylesheet" href="{% static "users/css/profile-content.css" %}">
+  <link rel="stylesheet" href="{% static "users/css/profile.css" %}">
 {% endblock additional_head %}
 {% block header %}Perfil{% endblock header %}
 {% block content %}
-  <div class="profile-content-outer">
+  <div class="profile-content-container">
     <div class="profile-content-inner-left">
       <div class="profile-content-photo-wrapper">
-        <img class="profile-content-photo" src="{{ photo_url }}" alt="">
+        <img class="profile-content-photo" src="{{ user.photo.url }}" alt="Foto do usuário.">
       </div>
       <form action="{% url "users:logout" %}" id="form-logout" method="post">
         {% csrf_token %}
-        <button class="profile-content-button-leave">
-          <img src="{% static "users/img/logout_icon.svg" %}" alt="Ícone de sair">
+        <button type="submit" class="button profile-content-button-leave">
+          <img src="{% static "users/img/logout.svg" %}" alt="Ícone de sair.">
           <span>Sair</span>
         </button>
       </form>
     </div>
     <hr class="profile-content-divider">
     <div class="profile-content-inner-right">
-      <div class="profile-content-info-column">
-        <div class="profile-content-info-wrapper">
-          <span class="profile-content-info-title">Matrícula</span>
-          <span class="profile-content-info-value">20211034010020</span>
-        </div>
-        <div class="profile-content-info-wrapper">
-          <span class="profile-content-info-title">Nome</span>
-          <span class="profile-content-info-value">
-            Joamerson Islan Santos Amaral
-          </span>
-        </div>
-        <div class="profile-content-info-wrapper">
-          <span class="profile-content-info-title">Curso</span>
-          <span class="profile-content-info-value">
-            Técnico em Informática
-          </span>
-        </div>
+      <div class="profile-content-info-wrapper">
+        <h5 class="profile-content-info-title">Matrícula</h5>
+        <span class="profile-content-info-text">{{ user.registration }}</span>
       </div>
-      <div class="profile-content-info-column">
+      {% if user.campus %}
         <div class="profile-content-info-wrapper">
-          <span class="profile-content-info-title">Campus</span>
-          <span class="profile-content-info-value">
-            Currais Novos
-          </span>
+          <h5 class="profile-content-info-title">Campus</h5>
+          <span class="profile-content-info-text">{{ user.campus.name }}</span>
         </div>
-        <div class="profile-content-info-wrapper">
-          <span class="profile-content-info-title">CPF</span>
-          <span class="profile-content-info-value">
-            912.132.532-85
-          </span>
-        </div>
-        <div class="profile-content-info-wrapper">
-          <span class="profile-content-info-title">Vínculo</span>
-          <span class="profile-content-info-value">Aluno</span>
-        </div>
+      {% endif %}
+      <div class="profile-content-info-wrapper">
+        <h5 class="profile-content-info-title">Data de Nascimento</h5>
+        <span class="profile-content-info-text">{{ user.date_of_birth }}</span>
       </div>
-      <div class="profile-content-info-column">
-        <div class="profile-content-info-wrapper">
-          <span class="profile-content-info-title">
-            Data de Nascimento
-          </span>
-          <span class="profile-content-info-value">
-            01/02/2006
-          </span>
-        </div>
-        <div class="profile-content-info-wrapper">
-          <span class="profile-content-info-title">E-mails</span>
-          <span class="profile-content-info-value">
-            joamersonislan38@gmail.com
-          </span>
-          <span class="profile-content-info-value">
-            islan.j@escolar.ifrn.edu.br
-          </span>
-          <span class="profile-content-info-value">
-            j.islan@academico.ifrn.edu.br
-          </span>
-        </div>
+      <div class="profile-content-info-wrapper">
+        <h5 class="profile-content-info-title">Nome</h5>
+        <span class="profile-content-info-text">{{ user.full_name }}</span>
       </div>
+      <div class="profile-content-info-wrapper">
+        <h5 class="profile-content-info-title">CPF</h5>
+        <span class="profile-content-info-text">{{ user.cpf }}</span>
+      </div>
+      {% if user.course %}
+        <div class="profile-content-info-wrapper">
+          <h5 class="profile-content-info-title">Curso</h5>
+          <span class="profile-content-info-text">{{ user.course.name }}</span>
+        </div>
+      {% endif %}
+      <div class="profile-content-info-wrapper">
+        <h5 class="profile-content-info-title">Vínculo</h5>
+        <span class="profile-content-info-text">{{ user.link_type }}</span>
+      </div>
+      {% if user.emails %}
+        <div class="profile-content-info-wrapper">
+          <h5 class="profile-content-info-title">E-mails</h5>
+          <div class="profile-content-info-text-wrapper">
+            {% for email in user.emails.all %}
+              <span class="profile-content-info-text profile-content-email">{{ email }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
     </div>
   </div>
 {% endblock content %}
