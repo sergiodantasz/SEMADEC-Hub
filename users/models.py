@@ -77,6 +77,7 @@ class Email(models.Model):
         'users.User',
         on_delete=models.CASCADE,
         db_column='user_registration',
+        related_name='emails',
     )
     address = models.EmailField(
         unique=True,
