@@ -66,7 +66,33 @@ h6 {
 .section-header-line {
   width: 35rem;
   max-width: 100%;
-  background-color: var(--green-950);
   border: 0.1rem solid var(--green-950);
   border-radius: 1rem;
+}
+
+.button {
+  background-color: var(--green-500);
+  color: var(--green-950);
+  font-family: var(--font-family);
+  font-size: var(--font-size-content-big);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 4rem;
+  border-radius: 1rem;
+  transition: var(--transition);
+}
+
+.button:hover {
+  background-color: var(--green-600);
+}
+
+.button:active {
+  background-color: var(--green-700);
+}
+
+.button > img {
+  width: 2.5rem;
 }
