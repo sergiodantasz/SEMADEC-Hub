@@ -1,7 +1,7 @@
+import os
 from dataclasses import asdict, dataclass
 from io import BytesIO
-from os.path import splitext
-from re import sub
+from pathlib import Path
 
 from django.core.files.images import ImageFile
 from requests import get
@@ -70,10 +70,10 @@ class SuapOAuth2(BaseOAuth2):
         return response
 
     def get_user_details(self, response):
-        user_data = UserData(response)
-        user_reg = User.objects.filter(registration=user_data.registration)
-        if not user_reg.exists():
-            user = User.objects.create(**asdict(user_data))
+        user_api = UserData(response)
+        user_reg = User.objects.filter(registration=user_api.registration).first()
+        if not user_reg:
+            user = User.objects.create(**asdict(user_api))
             create_emails(
                 user,
                 response.get('email_secundario'),
@@ -81,15 +81,23 @@ class SuapOAuth2(BaseOAuth2):
                 response.get('email_academico'),
             )
         else:
-            user_reg = user_reg.first()
-            user_dict = asdict(user_data)
-            for k, v in user_dict.items():
-                if getattr(user_reg, k) != getattr(user_data, k):
+            update_fields = []
+            for k, v in user_api.__dict__.items():
+                if k == 'photo':
+                    validation = (
+                        getattr(user_reg, k).read() != getattr(user_api, k).read()
+                    )
+                else:
+                    validation = getattr(user_reg, k) != getattr(user_api, k)
+                if validation:
+                    if k == 'photo':
+                        os.remove(Path(user_reg.photo.path))
                     setattr(user_reg, k, v)
-            user_reg.save()
+                    update_fields.append(k)
+            user_reg.save(update_fields=update_fields)
         return {
-            'username': user_data.registration,
-            'first_name': user_data.first_name,
-            'last_name': user_data.last_name,
+            'username': user_api.registration,
+            'first_name': user_api.first_name,
+            'last_name': user_api.last_name,
             'email': response.get('email_preferencial'),
         }
