@@ -1,4 +1,3 @@
-import os
 from dataclasses import asdict, dataclass
 
 from django.core.files.images import ImageFile
@@ -26,8 +25,8 @@ class UserData:
 
     def __init__(self, response):
         self.registration = response.get('identificacao')
-        self.campus = Campus.objects.filter(acronym=response.get('campus')).first()
-        self.course = Course.objects.filter(name=response.get('course')).first()
+        self.campus = Campus.objects.filter(acronym=response.get('campus')).first()  # type: ignore
+        self.course = Course.objects.filter(name=response.get('course')).first()  # type: ignore
         # Validate the course field (the api sometimes returns different values)
         self.full_name = response.get('nome_social') or response.get('nome_registro')
         self.first_name, *_, self.last_name = self.full_name.split()
