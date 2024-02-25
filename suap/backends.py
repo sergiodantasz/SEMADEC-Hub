@@ -9,7 +9,7 @@ from social_core.backends.oauth import BaseOAuth2
 
 from editions.models import Course
 from helpers.user import create_emails, download_photo
-from users.models import Campus, User
+from users.models import Campus, Email, User
 
 
 @dataclass(init=False)
@@ -38,6 +38,40 @@ class UserData:
         self.sex = response.get('sexo')
         self.date_of_birth = response.get('data_de_nascimento')
         self.photo = download_photo(response.get('foto'), self.registration)
+
+
+def create_user_model_registry(user_api: UserData, user_emails: dict | tuple) -> User:
+    """Receive an API object and creates a database registry based on its content.
+
+    Args:
+        user_api (UserData): data object retrieved from the API backend.
+        user_emails (dict | tuple): collection containing all user e-mails.
+    """
+    user_reg = User.objects.create(**asdict(user_api))
+    create_emails(user_reg, *user_emails)
+    return user_reg
+
+
+def update_user_model_fields(user_api: UserData, user_reg: User) -> None:
+    """Receive both the API and database objects and perform update on the outdated db fields.
+
+    Args:
+        user_api (UserData): data object retrieved from the API backend.
+        user_reg (User): user registry object retrieved from the database.
+    """
+    update_fields = []
+    for k, v in user_api.__dict__.items():
+        if k == 'photo':
+            validation = getattr(user_reg, k).read() != getattr(user_api, k).read()
+            pre_update = lambda: user_reg.photo.delete()  # noqa: E731
+        else:
+            validation = getattr(user_reg, k) != getattr(user_api, k)
+            pre_update = lambda: ...  # noqa: E731
+        if validation:
+            pre_update()
+            setattr(user_reg, k, v)
+            update_fields.append(k)
+    user_reg.save(update_fields=update_fields)
 
 
 class SuapOAuth2(BaseOAuth2):
@@ -73,28 +107,14 @@ class SuapOAuth2(BaseOAuth2):
         user_api = UserData(response)
         user_reg = User.objects.filter(registration=user_api.registration).first()
         if not user_reg:
-            user = User.objects.create(**asdict(user_api))
-            create_emails(
-                user,
+            user_emails = (
                 response.get('email_secundario'),
                 response.get('email_google_classroom'),
                 response.get('email_academico'),
             )
+            user_reg = create_user_model_registry(user_api, user_emails)
         else:
-            update_fields = []
-            for k, v in user_api.__dict__.items():
-                if k == 'photo':
-                    validation = (
-                        getattr(user_reg, k).read() != getattr(user_api, k).read()
-                    )
-                else:
-                    validation = getattr(user_reg, k) != getattr(user_api, k)
-                if validation:
-                    if k == 'photo':
-                        os.remove(Path(user_reg.photo.path))
-                    setattr(user_reg, k, v)
-                    update_fields.append(k)
-            user_reg.save(update_fields=update_fields)
+            update_user_model_fields(user_api, user_reg)
         return {
             'username': user_api.registration,
             'first_name': user_api.first_name,
