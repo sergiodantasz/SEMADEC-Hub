@@ -40,6 +40,18 @@ footer {
   gap: 0.5rem;
 }
 
+.footer-text {
+  transition: var(--transition);
+}
+
+.footer-text:hover {
+  color: var(--gray-400);
+}
+
+.footer-text:active {
+  color: var(--gray-500);
+}
+
 .footer-logos {
   display: flex;
   gap: 2rem;
