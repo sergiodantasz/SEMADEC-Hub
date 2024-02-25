@@ -5,7 +5,7 @@ from re import sub
 from django.core.files.images import ImageFile
 from requests import get
 
-from users.models import Email, User
+from users.models import Administrator, Email, User
 
 
 def format_photo_url(url: str) -> str:
@@ -72,3 +72,7 @@ def create_emails(
         Email.objects.create(address=academic_email, email_type='Academic', user=user)
     if school_email:
         Email.objects.create(address=school_email, email_type='School', user=user)
+
+
+def is_admin(user: User) -> bool:
+    return Administrator.objects.filter(user__registration=user.registration).exists()
