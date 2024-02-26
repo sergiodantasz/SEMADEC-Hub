@@ -1,0 +1,51 @@
+.document-item {
+  display: flex;
+  align-items: stretch;
+}
+
+.document-item-download-button {
+  background-color: var(--green-200);
+  border: 0.1rem solid var(--green-200);
+  min-width: 5rem;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.document-item-download-button:hover {
+  background-color: var(--green-300);
+  border-color: var(--green-300);
+}
+
+.document-item-download-button:active {
+  background-color: var(--green-400);
+  border-color: var(--green-400);
+}
+
+.document-item-download-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.document-item-info {
+  color: var(--gray-500);
+  font-size: var(--font-size-content-normal);
+  border: 0.1rem solid var(--gray-200);
+  border-left: none;
+  padding: 1rem 1.5rem;
+  min-height: 5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  word-break: break-all;
+  justify-content: space-between;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}

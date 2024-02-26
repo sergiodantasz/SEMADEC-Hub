@@ -1,0 +1,16 @@
+{% extends "global/pages/base_header.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "documents/css/document-item.css" %}">
+  <link rel="stylesheet" href="{% static "documents/css/document-collection-item.css" %}">
+{% endblock additional_head %}
+{% block header %}Documentos{% endblock header %}
+{% block content %}
+  <div class="document-collection-list">
+    {% include "documents/partials/_document-collection-item.html" %}
+    {% include "documents/partials/_document-collection-item.html" %}
+    {% include "documents/partials/_document-collection-item.html" %}
+    {% include "documents/partials/_document-collection-item.html" %}
+    {% include "documents/partials/_document-collection-item.html" %}
+  </div>
+{% endblock content %}
