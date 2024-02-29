@@ -49,7 +49,7 @@ def suap(request):
     authenticated_user = authenticate(request, username=obj.registration).first()
     request.user = authenticated_user
     ...
-    return redirect(reverse('users:profile', kwargs={'request': request}))
+    return profile(request)
 
 
 def login(request):
