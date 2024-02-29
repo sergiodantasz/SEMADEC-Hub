@@ -1,6 +1,6 @@
 from dataclasses import asdict, dataclass
 
-from django.contrib.auth.backends import BaseBackend
+from django.contrib.auth.backends import BaseBackend, ModelBackend
 from django.contrib.auth.models import User as DjangoUser
 from django.core.files.images import ImageFile
 from dotenv import load_dotenv
@@ -154,12 +154,12 @@ class SuapOAuth2(BaseBackend):
         return cls.oauth.get(url)
 
     def get_user(self, user_id):
-        obj = DjangoUser.objects.filter(username=user_id)
+        obj = User.objects.get(registration=user_id)
         ...
         return obj
 
-    def authenticate(self, request, username):
-        obj = self.get_user(username)
+    def authenticate(self, request, username=None):
+        obj = User.objects.get(registration=username)
         ...
         if obj:
             return obj

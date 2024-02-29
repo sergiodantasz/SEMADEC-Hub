@@ -40,19 +40,12 @@ def suap(request):
     )
     obj = UserData(response)
     user_reg = create_user_model_registry(obj, user_emails)
+    user_reg.set_unusable_password()
     user_reg.save()
-    user_auth = DjangoUser.objects.create(
-        first_name=obj.first_name,
-        last_name=obj.last_name,
-        username=obj.registration,
-        email='joamersonislan38@gmail.com',
-    )
-    user_auth.set_unusable_password()
-    user_auth.save()
-    authenticated_user = authenticate(request, username=obj.registration).first()
-    request.user = authenticated_user
-    ...
-    return profile(request)
+    authenticated_user = authenticate(request, username=obj.registration)
+    if authenticated_user:
+        auth_login(request, authenticated_user, backend='suap.backends.SuapOAuth2')
+    return redirect(reverse('users:profile'))
 
 
 def login(request):
@@ -64,12 +57,11 @@ def login(request):
 def profile(request):
     context = {'title': 'Perfil'}
     if request.user.is_authenticated:
-        user = User.objects.get(registration=request.user.username)
+        user = User.objects.get(registration=request.user.registration)
         context['user'] = user  # type: ignore
     return render(request, 'users/pages/profile.html', context)
 
 
-# @login_required(login_url='/login/')
 def logout(request):
     auth_logout(request)
     return redirect(reverse('home:home'))
