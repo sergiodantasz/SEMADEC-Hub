@@ -90,9 +90,11 @@ DATABASES = {
 AUTHENTICATION_BACKENDS = (
     # SUAP backend
     'suap.backends.SuapOAuth2',
-    # Django backend
     'django.contrib.auth.backends.ModelBackend',
+    # Django backend
 )
+
+# AUTH_USER_MODEL = 'users.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

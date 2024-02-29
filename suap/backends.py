@@ -1,5 +1,7 @@
 from dataclasses import asdict, dataclass
 
+from django.contrib.auth.backends import BaseBackend
+from django.contrib.auth.models import User as DjangoUser
 from django.core.files.images import ImageFile
 from dotenv import load_dotenv
 from environ import Env
@@ -124,7 +126,7 @@ def update_user_model_fields(user_api: UserData, user_reg: User) -> None:
 #         }
 
 
-class SuapOAuth2:
+class SuapOAuth2(BaseBackend):
     client_id = SOCIAL_AUTH_SUAP_KEY
     client_secret = SOCIAL_AUTH_SUAP_SECRET
     redirect_uri = r'http://127.0.0.1:8000/complete/suap/'
@@ -150,3 +152,15 @@ class SuapOAuth2:
     @classmethod
     def get(cls, url):
         return cls.oauth.get(url)
+
+    def get_user(self, user_id):
+        obj = DjangoUser.objects.filter(username=user_id)
+        ...
+        return obj
+
+    def authenticate(self, request, username):
+        obj = self.get_user(username)
+        ...
+        if obj:
+            return obj
+        return None
