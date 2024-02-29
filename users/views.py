@@ -10,7 +10,12 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from requests_oauthlib import OAuth2Session
 
-from suap.backends import SuapOAuth2, UserData, create_user_model_registry
+from suap.backends import (
+    SuapOAuth2,
+    UserData,
+    create_emails,
+    create_user_model_registry,
+)
 from users.models import User
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -28,15 +33,13 @@ def suap(request):
         .get('vinculo')
         .get('curso')
     )
-    obj = UserData(response)
-    user_reg = create_user_model_registry(
-        obj,
-        {
-            'email': 'joamersonislan38@gmail.com',
-            'email2': 'joamerson2@gmail.com',
-            'email3': 'joamerson3@gmail.com',
-        },
+    user_emails = (
+        response.get('email_secundario'),
+        response.get('email_google_classroom'),
+        response.get('email_academico'),
     )
+    obj = UserData(response)
+    user_reg = create_user_model_registry(obj, user_emails)
     user_reg.save()
     user_auth = DjangoUser.objects.create(
         first_name=obj.first_name,
@@ -66,7 +69,7 @@ def profile(request):
     return render(request, 'users/pages/profile.html', context)
 
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def logout(request):
     auth_logout(request)
     return redirect(reverse('home:home'))
