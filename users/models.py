@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 
 
@@ -16,9 +16,10 @@ class Campus(models.Model):
         return str(self.name)
 
 
-class User(AbstractUser):
+class User(AbstractBaseUser):
     registration = models.CharField(
         primary_key=True,
+        unique=True,
         max_length=14,
     )
     campus = models.ForeignKey(
@@ -57,6 +58,7 @@ class User(AbstractUser):
     photo = models.ImageField(
         upload_to='users',
     )
+    USERNAME_FIELD = 'registration'
 
     def __str__(self):
         return str(self.full_name)
