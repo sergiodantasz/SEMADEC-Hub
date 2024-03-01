@@ -2,6 +2,7 @@ from dataclasses import asdict, dataclass
 
 from django.contrib.auth.backends import BaseBackend, ModelBackend
 from django.contrib.auth.models import User as DjangoUser
+from django.contrib.sessions.models import Session
 from django.core.files.images import ImageFile
 from dotenv import load_dotenv
 from environ import Env
@@ -147,7 +148,9 @@ class SuapOAuth2(BaseBackend):
             authorization_response=suap_uri,
             client_id=cls.client_id,
             client_secret=cls.client_secret,
+            verify=True,
         )
+        ...
 
     @classmethod
     def get(cls, url):
@@ -158,9 +161,10 @@ class SuapOAuth2(BaseBackend):
         ...
         return obj
 
-    def authenticate(self, request, username=None):
+    def authenticate(self, request, token, username=None):
         obj = User.objects.get(registration=username)
-        ...
-        if obj:
+        token_verify = 'token' in request.session
+        if obj and not token_verify:
+            request.session['token'] = token
             return obj
         return None

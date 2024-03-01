@@ -6,6 +6,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User as DjangoUser
+from django.contrib.sessions.models import Session
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from requests_oauthlib import OAuth2Session
@@ -23,7 +24,8 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 def suap(request):
     suap_uri = request.build_absolute_uri()
-    SuapOAuth2.fetch_token(suap_uri)
+    oauth = SuapOAuth2()
+    oauth.fetch_token(suap_uri)
     response = SuapOAuth2.get('https://suap.ifrn.edu.br/api/eu/?format=json').json()
     response['curso'] = (
         SuapOAuth2.get(
@@ -40,9 +42,11 @@ def suap(request):
     )
     obj = UserData(response)
     user_reg = create_user_model_registry(obj, user_emails)
-    user_reg.set_unusable_password()
+    # user_reg.set_unusable_password()
     user_reg.save()
-    authenticated_user = authenticate(request, username=obj.registration)
+    authenticated_user = authenticate(
+        request, token=oauth.oauth.access_token, username=obj.registration
+    )
     if authenticated_user:
         auth_login(request, authenticated_user, backend='suap.backends.SuapOAuth2')
     return redirect(reverse('users:profile'))
@@ -51,11 +55,14 @@ def suap(request):
 def login(request):
     if request.user.is_authenticated:
         return redirect(reverse('users:profile'))
-    return redirect(SuapOAuth2.authorization_url)
+    oauth = SuapOAuth2()
+    return redirect(oauth.authorization_url)
 
 
 def profile(request):
     context = {'title': 'Perfil'}
+    if 'token' in request.session:
+        pass
     if request.user.is_authenticated:
         user = User.objects.get(registration=request.user.registration)
         context['user'] = user  # type: ignore
