@@ -1,5 +1,8 @@
 from dataclasses import asdict, dataclass
+from pathlib import Path
+from typing import Any
 
+from authlib.integrations.django_client import OAuth
 from django.contrib.auth.backends import BaseBackend, ModelBackend
 from django.contrib.auth.models import User as DjangoUser
 from django.contrib.sessions.models import Session
@@ -13,6 +16,12 @@ from core.settings import SOCIAL_AUTH_SUAP_KEY, SOCIAL_AUTH_SUAP_SECRET
 from editions.models import Course
 from helpers.user import create_emails, download_photo
 from users.models import Campus, User
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / '.env', override=True)
+
+env = Env()
 
 
 @dataclass(init=False)
@@ -127,44 +136,74 @@ def update_user_model_fields(user_api: UserData, user_reg: User) -> None:
 #         }
 
 
-class SuapOAuth2(BaseBackend):
-    client_id = SOCIAL_AUTH_SUAP_KEY
-    client_secret = SOCIAL_AUTH_SUAP_SECRET
-    redirect_uri = r'http://127.0.0.1:8000/complete/suap/'
-    scope = ['identificacao', 'email', 'documentos_pessoais']
-    oauth = OAuth2Session(
-        client_id,
-        redirect_uri=redirect_uri,
-        scope=scope,
+# class SuapOAuth2(BaseBackend):
+#     client_id = SOCIAL_AUTH_SUAP_KEY
+#     client_secret = SOCIAL_AUTH_SUAP_SECRET
+#     redirect_uri = r'http://127.0.0.1:8000/complete/suap/'
+#     scope = ['identificacao', 'email', 'documentos_pessoais']
+#     oauth = OAuth2Session(
+#         client_id,
+#         redirect_uri=redirect_uri,
+#         scope=scope,
+#     )
+#     authorization_url, scope = oauth.authorization_url(
+#         'https://suap.ifrn.edu.br/o/authorize/'
+#     )
+
+#     @classmethod
+#     def fetch_token(cls, suap_uri):
+#         cls.oauth.fetch_token(
+#             'https://suap.ifrn.edu.br/o/token/',
+#             authorization_response=suap_uri,
+#             client_id=cls.client_id,
+#             client_secret=cls.client_secret,
+#             verify=True,
+#         )
+#         ...
+
+#     @classmethod
+#     def get(cls, url):
+#         return cls.oauth.get(url)
+
+#     def get_user(self, user_id):
+#         obj = User.objects.get(registration=user_id)
+#         ...
+#         return obj
+
+#     def authenticate(self, request, token, username=None):
+#         obj = User.objects.get(registration=username)
+#         token_verify = 'token' in request.session
+#         if obj and not token_verify:
+#             request.session['token'] = token
+#             return obj
+#         return None
+
+
+class SuapOAuth2:
+    oauth = OAuth()
+    oauth.register(
+        name='suap',
+        client_id=env.str('SOCIAL_AUTH_SUAP_KEY'),
+        client_secret=env.str('SOCIAL_AUTH_SUAP_SECRET'),
+        access_token_url='https://suap.ifrn.edu.br/o/token/',
+        access_token_params=None,
+        authorize_url='https://suap.ifrn.edu.br/o/authorize/',
+        authorize_params=None,
+        api_base_url='https://suap.ifrn.edu.br/api/',
+        client_kwargs={
+            'scope': 'identificacao email documentos_pessoais',
+        },
     )
-    authorization_url, scope = oauth.authorization_url(
-        'https://suap.ifrn.edu.br/o/authorize/'
-    )
+    suap = oauth.create_client('suap')
 
     @classmethod
-    def fetch_token(cls, suap_uri):
-        cls.oauth.fetch_token(
-            'https://suap.ifrn.edu.br/o/token/',
-            authorization_response=suap_uri,
-            client_id=cls.client_id,
-            client_secret=cls.client_secret,
-            verify=True,
-        )
-        ...
+    def authorize_redirect(cls, request, redirect_uri):
+        return cls.suap.authorize_redirect(request, redirect_uri)
 
     @classmethod
-    def get(cls, url):
-        return cls.oauth.get(url)
+    def authorize_access_token(cls, request):
+        return cls.oauth.suap.authorize_access_token(request)
 
-    def get_user(self, user_id):
-        obj = User.objects.get(registration=user_id)
-        ...
-        return obj
-
-    def authenticate(self, request, token, username=None):
-        obj = User.objects.get(registration=username)
-        token_verify = 'token' in request.session
-        if obj and not token_verify:
-            request.session['token'] = token
-            return obj
-        return None
+    @classmethod
+    def get(cls, path, token):
+        return cls.oauth.suap.get(path, token=token).json()
