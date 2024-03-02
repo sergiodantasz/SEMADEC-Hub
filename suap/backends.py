@@ -3,14 +3,11 @@ from pathlib import Path
 from typing import Any
 
 from authlib.integrations.django_client import OAuth
-from django.contrib.auth.backends import BaseBackend, ModelBackend
-from django.contrib.auth.models import User as DjangoUser
-from django.contrib.sessions.models import Session
 from django.core.files.images import ImageFile
+from django.http import HttpRequest
 from dotenv import load_dotenv
 from environ import Env
 from requests_oauthlib import OAuth2Session
-from social_core.backends.oauth import BaseOAuth2
 
 from core.settings import SOCIAL_AUTH_SUAP_KEY, SOCIAL_AUTH_SUAP_SECRET
 from editions.models import Course
@@ -110,15 +107,15 @@ class SuapOAuth2:
     suap = oauth.create_client('suap')
 
     @classmethod
-    def authorize_redirect(cls, request, redirect_uri):
+    def authorize_redirect(cls, request: HttpRequest, redirect_uri: str) -> str:
         return cls.suap.authorize_redirect(request, redirect_uri)
 
     @classmethod
-    def authorize_access_token(cls, request):
+    def authorize_access_token(cls, request: HttpRequest) -> dict:
         return cls.oauth.suap.authorize_access_token(request)
 
     @classmethod
-    def get_user_data(cls, token: dict):
+    def get_user_data(cls, token: dict) -> dict:
         response = cls.oauth.suap.get('eu', token=token).json()
         response['curso'] = (
             cls.oauth.suap.get(

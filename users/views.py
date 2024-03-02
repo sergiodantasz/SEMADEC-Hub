@@ -8,7 +8,6 @@ from django.urls import reverse
 from suap.backends import SuapOAuth2, UserData, get_or_create_user_model_registry
 from users.models import User
 
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 oauth = SuapOAuth2()
 
 
