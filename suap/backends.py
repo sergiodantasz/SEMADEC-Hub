@@ -53,13 +53,18 @@ class UserData:
         self.photo = download_photo(response.get('foto'), self.registration)
 
 
-def create_user_model_registry(user_api: UserData, user_emails: dict | tuple) -> User:
-    """Receive an API object and creates a database registry based on its content.
+def get_or_create_user_model_registry(
+    user_api: UserData, user_emails: dict | tuple
+) -> User:
+    """Receive an API object and creates a database registry based on its content or simply returns the registry if it already exists.
 
     Args:
         user_api (UserData): data object retrieved from the API backend.
         user_emails (dict | tuple): collection containing all user e-mails.
     """
+    user_query = User.objects.filter(registration=user_api.registration).first()
+    if user_query:
+        return user_query
     user_reg = User.objects.create(**asdict(user_api))
     create_emails(user_reg, *user_emails)
     return user_reg
@@ -85,98 +90,6 @@ def update_user_model_fields(user_api: UserData, user_reg: User) -> None:
             setattr(user_reg, k, v)
             update_fields.append(k)
     user_reg.save(update_fields=update_fields)
-
-
-# class SuapOAuth2(BaseOAuth2):
-#     name = 'suap'
-#     AUTHORIZATION_URL = 'https://suap.ifrn.edu.br/o/authorize/'
-#     ACCESS_TOKEN_URL = 'https://suap.ifrn.edu.br/o/token/'
-#     ACCESS_TOKEN_METHOD = 'POST'
-#     ID_KEY = 'identificacao'
-#     RESPONSE_TYPE = 'code'
-#     REDIRECT_STATE = True
-#     STATE_PARAMETER = True
-#     USER_DATA_URL = 'https://suap.ifrn.edu.br/api/eu/'
-#     EXTRA_USER_DATA_URL = (
-#         'https://suap.ifrn.edu.br/api/v2/minhas-informacoes/meus-dados/'
-#     )
-#     DEFAULT_SCOPE = ['identificacao', 'email', 'documentos_pessoais']
-
-#     def user_data(self, access_token, *args, **kwargs):
-#         method = 'GET'
-#         data = {'scope': kwargs.get('response').get('scope')}  # type: ignore
-#         headers = {'Authorization': f'Bearer {access_token}'}
-#         response = self.request(
-#             url=self.USER_DATA_URL, method=method, data=data, headers=headers
-#         ).json()
-#         extra_response = self.request(
-#             url=self.EXTRA_USER_DATA_URL, method=method, headers=headers
-#         ).json()
-#         course = extra_response.get('vinculo').get('curso')
-#         response['curso'] = course
-#         return response
-
-#     def get_user_details(self, response):
-#         user_api = UserData(response)
-#         user_reg = User.objects.filter(registration=user_api.registration).first()
-#         if not user_reg:
-#             user_emails = (
-#                 response.get('email_secundario'),
-#                 response.get('email_google_classroom'),
-#                 response.get('email_academico'),
-#             )
-#             user_reg = create_user_model_registry(user_api, user_emails)
-#         else:
-#             update_user_model_fields(user_api, user_reg)
-#         return {
-#             'username': user_api.registration,
-#             'first_name': user_api.first_name,
-#             'last_name': user_api.last_name,
-#             'email': response.get('email_preferencial'),
-#         }
-
-
-# class SuapOAuth2(BaseBackend):
-#     client_id = SOCIAL_AUTH_SUAP_KEY
-#     client_secret = SOCIAL_AUTH_SUAP_SECRET
-#     redirect_uri = r'http://127.0.0.1:8000/complete/suap/'
-#     scope = ['identificacao', 'email', 'documentos_pessoais']
-#     oauth = OAuth2Session(
-#         client_id,
-#         redirect_uri=redirect_uri,
-#         scope=scope,
-#     )
-#     authorization_url, scope = oauth.authorization_url(
-#         'https://suap.ifrn.edu.br/o/authorize/'
-#     )
-
-#     @classmethod
-#     def fetch_token(cls, suap_uri):
-#         cls.oauth.fetch_token(
-#             'https://suap.ifrn.edu.br/o/token/',
-#             authorization_response=suap_uri,
-#             client_id=cls.client_id,
-#             client_secret=cls.client_secret,
-#             verify=True,
-#         )
-#         ...
-
-#     @classmethod
-#     def get(cls, url):
-#         return cls.oauth.get(url)
-
-#     def get_user(self, user_id):
-#         obj = User.objects.get(registration=user_id)
-#         ...
-#         return obj
-
-#     def authenticate(self, request, token, username=None):
-#         obj = User.objects.get(registration=username)
-#         token_verify = 'token' in request.session
-#         if obj and not token_verify:
-#             request.session['token'] = token
-#             return obj
-#         return None
 
 
 class SuapOAuth2:
@@ -205,5 +118,14 @@ class SuapOAuth2:
         return cls.oauth.suap.authorize_access_token(request)
 
     @classmethod
-    def get(cls, path, token):
-        return cls.oauth.suap.get(path, token=token).json()
+    def get_user_data(cls, token: dict):
+        response = cls.oauth.suap.get('eu', token=token).json()
+        response['curso'] = (
+            cls.oauth.suap.get(
+                'v2/minhas-informacoes/meus-dados/?format=json', token=token
+            )
+            .json()
+            .get('vinculo')
+            .get('curso')
+        )
+        return response

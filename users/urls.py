@@ -9,6 +9,6 @@ urlpatterns = [
     path('perfil/', profile, name='profile'),
     path('accounts/profile/', lambda r: redirect(reverse('users:profile'))),
     path('login/', login, name='login'),
-    path('authorize/', login, name='authorize'),
+    # path('authorize/', login, name='authorize'),
     path('logout/', logout, name='logout'),
 ]
