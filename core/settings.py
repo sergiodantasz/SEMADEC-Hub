@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'home',
     'users',
     'news',
+    'handlers',
 ]
 
 MIDDLEWARE = [

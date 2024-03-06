@@ -1,0 +1,38 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100dvh;
+  background-color: var(--green-600);
+}
+
+.handler-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.error-code {
+  font-size: 15rem;
+  color: var(--green-50);
+}
+
+.error-description {
+  font-weight: 400;
+  background-color: var(--green-900);
+  color: var(--green-100);
+  padding: 1rem 2rem;
+  border-radius: 10rem;
+}
+
+@media (max-width: 400px) {
+  .error-code {
+    font-size: 10rem;
+  }
+  .error-description {
+    font-size: var(--font-size-heading-tiny);
+  }
+}

@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    {% include "handlers/partials/_head.html" %}
+    <link rel="stylesheet" href="{% static "handlers/css/handlers.css" %}">
+  </head>
+  <body>
+    <main class="handler-container">
+      <h1 class="error-code">{{ error_code }}</h1>
+      <h4 class="error-description">{{ error_description }}</h4>
+    </main>
+  </body>
+</html>
