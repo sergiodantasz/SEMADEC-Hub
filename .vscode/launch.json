@@ -5,7 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python Debugger: Django",
+      "name": "Python Debugger: Django (Linux)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": ["runserver"],
+      "django": true,
+      "autoStartBrowser": false
+    },
+    {
+      "name": "Python Debugger: Django (Windows)",
       "type": "debugpy",
       "request": "launch",
       "program": "${workspaceFolder}\\manage.py",
