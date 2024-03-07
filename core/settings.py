@@ -32,20 +32,6 @@ INSTALLED_APPS = [
     'news',
 ]
 
-# AUTHLIB_OAUTH_CLIENTS = {
-#     'suap': {
-#         'client_id': env.str('SOCIAL_AUTH_SUAP_KEY'),
-#         'client_secret': env.str('SOCIAL_AUTH_SUAP_SECRET'),
-#         'access_token_url': 'https://suap.ifrn.edu.br/o/token/',
-#         'access_token_params': None,
-#         'authorize_url': 'https://api.twitter.com/oauth/authenticate',
-#         'authorize_params': None,
-#         'api_base_url': 'https://suap.ifrn.edu.br/o/authorize/',
-#         'client_kwargs': {
-#             'scope': 'identificacao email documentos_pessoais',
-#         },
-#     }
-# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -102,7 +88,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-AUTH_USER_MODEL = 'users.User'
+# AUTH_USER_MODEL = 'users.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

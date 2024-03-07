@@ -16,7 +16,7 @@ class Campus(models.Model):
         return str(self.name)
 
 
-class User(AbstractBaseUser):
+class User(models.Model):
     registration = models.CharField(
         primary_key=True,
         unique=True,
@@ -58,7 +58,6 @@ class User(AbstractBaseUser):
     photo = models.ImageField(
         upload_to='users',
     )
-    USERNAME_FIELD = 'registration'
 
     def __str__(self):
         return str(self.full_name)

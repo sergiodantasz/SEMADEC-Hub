@@ -1,6 +1,6 @@
 import os
 
-from authlib.integrations.django_client import OAuth
+from authlib.integrations.django_client import OAuth, OAuthError
 from django.contrib.auth import logout as auth_logout
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -20,7 +20,10 @@ def login(request):
 
 
 def suap(request):
-    token = oauth.authorize_access_token(request)
+    try:
+        token = oauth.authorize_access_token(request)
+    except OAuthError:
+        return redirect(reverse('home:home'))
     response = oauth.get_user_data(token)
     user_emails = (
         response.get('email_secundario'),
