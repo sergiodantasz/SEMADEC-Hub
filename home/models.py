@@ -18,10 +18,6 @@ class Tag(models.Model):
         to='archive.Collection',
         related_name='tags',
     )
-    document = models.ManyToManyField(
-        to='documents.Document',
-        related_name='tags',
-    )
 
     def __str__(self):
         return str(self.name)
