@@ -22,3 +22,8 @@ def test_test_model_date_time_can_be_null(db, sport_fixture):
 def test_sport_model_date_time_default_value_is_none(db, sport_fixture):
     reg = sport_fixture()
     assert reg.date_time is None
+
+
+def test_sport_model_dunder_str_method_returns_sport_name(db, sport_fixture):
+    reg = sport_fixture()
+    assert str(reg) == reg.name

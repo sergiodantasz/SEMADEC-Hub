@@ -24,3 +24,8 @@ def test_campus_model_name_has_max_length_50(db, campus_fixture):
     reg = campus_fixture(name='A' * 51)
     with assert_raises(ValidationError):
         reg.full_clean()
+
+
+def test_campus_model_dunder_str_method_returns_campus_name(db, campus_fixture):
+    reg = campus_fixture()
+    assert str(reg) == reg.name

@@ -44,3 +44,10 @@ def test_collection_model_created_at_cannot_be_updated(db, collection_fixture):
     reg.created_at = '02/01/2020'
     with assert_raises(ValidationError):
         reg.full_clean()
+
+
+def test_collection_model_dunder_str_method_returns_collection_title(
+    db, collection_fixture
+):
+    reg = collection_fixture()
+    assert str(reg) == reg.title

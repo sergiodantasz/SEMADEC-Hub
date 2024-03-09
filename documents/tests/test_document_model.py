@@ -41,3 +41,8 @@ def test_document_model_slug_is_unique(db, document_fixture):
     with assert_raises(IntegrityError):
         reg1 = document_fixture(slug='test-slug')
         reg2 = document_fixture(slug='test-slug')
+
+
+def test_document_model_dunder_str_method_returns_document_title(db, document_fixture):
+    reg = document_fixture()
+    assert str(reg) == reg.title

@@ -25,3 +25,8 @@ def test_tag_model_slug_is_unique(db, tag_fixture):
     with assert_raises(IntegrityError):
         reg1 = tag_fixture(slug='test-slug')
         reg2 = tag_fixture(slug='test-slug')
+
+
+def test_tag_model_dunder_str_method_returns_tag_name(db, tag_fixture):
+    reg = tag_fixture()
+    assert str(reg) == reg.name
