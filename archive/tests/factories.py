@@ -1,5 +1,5 @@
 from factory import PostGeneration, Sequence, SubFactory, post_generation
-from factory.django import DjangoModelFactory, ImageField
+from factory.django import DjangoModelFactory, FileField, ImageField
 from factory.faker import faker
 from factory.fuzzy import FuzzyChoice
 
@@ -15,7 +15,7 @@ class FileFactory(DjangoModelFactory):
         model = 'archive.File'
         skip_postgeneration_save = True
 
-    display_name = fake.pystr(max_chars=225)
+    display_name = fake.text(max_nb_chars=225)
     content = Sequence(lambda x: fake.unique.file_path())
 
     # post_generation(fake.unique.clear())
@@ -23,6 +23,13 @@ class FileFactory(DjangoModelFactory):
 
 class ImageFactory(FileFactory):
     content = ImageField()
+
+
+class DocumentFactory(FileFactory):
+    content = FileField(
+        data=fake.binary(length=18927821),
+        filename='document.pdf',
+    )
 
 
 class CollectionFactory(DjangoModelFactory):
@@ -41,6 +48,16 @@ class CollectionFactory(DjangoModelFactory):
 
 class CollectionArchiveFactory(CollectionFactory):
     type = 'image'
+
+    @post_generation
+    def files(self, create, extracted, **kwargs):
+        if not create or not extracted:
+            return
+        self.files.add(*extracted)
+
+
+class CollectionDocumentsFactory(CollectionFactory):
+    type = 'document'
 
     @post_generation
     def files(self, create, extracted, **kwargs):

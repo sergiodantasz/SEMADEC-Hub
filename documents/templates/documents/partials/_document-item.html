@@ -4,6 +4,11 @@
     <img draggable="false" src="{% static "documents/img/download.svg" %}" alt="Ícone de fazer download." class="document-item-download-icon">
   </div>
   <div class="document-item-info">
-    <span class="document-item-name">regulamento.pdf</span><span class="document-item-size">4.2 MB</span>
+    {% if file.display_name %}
+      <span class="document-item-name">{{ file.display_name }}</span>
+    {% else %}
+      <span class="document-item-name">{{ file.content.name }}</span>
+    {% endif %}
+    <span class="document-item-size">{{ file.content.size|filesizeformat }}</span>
   </div>
 </div>

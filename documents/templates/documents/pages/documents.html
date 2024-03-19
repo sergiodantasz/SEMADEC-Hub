@@ -7,10 +7,8 @@
 {% block header %}Documentos{% endblock header %}
 {% block content %}
   <div class="document-collection-list">
-    {% include "documents/partials/_document-collection-item.html" %}
-    {% include "documents/partials/_document-collection-item.html" %}
-    {% include "documents/partials/_document-collection-item.html" %}
-    {% include "documents/partials/_document-collection-item.html" %}
-    {% include "documents/partials/_document-collection-item.html" %}
+    {% for document_reg in document_regs %}
+      {% include "documents/partials/_document-collection-item.html" %}
+    {% endfor %}
   </div>
 {% endblock content %}

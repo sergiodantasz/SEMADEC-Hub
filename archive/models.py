@@ -43,6 +43,10 @@ class Collection(models.Model):
         auto_now=True,
     )
 
+    @property
+    def get_files(self):
+        return self.files.all()
+
     def __str__(self):
         return str(self.title)
 

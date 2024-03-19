@@ -1,10 +1,10 @@
 <div class="document-collection-item-container">
   <header class="document-collection-item-header">
-    <h5 class="document-collection-item-title">Regulamento da IX SEMADEC</h5>
+    <h5 class="document-collection-item-title">{{ document_reg.title }}</h5>
   </header>
   <div class="document-list">
-    {% include "documents/partials/_document-item.html" %}
-    {% include "documents/partials/_document-item.html" %}
-    {% include "documents/partials/_document-item.html" %}
+    {% for file in document_reg.get_files %}
+      {% include "documents/partials/_document-item.html" %}
+    {% endfor %}
   </div>
 </div>
