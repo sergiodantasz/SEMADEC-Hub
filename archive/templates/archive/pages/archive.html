@@ -6,10 +6,8 @@
 {% block header %}Acervo{% endblock header %}
 {% block content %}
   <div class="archive-list">
-    {% include "archive/partials/_archive-item.html" %}
-    {% include "archive/partials/_archive-item.html" %}
-    {% include "archive/partials/_archive-item.html" %}
-    {% include "archive/partials/_archive-item.html" %}
-    {% include "archive/partials/_archive-item.html" %}
+    {% for archive_reg in archive_regs %}
+      {% include "archive/partials/_archive-item.html" %}
+    {% endfor %}
   </div>
 {% endblock content %}
