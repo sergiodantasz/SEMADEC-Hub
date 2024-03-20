@@ -64,6 +64,7 @@ class User(models.Model):
 class Administrator(models.Model):
     user = models.OneToOneField(
         'users.User',
+        primary_key=True,
         on_delete=models.CASCADE,
         db_column='user_registration',
     )

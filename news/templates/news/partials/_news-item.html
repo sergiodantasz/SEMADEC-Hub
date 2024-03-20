@@ -2,9 +2,11 @@
   <div class="news-item-cover-wrapper">
     <img src="https://placehold.co/350x250/png" alt="Capa da notícia." class="news-item-cover">
   </div>
-  <div class="news-item-content">
-    <h5 class="news-item-title">Efficiens dici potest. Quicquid enim a sapientia proficiscitur, id continuo debet expletum esse omnibus suis partibus </h5>
-    <p class="news-item-excerpt">De quibus cupio scire quid sentias. Duo Reges: constructio interrete. Rhetorice igitur, inquam, nos mavis quam dialectice disputare? Bonum integritas corporis: misera debilitas. An est aliquid per se ipsum flagitiosum, etiamsi nulla comitetur infamia?</p>
-    <span class="news-item-author-date">Por Luciano Oseias em 26/01/2024 às 08h31min</span>
-  </div>
+  <a href="{% url 'news:newsdetailed' news.slug%}">
+    <div class="news-item-content">
+      <h5 class="news-item-title">{{ news.title }}</h5>
+      <p class="news-item-excerpt">{{ news.excerpt }}</p>
+      <span class="news-item-author-date">Por {{ news.administrator_id }} em {{ news.created_at }}</span>
+    </div>
+  </a>
 </article>
