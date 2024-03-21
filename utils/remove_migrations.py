@@ -9,8 +9,8 @@ def remove_migrations() -> None:
     all_files = list(BASE_DIR.glob('*/migrations/*.py'))
     files_to_exclude = filter(lambda x: x.name != '__init__.py', all_files)
     for file in files_to_exclude:
-        remove(str(file))
-        print(f'File removed: {file}')
+        remove(file)
+        print(f'File removed: {file.relative_to(BASE_DIR)}')
 
 
 if __name__ == '__main__':
