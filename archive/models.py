@@ -2,11 +2,11 @@ from django.db import models
 
 
 class Collection(models.Model):
-    administrator = models.ForeignKey(
-        'users.Administrator',
+    user = models.ForeignKey(
+        'users.User',
         on_delete=models.SET_NULL,
         null=True,
-        db_column='administrator_id',
+        db_column='user_id',
     )
     title = models.CharField(
         unique=True,

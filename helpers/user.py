@@ -5,8 +5,6 @@ from re import sub
 from django.core.files.images import ImageFile
 from requests import get
 
-from users.models import Administrator, Email, User
-
 
 def format_photo_url(url: str) -> str:
     """Format the user's photo URL.
@@ -42,37 +40,3 @@ def download_photo(url: str, user_registration: str) -> ImageFile:
     photo_name = user_registration + splitext(photo_url)[-1]
     photo = ImageFile(BytesIO(photo_data), photo_name)
     return photo
-
-
-def create_emails(
-    user: User,
-    personal_email: str | None,
-    academic_email: str | None,
-    school_email: str | None,
-) -> None:
-    """Receive the user and their e-mails and create Email registry.
-
-    Args:
-        user (User): user object.
-        personal_email (str | None): user's personal e-mail.
-        academic_email (str | None): user's academic e-mail.
-        school_email (str | None): user's school e-mail.
-    """
-    if not isinstance(user, User):
-        raise TypeError('The user must be a User.')
-    if not isinstance(personal_email, str):
-        raise TypeError('The personal e-mail must be a string.')
-    if not isinstance(academic_email, str):
-        raise TypeError('The academic e-mail must be a string.')
-    if not isinstance(school_email, str):
-        raise TypeError('The school e-mail must be a string.')
-    if personal_email:
-        Email.objects.create(address=personal_email, email_type='Personal', user=user)
-    if academic_email:
-        Email.objects.create(address=academic_email, email_type='Academic', user=user)
-    if school_email:
-        Email.objects.create(address=school_email, email_type='School', user=user)
-
-
-def is_admin(user: User) -> bool:
-    return Administrator.objects.filter(user__registration=user.registration).exists()
