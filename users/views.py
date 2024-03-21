@@ -3,8 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from users.models import User
-
 
 def login(request):
     if request.user.is_authenticated:
@@ -12,16 +10,13 @@ def login(request):
     return redirect(reverse('social:begin', kwargs={'backend': 'suap'}))
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='users:login')
 def profile(request):
     context = {'title': 'Perfil'}
-    if request.user.is_authenticated:
-        user = User.objects.get(registration=request.user.username)
-        context['user'] = user  # type: ignore
     return render(request, 'users/pages/profile.html', context)
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='users:login')
 def logout(request):
     auth_logout(request)
     return redirect(reverse('home:home'))
