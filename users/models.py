@@ -133,3 +133,33 @@ class User(DjangoAbstractUser):
 
     def last_name(self):
         return self.full_name.split()[-1]
+
+
+class Administrator(models.Model):
+    user = models.OneToOneField(
+        'users.User',
+        on_delete=models.CASCADE,
+        db_column='user_registration',
+    )
+
+    def __str__(self):
+        return str(self.user.full_name)
+
+
+class Email(models.Model):
+    user = models.ForeignKey(
+        'users.User',
+        on_delete=models.CASCADE,
+        db_column='user_registration',
+        related_name='emails',
+    )
+    address = models.EmailField(
+        unique=True,
+    )
+    email_type = models.CharField(
+        max_length=15,
+        db_column='type',
+    )
+
+    def __str__(self):
+        return str(self.address)
