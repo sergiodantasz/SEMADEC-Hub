@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser as DjangoAbstractUser
 from django.contrib.auth.models import UserManager as DjangoUserManager
 from django.db import models
 
+from helpers.random_ import generate_random_string
+
 
 class Campus(models.Model):
     acronym = models.CharField(
@@ -49,11 +51,9 @@ class UserManager(DjangoUserManager):
             photo=photo,
             is_admin=is_admin,
         )
-        user.set_password(self.make_random_password(100))
+        user.set_password(generate_random_string(100))
         user.save(using=self._db)
         return user
-
-    # TODO: override create_superuser method
 
 
 class User(DjangoAbstractUser):
