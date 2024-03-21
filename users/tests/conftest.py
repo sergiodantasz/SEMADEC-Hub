@@ -1,7 +1,6 @@
 import pytest
 from django.conf import settings
 
-from users.models import User
 from users.tests.factories import (
     AdministratorFactory,
     CampusFactory,
