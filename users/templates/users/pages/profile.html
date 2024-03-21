@@ -52,16 +52,14 @@
         <h5 class="profile-content-info-title">Vínculo</h5>
         <span class="profile-content-info-text">{{ user.link_type }}</span>
       </div>
-      {% if user.emails %}
-        <div class="profile-content-info-wrapper">
-          <h5 class="profile-content-info-title">E-mails</h5>
-          <div class="profile-content-info-text-wrapper">
-            {% for email in user.emails.all %}
-              <span class="profile-content-info-text profile-content-email">{{ email }}</span>
-            {% endfor %}
-          </div>
+      <div class="profile-content-info-wrapper">
+        <h5 class="profile-content-info-title">E-mails</h5>
+        <div class="profile-content-info-text-wrapper">
+          <span class="profile-content-info-text profile-content-email">{{ user.personal_email }}</span>
+          <span class="profile-content-info-text profile-content-email">{{ user.school_email }}</span>
+          <span class="profile-content-info-text profile-content-email">{{ user.academic_email }}</span>
         </div>
-      {% endif %}
+      </div>
     </div>
   </div>
 {% endblock content %}
