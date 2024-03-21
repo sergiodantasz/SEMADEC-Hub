@@ -6,10 +6,8 @@
 {% block header %}Notícias{% endblock header %}
 {% block content %}
   <div class="news-list">
-    {% include "news/partials/_news-item.html" %}
-    {% include "news/partials/_news-item.html" %}
-    {% include "news/partials/_news-item.html" %}
-    {% include "news/partials/_news-item.html" %}
-    {% include "news/partials/_news-item.html" %}
+    {% for news in news_list %}
+      {% include "news/partials/_news-item.html" %}
+    {% endfor %}
   </div>
 {% endblock content %}

@@ -13,3 +13,8 @@ def test_category_model_name_is_unique(db, category_fixture):
     with assert_raises(IntegrityError):
         reg1 = category_fixture(name='duplicated name')
         reg2 = category_fixture(name='duplicated name')
+
+
+def test_category_model_dunder_str_method_returns_category_name(db, category_fixture):
+    reg = category_fixture()
+    assert str(reg) == reg.name

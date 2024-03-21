@@ -1,0 +1,17 @@
+{% extends "global/pages/base.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "news/css/news-detailed.css" %}">
+{% endblock additional_head %}
+{% block main %}
+  <section class="content section">
+    {% block content %}
+      <article class="news-detailed">
+        <h1 class="news-detailed-title">{{ news.title }}</h1>
+        <h3 class="news-detailed-excerpt">{{ news.excerpt }}</h3>
+        <h6 class="news-detailed-meta">Por {{ news.administrator }} em {{ news.created_at }}</h6>
+        <p class="news-detailed-content">{{ news.content }}</p>
+      </article>
+    {% endblock content %}
+  </section>
+{% endblock main %}

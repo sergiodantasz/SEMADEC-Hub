@@ -14,6 +14,5 @@ class TagFactory(DjangoModelFactory):
     slug = Sequence(lambda x: fake.unique.slug())
     news = PostGeneration(lambda obj, create, extracted: obj.news)
     collection = PostGeneration(lambda obj, create, extracted: obj.collection)
-    document = PostGeneration(lambda obj, create, extracted: obj.document)
 
     post_generation(fake.unique.clear())

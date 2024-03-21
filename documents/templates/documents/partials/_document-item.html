@@ -1,9 +1,14 @@
 {% load static %}
 <div class="document-item">
-  <div class="document-item-download-button">
+  <a class="document-item-download-button" href="{{ file.content.url }}" download="{{ file.content.name }}">
     <img draggable="false" src="{% static "documents/img/download.svg" %}" alt="Ícone de fazer download." class="document-item-download-icon">
-  </div>
+  </a>
   <div class="document-item-info">
-    <span class="document-item-name">regulamento.pdf</span><span class="document-item-size">4.2 MB</span>
+    {% if file.display_name %}
+      <span class="document-item-name">{{ file.display_name }}</span>
+    {% else %}
+      <span class="document-item-name">{{ file.content.name }}</span>
+    {% endif %}
+    <span class="document-item-size">{{ file.content.size|filesizeformat }}</span>
   </div>
 </div>

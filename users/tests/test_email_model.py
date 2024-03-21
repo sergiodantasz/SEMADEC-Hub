@@ -26,3 +26,8 @@ def test_email_model_email_type_has_max_length_15(db, email_fixture):
 def test_email_model_email_type_db_column_is_type(db, email_fixture):
     reg = email_fixture()
     assert hasattr(reg, 'type')
+
+
+def test_email_model_dunder_str_method_returns_email_address(db, email_fixture):
+    reg = email_fixture()
+    assert str(reg) == reg.address

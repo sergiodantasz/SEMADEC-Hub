@@ -2,19 +2,34 @@ from django.db import models
 
 
 class Collection(models.Model):
-    user = models.ForeignKey(
-        'users.User',
+    COLLECTION_TYPE_CHOICES = {
+        'document': 'Documento',
+        'image': 'Imagem',
+    }
+
+    administrator = models.ForeignKey(
+        'users.Administrator',
         on_delete=models.SET_NULL,
         null=True,
         db_column='user_id',
+    )
+    files = models.ManyToManyField(
+        to='archive.File',
     )
     title = models.CharField(
         unique=True,
         max_length=200,
     )
+    collection_type = models.CharField(
+        max_length=10,
+        choices=COLLECTION_TYPE_CHOICES,
+    )
     cover = models.ImageField(
         upload_to='',  # CHANGE IT LATER.
-        default='/base/static/global/img/collection_cover_placeholder.jpg',  # REVIEW LATER
+        # default='/base/static/global/img/collection_cover_placeholder.jpg',
+        # REVIEW LATER
+        null=True,
+        blank=True,
     )
     slug = models.SlugField(
         unique=True,
@@ -28,15 +43,19 @@ class Collection(models.Model):
         auto_now=True,
     )
 
+    @property
+    def get_files(self):
+        return self.files.all()
+
     def __str__(self):
         return str(self.title)
 
 
 class File(models.Model):
-    collection = models.ForeignKey(
-        'archive.Collection',
-        on_delete=models.CASCADE,
-        db_column='collection_id',
+    display_name = models.CharField(
+        max_length=225,
+        null=True,
+        blank=True,
     )
     content = models.FileField(
         unique=True,

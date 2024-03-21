@@ -22,9 +22,20 @@ def test_collection_model_title_is_unique(db, collection_fixture):
         reg2 = collection_fixture(title='Coleção Teste')
 
 
-def test_collection_model_cover_default_value_is_placeholder(db, collection_fixture):
+def test_collection_model_type_has_max_length_10(db, collection_fixture):
+    reg = collection_fixture(type='a' * 11)
+    with assert_raises(ValidationError):
+        reg.full_clean()
+
+
+def test_collection_model_type_is_in_type_choices(db, collection_fixture):
     reg = collection_fixture()
-    assert reg.cover == '/base/static/global/img/collection_cover_placeholder.jpg'
+    assert reg.type in reg._meta.model.COLLECTION_TYPE_CHOICES.keys()
+
+
+def test_collection_model_cover_can_be_blank(db, collection_fixture):
+    reg = collection_fixture(cover='')
+    assert reg.cover == ''
 
 
 def test_collection_model_slug_is_unique(db, collection_fixture):
@@ -44,3 +55,10 @@ def test_collection_model_created_at_cannot_be_updated(db, collection_fixture):
     reg.created_at = '02/01/2020'
     with assert_raises(ValidationError):
         reg.full_clean()
+
+
+def test_collection_model_dunder_str_method_returns_collection_title(
+    db, collection_fixture
+):
+    reg = collection_fixture()
+    assert str(reg) == reg.title

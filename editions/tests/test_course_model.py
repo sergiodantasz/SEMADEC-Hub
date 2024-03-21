@@ -13,3 +13,8 @@ def test_course_model_name_is_unique(db, course_fixture):
     with assert_raises(IntegrityError):
         reg1 = course_fixture(name='name test')
         reg2 = course_fixture(name='name test')
+
+
+def test_course_model_dunder_str_method_returns_course_name(db, course_fixture):
+    reg = course_fixture()
+    assert str(reg) == reg.name

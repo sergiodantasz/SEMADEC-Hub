@@ -13,7 +13,6 @@
   justify-content: center;
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
-  cursor: pointer;
   transition: var(--transition);
 }
 
@@ -33,7 +32,7 @@
 }
 
 .document-item-info {
-  color: var(--gray-500);
+  color: var(--gray-600);
   font-size: var(--font-size-content-normal);
   border: 0.1rem solid var(--gray-200);
   border-left: none;

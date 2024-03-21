@@ -1,0 +1,24 @@
+.news-detailed-title {
+  color: black;
+  font-size: var(--font-size-heading-big);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.news-detailed-excerpt {
+  color: black;
+  font-size: var(--font-size-heading-small);
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+}
+
+.news-detailed-meta {
+  color: var(--green-700);
+  font-size: var(--font-size-heading-tiny);
+  font-weight: 400;
+}
+
+.news-detailed-content {
+  margin-top: 6rem;
+  white-space: pre-wrap;
+}

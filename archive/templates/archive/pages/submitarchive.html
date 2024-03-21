@@ -1,0 +1,28 @@
+{% extends "global/pages/base_header.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "archive/css/archive-item.css" %}">
+{% endblock additional_head %}
+{% block header %}Adicionar Acervo{% endblock header %}
+{% block content %}
+  <div class="form-outer">
+    <form action="{% url 'archive:createarchive' %}" method="POST">
+      {% csrf_token %}
+      <div class="form-inner">
+        {% for field in form %}
+          <div class="form-item">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+              <p class="help-text">{{ field.help_text }}</p>
+            {% endif %}
+            {{ field.errors }}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="form-inner">
+        <button type="submit">Send</button>
+      </div>
+    </form>
+  </div>
+{% endblock content %}

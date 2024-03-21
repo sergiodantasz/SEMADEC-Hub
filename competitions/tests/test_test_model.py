@@ -28,3 +28,8 @@ def test_test_model_date_time_can_be_null(db, test_fixture):
 def test_test_model_date_time_default_value_is_none(db, test_fixture):
     reg = test_fixture()
     assert reg.date_time is None
+
+
+def test_test_model_dunder_str_method_returns_test_title(db, test_fixture):
+    reg = test_fixture()
+    assert str(reg) == reg.title

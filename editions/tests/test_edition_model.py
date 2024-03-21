@@ -62,3 +62,8 @@ def test_edition_model_theme_can_be_blank(db, edition_fixture):
 def test_edition_model_theme_default_value_is_empty_string(db, edition_fixture):
     reg = edition_fixture()
     assert reg.theme == ''
+
+
+def test_edition_model_dunder_str_method_returns_edition_name(db, edition_fixture):
+    reg = edition_fixture()
+    assert str(reg) == reg.name

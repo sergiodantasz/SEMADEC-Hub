@@ -6,4 +6,7 @@ app_name = 'archive'
 
 urlpatterns = [
     path('', views.archive, name='archive'),
+    path('<slug:slug>/', views.archive_detailed, name='archivedetailed'),
+    path('adicionar/', views.submit_archive, name='submitarchive'),
+    path('adicionar/criar/', views.create_archive, name='createarchive'),
 ]

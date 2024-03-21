@@ -1,6 +1,6 @@
-<div class="archive-item-container">
+<a class="archive-item-container" href="{% url 'archive:archivedetailed' archive_reg.slug%}">
   <div class="archive-item-cover-wrapper">
-    <img class="archive-item-cover" src="https://placehold.co/300x250/png" alt="Capa de coleção de arquivo.">
+    <img class="archive-item-cover" src="{{ archive_reg.cover.url }}" alt="Capa de coleção de arquivo.">
   </div>
-  <h5 class="archive-item-title">Imagens Semadec 2023</h5>
-</div>
+  <h5 class="archive-item-title">{{ archive_reg.title }}</h5>
+</a>

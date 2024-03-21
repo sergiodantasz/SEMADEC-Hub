@@ -79,6 +79,13 @@ STORAGES = {
     },
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
+
 WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
