@@ -1,0 +1,18 @@
+{% extends "global/pages/base.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "archive/css/archive-detailed.css" %}">
+{% endblock additional_head %}
+{% block main %}
+  <section class="content section">
+    {% block content %}
+      <div class="images-container">
+        {% for image in archive_reg.get_files %}
+          <div class="archive-image-wrapper">
+            <img class="archive-image-item" src="{{ image.content.url }}" alt="">
+          </div>
+        {% endfor %}
+      </div>
+    {% endblock content %}
+  </section>
+{% endblock main %}

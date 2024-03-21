@@ -1,6 +1,7 @@
-from django.http import Http404
-from django.shortcuts import render
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, render
 
+from archive.models import Collection
 from archive.tests.factories import (
     CollectionArchiveFactory,
     ImageFactory,
@@ -25,6 +26,13 @@ def archive(request):
         context['user'] = user  # type: ignore
         context['archive_regs'] = archive_regs
     return render(request, 'archive/pages/archive.html', context)
+
+
+def archive_detailed(request, slug):
+    archive = get_object_or_404(Collection, slug=slug)
+    context = {'title': archive.title, 'archive_reg': archive}
+
+    return render(request, 'archive/pages/archive_detailed.html', context)
 
 
 def submit_archive(request):

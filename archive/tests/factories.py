@@ -6,6 +6,7 @@ from factory.fuzzy import FuzzyChoice
 from archive.models import Collection
 from home.tests.factories import TagFactory
 from users.tests.factories import AdministratorFactory
+from utils.generate_placeholder import generate_placeholder
 
 fake = faker.Faker('pt_BR')
 
@@ -22,7 +23,7 @@ class FileFactory(DjangoModelFactory):
 
 
 class ImageFactory(FileFactory):
-    content = ImageField()
+    content = ImageField(from_func=generate_placeholder)
 
 
 class DocumentFactory(FileFactory):
@@ -48,6 +49,7 @@ class CollectionFactory(DjangoModelFactory):
 
 class CollectionArchiveFactory(CollectionFactory):
     type = 'image'
+    cover = ImageField(from_func=generate_placeholder)
 
     @post_generation
     def files(self, create, extracted, **kwargs):
