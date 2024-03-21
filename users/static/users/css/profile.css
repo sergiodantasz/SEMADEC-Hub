@@ -20,6 +20,10 @@
   width: 25rem;
   height: 25rem;
   border-radius: 2rem;
+  background-color: var(--green-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-content-photo {
@@ -28,6 +32,10 @@
   object-fit: cover;
   object-position: center;
   border-radius: inherit;
+}
+
+.profile-content-photo-icon {
+  width: 20rem;
 }
 
 .profile-content-button-leave {
