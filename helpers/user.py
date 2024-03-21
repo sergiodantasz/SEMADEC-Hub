@@ -5,7 +5,7 @@ from re import sub
 from django.core.files.images import ImageFile
 from requests import get
 
-from users.models import Administrator, Email, User
+from users.models import User
 
 
 def format_photo_url(url: str) -> str:
@@ -44,35 +44,25 @@ def download_photo(url: str, user_registration: str) -> ImageFile:
     return photo
 
 
-def create_emails(
-    user: User,
-    personal_email: str | None,
-    academic_email: str | None,
-    school_email: str | None,
+def set_permissions(
+    user_registration: str,
+    *,
+    admin: bool = False,
+    staff: bool = False,
+    superuser: bool = False,
 ) -> None:
-    """Receive the user and their e-mails and create Email registry.
-
-    Args:
-        user (User): user object.
-        personal_email (str | None): user's personal e-mail.
-        academic_email (str | None): user's academic e-mail.
-        school_email (str | None): user's school e-mail.
-    """
-    if not isinstance(user, User):
-        raise TypeError('The user must be a User.')
-    if not isinstance(personal_email, str):
-        raise TypeError('The personal e-mail must be a string.')
-    if not isinstance(academic_email, str):
-        raise TypeError('The academic e-mail must be a string.')
-    if not isinstance(school_email, str):
-        raise TypeError('The school e-mail must be a string.')
-    if personal_email:
-        Email.objects.create(address=personal_email, email_type='Personal', user=user)
-    if academic_email:
-        Email.objects.create(address=academic_email, email_type='Academic', user=user)
-    if school_email:
-        Email.objects.create(address=school_email, email_type='School', user=user)
-
-
-def is_admin(user: User) -> bool:
-    return Administrator.objects.filter(user__registration=user.registration).exists()
+    if not isinstance(user_registration, str):
+        raise TypeError('The user registration must be a string.')
+    if not isinstance(admin, bool):
+        raise TypeError('The admin must be a boolean.')
+    if not isinstance(staff, bool):
+        raise TypeError('The staff must be a boolean.')
+    if not isinstance(superuser, bool):
+        raise TypeError('The superuser must be a boolean.')
+    user = User.objects.filter(registration=user_registration).first()
+    if user is None:
+        raise ValueError('This user registration does not exist.')
+    setattr(user, 'is_admin', admin)
+    setattr(user, 'is_staff', staff)
+    setattr(user, 'is_superuser', superuser)
+    user.save()

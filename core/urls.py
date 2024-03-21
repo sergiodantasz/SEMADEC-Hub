@@ -20,3 +20,8 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG_TOOLBAR:
     urlpatterns.append(path('__debug__/', include('debug_toolbar.urls')))
+
+handler404 = 'handlers.views.page_not_found_404'
+handler500 = 'handlers.views.server_error_500'
+handler403 = 'handlers.views.permission_denied_403'
+handler400 = 'handlers.views.bad_request_400'

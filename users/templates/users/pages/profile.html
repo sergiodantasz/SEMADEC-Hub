@@ -8,7 +8,11 @@
   <div class="profile-content-container">
     <div class="profile-content-inner-left">
       <div class="profile-content-photo-wrapper">
-        <img class="profile-content-photo" src="{{ user.photo.url }}" alt="Foto do usuário.">
+        {% if user.photo %}
+          <img class="profile-content-photo" src="{{ user.photo.url }}" alt="Foto do usuário.">
+        {% else %}
+          <img class="profile-content-photo-icon" src="{% static "users/img/user.svg" %}" alt="Ícone de perfil do usuário.">
+        {% endif %}
       </div>
       <form action="{% url "users:logout" %}" id="form-logout" method="post">
         {% csrf_token %}
@@ -52,16 +56,14 @@
         <h5 class="profile-content-info-title">Vínculo</h5>
         <span class="profile-content-info-text">{{ user.link_type }}</span>
       </div>
-      {% if user.emails %}
-        <div class="profile-content-info-wrapper">
-          <h5 class="profile-content-info-title">E-mails</h5>
-          <div class="profile-content-info-text-wrapper">
-            {% for email in user.emails.all %}
-              <span class="profile-content-info-text profile-content-email">{{ email }}</span>
-            {% endfor %}
-          </div>
+      <div class="profile-content-info-wrapper">
+        <h5 class="profile-content-info-title">E-mails</h5>
+        <div class="profile-content-info-text-wrapper">
+          <span class="profile-content-info-text profile-content-email">{{ user.personal_email }}</span>
+          <span class="profile-content-info-text profile-content-email">{{ user.school_email }}</span>
+          <span class="profile-content-info-text profile-content-email">{{ user.academic_email }}</span>
         </div>
-      {% endif %}
+      </div>
     </div>
   </div>
 {% endblock content %}

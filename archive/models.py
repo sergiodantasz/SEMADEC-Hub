@@ -11,7 +11,7 @@ class Collection(models.Model):
         'users.Administrator',
         on_delete=models.SET_NULL,
         null=True,
-        db_column='administrator_id',
+        db_column='user_id',
     )
     files = models.ManyToManyField(
         to='archive.File',
@@ -20,7 +20,7 @@ class Collection(models.Model):
         unique=True,
         max_length=200,
     )
-    type = models.CharField(
+    collection_type = models.CharField(
         max_length=10,
         choices=COLLECTION_TYPE_CHOICES,
     )

@@ -4,8 +4,8 @@ from django.core.files.images import ImageFile
 from social_core.backends.oauth import BaseOAuth2
 
 from editions.models import Course
-from helpers.user import create_emails, download_photo
-from users.models import Campus, User
+from helpers.user import download_photo
+from users.models import Campus
 
 
 @dataclass(init=False)
@@ -14,14 +14,15 @@ class UserData:
     campus: str
     course: str
     full_name: str
-    first_name: str
-    first_name: str
-    last_name: str
     cpf: str
+    personal_email: str
+    school_email: str
+    academic_email: str
     link_type: str
     sex: str
     date_of_birth: str
     photo: ImageFile
+    is_admin: bool
 
     def __init__(self, response):
         self.registration = response.get('identificacao')
@@ -29,46 +30,15 @@ class UserData:
         self.course = Course.objects.filter(name=response.get('course')).first()  # type: ignore
         # Validate the course field (the api sometimes returns different values)
         self.full_name = response.get('nome_social') or response.get('nome_registro')
-        self.first_name, *_, self.last_name = self.full_name.split()
         self.cpf = response.get('cpf')
+        self.personal_email = response.get('email_secundario')
+        self.school_email = response.get('email_google_classroom')
+        self.academic_email = response.get('email_academico')
         self.link_type = response.get('tipo_usuario')
         self.sex = response.get('sexo')
         self.date_of_birth = response.get('data_de_nascimento')
         self.photo = download_photo(response.get('foto'), self.registration)
-
-
-def create_user_model_registry(user_api: UserData, user_emails: dict | tuple) -> User:
-    """Receive an API object and creates a database registry based on its content.
-
-    Args:
-        user_api (UserData): data object retrieved from the API backend.
-        user_emails (dict | tuple): collection containing all user e-mails.
-    """
-    user_reg = User.objects.create(**asdict(user_api))
-    create_emails(user_reg, *user_emails)
-    return user_reg
-
-
-def update_user_model_fields(user_api: UserData, user_reg: User) -> None:
-    """Receive both the API and database objects and perform update on the outdated db fields.
-
-    Args:
-        user_api (UserData): data object retrieved from the API backend.
-        user_reg (User): user registry object retrieved from the database.
-    """
-    update_fields = []
-    for k, v in user_api.__dict__.items():
-        if k == 'photo':
-            validation = getattr(user_reg, k).read() != getattr(user_api, k).read()
-            pre_update = lambda: user_reg.photo.delete()  # noqa: E731
-        else:
-            validation = getattr(user_reg, k) != getattr(user_api, k)
-            pre_update = lambda: ...  # noqa: E731
-        if validation:
-            pre_update()
-            setattr(user_reg, k, v)
-            update_fields.append(k)
-    user_reg.save(update_fields=update_fields)
+        self.is_admin = False
 
 
 class SuapOAuth2(BaseOAuth2):
@@ -101,20 +71,5 @@ class SuapOAuth2(BaseOAuth2):
         return response
 
     def get_user_details(self, response):
-        user_api = UserData(response)
-        user_reg = User.objects.filter(registration=user_api.registration).first()
-        if not user_reg:
-            user_emails = (
-                response.get('email_secundario'),
-                response.get('email_google_classroom'),
-                response.get('email_academico'),
-            )
-            user_reg = create_user_model_registry(user_api, user_emails)
-        else:
-            update_user_model_fields(user_api, user_reg)
-        return {
-            'username': user_api.registration,
-            'first_name': user_api.first_name,
-            'last_name': user_api.last_name,
-            'email': response.get('email_preferencial'),
-        }
+        user_data = UserData(response)
+        return asdict(user_data)

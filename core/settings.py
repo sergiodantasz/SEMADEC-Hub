@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'home',
     'users',
     'news',
+    'handlers',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,23 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+AUTH_USER_MODEL = 'users.User'
+USER_FIELDS = [
+    'registration',
+    'campus',
+    'course',
+    'full_name',
+    'personal_email',
+    'school_email',
+    'academic_email',
+    'cpf',
+    'link_type',
+    'sex',
+    'date_of_birth',
+    'photo',
+    'is_admin',
+]
 
 SOCIAL_AUTH_SUAP_KEY = env.str('SOCIAL_AUTH_SUAP_KEY')
 SOCIAL_AUTH_SUAP_SECRET = env.str('SOCIAL_AUTH_SUAP_SECRET')

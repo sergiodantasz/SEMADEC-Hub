@@ -6,9 +6,8 @@ from archive.tests.factories import (
     CollectionArchiveFactory,
     ImageFactory,
 )
-from users.models import User
 
-from .forms import SubmitArchiveForm
+from archive.forms import SubmitArchiveForm
 
 
 def archive(request):
@@ -21,31 +20,20 @@ def archive(request):
             ImageFactory(),
         ),
     )
-    if request.user.is_authenticated:
-        user = User.objects.get(registration=request.user.username)
-        context['user'] = user  # type: ignore
-        context['archive_regs'] = archive_regs
+    context['archive_regs'] = archive_regs
     return render(request, 'archive/pages/archive.html', context)
 
 
 def archive_detailed(request, slug):
     archive = get_object_or_404(Collection, slug=slug)
     context = {'title': archive.title, 'archive_reg': archive}
-
     return render(request, 'archive/pages/archive_detailed.html', context)
 
 
 def submit_archive(request):
     form = SubmitArchiveForm()
     context = {'title': 'Acervo', 'form': form}
-    if request.user.is_authenticated:
-        user = User.objects.get(registration=request.user.username)
-        context['user'] = user  # type: ignore
-    return render(
-        request,
-        'archive/pages/submitarchive.html',
-        context,
-    )
+    return render(request, 'archive/pages/submitarchive.html', context)
 
 
 def create_archive(request):
@@ -53,11 +41,4 @@ def create_archive(request):
         raise Http404()
     form = SubmitArchiveForm(request.POST)
     context = {'title': 'Acervo', 'form': form}
-    if request.user.is_authenticated:
-        user = User.objects.get(registration=request.user.username)
-        context['user'] = user  # type: ignore
-    return render(
-        request,
-        'archive/pages/submitarchive.html',
-        context,
-    )
+    return render(request, 'archive/pages/submitarchive.html', context)
