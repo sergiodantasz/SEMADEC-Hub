@@ -1,5 +1,6 @@
 .navigation-bar {
   border-bottom: 0.2rem solid var(--gray-300);
+  margin-bottom: 5rem;
 }
 
 .navigation-bar-header {

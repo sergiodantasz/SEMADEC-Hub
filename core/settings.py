@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from django.contrib.messages import constants
 from dotenv import load_dotenv
 from environ import Env
 
@@ -133,6 +134,14 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+MESSAGE_TAGS = {
+    constants.DEBUG: 'message-debug',
+    constants.ERROR: 'message-error',
+    constants.INFO: 'message-info',
+    constants.SUCCESS: 'message-success',
+    constants.WARNING: 'message-warning',
+}
 
 AUTH_USER_MODEL = 'users.User'
 USER_FIELDS = [

@@ -25,6 +25,12 @@
   --green-900: #14532d;
   --green-950: #052e16;
 
+  /* Other Colors */
+  --red-dark: #f31260;
+  --red-light: #fee7ef;
+  --green-dark: #12a150;
+  --green-light: #e8faf0;
+
   /* Font */
   --font-family: "Gabarito", sans-serif;
 

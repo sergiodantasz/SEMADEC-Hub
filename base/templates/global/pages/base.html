@@ -7,6 +7,9 @@
   </head>
   <body>
     {% include "global/partials/_navigation-bar.html" %}
+    {% if messages %}
+      {% include "global/partials/_messages.html" %}
+    {% endif %}
     {% block main %}{% endblock main %}
     {% include "global/partials/_footer.html" %}
     <script src="{% static "global/js/mobile-menu.js" %}"></script>

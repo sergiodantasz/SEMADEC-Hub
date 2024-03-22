@@ -51,7 +51,8 @@ h6 {
 }
 
 .section {
-  padding-block: 10rem;
+  padding-top: 5rem;
+  padding-bottom: 10rem;
 }
 
 .section-header {

@@ -1,0 +1,5 @@
+<div class="messages-container content">
+  {% for message in messages %}
+    <div class="message {{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+</div>
