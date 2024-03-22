@@ -3,7 +3,17 @@
 {% block additional_head %}
   <link rel="stylesheet" href="{% static "documents/css/document-item.css" %}">
   <link rel="stylesheet" href="{% static "documents/css/document-collection-item.css" %}">
+  {% if document_submit_fallback %}
+    <link rel="stylesheet" href="{% static "documents/css/document-submit-message.css" %}">
+  {% endif %}
 {% endblock additional_head %}
+{% block submit_fallback %}
+  {% if document_submit_fallback == "confirm" %}
+    {% include "documents/partials/_document_submit_confirm.html" %}
+  {% elif document_submit_fallback == "deny" %}
+    {% include "documents/partials/_document_submit_deny.html" %}
+  {% endif %}
+{% endblock submit_fallback %}
 {% block header %}Documentos{% endblock header %}
 {% block content %}
   <div class="document-collection-list">

@@ -15,4 +15,5 @@ def documents(request):
         ),
     )
     context['document_regs'] = document_regs
+    # context['document_submit_fallback'] = 'deny' #context for document submission
     return render(request, 'documents/pages/documents.html', context)

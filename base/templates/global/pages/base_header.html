@@ -1,6 +1,7 @@
 {% extends "global/pages/base.html" %}
 {% block main %}
   <section class="content section">
+    {% block submit_fallback %}{% endblock submit_fallback %}
     <header class="section-header">
       <h2 class="section-header-title">{% block header %}{% endblock header %}</h2>
       <hr class="section-header-line">
