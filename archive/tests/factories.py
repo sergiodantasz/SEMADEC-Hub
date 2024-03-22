@@ -28,7 +28,7 @@ class ImageFactory(FileFactory):
 
 class DocumentFactory(FileFactory):
     content = FileField(
-        data=fake.binary(length=18927821),
+        data=fake.binary(length=1500),
         filename='document.pdf',
     )
 
