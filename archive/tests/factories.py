@@ -48,7 +48,7 @@ class CollectionFactory(DjangoModelFactory):
 
 
 class CollectionArchiveFactory(CollectionFactory):
-    type = 'image'
+    collection_type = 'image'
     cover = ImageField(from_func=generate_placeholder)
 
     @post_generation
@@ -59,7 +59,7 @@ class CollectionArchiveFactory(CollectionFactory):
 
 
 class CollectionDocumentsFactory(CollectionFactory):
-    type = 'document'
+    collection_type = 'document'
 
     @post_generation
     def files(self, create, extracted, **kwargs):
