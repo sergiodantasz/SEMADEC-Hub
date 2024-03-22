@@ -38,16 +38,6 @@ class UserFactory(DjangoModelFactory, DjangoOptions):
     post_generation(fake.unique.clear())
 
 
-# class AdministratorFactory(DjangoModelFactory):
-#     class Meta:
-#         model = 'users.Administrator'
-#         skip_postgeneration_save = True
-
-#     user = SubFactory(UserFactory)
-
-#     # post_generation(fake.unique.clear())
-
-
 class EmailFactory(DjangoModelFactory):
     class Meta:
         model = 'users.Email'
