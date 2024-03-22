@@ -33,6 +33,7 @@ class UserFactory(DjangoModelFactory, DjangoOptions):
     sex = fake.pystr(min_chars=1, max_chars=1)
     date_of_birth = fake.date()
     photo = ImageField()
+    password = fake.password(length=15)
 
     post_generation(fake.unique.clear())
 
