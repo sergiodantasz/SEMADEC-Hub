@@ -135,18 +135,6 @@ class User(DjangoAbstractUser):
         return self.full_name.split()[-1]
 
 
-class Administrator(models.Model):
-    user = models.OneToOneField(
-        'users.User',
-        primary_key=True,
-        on_delete=models.CASCADE,
-        db_column='user_registration',
-    )
-
-    def __str__(self):
-        return str(self.user.full_name)
-
-
 class Email(models.Model):
     user = models.ForeignKey(
         'users.User',

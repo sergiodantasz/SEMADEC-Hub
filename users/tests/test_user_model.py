@@ -8,6 +8,8 @@ def test_user_model_registration_has_max_length_14(db, user_fixture):
         reg.full_clean()
 
 
-def test_user_model_dunder_str_method_returns_user_name(db, user_fixture):
+def test_user_model_dunder_str_method_returns_user_full_name_and_registration(
+    db, user_fixture
+):
     reg = user_fixture()
-    assert str(reg) == reg.full_name
+    assert str(reg) == f'{reg.full_name} ({reg.registration})'

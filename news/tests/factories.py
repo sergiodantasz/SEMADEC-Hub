@@ -3,7 +3,7 @@ from factory import Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory, ImageField
 from factory.faker import faker
 
-from users.tests.factories import AdministratorFactory
+from users.tests.factories import UserFactory
 
 fake = faker.Faker('pt_BR')
 
@@ -13,7 +13,7 @@ class NewsFactory(DjangoModelFactory):
         model = 'news.News'
         skip_postgeneration_save = True
 
-    administrator = SubFactory(AdministratorFactory)
+    administrator = SubFactory(UserFactory)
     title = fake.text(max_nb_chars=200)
     excerpt = fake.text(max_nb_chars=200)
     # cover = ImageField()

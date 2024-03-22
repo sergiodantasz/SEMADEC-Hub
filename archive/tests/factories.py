@@ -5,7 +5,7 @@ from factory.fuzzy import FuzzyChoice
 
 from archive.models import Collection
 from home.tests.factories import TagFactory
-from users.tests.factories import AdministratorFactory
+from users.tests.factories import UserFactory
 from utils.generate_placeholder import generate_placeholder
 
 fake = faker.Faker('pt_BR')
@@ -38,10 +38,10 @@ class CollectionFactory(DjangoModelFactory):
         model = 'archive.Collection'
         skip_postgeneration_save = True
 
-    administrator = SubFactory(AdministratorFactory)  # Add later
+    administrator = SubFactory(UserFactory)  # Add later
     files = PostGeneration(lambda obj, create, extracted: obj.files)
     title = Sequence(lambda x: fake.unique.text(max_nb_chars=200))
-    type = FuzzyChoice(Collection.COLLECTION_TYPE_CHOICES)
+    collection_type = FuzzyChoice(Collection.COLLECTION_TYPE_CHOICES)
     slug = Sequence(lambda x: fake.unique.slug())
     tags = PostGeneration(lambda obj, create, extracted: obj.tags)
     post_generation(fake.unique.clear())

@@ -2,11 +2,11 @@ from django.db import models
 
 
 class News(models.Model):
-    user = models.ForeignKey(
+    administrator = models.ForeignKey(
         'users.User',
         on_delete=models.SET_NULL,
         null=True,
-        db_column='user_id',
+        db_column='administrator_id',
     )
     title = models.CharField(
         max_length=200,

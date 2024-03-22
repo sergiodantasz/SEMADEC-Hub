@@ -8,7 +8,7 @@ class Collection(models.Model):
     }
 
     administrator = models.ForeignKey(
-        'users.Administrator',
+        'users.User',
         on_delete=models.SET_NULL,
         null=True,
         db_column='user_id',
@@ -23,6 +23,7 @@ class Collection(models.Model):
     collection_type = models.CharField(
         max_length=10,
         choices=COLLECTION_TYPE_CHOICES,
+        db_column='type',
     )
     cover = models.ImageField(
         upload_to='',  # CHANGE IT LATER.

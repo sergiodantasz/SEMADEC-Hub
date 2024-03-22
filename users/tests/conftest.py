@@ -2,7 +2,6 @@ import pytest
 from django.conf import settings
 
 from users.tests.factories import (
-    AdministratorFactory,
     CampusFactory,
     EmailFactory,
     UserFactory,
@@ -20,11 +19,6 @@ def campus_fixture():
 def user_fixture():
     user = UserFactory
     yield user
-
-
-@pytest.fixture
-def administrator_fixture():
-    yield AdministratorFactory
 
 
 @pytest.fixture

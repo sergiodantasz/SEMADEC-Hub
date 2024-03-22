@@ -25,8 +25,9 @@ class UserFactory(DjangoModelFactory, DjangoOptions):
     campus = SubFactory(CampusFactory)
     course = SubFactory(CourseFactory)
     full_name = fake.name()
-    first_name = fake.first_name()
-    last_name = fake.last_name()
+    personal_email = Sequence(lambda x: fake.unique.email())
+    school_email = Sequence(lambda x: fake.unique.email())
+    academic_email = Sequence(lambda x: fake.unique.email())
     cpf = Sequence(lambda x: fake.unique.cpf())
     link_type = fake.pystr(max_chars=20)
     sex = fake.pystr(min_chars=1, max_chars=1)
@@ -36,14 +37,14 @@ class UserFactory(DjangoModelFactory, DjangoOptions):
     post_generation(fake.unique.clear())
 
 
-class AdministratorFactory(DjangoModelFactory):
-    class Meta:
-        model = 'users.Administrator'
-        skip_postgeneration_save = True
+# class AdministratorFactory(DjangoModelFactory):
+#     class Meta:
+#         model = 'users.Administrator'
+#         skip_postgeneration_save = True
 
-    user = SubFactory(UserFactory)
+#     user = SubFactory(UserFactory)
 
-    # post_generation(fake.unique.clear())
+#     # post_generation(fake.unique.clear())
 
 
 class EmailFactory(DjangoModelFactory):
