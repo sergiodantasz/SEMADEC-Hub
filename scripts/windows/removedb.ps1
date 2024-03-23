@@ -1,0 +1,1 @@
+rm .\static && rm .\db.sqlite3 && rm .\media
