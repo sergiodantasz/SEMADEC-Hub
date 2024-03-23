@@ -19,8 +19,6 @@ class FileFactory(DjangoModelFactory):
     display_name = fake.text(max_nb_chars=225)
     content = Sequence(lambda x: fake.unique.file_path())
 
-    # post_generation(fake.unique.clear())
-
 
 class ImageFactory(FileFactory):
     content = ImageField(from_func=generate_placeholder)
@@ -44,7 +42,6 @@ class CollectionFactory(DjangoModelFactory):
     collection_type = FuzzyChoice(Collection.COLLECTION_TYPE_CHOICES)
     slug = Sequence(lambda x: fake.unique.slug())
     tags = PostGeneration(lambda obj, create, extracted: obj.tags)
-    post_generation(fake.unique.clear())
 
 
 class CollectionArchiveFactory(CollectionFactory):

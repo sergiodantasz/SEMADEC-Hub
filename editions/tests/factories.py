@@ -3,7 +3,6 @@ from factory import (
     RelatedFactory,
     Sequence,
     SubFactory,
-    post_generation,
 )
 from factory.django import DjangoModelFactory
 from factory.faker import faker
@@ -20,8 +19,6 @@ class CourseFactory(DjangoModelFactory):
 
     name = Sequence(lambda x: fake.unique.catch_phrase())
 
-    post_generation(fake.unique.clear())
-
 
 class ClassFactory(DjangoModelFactory):
     class Meta:
@@ -29,8 +26,6 @@ class ClassFactory(DjangoModelFactory):
         skip_postgeneration_save = True
 
     course = SubFactory(CourseFactory)
-
-    post_generation(fake.unique.clear())
 
 
 class TeamFactory(DjangoModelFactory):
@@ -41,8 +36,6 @@ class TeamFactory(DjangoModelFactory):
     name = fake.pystr(max_chars=75)
     classes = PostGeneration(lambda obj, create, extracted: obj.classes)
 
-    post_generation(fake.unique.clear())
-
 
 class TeamEditionFactory(DjangoModelFactory):
     class Meta:
@@ -51,8 +44,6 @@ class TeamEditionFactory(DjangoModelFactory):
 
     team = SubFactory(TeamFactory)
     edition = SubFactory(EditionFactory)
-
-    post_generation(fake.unique.clear())
 
 
 class TeamCompetitionFactory(DjangoModelFactory):
@@ -64,8 +55,6 @@ class TeamCompetitionFactory(DjangoModelFactory):
     competition = SubFactory(CompetitionFactory)
     winner = True
 
-    post_generation(fake.unique.clear())
-
 
 class TeamWithCompetitionsAndEditionsFactory(TeamFactory):
     competitions = RelatedFactory(
@@ -76,5 +65,3 @@ class TeamWithCompetitionsAndEditionsFactory(TeamFactory):
         TeamEditionFactory,
         factory_related_name='team',
     )
-
-    post_generation(fake.unique.clear())

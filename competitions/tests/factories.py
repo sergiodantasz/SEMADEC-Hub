@@ -1,4 +1,4 @@
-from factory import Sequence, SubFactory, post_generation
+from factory import Sequence, SubFactory
 from factory.django import DjangoModelFactory
 from factory.faker import faker
 
@@ -14,8 +14,6 @@ class EditionFactory(DjangoModelFactory):
     name = Sequence(lambda x: fake.unique.pystr(max_chars=10))
     edition_type = fake.pystr(max_chars=10)
 
-    post_generation(fake.unique.clear())
-
 
 class CategoryFactory(DjangoModelFactory):
     class Meta:
@@ -23,8 +21,6 @@ class CategoryFactory(DjangoModelFactory):
         skip_postgeneration_save = True
 
     name = fake.unique.pystr(max_chars=15)
-
-    post_generation(fake.unique.clear())
 
 
 class SportFactory(DjangoModelFactory):
@@ -36,8 +32,6 @@ class SportFactory(DjangoModelFactory):
     category = SubFactory(CategoryFactory)
     date_time = None
 
-    post_generation(fake.unique.clear())
-
 
 class TestFactory(DjangoModelFactory):
     class Meta:
@@ -48,8 +42,6 @@ class TestFactory(DjangoModelFactory):
     description = ''
     date_time = None
 
-    post_generation(fake.unique.clear())
-
 
 class TestOrSportFactory(DjangoModelFactory):
     class Meta:
@@ -59,8 +51,6 @@ class TestOrSportFactory(DjangoModelFactory):
     test = SubFactory(TestFactory)
     sport = SubFactory(SportFactory)
 
-    post_generation(fake.unique.clear())
-
 
 class CompetitionFactory(DjangoModelFactory):
     class Meta:
@@ -69,5 +59,3 @@ class CompetitionFactory(DjangoModelFactory):
 
     edition = SubFactory(EditionFactory)
     test_or_sport = SubFactory(TestOrSportFactory)
-
-    post_generation(fake.unique.clear())

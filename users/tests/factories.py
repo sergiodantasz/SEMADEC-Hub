@@ -35,8 +35,6 @@ class UserFactory(DjangoModelFactory, DjangoOptions):
     photo = ImageField()
     password = fake.password(length=15)
 
-    post_generation(fake.unique.clear())
-
 
 class EmailFactory(DjangoModelFactory):
     class Meta:
@@ -46,5 +44,3 @@ class EmailFactory(DjangoModelFactory):
     user = SubFactory(UserFactory)
     address = Sequence(lambda x: fake.unique.email())
     email_type = fake.pystr(max_chars=15)
-
-    # post_generation(fake.unique.clear())

@@ -22,8 +22,6 @@ class NewsFactory(DjangoModelFactory):
     created_at = fake.date_time(tzinfo=timezone.get_current_timezone())
     updated_at = fake.date_time(tzinfo=timezone.get_current_timezone())
 
-    post_generation(fake.unique.clear())
-
     @post_generation
     def storage_method(self, create, storage_method):
         if not create or not storage_method:
