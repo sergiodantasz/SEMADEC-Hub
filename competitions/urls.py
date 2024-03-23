@@ -1,7 +1,9 @@
 from django.urls import path
 
+from competitions import views
+
 app_name = 'competitions'
 
 urlpatterns = [
-    path('', lambda request: '<h1>TEST</h1>', name='competitions'),
+    path('', views.competitions, name='competitions'),
 ]

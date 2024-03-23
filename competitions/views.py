@@ -1,3 +1,6 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def competitions(request):
+    context = {'title': 'Competições'}
+    return render(request, 'competitions/pages/competitions.html', context)

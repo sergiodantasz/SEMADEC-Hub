@@ -1,0 +1,19 @@
+.competitions-options {
+  display: flex;
+  font-size: var(--font-size-heading-small);
+  font-weight: 600;
+  gap: 2rem;
+  background-color: var(--green-100);
+  color: var(--green-800);
+  width: fit-content;
+  margin-inline: auto;
+  border: 0.1rem solid var(--green-800);
+  border-radius: 1.5rem;
+  padding: 1rem 2rem;
+}
+
+.competitions-options-line {
+  width: 0.2rem;
+  background-color: var(--green-800);
+  border-radius: 100rem;
+}
