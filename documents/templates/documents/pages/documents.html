@@ -3,9 +3,6 @@
 {% block additional_head %}
   <link rel="stylesheet" href="{% static "documents/css/document-item.css" %}">
   <link rel="stylesheet" href="{% static "documents/css/document-collection-item.css" %}">
-  {% if document_submit_fallback %}
-    <link rel="stylesheet" href="{% static "documents/css/document-submit-message.css" %}">
-  {% endif %}
 {% endblock additional_head %}
 {% block header %}Documentos{% endblock header %}
 {% block content %}
