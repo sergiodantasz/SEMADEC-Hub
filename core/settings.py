@@ -160,6 +160,8 @@ USER_FIELDS = [
     'is_admin',
 ]
 
+LOGIN_URL = 'users:login'
+
 SOCIAL_AUTH_SUAP_KEY = env.str('SOCIAL_AUTH_SUAP_KEY')
 SOCIAL_AUTH_SUAP_SECRET = env.str('SOCIAL_AUTH_SUAP_SECRET')
 

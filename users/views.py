@@ -10,13 +10,13 @@ def login(request):
     return redirect(reverse('social:begin', kwargs={'backend': 'suap'}))
 
 
-@login_required(login_url='users:login')
+@login_required
 def profile(request):
     context = {'title': 'Perfil'}
     return render(request, 'users/pages/profile.html', context)
 
 
-@login_required(login_url='users:login')
+@login_required
 def logout(request):
     auth_logout(request)
     return redirect(reverse('home:home'))
