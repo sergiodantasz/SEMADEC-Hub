@@ -5,7 +5,7 @@ from social_core.backends.oauth import BaseOAuth2
 
 from editions.models import Course
 from helpers.user import download_photo
-from users.models import Campus
+from users.models import Campus, User
 
 
 @dataclass(init=False)
@@ -22,7 +22,6 @@ class UserData:
     sex: str
     date_of_birth: str
     photo: ImageFile
-    is_admin: bool
 
     def __init__(self, response):
         self.registration = response.get('identificacao')
@@ -38,7 +37,21 @@ class UserData:
         self.sex = response.get('sexo')
         self.date_of_birth = response.get('data_de_nascimento')
         self.photo = download_photo(response.get('foto'), self.registration)
-        self.is_admin = False
+        self._set_user_permissions()
+
+    def is_existing_user(self) -> bool:
+        return User.objects.filter(registration=self.registration).exists()
+
+    def get_user_object(self):
+        if not self.is_existing_user():
+            raise ValueError('This user does not exist.')
+        return User.objects.get(registration=self.registration)
+
+    def _set_user_permissions(self):
+        user_obj = self.get_user_object()
+        self.is_admin = user_obj.is_admin
+        self.is_staff = user_obj.is_staff
+        self.is_superuser = user_obj.is_superuser
 
 
 class SuapOAuth2(BaseOAuth2):
