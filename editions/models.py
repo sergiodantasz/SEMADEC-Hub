@@ -57,31 +57,65 @@ class Team(models.Model):
     classes = models.ManyToManyField(
         to='editions.Class',
     )
-    competitions = models.ManyToManyField(
-        to='competitions.Competition',
-        through='editions.TeamCompetition',
-    )
+    # competitions = models.ManyToManyField(
+    #     to='competitions.Competition',
+    #     through='editions.TeamCompetition',
+    # )
     editions = models.ManyToManyField(
         to='editions.Edition',
         through='editions.TeamEdition',
+    )
+    matches = models.ManyToManyField(
+        to='competitions.Match',
+        through='editions.TeamMatch',
+    )
+    tests = models.ManyToManyField(
+        to='competitions.Test',
+        through='editions.TeamTest',
     )
 
     def __str__(self):
         return str(self.name)
 
 
-class TeamCompetition(models.Model):
+class TeamMatch(models.Model):
     team = models.ForeignKey(
         'editions.Team',
         on_delete=models.CASCADE,
-        db_column='team_id',
     )
-    competition = models.ForeignKey(
-        'competitions.Competition',
+    match = models.ForeignKey(
+        'competitions.Match',
         on_delete=models.CASCADE,
-        db_column='competition_id',
     )
+    score = models.PositiveSmallIntegerField()
     winner = models.BooleanField()
+
+
+class TeamTest(models.Model):
+    team = models.ForeignKey(
+        'editions.Team',
+        on_delete=models.CASCADE,
+    )
+    test = models.ForeignKey(
+        'competitions.Test',
+        on_delete=models.CASCADE,
+    )
+    score = models.PositiveSmallIntegerField()
+    winner = models.BooleanField()
+
+
+# class TeamCompetition(models.Model):
+#     team = models.ForeignKey(
+#         'editions.Team',
+#         on_delete=models.CASCADE,
+#         db_column='team_id',
+#     )
+#     competition = models.ForeignKey(
+#         'competitions.Competition',
+#         on_delete=models.CASCADE,
+#         db_column='competition_id',
+#     )
+#     winner = models.BooleanField()
 
 
 class TeamEdition(models.Model):

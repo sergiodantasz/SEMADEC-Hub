@@ -5,10 +5,9 @@ from competitions.tests.factories import EditionFactory
 from editions.tests.factories import (
     ClassFactory,
     CourseFactory,
-    TeamCompetitionFactory,
     TeamEditionFactory,
     TeamFactory,
-    TeamWithCompetitionsAndEditionsFactory,
+    TeamWithMatchesAndTestsAndEditionsFactory,
 )
 
 settings.STORAGES['default']['BACKEND'] = 'django.core.files.storage.InMemoryStorage'
@@ -29,9 +28,9 @@ def edition_fixture():
     yield EditionFactory
 
 
-@pytest.fixture
-def team_competition_fixture():
-    yield TeamCompetitionFactory
+# @pytest.fixture
+# def team_competition_fixture():
+#     yield TeamCompetitionFactory
 
 
 @pytest.fixture
@@ -39,6 +38,11 @@ def team_edition_fixture():
     yield TeamEditionFactory
 
 
+# @pytest.fixture
+# def team_fixture():
+#     yield TeamWithCompetitionsAndEditionsFactory
+
+
 @pytest.fixture
 def team_fixture():
-    yield TeamWithCompetitionsAndEditionsFactory
+    yield TeamWithMatchesAndTestsAndEditionsFactory

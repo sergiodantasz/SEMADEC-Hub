@@ -1,3 +1,5 @@
+from random import choice, randint
+
 from factory import (
     PostGeneration,
     RelatedFactory,
@@ -7,7 +9,7 @@ from factory import (
 from factory.django import DjangoModelFactory
 from factory.faker import faker
 
-from competitions.tests.factories import CompetitionFactory, EditionFactory
+from competitions.tests.factories import EditionFactory, MatchFactory, TestFactory
 
 fake = faker.Faker('pt_BR')
 
@@ -46,22 +48,59 @@ class TeamEditionFactory(DjangoModelFactory):
     edition = SubFactory(EditionFactory)
 
 
-class TeamCompetitionFactory(DjangoModelFactory):
+# class TeamCompetitionFactory(DjangoModelFactory):
+#     class Meta:
+#         model = 'editions.TeamCompetition'
+#         skip_postgeneration_save = True
+
+
+#     team = SubFactory(TeamFactory)
+#     competition = SubFactory(CompetitionFactory)
+#     winner = True
+
+
+class TeamMatchFactory(DjangoModelFactory):
     class Meta:
-        model = 'editions.TeamCompetition'
+        model = 'editions.TeamMatch'
         skip_postgeneration_save = True
 
     team = SubFactory(TeamFactory)
-    competition = SubFactory(CompetitionFactory)
-    winner = True
+    match = SubFactory(MatchFactory)
+    score = randint(1, 100)
+    winner = choice([True, False])
 
 
-class TeamWithCompetitionsAndEditionsFactory(TeamFactory):
-    competitions = RelatedFactory(
-        TeamCompetitionFactory,
+class TeamTestFactory(DjangoModelFactory):
+    class Meta:
+        model = 'editions.TeamTest'
+
+    team = SubFactory(TeamFactory)
+    test = SubFactory(TestFactory)
+    score = randint(1, 100)
+    winner = choice([True, False])
+
+
+class TeamWithMatchesAndTestsAndEditionsFactory(TeamFactory):
+    matches = RelatedFactory(
+        TeamMatchFactory,
+        factory_related_name='team',
+    )
+    tests = RelatedFactory(
+        TeamTestFactory,
         factory_related_name='team',
     )
     editions = RelatedFactory(
         TeamEditionFactory,
         factory_related_name='team',
     )
+
+
+# class TeamWithCompetitionsAndEditionsFactory(TeamFactory):
+#     competitions = RelatedFactory(
+#         TeamCompetitionFactory,
+#         factory_related_name='team',
+#     )
+#     editions = RelatedFactory(
+#         TeamEditionFactory,
+#         factory_related_name='team',
+#     )

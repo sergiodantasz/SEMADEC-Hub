@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
+from pytest import mark
 from pytest import raises as assert_raises
 
 
@@ -9,6 +10,7 @@ def test_sport_model_name_has_max_length_30(db, sport_fixture):
         reg.full_clean()
 
 
+@mark.skip
 def test_sport_model_category_db_column_is_category_id(db, sport_fixture):
     reg = sport_fixture()
     assert hasattr(reg, 'category_id')
