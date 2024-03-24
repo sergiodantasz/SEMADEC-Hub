@@ -6,8 +6,21 @@
 {% block header %}Competições{% endblock header %}
 {% block content %}
   <div class="competitions-options">
-    <a href="">Esportes</a>
+    <a class="competitions-option-container" href="{% url "competitions:sports" %}">
+      <span>Esportes</span>
+      {% if competition_type == 'sports' %}
+        <hr class="competitions-options-selected">
+      {% endif %}
+    </a>
     <hr class="competitions-options-line">
-    <a href="">Provas</a>
+    <a class="competitions-option-container" href="{% url "competitions:tests" %}">
+      <span>Provas</span>
+      {% if competition_type == 'tests' %}
+        <hr class="competitions-options-selected">
+      {% endif %}
+    </a>
   </div>
+  {% if competition_type == 'sports'%}
+    {% include "competitions\partials\_competitions-table.html" %}
+  {% endif %}
 {% endblock content %}

@@ -26,6 +26,10 @@ class Sport(models.Model):
         default=None,
     )
 
+    @property
+    def get_categories(self):
+        return self.category.all()
+
     def __str__(self):
         return str(self.name)
 

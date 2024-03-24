@@ -11,7 +11,7 @@
   --gray-800: #343b34;
   --gray-900: #2e332f;
   --gray-950: #181b18;
-  
+
   /* Green Colors */
   --green-50: #f0fdf4;
   --green-100: #dcfce7;
@@ -26,10 +26,14 @@
   --green-950: #052e16;
 
   /* Other Colors */
-  --red-dark: #f31260;
-  --red-light: #fee7ef;
+  --red-dark: #be123c;
+  --red-light: #ffe4e6;
   --green-dark: #12a150;
   --green-light: #e8faf0;
+  --blue-dark: #0369a1;
+  --blue-light: #e0f2fe;
+  --yellow-dark: #a16207;
+  --yellow-light: #fef9c3;
 
   /* Font */
   --font-family: "Gabarito", sans-serif;
