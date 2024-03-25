@@ -1,10 +1,32 @@
 from random import choice
 
-from factory import Sequence, SubFactory, post_generation
+from factory import PostGeneration, Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory
 from factory.faker import faker
+from faker.providers import BaseProvider
+
+
+class ModelsDummyData(BaseProvider):
+    def category(self):
+        return choice(['Masculino', 'Feminino', 'Misto'])
+
+    def sport(self):
+        options = [
+            'Futebol',
+            'Vôlei',
+            'Basquete',
+            'Natação',
+            'Sinuca',
+            'Atletismo',
+            'Handbol',
+            'Badminton',
+            'Tênis de Mesa',
+        ]
+        return choice(options)
+
 
 fake = faker.Faker('pt_BR')
+fake.add_provider(ModelsDummyData)
 
 
 class EditionFactory(DjangoModelFactory):
@@ -22,7 +44,8 @@ class CategoryFactory(DjangoModelFactory):
         model = 'competitions.Category'
         skip_postgeneration_save = True
 
-    name = fake.unique.pystr(max_chars=15)
+    name = Sequence(lambda x: fake.unique.category())
+    post_generation(fake.unique.clear())
 
 
 class SportFactory(DjangoModelFactory):
@@ -30,14 +53,17 @@ class SportFactory(DjangoModelFactory):
         model = 'competitions.Sport'
         skip_postgeneration_save = True
 
-    name = fake.unique.pystr(max_chars=30)
+    name = Sequence(lambda x: fake.unique.sport())
     # category = SubFactory(CategoryFactory)
     date_time = None
+    post_generation(fake.unique.clear())
 
+    # categories = PostGeneration(lambda obj, create, extracted: obj.categories)
+    # categories = ['Masculino', 'Feminino']
     @post_generation
     def categories(self, create, extracted, **kwargs):
-        if not create or not extracted:
-            return
+        # if not create or not extracted:
+        #     return
         self.categories.add(*extracted)
 
 

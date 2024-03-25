@@ -1,6 +1,7 @@
 import pytest
 from django.conf import settings
 
+from competitions.models import Category
 from competitions.tests.factories import (
     CategoryFactory,
     SportFactory,
@@ -16,6 +17,7 @@ settings.STORAGES['default']['BACKEND'] = 'django.core.files.storage.InMemorySto
 @pytest.fixture
 def category_fixture():
     yield CategoryFactory
+    Category.objects.all().delete()
 
 
 @pytest.fixture
@@ -31,6 +33,14 @@ def class_fixture():
 @pytest.fixture
 def sport_fixture():
     yield SportFactory
+
+
+@pytest.fixture
+def sport_with_categories_fixture():
+    reg = SportFactory.create(categories=(category_fixture(),))
+    yield reg
+    reg.delete()
+    ...
 
 
 @pytest.fixture

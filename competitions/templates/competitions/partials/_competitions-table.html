@@ -16,9 +16,11 @@
           <td class="competitions-table-cell competitions-table-cell-left">{{ reg.name }}</td>
           <td class="competitions-table-cell competitions-table-cell-right">
             <div class="category-tags-wrapper">
-              <div class="category-tag category-tag-male">Masculino</div>
-              <div class="category-tag category-tag-female">Feminino</div>
-              <div class="category-tag category-tag-mix">Misto</div>
+              {% for category in reg.get_categories %}
+                <div class="category-tag {{ category.get_css_class }}">{{ category.name }}</div>
+              {% endfor %}
+              {% comment %} <div class="category-tag category-tag-female">Feminino</div> {% endcomment %}
+              {% comment %} <div class="category-tag category-tag-mix">Misto</div> {% endcomment %}
             </div>
           </td>
         </tr>

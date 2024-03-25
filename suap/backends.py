@@ -22,6 +22,9 @@ class UserData:
     sex: str
     date_of_birth: str
     photo: ImageFile
+    is_admin: bool = False
+    is_staff: bool = False
+    is_superuser: bool = False
 
     def __init__(self, response):
         self.registration = response.get('identificacao')
@@ -37,14 +40,13 @@ class UserData:
         self.sex = response.get('sexo')
         self.date_of_birth = response.get('data_de_nascimento')
         self.photo = download_photo(response.get('foto'), self.registration)
-        self._set_user_permissions()
+        if self.is_existing_user():
+            self._set_user_permissions()
 
     def is_existing_user(self) -> bool:
         return User.objects.filter(registration=self.registration).exists()
 
     def get_user_object(self):
-        if not self.is_existing_user():
-            raise ValueError('This user does not exist.')
         return User.objects.get(registration=self.registration)
 
     def _set_user_permissions(self):

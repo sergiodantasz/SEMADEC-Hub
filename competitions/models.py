@@ -7,19 +7,26 @@ class Category(models.Model):
         unique=True,
     )
 
+    @property
+    def get_css_class(self):
+        classes = {
+            'Masculino': 'category-tag-male',
+            'Feminino': 'category-tag-female',
+            'Misto': 'category-tag-mix',
+        }
+        return (
+            classes.get(self.name) or 'category-tag-undefined'
+        )  # Add undefined css class later
+
     def __str__(self):
         return str(self.name)
 
 
 class Sport(models.Model):
     name = models.CharField(
+        primary_key=True,
         max_length=30,
     )
-    # category = models.ForeignKey(
-    #     'competitions.Category',
-    #     on_delete=models.CASCADE,
-    #     db_column='category_id',
-    # )
     categories = models.ManyToManyField(
         to='competitions.Category',
     )
@@ -31,7 +38,7 @@ class Sport(models.Model):
 
     @property
     def get_categories(self):
-        return self.category.all()
+        return self.categories.all()
 
     def __str__(self):
         return str(self.name)

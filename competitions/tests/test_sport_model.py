@@ -6,6 +6,7 @@ from pytest import raises as assert_raises
 
 def test_sport_model_name_has_max_length_30(db, sport_fixture):
     reg = sport_fixture(name='a' * 31)
+    ...
     with assert_raises(ValidationError):
         reg.full_clean()
 
