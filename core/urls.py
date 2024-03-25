@@ -13,6 +13,7 @@ urlpatterns = [
     path('documentos/', include('documents.urls')),
     path('', include('users.urls')),
     path('', include('social_django.urls'), name='social'),
+    path('summernote/', include('django_summernote.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

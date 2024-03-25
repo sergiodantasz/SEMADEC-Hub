@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'users',
     'news',
     'handlers',
+    # Django Summernote
+    'django_summernote',
 ]
 
 MIDDLEWARE = [
@@ -134,6 +136,26 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+SUMMERNOTE_CONFIG = {
+    'summernote': {
+        'width': '100%',
+        'height': '600',
+        'toolbar': [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'italic', 'clear']],
+            ['fontname', ['Inria Sans']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph', 'hr']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'undo', 'redo', 'help']],
+        ],
+        'lang': 'pt-BR',
+    },
+    'attachment_upload_to': MEDIA_ROOT / 'news' / 'attachments',
+    'attachment_filesize_limit': 30 * 1024 * 1024,
+}
 
 MESSAGE_TAGS = {
     constants.DEBUG: 'message-debug',
