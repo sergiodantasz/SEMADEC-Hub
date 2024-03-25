@@ -10,8 +10,6 @@ from editions.tests.factories import (
     TeamWithMatchesAndTestsAndEditionsFactory,
 )
 
-settings.STORAGES['default']['BACKEND'] = 'django.core.files.storage.InMemoryStorage'
-
 
 @pytest.fixture
 def class_fixture():
@@ -46,3 +44,9 @@ def team_edition_fixture():
 @pytest.fixture
 def team_fixture():
     yield TeamWithMatchesAndTestsAndEditionsFactory
+
+
+if __name__.startswith('test'):
+    settings.STORAGES['default']['BACKEND'] = (
+        'django.core.files.storage.InMemoryStorage'
+    )
