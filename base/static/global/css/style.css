@@ -20,6 +20,11 @@ a {
   color: inherit;
 }
 
+input {
+  font-family: var(--font-family);
+  font-size: var(--font-size-content-small);
+}
+
 h1 {
   font-size: var(--font-size-heading-huge);
 }
@@ -72,28 +77,37 @@ h6 {
 }
 
 .button {
-  background-color: var(--green-500);
-  color: var(--green-950);
+  color: #fff;
+  background-color: var(--green-600);
   font-family: var(--font-family);
-  font-size: var(--font-size-content-big);
+  font-size: var(--font-size-content-normal);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  padding: 1rem 4rem;
-  border-radius: 1rem;
+  padding: 1rem 2rem;
+  border-radius: 100rem;
   transition: var(--transition);
 }
 
 .button:hover {
-  background-color: var(--green-600);
-}
-
-.button:active {
   background-color: var(--green-700);
 }
 
+.button:active {
+  background-color: var(--green-800);
+}
+
 .button > img {
-  width: 2.5rem;
+  width: 2rem;
+}
+
+.nothing-found {
+  background-color: var(--green-700);
+  color: var(--green-50);
+  text-align: center;
+  font-size: var(--font-size-content-normal);
+  border-radius: 100rem;
+  padding: 1rem 2rem;
 }

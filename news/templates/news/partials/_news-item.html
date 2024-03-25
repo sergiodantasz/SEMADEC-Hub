@@ -1,12 +1,12 @@
 <article class="news-item-container">
-  <div class="news-item-cover-wrapper">
-    <img src="https://placehold.co/350x250/png" alt="Capa da notícia." class="news-item-cover">
-  </div>
-  <a href="{% url 'news:newsdetailed' news.slug%}">
-    <div class="news-item-content">
-      <h5 class="news-item-title">{{ news.title }}</h5>
-      <p class="news-item-excerpt">{{ news.excerpt }}</p>
-      <span class="news-item-author-date">Por {{ news.administrator_id }} em {{ news.created_at }}</span>
+  {% if news.cover %}
+    <div class="news-item-cover-wrapper">
+      <img src="{{ news.cover.url }}" alt="Capa da notícia." class="news-item-cover">
     </div>
-  </a>
+  {% endif %}
+  <div class="news-item-content">
+    <h5 class="news-item-title">{{ news.title }}</h5>
+    <p class="news-item-excerpt">{{ news.excerpt }}</p>
+    <span class="news-item-author-date">Por {{ news.administrator.name }} em {{ news.created_at }}</span>
+  </div>
 </article>

@@ -1,0 +1,10 @@
+.admin-actions-wrapper {
+  width: fit-content;
+  margin-inline: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5rem;
+}

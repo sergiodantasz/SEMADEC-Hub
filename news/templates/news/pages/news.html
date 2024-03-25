@@ -5,9 +5,19 @@
 {% endblock additional_head %}
 {% block header %}Notícias{% endblock header %}
 {% block content %}
+  {% if user.is_admin %}
+    <div class="admin-actions-wrapper">
+      <a class="button" href="{% url "news:create_news" %}">
+        <img src="{% static "global/img/add.svg" %}" alt="">
+        <span>Criar notícia</span>
+      </a>
+    </div>
+  {% endif %}
   <div class="news-list">
-    {% for news in news_list %}
+    {% for news in news_obj %}
       {% include "news/partials/_news-item.html" %}
+    {% empty %}
+      <p class="nothing-found">Nenhuma notícia foi encontrada.</p>
     {% endfor %}
   </div>
 {% endblock content %}

@@ -1,0 +1,22 @@
+{% extends "global/pages/base_no_header.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "news/css/news-item.css" %}">
+{% endblock additional_head %}
+{% block content %}
+  <form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="field-group">
+        {% if field.name != "content" %}
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {% endif %}
+        {{ field }}
+      </div>
+    {% endfor %}
+    <button class="button" type="submit">
+      <img src="{% static "global/img/ok.svg" %}" alt="">
+      <span>Salvar</span>
+    </button>
+  </form>
+{% endblock content %}

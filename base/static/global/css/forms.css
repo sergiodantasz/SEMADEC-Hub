@@ -1,0 +1,22 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field-group input[type="text"] {
+  border: 0.2rem solid var(--green-800);
+  padding: 0.5rem;
+  transition: var(--transition);
+  border-radius: 0.5rem;
+}
+
+.field-group input[type="text"]:focus {
+  outline: 0.2rem solid var(--green-300);
+}
