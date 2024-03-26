@@ -1,6 +1,6 @@
 from random import choice
 
-from factory import PostGeneration, Sequence, SubFactory, post_generation
+from factory import Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory
 from factory.faker import faker
 from faker.providers import BaseProvider
@@ -45,31 +45,24 @@ class CategoryFactory(DjangoModelFactory):
         django_get_or_create = ('name',)
         skip_postgeneration_save = True
 
-    # name = Sequence(lambda x: fake.unique.category())
-    name = Sequence(lambda x: fake.unique.pystr(max_chars=10))
+    name = Sequence(lambda x: fake.category())
     post_generation(fake.unique.clear())
-    PostGeneration(fake.unique.clear())
-    fake.unique.clear()
 
 
 class SportFactory(DjangoModelFactory):
     class Meta:
         model = 'competitions.Sport'
+        django_get_or_create = ('name',)
         skip_postgeneration_save = True
 
-    name = Sequence(lambda x: fake.unique.pystr(max_chars=10))
-    # category = SubFactory(CategoryFactory)
+    name = Sequence(lambda x: fake.sport())
     date_time = None
     post_generation(fake.unique.clear())
-    PostGeneration(fake.unique.clear())
-    fake.unique.clear()
 
-    # categories = PostGeneration(lambda obj, create, extracted: obj.categories)
-    # categories = ['Masculino', 'Feminino']
     @post_generation
     def categories(self, create, extracted, **kwargs):
-        # if not create or not extracted:
-        #     return
+        if not create or not extracted:
+            return
         self.categories.add(*extracted)
 
 
@@ -93,23 +86,3 @@ class TestFactory(DjangoModelFactory):
     title = fake.unique.text(max_nb_chars=50)
     description = ''
     date_time = None
-
-
-fake.unique.clear()
-# class TestOrSportFactory(DjangoModelFactory):
-#     class Meta:
-#         model = 'competitions.TestOrSport'
-#         skip_postgeneration_save = True
-
-#     test = SubFactory(TestFactory)
-#     sport = SubFactory(SportFactory)
-
-
-# class CompetitionFactory(DjangoModelFactory):
-#     class Meta:
-#         model = 'competitions.Competition'
-#         skip_postgeneration_save = True
-
-#     edition = SubFactory(EditionFactory)
-#     # test_or_sport = SubFactory(TestOrSportFactory)
-#     test_or_sport = ''
