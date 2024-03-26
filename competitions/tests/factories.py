@@ -42,10 +42,14 @@ class EditionFactory(DjangoModelFactory):
 class CategoryFactory(DjangoModelFactory):
     class Meta:
         model = 'competitions.Category'
+        django_get_or_create = ('name',)
         skip_postgeneration_save = True
 
-    name = Sequence(lambda x: fake.unique.category())
+    # name = Sequence(lambda x: fake.unique.category())
+    name = Sequence(lambda x: fake.unique.pystr(max_chars=10))
     post_generation(fake.unique.clear())
+    PostGeneration(fake.unique.clear())
+    fake.unique.clear()
 
 
 class SportFactory(DjangoModelFactory):
@@ -53,10 +57,12 @@ class SportFactory(DjangoModelFactory):
         model = 'competitions.Sport'
         skip_postgeneration_save = True
 
-    name = Sequence(lambda x: fake.unique.sport())
+    name = Sequence(lambda x: fake.unique.pystr(max_chars=10))
     # category = SubFactory(CategoryFactory)
     date_time = None
     post_generation(fake.unique.clear())
+    PostGeneration(fake.unique.clear())
+    fake.unique.clear()
 
     # categories = PostGeneration(lambda obj, create, extracted: obj.categories)
     # categories = ['Masculino', 'Feminino']
@@ -89,6 +95,7 @@ class TestFactory(DjangoModelFactory):
     date_time = None
 
 
+fake.unique.clear()
 # class TestOrSportFactory(DjangoModelFactory):
 #     class Meta:
 #         model = 'competitions.TestOrSport'
