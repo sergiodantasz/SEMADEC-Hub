@@ -1,0 +1,33 @@
+{% extends "global/pages/base_no_header.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "news/css/view-news.css" %}">
+{% endblock additional_head %}
+{% block content %}
+  {% if user.is_admin %}
+    <div class="admin-actions-wrapper">
+      <a class="button" href="{% url "news:edit_news" news.slug %}">
+        <img src="{% static "global/img/edit.svg" %}" alt="">
+        <span>Editar notícia</span>
+      </a>
+      <a class="button" href="{% url "news:delete_news" news.slug %}">
+        <img src="{% static "global/img/add.svg" %}" alt="">
+        <span>Apagar notícia</span>
+      </a>
+    </div>
+  {% endif %}
+  {% if news.cover %}
+    <div class="news-cover-wrapper">
+      <img src="{{ news.cover.url }}" alt="" class="news-cover">
+    </div>
+  {% endif %}
+  <div class="news-info-container">
+    <h3 class="news-title">{{ news.title }}</h3>
+    <p class="news-excerpt">{{ news.excerpt }}</p>
+    <span class="news-meta">Por {{ news.administrator.name }} em {{ news.created_at }}</span>
+  </div>
+  <hr class="news-separator">
+  <main class="news-content">
+    {{ news.content|safe }}
+  </main>
+{% endblock content %}

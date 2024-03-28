@@ -11,12 +11,25 @@
 }
 
 .field-group input[type="text"] {
-  border: 0.2rem solid var(--green-800);
-  padding: 0.5rem;
+  border: 0.2rem solid var(--gray-500);
+  padding: 1rem;
   transition: var(--transition);
-  border-radius: 0.5rem;
+  border-radius: 1rem;
+  color: var(--green-950);
+}
+
+.field-group input[type="text"]::placeholder {
+  color: var(--gray-500);
 }
 
 .field-group input[type="text"]:focus {
-  outline: 0.2rem solid var(--green-300);
+  border-color: var(--green-600);
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  align-self: flex-end;
+  justify-content: center;
+  flex-wrap: wrap;
 }

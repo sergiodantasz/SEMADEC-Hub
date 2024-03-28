@@ -1,0 +1,42 @@
+.news-cover-wrapper {
+  width: 100%;
+  height: 40rem;
+  border-radius: 2rem;
+  margin-bottom: 5rem;
+}
+
+.news-cover {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.news-meta {
+  color: var(--green-700);
+}
+
+.news-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 5rem;
+}
+
+.news-separator {
+  background-color: var(--green-700);
+  height: 0.2rem;
+  border-radius: 10rem;
+  margin-bottom: 5rem;
+}
+
+.news-content {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 2rem;
+}
+
+.news-content li {
+  margin-left: 3rem;
+}

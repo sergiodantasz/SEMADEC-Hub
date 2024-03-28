@@ -1,4 +1,4 @@
-<article class="news-item-container">
+<a class="news-item-container" href="{% url "news:view_news" news.slug %}">
   {% if news.cover %}
     <div class="news-item-cover-wrapper">
       <img src="{{ news.cover.url }}" alt="Capa da notícia." class="news-item-cover">
@@ -9,4 +9,4 @@
     <p class="news-item-excerpt">{{ news.excerpt }}</p>
     <span class="news-item-author-date">Por {{ news.administrator.name }} em {{ news.created_at }}</span>
   </div>
-</article>
+</a>

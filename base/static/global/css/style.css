@@ -23,6 +23,7 @@ a {
 input {
   font-family: var(--font-family);
   font-size: var(--font-size-content-small);
+  outline: none;
 }
 
 h1 {
@@ -104,8 +105,8 @@ h6 {
 }
 
 .nothing-found {
-  background-color: var(--green-700);
-  color: var(--green-50);
+  border: 0.2rem solid var(--green-600);
+  color: var(--green-600);
   text-align: center;
   font-size: var(--font-size-content-normal);
   border-radius: 100rem;

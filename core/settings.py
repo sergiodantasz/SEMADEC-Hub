@@ -153,7 +153,7 @@ SUMMERNOTE_CONFIG = {
         ],
         'lang': 'pt-BR',
     },
-    'attachment_upload_to': MEDIA_ROOT / 'news' / 'attachments',
+    'attachment_upload_to': 'news/attachments',
     'attachment_filesize_limit': 30 * 1024 * 1024,
 }
 
