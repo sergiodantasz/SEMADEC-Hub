@@ -33,7 +33,7 @@ class News(models.Model):
     )
 
     def __str__(self):
-        return str(self.title)
+        return self.title
 
     def save(self, *args, **kwargs):
         if not self.slug or self.title != self.__class__.objects.get(id=self.id).title:
