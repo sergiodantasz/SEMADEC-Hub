@@ -37,7 +37,7 @@ def test_collection_model_collection_type_has_max_length_10(db, collection_fixtu
 
 def test_collection_model_collection_type_is_in_type_choices(db, collection_fixture):
     reg = collection_fixture()
-    assert reg.collection_type in reg._meta.model.COLLECTION_TYPE_CHOICES.keys()
+    assert reg.collection_type in reg._meta.model.COLLECTION_TYPE_CHOICES
 
 
 def test_collection_model_cover_can_be_blank(db, collection_fixture):

@@ -2,10 +2,10 @@ from django.db import models
 
 
 class Collection(models.Model):
-    COLLECTION_TYPE_CHOICES = {
-        'document': 'Documento',
-        'image': 'Imagem',
-    }
+    COLLECTION_TYPE_CHOICES = (
+        ('document', 'Documento'),
+        ('image', 'Imagem'),
+    )
 
     administrator = models.ForeignKey(
         'users.User',
@@ -27,8 +27,6 @@ class Collection(models.Model):
     )
     cover = models.ImageField(
         upload_to='',  # CHANGE IT LATER.
-        # default='/base/static/global/img/collection_cover_placeholder.jpg',
-        # REVIEW LATER
         null=True,
         blank=True,
     )
