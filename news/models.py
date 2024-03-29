@@ -1,5 +1,6 @@
 from django.db import models
 
+from helpers.model import get_object
 from helpers.slug import generate_dynamic_slug
 
 
@@ -36,6 +37,9 @@ class News(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        if not self.slug or self.title != self.__class__.objects.get(id=self.id).title:
+        if not self.slug:
+            self.slug = generate_dynamic_slug(self, 'title')
+        news = get_object(self.__class__, id=self.id)  # type: ignore
+        if news and self.title != news.title:
             self.slug = generate_dynamic_slug(self, 'title')
         return super().save(*args, **kwargs)
