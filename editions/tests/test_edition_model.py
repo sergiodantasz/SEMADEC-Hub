@@ -3,6 +3,8 @@ from django.db.utils import IntegrityError
 from pytest import mark
 from pytest import raises as assert_raises
 
+from editions.models import Edition, Team
+
 
 def test_edition_model_year_is_integer(db, edition_fixture):
     reg = edition_fixture()
@@ -59,9 +61,10 @@ def test_edition_model_theme_can_be_blank(db, edition_fixture):
     assert reg.theme == ''
 
 
-def test_edition_model_theme_default_value_is_empty_string(db, edition_fixture):
-    reg = edition_fixture()
-    assert reg.theme == ''
+def test_edition_model_teams_has_related_name_editions(db, edition_fixture):
+    edition_reg = edition_fixture()
+    team_reg = Team.objects.first()
+    assert isinstance(team_reg.editions.first(), Edition)
 
 
 def test_edition_model_dunder_str_method_returns_edition_name(db, edition_fixture):

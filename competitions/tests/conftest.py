@@ -3,16 +3,15 @@ from django.conf import settings
 
 from competitions.tests.factories import (
     CategoryFactory,
-    CompetitionFactory,
+    MatchFactory,
+    MatchWithTeamFactory,
     SportFactory,
     TestFactory,
-    TestOrSportFactory,
+    TestWithTeamFactory,
 )
 from editions.tests.factories import (
     ClassFactory,
 )
-
-settings.STORAGES['default']['BACKEND'] = 'django.core.files.storage.InMemoryStorage'
 
 
 @pytest.fixture
@@ -26,20 +25,29 @@ def class_fixture():
 
 
 @pytest.fixture
-def competition_fixture():
-    yield CompetitionFactory
+def sport_fixture():
+    categories = CategoryFactory.create_batch(2)
+    caller = lambda **kwargs: SportFactory(categories=categories, **kwargs)  # noqa
+    yield caller
 
 
 @pytest.fixture
-def sport_fixture():
-    yield SportFactory
+def match_fixture():
+    yield MatchWithTeamFactory
+
+
+@pytest.fixture
+def sport_with_categories_fixture():
+    reg = SportFactory.create(categories=(category_fixture(),))
+    yield reg
 
 
 @pytest.fixture
 def test_fixture():
-    yield TestFactory
+    yield TestWithTeamFactory
 
 
-@pytest.fixture
-def test_or_sport_fixture():
-    yield TestOrSportFactory
+if __name__.startswith('test'):
+    settings.STORAGES['default']['BACKEND'] = (
+        'django.core.files.storage.InMemoryStorage'
+    )

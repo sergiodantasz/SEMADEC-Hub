@@ -27,64 +27,29 @@ class Edition(models.Model):
     )
     theme = models.CharField(
         max_length=100,
+        null=True,
         blank=True,
     )
     teams = models.ManyToManyField(
         to='editions.Team',
-        through='editions.TeamEdition',
+        through='editions.EditionTeam',
+        related_name='editions',
     )
 
     def __str__(self):
         return str(self.name)
-
-
-class Class(models.Model):
-    course = models.ForeignKey(
-        'editions.Course',
-        on_delete=models.SET_NULL,
-        null=True,
-        db_column='course_id',
-    )
-
-    def __str__(self):
-        return str(self.course.name)
 
 
 class Team(models.Model):
     name = models.CharField(
         max_length=75,
     )
-    classes = models.ManyToManyField(
-        to='editions.Class',
-    )
-    competitions = models.ManyToManyField(
-        to='competitions.Competition',
-        through='editions.TeamCompetition',
-    )
-    editions = models.ManyToManyField(
-        to='editions.Edition',
-        through='editions.TeamEdition',
-    )
 
     def __str__(self):
         return str(self.name)
 
 
-class TeamCompetition(models.Model):
-    team = models.ForeignKey(
-        'editions.Team',
-        on_delete=models.CASCADE,
-        db_column='team_id',
-    )
-    competition = models.ForeignKey(
-        'competitions.Competition',
-        on_delete=models.CASCADE,
-        db_column='competition_id',
-    )
-    winner = models.BooleanField()
-
-
-class TeamEdition(models.Model):
+class EditionTeam(models.Model):
     edition = models.ForeignKey(
         'editions.Edition',
         on_delete=models.CASCADE,
@@ -98,10 +63,32 @@ class TeamEdition(models.Model):
     score = models.FloatField(
         null=True,
         blank=True,
-        default=None,
+        default=0,
     )
     classification = models.PositiveSmallIntegerField(
         null=True,
         blank=True,
         default=None,
     )
+
+    def __str__(self):
+        return f'{self.team} - {self.edition}'
+
+
+class Class(models.Model):
+    course = models.ForeignKey(
+        'editions.Course',
+        on_delete=models.SET_NULL,
+        null=True,
+        db_column='course_id',
+    )
+    team = models.ForeignKey(
+        'editions.Team',
+        related_name='classes',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+
+    def __str__(self):
+        return str(self.course.name)

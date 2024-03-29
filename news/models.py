@@ -25,6 +25,10 @@ class News(models.Model):
         max_length=225,
         unique=True,
     )
+    tags = models.ManyToManyField(
+        to='home.Tag',
+        related_name='news',
+    )
     created_at = models.DateTimeField(
         editable=False,
         auto_now_add=True,
@@ -32,6 +36,10 @@ class News(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True,
     )
+
+    @property
+    def get_tags(self):
+        return self.tags.all()
 
     def __str__(self):
         return self.title

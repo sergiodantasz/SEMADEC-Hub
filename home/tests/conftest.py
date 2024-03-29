@@ -1,21 +1,15 @@
 import pytest
 from django.conf import settings
 
-from archive.tests.conftest import collection_fixture
 from home.tests.factories import TagFactory
-from news.tests.conftest import news_fixture
-
-settings.STORAGES['default']['BACKEND'] = 'django.core.files.storage.InMemoryStorage'
 
 
 @pytest.fixture
-def tag_fixture(news_fixture, collection_fixture):  # noqa: F811
-    def inner(**kwargs):
-        factory = TagFactory.create(
-            news=(news_fixture(),),
-            collection=(collection_fixture(),),
-            **kwargs,
-        )
-        return factory
+def tag_fixture():
+    yield TagFactory
 
-    yield inner
+
+if __name__.startswith('test'):
+    settings.STORAGES['default']['BACKEND'] = (
+        'django.core.files.storage.InMemoryStorage'
+    )

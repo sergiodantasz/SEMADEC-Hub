@@ -3,11 +3,19 @@ from django.db.utils import IntegrityError
 from pytest import mark
 from pytest import raises as assert_raises
 
+from users.models import Email, User
+
 
 @mark.skip
 def test_email_model_user_db_column_is_user_registration(db, email_fixture):
     reg = email_fixture()
     assert hasattr(reg, 'user_registration')
+
+
+def test_email_model_user_has_related_name_emails(db, email_fixture):
+    email_reg = email_fixture()
+    user_reg = User.objects.first()
+    assert isinstance(user_reg.emails.first(), Email)
 
 
 def test_email_model_address_is_unique(db, email_fixture):

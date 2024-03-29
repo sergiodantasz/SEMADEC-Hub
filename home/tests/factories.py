@@ -1,4 +1,4 @@
-from factory import PostGeneration, Sequence
+from factory import Sequence
 from factory.django import DjangoModelFactory
 from factory.faker import faker
 
@@ -12,5 +12,3 @@ class TagFactory(DjangoModelFactory):
 
     name = Sequence(lambda x: fake.unique.pystr(max_chars=50))
     slug = Sequence(lambda x: fake.unique.slug())
-    news = PostGeneration(lambda obj, create, extracted: obj.news)
-    collection = PostGeneration(lambda obj, create, extracted: obj.collection)

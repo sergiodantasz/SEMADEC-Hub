@@ -1,17 +1,23 @@
 import pytest
 from django.conf import settings
 
-from competitions.tests.factories import EditionFactory
+from competitions.tests.factories import (
+    MatchTeamFactory,
+    TestTeamFactory,
+    TestWithTeamFactory,
+)
 from editions.tests.factories import (
     ClassFactory,
     CourseFactory,
-    TeamCompetitionFactory,
-    TeamEditionFactory,
+    EditionTeamFactory,
+    EditionWithTeamFactory,
     TeamFactory,
-    TeamWithCompetitionsAndEditionsFactory,
 )
 
-settings.STORAGES['default']['BACKEND'] = 'django.core.files.storage.InMemoryStorage'
+
+@pytest.fixture
+def edition_fixture():
+    yield EditionWithTeamFactory
 
 
 @pytest.fixture
@@ -25,20 +31,30 @@ def course_fixture():
 
 
 @pytest.fixture
-def edition_fixture():
-    yield EditionFactory
+def edition_team_fixture():
+    yield EditionTeamFactory
 
 
 @pytest.fixture
-def team_competition_fixture():
-    yield TeamCompetitionFactory
+def match_team_fixture():
+    yield MatchTeamFactory
+
+
+def test_fixture():
+    yield TestWithTeamFactory
 
 
 @pytest.fixture
-def team_edition_fixture():
-    yield TeamEditionFactory
+def test_team_fixture():
+    yield TestTeamFactory
 
 
 @pytest.fixture
 def team_fixture():
-    yield TeamWithCompetitionsAndEditionsFactory
+    yield TeamFactory
+
+
+if __name__.startswith('test'):
+    settings.STORAGES['default']['BACKEND'] = (
+        'django.core.files.storage.InMemoryStorage'
+    )

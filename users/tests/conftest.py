@@ -7,8 +7,6 @@ from users.tests.factories import (
     UserFactory,
 )
 
-settings.STORAGES['default']['BACKEND'] = 'django.core.files.storage.InMemoryStorage'
-
 
 @pytest.fixture
 def campus_fixture():
@@ -17,10 +15,15 @@ def campus_fixture():
 
 @pytest.fixture
 def user_fixture():
-    user = UserFactory
-    yield user
+    yield UserFactory
 
 
 @pytest.fixture
 def email_fixture():
     yield EmailFactory
+
+
+if __name__.startswith('test'):
+    settings.STORAGES['default']['BACKEND'] = (
+        'django.core.files.storage.InMemoryStorage'
+    )

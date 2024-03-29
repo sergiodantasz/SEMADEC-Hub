@@ -10,14 +10,6 @@ class Tag(models.Model):
         max_length=75,
         unique=True,
     )
-    news = models.ManyToManyField(
-        to='news.News',
-        related_name='tags',
-    )
-    collection = models.ManyToManyField(
-        to='archive.Collection',
-        related_name='tags',
-    )
 
     def __str__(self):
         return str(self.name)

@@ -37,6 +37,10 @@ python_files = [
     ]
 addopts = ["--doctest-modules", "--strict-markers", "-rP"]
 markers = ["slow", "fast"]
+filterwarnings = [
+    "error",
+    "ignore::pytest.PytestCollectionWarning",
+]
 
 [tool.ruff]
 line-length = 88

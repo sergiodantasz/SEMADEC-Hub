@@ -125,10 +125,6 @@ class User(DjangoAbstractUser):
         'is_admin',
     ]
 
-    def __str__(self) -> str:
-        return self.full_name
-
-    @property
     def first_name(self) -> str:
         return self.full_name.split()[0]
 
@@ -139,6 +135,9 @@ class User(DjangoAbstractUser):
     @property
     def name(self) -> str:
         return f'{self.first_name} {self.last_name}'
+
+    def __str__(self) -> str:
+        return self.full_name
 
 
 class Email(models.Model):

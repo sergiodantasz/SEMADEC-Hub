@@ -1,7 +1,11 @@
 from django.core.exceptions import ValidationError
+from django.db.models import QuerySet
 from django.db.utils import IntegrityError
 from pytest import mark
 from pytest import raises as assert_raises
+
+from archive.models import File
+from home.models import Tag
 
 
 def test_collection_model_administrator_db_column_is_administrator_id(
@@ -62,6 +66,34 @@ def test_collection_model_created_at_cannot_be_updated(db, collection_fixture):
     reg.created_at = '02/01/2020'
     with assert_raises(ValidationError):
         reg.full_clean()
+
+
+def test_collection_model_get_files_getter_returns_files_queryset(
+    db, collection_fixture
+):
+    reg = collection_fixture()
+    assert isinstance(reg.get_files, QuerySet)
+
+
+def test_collection_model_get_files_getter_returns_only_file_model_objects(
+    db, collection_fixture
+):
+    reg = collection_fixture()
+    files = reg.get_files
+    assert all(isinstance(file, File) for file in files)
+
+
+def test_collection_model_get_tags_getter_returns_tags_queryset(db, collection_fixture):
+    reg = collection_fixture()
+    assert isinstance(reg.get_tags, QuerySet)
+
+
+def test_collection_model_get_tags_getter_returns_only_tag_model_objects(
+    db, collection_fixture
+):
+    reg = collection_fixture()
+    tags = reg.get_tags
+    assert all(isinstance(tag, Tag) for tag in tags)
 
 
 def test_collection_model_dunder_str_method_returns_collection_title(

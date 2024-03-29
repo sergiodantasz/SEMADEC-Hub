@@ -1,4 +1,4 @@
-from factory import LazyAttribute, Sequence, SubFactory, post_generation
+from factory import LazyAttribute, Sequence, SubFactory
 from factory.django import DjangoModelFactory, DjangoOptions, ImageField
 from factory.faker import faker
 

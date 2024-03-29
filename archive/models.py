@@ -34,6 +34,10 @@ class Collection(models.Model):
         unique=True,
         max_length=225,
     )
+    tags = models.ManyToManyField(
+        to='home.Tag',
+        related_name='collections',
+    )
     created_at = models.DateTimeField(
         editable=False,
         auto_now_add=True,
@@ -45,6 +49,10 @@ class Collection(models.Model):
     @property
     def get_files(self):
         return self.files.all()
+
+    @property
+    def get_tags(self):
+        return self.tags.all()
 
     def __str__(self):
         return str(self.title)

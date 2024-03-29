@@ -3,6 +3,9 @@ from django.db.utils import IntegrityError
 from pytest import mark
 from pytest import raises as assert_raises
 
+from home.models import Tag
+from news.models import News
+
 
 def test_news_model_administrator_db_column_is_administrator_id(db, news_fixture):
     reg = news_fixture()
@@ -32,6 +35,12 @@ def test_news_model_slug_is_unique(db, news_fixture):
     with assert_raises(IntegrityError):
         reg1 = news_fixture(slug='test-slug')
         reg2 = news_fixture(slug='test-slug')
+
+
+def test_news_model_tags_has_related_name_news(db, news_fixture):
+    news_reg = news_fixture()
+    tag_reg = Tag.objects.first()
+    assert isinstance(tag_reg.news.first(), News)
 
 
 def test_news_model_dunder_str_method_returns_news_title(db, news_fixture):
