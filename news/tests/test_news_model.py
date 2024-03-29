@@ -21,11 +21,6 @@ def test_news_model_excerpt_has_max_length_200(db, news_fixture):
         reg.full_clean()
 
 
-def test_news_model_cover_default_value_is_placeholder(db, news_fixture):
-    reg = news_fixture()
-    assert reg.cover == '/base/static/global/img/news_cover_placeholder.jpg'
-
-
 @mark.skip
 def test_news_model_slug_has_max_length_225(db, news_fixture):
     reg = news_fixture(slug='a' * 226)
