@@ -8,6 +8,6 @@ def test_news_viewname_redirects_to_news_view():
     assert view.func is views.news
 
 
-def test_newsdetailed_viewname_redirects_to_newsdetailed_view():
-    view = resolve(reverse('news:newsdetailed', kwargs={'slug': 'slug-test'}))
-    assert view.func is views.news_detailed
+def test_view_news_viewname_redirects_to_view_news_view():
+    view = resolve(reverse('news:view_news', kwargs={'slug': 'slug-test'}))
+    assert view.func is views.view_news

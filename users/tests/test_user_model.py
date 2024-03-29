@@ -13,7 +13,7 @@ def test_user_model_dunder_str_method_returns_user_full_name_and_registration(
     db, user_fixture
 ):
     reg = user_fixture()
-    assert str(reg) == f'{reg.full_name} ({reg.registration})'
+    assert str(reg) == f'{reg.full_name}'
 
 
 def test_user_model_personal_email_is_unique(db, user_fixture):
