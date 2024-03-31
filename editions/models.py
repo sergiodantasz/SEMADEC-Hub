@@ -36,6 +36,18 @@ class Edition(models.Model):
         related_name='editions',
     )
 
+    @property
+    def get_teams(self):
+        return self.teams.all()
+
+    @property
+    def get_edition_team(self):
+        return self.edition_team.all()
+
+    @property
+    def get_edition_team_current(self):
+        return self.edition_team.all().filter(edition__year=self.year)
+
     def __str__(self):
         return str(self.name)
 
@@ -45,6 +57,14 @@ class Team(models.Model):
         max_length=75,
     )
 
+    @property
+    def get_editions(self):
+        return self.editions.all()
+
+    @property
+    def get_edition_team(self):
+        return self.edition_team.all()
+
     def __str__(self):
         return str(self.name)
 
@@ -52,11 +72,13 @@ class Team(models.Model):
 class EditionTeam(models.Model):
     edition = models.ForeignKey(
         'editions.Edition',
+        related_name='edition_team',
         on_delete=models.CASCADE,
         db_column='edition_year',
     )
     team = models.ForeignKey(
         'editions.Team',
+        related_name='edition_team',
         on_delete=models.CASCADE,
         db_column='team_id',
     )

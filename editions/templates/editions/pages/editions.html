@@ -1,0 +1,11 @@
+{% extends "global/pages/base_header.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "competitions/css/competitions.css" %}">
+{% endblock additional_head %}
+{% block header %}Edições{% endblock header %}
+{% block content %}
+  {% for edition in edition_regs %}
+    {% include "editions/partials/_edition-item.html" %}
+  {% endfor %}
+{% endblock content %}

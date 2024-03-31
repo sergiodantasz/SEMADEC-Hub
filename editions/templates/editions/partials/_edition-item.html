@@ -1,0 +1,18 @@
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "editions/css/edition-item.css" %}">
+{% endblock additional_head %}
+<section class="edition-item-wrapper">
+  <h2 class="edition-item-name">{{ edition.name }}</h2>
+  <h5 class="edition-item-year">{{ edition.year }}</h5>
+  <h4 class="edition-item-theme">{{ edition.theme }}</h4>
+  <div class="edition-item-container-outer">
+    <p class="edition-item-type">
+      <span>Modalidade:</span>
+      <span>{{ edition.edition_type }}</span>
+    </p>
+    <div class="edition-item-container-inner">
+      {% include "editions/partials/_edition-table.html" %}
+    </div>
+  </div>
+</section>
