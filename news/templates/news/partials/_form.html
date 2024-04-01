@@ -4,7 +4,23 @@
   {% for field in form %}
     <div class="field-group">
       <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
-      {{ field }}
+      {% if field.name == "cover" %}
+        <div id="dropzone-container" class="dropzone-default">
+          <img src="{% static "news/img/upload.svg" %}" alt="" draggable="false">
+          {{ field }}
+          <p id="dropzone-file-info">Nenhum arquivo selecionado.</p>
+          <button id="dropzone-upload-button" class="button" type="button">
+            <span>Selecionar arquivo</span>
+          </button>
+          <p>... ou arraste o arquivo até aqui.</p>
+          {% if news.cover %}
+            <a class="news-cover-link" href="{{ news.cover.url }}" target="_blank">Clique aqui para ver a capa atual.</a>
+          {% endif %}
+          <div id="dropzone-area"></div>
+        </div>
+      {% else %}
+        {{ field }}
+      {% endif %}
       {% if field.errors %}
         <div class="field-errors">
           {% for error in field.errors %}

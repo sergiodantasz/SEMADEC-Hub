@@ -1,0 +1,13 @@
+.news-cover-link {
+  z-index: 15;
+  text-decoration: underline;
+  transition: var(--transition);
+}
+
+.news-cover-link:hover {
+  color: var(--green-700);
+}
+
+.news-cover-link:active {
+  color: var(--green-800);
+}

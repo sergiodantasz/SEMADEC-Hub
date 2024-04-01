@@ -1,13 +1,14 @@
 from django import forms
 from django_summernote.widgets import SummernoteWidget
 
-from helpers.form import set_placeholder
+from helpers.form import set_attr, set_placeholder
 from news.models import News
 
 
 class NewsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        set_attr(self.fields['cover'], 'hidden', True)
         set_placeholder(self.fields['title'], 'Digite o título da notícia...')
         set_placeholder(self.fields['excerpt'], 'Digite o título do excerto...')
 
@@ -16,6 +17,7 @@ class NewsForm(forms.ModelForm):
         fields = ['cover', 'title', 'excerpt', 'content']
 
     cover = forms.ImageField(
+        widget=forms.FileInput(),
         required=False,
         label='Capa',
     )
