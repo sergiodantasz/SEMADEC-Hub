@@ -56,7 +56,7 @@ class Match(models.Model):
     teams = models.ManyToManyField(
         to='editions.Team',
         through='competitions.MatchTeam',
-        related_name='matchs',
+        related_name='matches',
     )
     scoreboard = models.CharField(max_length=10)  # Change later
     date_time = models.DateTimeField(

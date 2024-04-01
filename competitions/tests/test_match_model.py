@@ -9,7 +9,7 @@ from editions.models import Team
 def test_match_model_teams_has_related_name_matchs(db, match_fixture):
     match_reg = match_fixture()
     team_reg = Team.objects.first()
-    assert isinstance(team_reg.matchs.first(), Match)
+    assert isinstance(team_reg.matches.first(), Match)
 
 
 def test_match_model_scoreboard_max_length_is_10(db, match_fixture):
