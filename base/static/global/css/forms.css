@@ -33,3 +33,18 @@
   justify-content: center;
   flex-wrap: wrap;
 }
+
+.field-errors {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field-error {
+  text-align: center;
+  border-radius: 1rem;
+  border: 0.1rem solid var(--red-dark);
+  padding: 1rem 0.5rem;
+  background-color: var(--red-light);
+  color: var(--red-dark);
+}
