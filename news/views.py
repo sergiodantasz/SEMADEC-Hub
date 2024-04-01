@@ -43,7 +43,7 @@ def create_news(request):
 @admin_required
 def delete_news(request, slug):
     news_obj = get_object_or_404(News, slug=slug)
-    if request.user != news_obj.administrator:
+    if not is_owner(request.user, news_obj):
         raise PermissionDenied()
     news_obj.delete()
     messages.success(request, 'Notícia apagada com sucesso.')
