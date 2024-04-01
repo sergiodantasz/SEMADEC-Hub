@@ -1,14 +1,18 @@
-{% extends "competitions/partials/_competitions-table.html" %}
+{% extends "global/partials/_table.html" %}
 {% load static %}
+{% block additional_head %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static "competitions/css/competitions-table-sports.css" %}">
+{% endblock additional_head %}
 {% block table_header_rows %}
-  <th class="competitions-table-header">Esporte</th>
-  <th class="competitions-table-header">Categorias</th>
+  <th class="base-table-header">Esporte</th>
+  <th class="base-table-header">Categorias</th>
 {% endblock table_header_rows %}
 {% block table_rows %}
   {% for reg in competition_regs %}
-    <tr class="competitions-table-row">
-      <td class="competitions-table-cell competitions-table-cell-left">{{ reg.name }}</td>
-      <td class="competitions-table-cell competitions-table-cell-right">
+    <tr class="base-table-row">
+      <td class="base-table-cell base-table-cell-left">{{ reg.name }}</td>
+      <td class="base-table-cell base-table-cell-right">
         <div class="category-tags-wrapper">
           {% for category in reg.get_categories %}
             <div class="category-tag {{ category.get_css_class }}">{{ category.name }}</div>

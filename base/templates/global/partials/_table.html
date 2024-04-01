@@ -1,15 +1,15 @@
 {% load static %}
 {% block additional_head %}
-  <link rel="stylesheet" href="{% static "competitions/css/competition-table.css" %}">
+  <link rel="stylesheet" href="{% static "global/css/table.css" %}">
 {% endblock additional_head %}
-<div class="competitions-table-wrapper">
-  <table class="competitions-table table">
-    <thead class="competitions-table-head">
+<div class="base-table-wrapper">
+  <table class="base-table table">
+    <thead class="base-table-head">
       <tr>
         {% block table_header_rows %}{% endblock table_header_rows %}
       </tr>
     </thead>
-    <tbody class="competitions-table-body">
+    <tbody class="base-table-body">
       {% block table_rows %}{% endblock table_rows %}
     </tbody>
   </table>

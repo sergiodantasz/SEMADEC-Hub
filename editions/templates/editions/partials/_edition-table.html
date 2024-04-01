@@ -1,16 +1,16 @@
-{% extends "competitions/partials/_competitions-table.html" %}
+{% extends "global/partials/_table.html" %}
 {% load static %}
 {% block table_header_rows %}
-  <th class="competitions-table-header">Equipe</th>
-  <th class="competitions-table-header">Pontuação</th>
-  <th class="competitions-table-header">Posição</th>
+  <th class="base-table-header">Equipe</th>
+  <th class="base-table-header">Pontuação</th>
+  <th class="base-table-header">Posição</th>
 {% endblock table_header_rows %}
 {% block table_rows %}
   {% for junc in edition.get_edition_team_current%}
-    <tr class="competitions-table-row">
-      <td class="competitions-table-cell">{{ junc.team.name }}</td>
-      <td class="competitions-table-cell">{{ junc.score|floatformat:2 }}</td>
-      <td class="competitions-table-cell">{{ junc.classification }}</td>
+    <tr class="base-table-row">
+      <td class="base-table-cell">{{ junc.team.name }}</td>
+      <td class="base-table-cell">{{ junc.score|floatformat:2 }}</td>
+      <td class="base-table-cell">{{ junc.classification }}</td>
     </tr>
   {% endfor %}
 {% endblock table_rows %}
