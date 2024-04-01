@@ -4,7 +4,7 @@
   <link rel="stylesheet" href="{% static "news/css/view-news.css" %}">
 {% endblock additional_head %}
 {% block content %}
-  {% if user.is_admin %}
+  {% if user.is_admin and is_owner %}
     <div class="admin-actions-wrapper">
       <a class="button" href="{% url "news:edit_news" news.slug %}">
         <img src="{% static "global/img/edit.svg" %}" alt="">

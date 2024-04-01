@@ -1,9 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from helpers.decorators import admin_required
+from helpers.model import is_owner
 from news.forms import NewsForm
 from news.models import News
 
@@ -41,6 +43,8 @@ def create_news(request):
 @admin_required
 def delete_news(request, slug):
     news_obj = get_object_or_404(News, slug=slug)
+    if request.user != news_obj.administrator:
+        raise PermissionDenied()
     news_obj.delete()
     messages.success(request, 'Notícia apagada com sucesso.')
     return redirect(reverse('news:news'))
@@ -50,6 +54,8 @@ def delete_news(request, slug):
 @admin_required
 def edit_news(request, slug):
     news_obj = get_object_or_404(News, slug=slug)
+    if not is_owner(request.user, news_obj):
+        raise PermissionDenied()
     form = NewsForm(request.POST or None, request.FILES or None, instance=news_obj)
     context = {
         'title': 'Editar notícia',
@@ -70,6 +76,7 @@ def view_news(request, slug):
     context = {
         'title': news_obj.title,
         'news': news_obj,
+        'is_owner': is_owner(request.user, news_obj),
     }
     return render(request, 'news/pages/view-news.html', context)
 

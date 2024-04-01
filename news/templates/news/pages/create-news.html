@@ -2,27 +2,13 @@
 {% load static %}
 {% block additional_head %}
   <link rel="stylesheet" href="{% static "news/css/news-item.css" %}">
+  <style>
+    .summernote-div > iframe {
+      border-radius: 1rem;
+      border: 0.2rem solid var(--gray-500);
+    }
+  </style>
 {% endblock additional_head %}
 {% block content %}
-  <form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% for field in form %}
-      <div class="field-group">
-        {% if field.name != "content" %}
-          <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
-        {% endif %}
-        {{ field }}
-      </div>
-    {% endfor %}
-    <div class="form-buttons">
-      <button class="button" type="reset">
-        <img src="{% static "global/img/reset.svg" %}" alt="">
-        <span>Reiniciar</span>
-      </button>
-      <button class="button" type="submit">
-        <img src="{% static "global/img/ok.svg" %}" alt="">
-        <span>Salvar</span>
-      </button>
-    </div>
-  </form>
+  {% include "news/partials/_form.html" %}
 {% endblock content %}
