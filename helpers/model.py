@@ -14,3 +14,7 @@ def get_object(model, *args, **kwargs) -> Any | None:
     if not objects.exists():
         return
     return objects.first()
+
+
+def is_owner(user, registry) -> bool:
+    return user == registry.administrator
