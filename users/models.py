@@ -125,6 +125,7 @@ class User(DjangoAbstractUser):
         'is_admin',
     ]
 
+    @property
     def first_name(self) -> str:
         return self.full_name.split()[0]
 
