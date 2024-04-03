@@ -59,6 +59,7 @@ def edit_news(request, slug):
     form = NewsForm(request.POST or None, request.FILES or None, instance=news_obj)
     context = {
         'title': 'Editar notícia',
+        'news': news_obj,
         'form': form,
         'form_action': reverse('news:edit_news', kwargs={'slug': news_obj.slug}),
     }

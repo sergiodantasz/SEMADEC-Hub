@@ -22,8 +22,8 @@
     </a>
   </div>
   {% if competition_type == 'sports'%}
-    {% include "competitions\partials\_competitions-table-sports.html" %}
+    {% include "competitions/partials/_competitions-table-sports.html" %}
   {% elif competition_type == 'tests' %}
-    {% include "competitions\partials\_competitions-table-tests.html" %}
+    {% include "competitions/partials/_competitions-table-tests.html" %}
   {% endif %}
 {% endblock content %}
