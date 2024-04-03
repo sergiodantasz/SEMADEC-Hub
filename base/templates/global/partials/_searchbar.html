@@ -1,0 +1,12 @@
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "global/css/searchbar.css" %}">
+{% endblock additional_head %}
+<div class="searchbar-form-wrapper">
+  <img class="searchbar-form-icon" src="{% static "global/img/magnifier.svg" %}" alt="">
+  <form class="searchbar-form" action="">
+    <input class="searchbar-input" method="GET" type="search" name="q" value="{{ query_string }}" placeholder="Pesquise aqui" required>
+    <button class="searchbar-button" type="submit">
+    </button>
+  </form>
+</div>
