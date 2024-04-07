@@ -16,6 +16,7 @@
 }
 
 .news-item-cover-wrapper {
+  flex: 1;
   border-radius: inherit;
   min-width: 35rem;
   height: 25rem;
@@ -44,11 +45,13 @@
   color: var(--green-700);
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .news-item-container {
     flex-direction: column;
+    row-gap: 1.5rem;
   }
   .news-item-cover-wrapper {
+    flex: none;
     min-width: 100%;
   }
   .news-item-content {

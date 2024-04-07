@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -8,13 +9,35 @@ from helpers.decorators import admin_required
 from helpers.model import is_owner
 from news.forms import NewsForm
 from news.models import News
+from news.tests.factories import NewsFactory
 
 
 def news(request):
-    news = News.objects.all().order_by('-id')
+    news = NewsFactory.create_batch(size=8)  # Remove if needed
     context = {
         'title': 'Notícias',
-        'news_obj': news,
+        'page_content': News.objects.all().order_by('-created_at'),
+        'search_namespace': reverse('news:news_search'),
+    }
+    return render(request, 'news/pages/news.html', context)
+
+
+def news_search(request):
+    querystr = request.GET.get('q').strip()
+
+    if not querystr:
+        return redirect(reverse('news:news'))
+
+    page_content = News.objects.filter(
+        Q(
+            Q(title__icontains=querystr)
+            | Q(excerpt__icontains=querystr)
+            | Q(content__icontains=querystr)
+        )
+    ).order_by('-created_at')
+    context = {
+        'page_content': page_content,
+        'search_namespace': 'news:news_search',
     }
     return render(request, 'news/pages/news.html', context)
 
