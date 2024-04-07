@@ -6,8 +6,9 @@
 {% endblock additional_head %}
 {% block header %}Documentos{% endblock header %}
 {% block content %}
+  {% include "global/partials/_searchbar.html" %}
   <div class="document-collection-list">
-    {% for document_reg in document_regs %}
+    {% for document_reg in page_content %}
       {% include "documents/partials/_document-collection-item.html" %}
     {% endfor %}
   </div>

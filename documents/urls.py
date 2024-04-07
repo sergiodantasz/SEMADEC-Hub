@@ -6,4 +6,5 @@ app_name = 'documents'
 
 urlpatterns = [
     path('', views.documents, name='documents'),
+    path('busca/', views.documents_search, name='documents_search'),
 ]
