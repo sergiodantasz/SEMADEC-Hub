@@ -68,13 +68,13 @@
   word-break: break-all;
 }
 
-@media (max-width: 800px) {
+@media screen and (max-width: 800px) {
   .profile-content-inner-right {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 1100px) {
+@media screen and (max-width: 1100px) {
   .profile-content-container {
     flex-direction: column;
   }

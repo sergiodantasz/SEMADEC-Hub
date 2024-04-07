@@ -28,7 +28,7 @@ body {
   border-radius: 10rem;
 }
 
-@media (max-width: 400px) {
+@media screen and (max-width: 400px) {
   .error-code {
     font-size: 10rem;
   }
