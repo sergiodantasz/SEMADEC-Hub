@@ -44,7 +44,7 @@ def news_search(request):
 
 @login_required
 @admin_required
-def create_news(request):
+def create_news(request):  # Change to `news_create`
     form = NewsForm(request.POST or None, request.FILES or None)
     context = {
         'title': 'Criar notícia',
@@ -64,7 +64,7 @@ def create_news(request):
 
 @login_required
 @admin_required
-def delete_news(request, slug):
+def delete_news(request, slug):  # Change to `news_delete`
     news_obj = get_object_or_404(News, slug=slug)
     if not is_owner(request.user, news_obj):
         raise PermissionDenied()
@@ -75,7 +75,7 @@ def delete_news(request, slug):
 
 @login_required
 @admin_required
-def edit_news(request, slug):
+def edit_news(request, slug):  # Change to `news_edit`
     news_obj = get_object_or_404(News, slug=slug)
     if not is_owner(request.user, news_obj):
         raise PermissionDenied()
