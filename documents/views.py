@@ -27,7 +27,7 @@ def search_document_collection(request):
     query = request.GET.get('q').strip()
     if not query:
         return redirect(reverse('documents:documents'))
-    search = Collection.objects.filter(  # CHANGE LATER
+    search = Collection.objects.filter(  # CHANGE
         Q(
             Q(collection_type__iexact='document')
             & Q(

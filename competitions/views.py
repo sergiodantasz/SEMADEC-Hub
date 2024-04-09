@@ -22,7 +22,7 @@ def sports(request):
         'title': 'Competições',
         'page_variant': 'sports',
         'page_content': Sport.objects.all(),
-        'search_namespace': reverse('competitions:sports_search'),
+        'search_url': reverse('competitions:sports_search'),
     }
     return render(request, 'competitions/pages/competitions.html', context)
 
@@ -50,7 +50,7 @@ def tests(request):
         'title': 'Competições',
         'page_variant': 'tests',
         'page_content': Test.objects.all(),
-        'search_namespace': reverse('competitions:tests_search'),
+        'search_url': reverse('competitions:tests_search'),
     }
     return render(request, 'competitions/pages/competitions.html', context)
 
