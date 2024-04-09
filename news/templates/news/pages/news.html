@@ -5,6 +5,7 @@
 {% endblock additional_head %}
 {% block header %}Notícias{% endblock header %}
 {% block content %}
+  {% include "global/partials/_searchbar.html" %}
   {% if user.is_admin %}
     <div class="admin-actions-wrapper">
       <a class="button" href="{% url "news:create_news" %}">
@@ -14,7 +15,7 @@
     </div>
   {% endif %}
   <div class="news-list">
-    {% for news in news_obj %}
+    {% for news in page_content %}
       {% include "news/partials/_news-item.html" %}
     {% empty %}
       <p class="nothing-found">Nenhuma notícia foi encontrada.</p>

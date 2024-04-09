@@ -6,6 +6,7 @@
 {% endblock additional_head %}
 {% block header %}Documentos{% endblock header %}
 {% block content %}
+  {% include "global/partials/_searchbar.html" %}
   {% if user.is_admin %}
     <div class="admin-actions-wrapper">
       <a class="button" href="{% url "documents:create_document" %}">

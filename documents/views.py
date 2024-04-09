@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -18,6 +19,25 @@ def documents_collection(request):
     context = {
         'title': 'Documentos',
         'documents_collection_objs': documents_collection_objs,
+    }
+    return render(request, 'documents/pages/documents.html', context)
+
+
+def search_document_collection(request):
+    query = request.GET.get('q').strip()
+    if not query:
+        return redirect(reverse('documents:documents'))
+    search = Collection.objects.filter(  # CHANGE LATER
+        Q(
+            Q(collection_type__iexact='document')
+            & Q(
+                Q(title__icontains=query),
+            )
+        ),
+    )
+    context = {
+        'title': 'Documentos',
+        'page_content': search,
     }
     return render(request, 'documents/pages/documents.html', context)
 

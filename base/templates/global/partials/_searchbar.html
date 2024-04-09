@@ -4,7 +4,7 @@
 {% endblock additional_head %}
 <div class="searchbar-form-wrapper">
   <img class="searchbar-form-icon" src="{% static "global/img/magnifier.svg" %}" alt="">
-  <form class="searchbar-form" action="">
+  <form class="searchbar-form" action="{{search_namespace}}">
     <input class="searchbar-input" method="GET" type="search" name="q" value="{{ query_string }}" placeholder="Pesquise aqui" required>
     <button class="searchbar-button" type="submit">
     </button>

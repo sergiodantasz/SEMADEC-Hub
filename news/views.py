@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -11,10 +12,29 @@ from news.models import News
 
 
 def news(request):
-    news_objs = News.objects.order_by('-id')
+    news_objs = News.objects.order_by('-created_at')
     context = {
         'title': 'Notícias',
         'news_obj': news_objs,
+        'search_url': reverse('news:news_search'),
+    }
+    return render(request, 'news/pages/news.html', context)
+
+
+def search_news(request):
+    query = request.GET.get('q').strip()
+    if not query:
+        return redirect(reverse('news:news'))
+    news_objs = News.objects.filter(
+        Q(
+            Q(title__icontains=query)
+            | Q(excerpt__icontains=query)
+            | Q(content__icontains=query)
+        )
+    ).order_by('-created_at')
+    context = {
+        'page_content': news_objs,
+        'search_url': reverse('news:search_news'),
     }
     return render(request, 'news/pages/news.html', context)
 
