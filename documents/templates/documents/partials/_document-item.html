@@ -1,14 +1,10 @@
 {% load static %}
 <div class="document-item">
-  <a class="document-item-download-button" href="{{ file.content.url }}" download="{{ file.content.name }}">
+  <a class="document-item-download-button" href="{{ document.content.url }}" download="{{ document.name }}">
     <img draggable="false" src="{% static "documents/img/download.svg" %}" alt="Ícone de fazer download." class="document-item-download-icon">
   </a>
   <div class="document-item-info">
-    {% if file.display_name %}
-      <span class="document-item-name">{{ file.display_name }}</span>
-    {% else %}
-      <span class="document-item-name">{{ file.content.name }}</span>
-    {% endif %}
-    <span class="document-item-size">{{ file.content.size|filesizeformat }}</span>
+    <span class="document-item-name">{{ document.name }}</span>
+    <span class="document-item-size">{{ document.content.size|filesizeformat }}</span>
   </div>
 </div>

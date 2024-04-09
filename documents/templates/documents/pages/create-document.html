@@ -1,0 +1,8 @@
+{% extends "global/pages/base_no_header.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "documents/css/create-document-collection.css" %}">
+{% endblock additional_head %}
+{% block content %}
+  {% include "documents/partials/_form.html" %}
+{% endblock content %}

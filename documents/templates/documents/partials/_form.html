@@ -1,0 +1,40 @@
+{% load static %}
+<form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% for field in form %}
+    {% if field.name == "collection_type" %}
+      {{ field }}
+    {% else %}
+      <div class="field-group">
+        <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+        {{ field }}
+        {% if field.errors %}
+          <div class="field-errors">
+            {% for error in field.errors %}
+              <div class="field-error">{{ error }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
+  <div class="field-group documents-container">
+    <label class="button" for="id_documents">
+      <span>Selecionar documentos</span>
+      {{ document_form.documents }}
+    </label>
+    <div class="documents-list-container">
+      <div class="documents-list-row documents-list-row-header">
+        <span><strong>Nome de exibição</strong></span>
+        <span><strong>Arquivo</strong></span>
+      </div>
+      <div class="nothing-found">
+        <p>Nenhum documento foi selecionado.</p>
+      </div>
+    </div>
+  </div>
+  {% include "global/partials/_form-buttons.html" %}
+</form>
+{% block additional_script %}
+  <script src="{% static "documents/js/documents.js" %}"></script>
+{% endblock additional_script %}
