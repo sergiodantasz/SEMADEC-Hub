@@ -6,9 +6,19 @@
 {% endblock additional_head %}
 {% block header %}Documentos{% endblock header %}
 {% block content %}
+  {% if user.is_admin %}
+    <div class="admin-actions-wrapper">
+      <a class="button" href="{% url "documents:create_document" %}">
+        <img src="{% static "global/img/add.svg" %}" alt="">
+        <span>Criar documento</span>
+      </a>
+    </div>
+  {% endif %}
   <div class="document-collection-list">
-    {% for document_reg in document_regs %}
+    {% for document_collection in documents_collection_objs %}
       {% include "documents/partials/_document-collection-item.html" %}
+    {% empty %}
+      <p class="nothing-found">Nenhum documento foi encontrado.</p>
     {% endfor %}
   </div>
 {% endblock content %}

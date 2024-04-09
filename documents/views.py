@@ -1,17 +1,71 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
-from archive.tests.factories import CollectionDocumentsFactory, DocumentFactory
-from home.tests.factories import TagFactory
+from documents.forms import DocumentCollectionForm, DocumentForm
+from documents.models import Document
+from helpers.decorators import admin_required
+from helpers.model import is_owner
+from home.models import Collection
 
 
-def documents(request):
-    context = {'title': 'Documentos'}
-    files = DocumentFactory.create_batch(3)
-    tags = TagFactory.create_batch(3)
-    document_regs = CollectionDocumentsFactory.create_batch(
-        size=3,
-        files=files,
-        tags=tags,
-    )
-    context['document_regs'] = document_regs
+def documents_collection(request):
+    documents_collection_objs = Collection.objects.filter(
+        collection_type='document'
+    ).order_by('-id')
+    context = {
+        'title': 'Documentos',
+        'documents_collection_objs': documents_collection_objs,
+    }
     return render(request, 'documents/pages/documents.html', context)
+
+
+@login_required
+@admin_required
+def create_document_collection(request):
+    form = DocumentCollectionForm(request.POST or None, request.FILES or None)
+    document_form = DocumentForm(request.POST or None, request.FILES or None)
+    context = {
+        'title': 'Criar coleção de documentos',
+        'form': form,
+        'document_form': document_form,
+        'form_action': reverse('documents:create_document'),
+    }
+    if request.POST:
+        documents = request.FILES.getlist('documents')
+        names = [
+            name for item, name in request.POST.items() if item.startswith('document-')
+        ]
+        if form.is_valid():
+            if not documents or not names:
+                messages.error(request, 'Nenhum documento foi selecionado.')
+            else:
+                document_collection = form.save(commit=False)
+                document_collection.administrator = request.user
+                document_collection.save()
+                for i, document in enumerate(documents):
+                    Document.objects.create(
+                        collection=document_collection,
+                        name=names[i],
+                        content=document,
+                    )
+                messages.success(request, 'Coleção de documentos criada com sucesso.')
+                return redirect(reverse('documents:documents'))
+        else:
+            messages.error(request, 'Preencha os campos do formulário corretamente.')
+    return render(request, 'documents/pages/create-document.html', context)
+
+
+@login_required
+@admin_required
+def delete_document_collection(request, slug):
+    document_collection_obj = get_object_or_404(
+        Collection, collection_type='document', slug=slug
+    )
+    if not is_owner(request.user, document_collection_obj):
+        raise PermissionDenied()
+    document_collection_obj.delete()
+    messages.success(request, 'Coleção de documentos apagada com sucesso.')
+    return redirect(reverse('documents:documents'))
