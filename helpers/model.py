@@ -1,8 +1,12 @@
-from os.path import split
-from typing import Any
+from __future__ import annotations
 
-from home.models import Collection
+from os.path import split
+from typing import TYPE_CHECKING, Any
+
 from users.models import User
+
+if TYPE_CHECKING:
+    from home.models import Collection
 
 
 def get_object(model, *args, **kwargs) -> Any | None:
