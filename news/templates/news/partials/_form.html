@@ -6,7 +6,7 @@
       <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
       {% if field.name == "cover" %}
         <div id="dropzone-container" class="dropzone-default">
-          <img src="{% static "news/img/upload.svg" %}" alt="" draggable="false">
+          <img src="{% static "global/img/upload.svg" %}" alt="" draggable="false">
           {{ field }}
           <p id="dropzone-file-info">Nenhum arquivo selecionado.</p>
           <button id="dropzone-upload-button" class="button" type="button">

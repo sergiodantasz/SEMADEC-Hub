@@ -40,6 +40,21 @@
   border-style: solid;
 }
 
+.dropzone-cover-link {
+  z-index: 15;
+  text-decoration: underline;
+  transition: var(--transition);
+}
+
+.dropzone-cover-link:hover {
+  color: var(--green-700);
+}
+
+.dropzone-cover-link:active {
+  color: var(--green-800);
+}
+
+
 @media (max-width: 400px) {
   #dropzone-container {
     padding: 2rem;

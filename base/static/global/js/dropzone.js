@@ -41,7 +41,6 @@ iconInput.addEventListener('change', e => {
 uploadButton.addEventListener('click', e => iconInput.click())
 
 dropzoneArea.addEventListener('dragover', e => {
-  console.log('dragover', e.dataTransfer.files);
   e.preventDefault()
   e.dataTransfer.dropEffect = 'copy'
   setStyle('over')
@@ -49,7 +48,6 @@ dropzoneArea.addEventListener('dragover', e => {
 })
 
 dropzoneArea.addEventListener('dragleave', e => {
-  console.log('dragleave', e.dataTransfer.files);
   e.preventDefault()
   setStyle()
   file = getCurrentFile()
@@ -61,7 +59,6 @@ dropzoneArea.addEventListener('dragleave', e => {
 })
 
 dropzoneArea.addEventListener('drop', e => {
-  console.log('drop', e.dataTransfer.files);
   e.preventDefault()
   setStyle()
   iconInput.files = e.dataTransfer.files
