@@ -11,10 +11,10 @@ from news.models import News
 
 
 def news(request):
-    news = News.objects.all().order_by('-id')
+    news_objs = News.objects.order_by('-id')
     context = {
         'title': 'Notícias',
-        'news_obj': news,
+        'news_obj': news_objs,
     }
     return render(request, 'news/pages/news.html', context)
 
@@ -35,7 +35,8 @@ def create_news(request):
             news.save()
             messages.success(request, 'Notícia criada com sucesso.')
             return redirect(reverse('news:view_news', kwargs={'slug': news.slug}))
-        messages.error(request, 'Preencha os campos do formulário corretamente.')
+        else:
+            messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'news/pages/create-news.html', context)
 
 
@@ -80,7 +81,3 @@ def view_news(request, slug):
         'is_owner': is_owner(request.user, news_obj),
     }
     return render(request, 'news/pages/view-news.html', context)
-
-
-# TODO:
-# * Configure cover input (when create and edit)
