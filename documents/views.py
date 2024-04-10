@@ -17,19 +17,17 @@ from home.models import Collection
 
 
 def documents_collection(request):
-    # For test purposes
-    collection_fac = CollectionDocumentsFactory()
-    document_fac = DocumentFactory.create_batch(
+    collection_fac = CollectionDocumentsFactory()  # Remove if needed
+    DocumentFactory.create_batch(
         size=3,
         collection=collection_fac,
-    )
-    # For test purposes
+    )  # Remove if needed
     documents_collection_objs = Collection.objects.filter(
         collection_type='document'
     ).order_by('-id')
     context = {
         'title': 'Documentos',
-        'documents_collection_objs': documents_collection_objs,
+        'db_regs': documents_collection_objs,
     }
     return render(request, 'documents/pages/documents.html', context)
 
