@@ -2,7 +2,7 @@
 {% load static %}
 {% block additional_head %}
   <link rel="stylesheet" href="{% static "news/css/news-item.css" %}">
-  <link rel="stylesheet" href="{% static "news/css/dropzone.css" %}">
+  <link rel="stylesheet" href="{% static "global/css/dropzone.css" %}">
   <style>
     .summernote-div > iframe {
       border-radius: 1rem;
@@ -14,5 +14,5 @@
   {% include "news/partials/_form.html" %}
 {% endblock content %}
 {% block additional_script %}
-  <script src="{% static "news/js/dropzone.js" %}"></script>
+  <script src="{% static "global/js/dropzone.js" %}"></script>
 {% endblock additional_script %}
