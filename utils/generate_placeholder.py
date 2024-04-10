@@ -11,8 +11,8 @@ def generate_placeholder() -> ImageFile:
         ImageFile: A Django's ImageFile object.
     """
     image_name = 'placeholder.jpg'
-    width = randint(100, 1000)
-    height = randint(100, 1000)
+    width = randint(100, 5000)
+    height = randint(100, 5000)
     image = requests.get(
         f'https://placehold.co/{width}x{height}/22C55E/052E16.jpg'
     ).content

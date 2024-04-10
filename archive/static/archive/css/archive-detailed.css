@@ -8,6 +8,7 @@
   flex: 1 1 24rem;
   height: 20rem;
   border-radius: 2rem;
+  cursor: pointer;
 }
 
 .archive-image-item {

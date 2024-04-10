@@ -1,0 +1,60 @@
+.archive-modal {
+  margin: auto;
+  outline: none;
+  border: none;
+  overflow: hidden;
+  transition: var(--transition);
+  background: none;
+}
+
+.archive-modal[open] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 1rem;
+  width: 80vw;
+  height: 80vh;
+}
+
+.archive-modal::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  transition: var(--transition);
+}
+
+.archive-modal-wrapper {
+  overflow: hidden;
+  width: auto;
+  height: auto;
+}
+
+.archive-modal-image {
+  border-radius: 2.5rem;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.archive-modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.archive-modal-button {
+  cursor: pointer;
+  background: white;
+  border: none;
+  outline: none;
+  width: 4rem;
+  height: 4rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.archive-modal-button-image {
+  width: 100%;
+  height: 100%;
+}

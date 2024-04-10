@@ -1,0 +1,17 @@
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "archive/css/archive-item-modal.css" %}">
+{% endblock additional_head %}
+<dialog class="archive-modal">
+  <div class="archive-modal-wrapper">
+    <img class="archive-modal-image" src="" />
+  </div>
+  <div class="archive-modal-buttons">
+    <button class="archive-modal-button" id="archive-modal-button-close">
+      <img class="archive-modal-button-image" src="{% static "archive/img/close_image_icon.svg"%}" alt="">
+    </button>
+    <button class="archive-modal-button" id="archive-modal-button-remove">
+      <img class="archive-modal-button-image" src="{% static "archive/img/remove_image_icon.svg"%}" alt="">
+    </button>
+  </div>
+</dialog>

@@ -3,6 +3,10 @@
 {% block additional_head %}
   <link rel="stylesheet" href="{% static "archive/css/archive-detailed.css" %}">
 {% endblock additional_head %}
+{% block main %}
+  {% include "archive/partials/_archive-item-modal.html" %}
+  {{ block.super }}
+{% endblock main %}
 {% block content %}
   <div class="images-container">
     {% for image in archive_reg.get_files %}
@@ -12,3 +16,6 @@
     {% endfor %}
   </div>
 {% endblock content %}
+{% block additional_script %}
+  <script src="{% static "archive/js/archive-item-modal.js" %}"></script>
+{% endblock additional_script %}
