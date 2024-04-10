@@ -6,7 +6,9 @@
 {% endblock additional_head %}
 {% block header %}Documentos{% endblock header %}
 {% block content %}
-  {% include "global/partials/_searchbar.html" %}
+  {% if db_regs|length != 0 %}
+    {% include "global/partials/_searchbar.html" %}
+  {% endif %}
   {% if user.is_admin %}
     <div class="admin-actions-wrapper">
       <a class="button" href="{% url "documents:create_document" %}">
@@ -16,7 +18,7 @@
     </div>
   {% endif %}
   <div class="document-collection-list">
-    {% for document_collection in documents_collection_objs %}
+    {% for document_collection in db_regs %}
       {% include "documents/partials/_document-collection-item.html" %}
     {% empty %}
       <p class="nothing-found">Nenhum documento foi encontrado.</p>

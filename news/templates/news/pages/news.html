@@ -5,7 +5,9 @@
 {% endblock additional_head %}
 {% block header %}Notícias{% endblock header %}
 {% block content %}
-  {% include "global/partials/_searchbar.html" %}
+  {% if db_regs|length != 0 %}
+    {% include "global/partials/_searchbar.html" %}
+  {% endif %}
   {% if user.is_admin %}
     <div class="admin-actions-wrapper">
       <a class="button" href="{% url "news:create_news" %}">

@@ -5,7 +5,9 @@
 {% endblock additional_head %}
 {% block header %}Competições{% endblock header %}
 {% block content %}
-  {% include "global/partials/_searchbar.html" %}
+  {% if db_regs|length != 0 %}
+    {% include "global/partials/_searchbar.html" %}
+  {% endif %}
   <div class="competitions-options">
     <a class="competitions-option-container" href="{% url "competitions:sports" %}">
       <span>Esportes</span>
@@ -22,8 +24,16 @@
     </a>
   </div>
   {% if page_variant == 'sports'%}
-    {% include "competitions/partials/_competitions-table-sports.html" %}
+    {% if db_regs|length != 0 %}
+      {% include "competitions/partials/_competitions-table-sports.html" %}
+    {% else %}
+      <p class="nothing-found">Nenhum esporte foi encontrado.</p>
+    {% endif %}
   {% elif page_variant == 'tests' %}
-    {% include "competitions/partials/_competitions-table-tests.html" %}
+    {% if db_regs|length != 0 %}
+      {% include "competitions/partials/_competitions-table-tests.html" %}
+    {% else %}
+      <p class="nothing-found">Nenhuma prova foi encontrada.</p>
+    {% endif %}
   {% endif %}
 {% endblock content %}

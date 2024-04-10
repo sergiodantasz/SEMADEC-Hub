@@ -1,9 +1,11 @@
 {% extends "global/partials/_table.html" %}
 {% load static %}
-{% block table_header_rows %}
-  <th class="base-table-header">Prova</th>
-  <th class="base-table-header">Data</th>
-{% endblock table_header_rows %}
+{% if db_regs|length != 0 %}
+  {% block table_header_rows %}
+    <th class="base-table-header">Prova</th>
+    <th class="base-table-header">Data</th>
+  {% endblock table_header_rows %}
+{% endif %}
 {% block table_rows %}
   {% for reg in db_regs %}
     <tr class="base-table-row">
