@@ -22,7 +22,7 @@ class Edition(models.Model):
         blank=True,
     )
     edition_type = models.CharField(
-        max_length=10,
+        max_length=30,
         db_column='type',
     )
     theme = models.CharField(
@@ -98,6 +98,10 @@ class EditionTeam(models.Model):
 
 
 class Class(models.Model):
+    name = models.CharField(
+        max_length=30,
+        unique=True,
+    )
     course = models.ForeignKey(
         'editions.Course',
         on_delete=models.SET_NULL,

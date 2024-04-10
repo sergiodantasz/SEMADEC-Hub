@@ -16,7 +16,6 @@
 }
 
 .news-item-cover-wrapper {
-  flex: 1;
   border-radius: inherit;
   min-width: 35rem;
   height: 25rem;

@@ -8,9 +8,9 @@ def test_news_viewname_redirects_to_news_view():
     assert view.func is views.news
 
 
-def test_news_search_viewname_redirects_to_news_search_view():
-    view = resolve(reverse('news:news_search'))
-    assert view.func is views.news_search
+def test_search_news_viewname_redirects_to_news_search_view():
+    view = resolve(reverse('news:search_news'))
+    assert view.func is views.search_news
 
 
 def test_create_news_viewname_redirects_to_create_news_view():

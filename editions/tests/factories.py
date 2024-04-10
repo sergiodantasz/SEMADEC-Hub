@@ -1,8 +1,7 @@
-from random import choice, randint
+from random import choice, choices, randint
 from random import uniform as randfloat
 
 from factory import (
-    PostGeneration,
     RelatedFactory,
     Sequence,
     SubFactory,
@@ -28,6 +27,13 @@ class ModelsDummyData(BaseProvider):
         ]
         return choice(options)
 
+    def edition_type(self):
+        options = [
+            'Confronto entre turmas',
+            'Confronto entre cursos',
+        ]
+        return choice(options)
+
 
 fake = faker.Faker('pt_BR')
 fake.add_provider(ModelsDummyData)
@@ -38,7 +44,19 @@ class CourseFactory(DjangoModelFactory):
         model = 'editions.Course'
         skip_postgeneration_save = True
 
-    name = Sequence(lambda x: fake.unique.catch_phrase())
+    name = Sequence(lambda x: fake.unique.text(max_nb_chars=75))
+
+
+class EditionFactory(DjangoModelFactory):
+    class Meta:
+        model = 'editions.Edition'
+        skip_postgeneration_save = True
+        django_get_or_create = ('name',)
+
+    year = Sequence(lambda x: fake.unique.random_number(digits=4, fix_len=True))
+    name = Sequence(lambda x: fake.edition_name())
+    edition_type = fake.edition_type()
+    theme = fake.text(max_nb_chars=100)
 
 
 class TeamFactory(DjangoModelFactory):
@@ -55,20 +73,9 @@ class ClassFactory(DjangoModelFactory):
         model = 'editions.Class'
         skip_postgeneration_save = True
 
+    name = Sequence(lambda x: fake.text(max_nb_chars=30))
     course = SubFactory(CourseFactory)
     team = SubFactory(TeamFactory)
-
-
-class EditionFactory(DjangoModelFactory):
-    class Meta:
-        model = 'editions.Edition'
-        skip_postgeneration_save = True
-        # django_get_or_create = ('name',)
-
-    year = Sequence(lambda x: fake.unique.random_number(digits=4, fix_len=True))
-    name = Sequence(lambda x: fake.edition_name())
-    edition_type = fake.pystr(max_chars=10)
-    theme = fake.text(max_nb_chars=100)
 
 
 class EditionTeamFactory(DjangoModelFactory):

@@ -5,7 +5,7 @@
   <th class="base-table-header">Data</th>
 {% endblock table_header_rows %}
 {% block table_rows %}
-  {% for reg in page_content %}
+  {% for reg in db_regs %}
     <tr class="base-table-row">
       <td class="base-table-cell base-table-cell-left">{{ reg.title }}</td>
       <td class="base-table-cell base-table-cell-right">

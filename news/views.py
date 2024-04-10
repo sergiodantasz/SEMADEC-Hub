@@ -9,14 +9,16 @@ from helpers.decorators import admin_required
 from helpers.model import is_owner
 from news.forms import NewsForm
 from news.models import News
+from news.tests.factories import NewsFactory
 
 
 def news(request):
+    NewsFactory.create_batch(5)  # Remove if needed
     news_objs = News.objects.order_by('-created_at')
     context = {
         'title': 'Notícias',
-        'news_obj': news_objs,
-        'search_url': reverse('news:news_search'),
+        'db_regs': news_objs,
+        'search_url': reverse('news:search_news'),
     }
     return render(request, 'news/pages/news.html', context)
 
@@ -33,7 +35,7 @@ def search_news(request):
         )
     ).order_by('-created_at')
     context = {
-        'page_content': news_objs,
+        'db_regs': news_objs,
         'search_url': reverse('news:search_news'),
     }
     return render(request, 'news/pages/news.html', context)

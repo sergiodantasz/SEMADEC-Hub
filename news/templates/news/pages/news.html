@@ -15,7 +15,7 @@
     </div>
   {% endif %}
   <div class="news-list">
-    {% for news in news_objs %}
+    {% for news in db_regs %}
       {% include "news/partials/_news-item.html" %}
     {% empty %}
       <p class="nothing-found">Nenhuma notícia foi encontrada.</p>

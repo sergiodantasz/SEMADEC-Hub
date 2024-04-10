@@ -7,12 +7,23 @@ from django.urls import reverse
 
 from documents.forms import DocumentCollectionForm, DocumentForm
 from documents.models import Document
+from documents.tests.factories import CollectionDocumentsFactory, DocumentFactory
 from helpers.decorators import admin_required
 from helpers.model import is_owner
 from home.models import Collection
 
+# from archive.tests.factories import CollectionFactory, DocumentFactory
+# from home.tests.factories import CollectionFactory
+
 
 def documents_collection(request):
+    # For test purposes
+    collection_fac = CollectionDocumentsFactory()
+    document_fac = DocumentFactory.create_batch(
+        size=3,
+        collection=collection_fac,
+    )
+    # For test purposes
     documents_collection_objs = Collection.objects.filter(
         collection_type='document'
     ).order_by('-id')
@@ -37,7 +48,7 @@ def search_document_collection(request):
     )
     context = {
         'title': 'Documentos',
-        'page_content': search,
+        'db_regs': search,
     }
     return render(request, 'documents/pages/documents.html', context)
 

@@ -122,7 +122,6 @@ class TestTeam(models.Model):
     team = models.ForeignKey(
         'editions.Team',
         on_delete=models.CASCADE,
-        # db_column='team_id',
     )
     score = models.FloatField(
         null=True,

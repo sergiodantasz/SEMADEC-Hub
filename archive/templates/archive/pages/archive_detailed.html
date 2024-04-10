@@ -9,7 +9,7 @@
 {% endblock main %}
 {% block content %}
   <div class="images-container">
-    {% for image in archive_reg.get_files %}
+    {% for image in archive_reg.get_images %}
       <div class="archive-image-wrapper">
         <img class="archive-image-item" src="{{ image.content.url }}" alt="">
       </div>
