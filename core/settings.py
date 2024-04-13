@@ -1,14 +1,12 @@
 from pathlib import Path
 
 from django.contrib.messages import constants
-from dotenv import load_dotenv
 from environ import Env
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv(BASE_DIR / '.env', override=True)
-
 env = Env()
+env.read_env(BASE_DIR / '.env', True)
 
 SECRET_KEY = env.str('SECRET_KEY')
 DEBUG = env.bool('DEBUG')
