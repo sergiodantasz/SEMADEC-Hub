@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from users.models import User
+
 
 def login(request):
     if request.user.is_authenticated:
@@ -13,6 +15,12 @@ def login(request):
 @login_required
 def profile(request):
     context = {'title': 'Perfil'}
+    # REMOVE LATER
+    # reg = User.objects.first()
+    # reg.is_admin = True
+    # reg.is_staff = True
+    # reg.save()
+    # REMOVE LATER
     return render(request, 'users/pages/profile.html', context)
 
 

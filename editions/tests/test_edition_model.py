@@ -16,8 +16,8 @@ def test_edition_model_year_is_positive(db, edition_fixture):
     assert reg.year > 0
 
 
-def test_edition_model_name_has_max_length_10(db, edition_fixture):
-    reg = edition_fixture(name='a' * 11)
+def test_edition_model_name_has_max_length_20(db, edition_fixture):
+    reg = edition_fixture(name='a' * 21)
     with assert_raises(ValidationError):
         reg.full_clean()
 
@@ -26,11 +26,6 @@ def test_edition_model_name_is_unique(db, edition_fixture):
     with assert_raises(IntegrityError):
         reg1 = edition_fixture(name='name test')
         reg2 = edition_fixture(name='name test')
-
-
-def test_edition_model_name_can_be_null(db, edition_fixture):
-    reg = edition_fixture(name=None)
-    assert reg.name is None
 
 
 def test_edition_model_name_can_be_blank(db, edition_fixture):

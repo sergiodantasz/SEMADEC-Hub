@@ -100,8 +100,6 @@ class Test(models.Model):
         default='',
     )
     date_time = models.DateTimeField(
-        null=True,
-        blank=True,
         default=None,
     )
     teams = models.ManyToManyField(

@@ -20,7 +20,9 @@ a {
   color: inherit;
 }
 
-input {
+input,
+textarea,
+select {
   font-family: var(--font-family);
   font-size: var(--font-size-content-small);
   outline: none;

@@ -10,7 +10,10 @@
   gap: 0.5rem;
 }
 
-.field-group input[type="text"] {
+.field-group input[type="text"],
+.field-group input[type="number"],
+.field-group select,
+.field-group textarea {
   border: 0.2rem solid var(--gray-500);
   padding: 1rem;
   transition: var(--transition);
@@ -18,12 +21,25 @@
   color: var(--green-950);
 }
 
-.field-group input[type="text"]::placeholder {
+.field-group input[type="text"]::placeholder,
+.field-group input[type="number"]::placeholder,
+.field-group select {
   color: var(--gray-500);
 }
 
-.field-group input[type="text"]:focus {
+.field-group input[type="text"]:focus,
+.field-group input[type="number"]:focus,
+.field-group select:focus,
+.field-group textarea:focus {
   border-color: var(--green-600);
+}
+
+textarea {
+  font-family: var(--vont-family);
+}
+
+textarea::placeholder {
+  color: var(--gray-500);
 }
 
 .form-buttons {

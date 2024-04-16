@@ -9,7 +9,7 @@
   <div class="edition-item-container-outer">
     <p class="edition-item-type">
       <span>Modalidade:</span>
-      <span>{{ edition.edition_type }}</span>
+      <span>{{ edition.get_edition_type_display }}</span>
     </p>
     <div class="edition-item-container-inner">
       {% include "editions/partials/_edition-table.html" %}

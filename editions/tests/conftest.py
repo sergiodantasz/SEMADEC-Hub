@@ -9,6 +9,7 @@ from competitions.tests.factories import (
 from editions.tests.factories import (
     ClassFactory,
     CourseFactory,
+    EditionFactory,
     EditionTeamFactory,
     EditionWithTeamFactory,
     TeamFactory,

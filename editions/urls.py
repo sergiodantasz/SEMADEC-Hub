@@ -6,4 +6,5 @@ app_name = 'editions'
 
 urlpatterns = [
     path('', views.editions, name='editions'),
+    path('criar', views.editions_create, name='editions_create'),
 ]

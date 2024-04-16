@@ -10,7 +10,7 @@
     <tr class="base-table-row">
       <td class="base-table-cell">{{ junc.team.name }}</td>
       <td class="base-table-cell">{{ junc.score|floatformat:2 }}</td>
-      <td class="base-table-cell">{{ junc.classification }}</td>
+      <td class="base-table-cell">{{ junc.classification|default:"-"}}</td>
     </tr>
   {% endfor %}
 {% endblock table_rows %}

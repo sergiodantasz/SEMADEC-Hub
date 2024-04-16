@@ -24,11 +24,6 @@ def test_test_model_description_default_value_is_blank(db, test_fixture):
     assert description_default == ''
 
 
-def test_test_model_date_time_can_be_null(db, test_fixture):
-    reg = test_fixture(date_time=None)
-    assert reg.date_time is None
-
-
 def test_test_model_date_time_default_value_is_none(db, test_fixture):
     reg = test_fixture()
     date_time_default = reg._meta.get_field('date_time').get_default()

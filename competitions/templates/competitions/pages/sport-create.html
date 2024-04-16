@@ -1,0 +1,9 @@
+{% extends "global/pages/base_header.html" %}
+{% load static %}
+{% block header %}Adicionar esporte{% endblock header %}
+{% comment %} {% block additional_head %}
+  <link rel="stylesheet" href="{% static "documents/css/create-document-collection.css" %}">
+{% endblock additional_head %} {% endcomment %}
+{% block content %}
+  {% include "competitions/partials/_sports-form.html" %}
+{% endblock content %}

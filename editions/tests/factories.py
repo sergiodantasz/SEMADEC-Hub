@@ -28,11 +28,25 @@ class ModelsDummyData(BaseProvider):
         return choice(options)
 
     def edition_type(self):
+        options = {
+            'classes': 'Confronto entre turmas',
+            'courses': 'Confronto entre cursos',
+        }
+        return choice(list(options.keys()))
+
+    def team_name(self):
         options = [
-            'Confronto entre turmas',
-            'Confronto entre cursos',
+            'Técnico Integrado em Informática',
+            'Técnico Integrado em Manutenção e Suporte em Informática',
+            'Técnico Integrado em Eletrônica',
+            'Técnico Integrado em Alimentos',
+            'Graduação em Tecnologia em Sistemas para Internet',
+            'Graduação em Química',
         ]
         return choice(options)
+
+    def edition_year(self):
+        return randint(2000, 3000)
 
 
 fake = faker.Faker('pt_BR')
@@ -51,9 +65,9 @@ class EditionFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.Edition'
         skip_postgeneration_save = True
-        django_get_or_create = ('name',)
+        # django_get_or_create = ('name',)
 
-    year = Sequence(lambda x: fake.unique.random_number(digits=4, fix_len=True))
+    year = Sequence(lambda x: fake.unique.edition_year())
     name = Sequence(lambda x: fake.edition_name())
     edition_type = fake.edition_type()
     theme = fake.text(max_nb_chars=100)
@@ -65,7 +79,7 @@ class TeamFactory(DjangoModelFactory):
         skip_postgeneration_save = True
         django_get_or_create = ('name',)
 
-    name = fake.pystr(max_chars=75)
+    name = Sequence(lambda x: fake.pystr(max_chars=75))
 
 
 class ClassFactory(DjangoModelFactory):
@@ -101,12 +115,12 @@ class EditionWith2TeamsFactory(EditionFactory):
     team1 = RelatedFactory(
         EditionTeamFactory,
         factory_related_name='edition',
-        team__name='time1',
+        team__name=fake.unique.team_name(),
     )
     team2 = RelatedFactory(
         EditionTeamFactory,
         factory_related_name='edition',
-        team__name='time2',
+        team__name=fake.unique.team_name(),
     )
 
 

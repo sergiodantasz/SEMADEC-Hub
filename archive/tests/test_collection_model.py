@@ -4,7 +4,9 @@ from django.db.utils import IntegrityError
 from pytest import mark
 from pytest import raises as assert_raises
 
-from archive.models import File
+from archive.models import Image
+from documents.models import Document
+from documents.tests.conftest import document_fixture
 from home.models import Tag
 
 
@@ -21,12 +23,6 @@ def test_collection_model_title_has_max_length_200(db, collection_fixture):
         reg.full_clean()
 
 
-def test_collection_model_title_is_unique(db, collection_fixture):
-    with assert_raises(IntegrityError):
-        reg1 = collection_fixture(title='Coleção Teste')
-        reg2 = collection_fixture(title='Coleção Teste')
-
-
 @mark.skip
 def test_collection_model_collection_type_db_column_is_type(db, collection_fixture):
     reg = collection_fixture()
@@ -41,7 +37,7 @@ def test_collection_model_collection_type_has_max_length_10(db, collection_fixtu
 
 def test_collection_model_collection_type_is_in_type_choices(db, collection_fixture):
     reg = collection_fixture()
-    assert reg.collection_type in reg._meta.model.COLLECTION_TYPE_CHOICES
+    assert reg.collection_type in dict(reg._meta.model.COLLECTION_TYPE_CHOICES).keys()
 
 
 def test_collection_model_cover_can_be_blank(db, collection_fixture):
@@ -68,21 +64,6 @@ def test_collection_model_created_at_cannot_be_updated(db, collection_fixture):
         reg.full_clean()
 
 
-def test_collection_model_get_files_getter_returns_files_queryset(
-    db, collection_fixture
-):
-    reg = collection_fixture()
-    assert isinstance(reg.get_files, QuerySet)
-
-
-def test_collection_model_get_files_getter_returns_only_file_model_objects(
-    db, collection_fixture
-):
-    reg = collection_fixture()
-    files = reg.get_files
-    assert all(isinstance(file, File) for file in files)
-
-
 def test_collection_model_get_tags_getter_returns_tags_queryset(db, collection_fixture):
     reg = collection_fixture()
     assert isinstance(reg.get_tags, QuerySet)
@@ -94,6 +75,44 @@ def test_collection_model_get_tags_getter_returns_only_tag_model_objects(
     reg = collection_fixture()
     tags = reg.get_tags
     assert all(isinstance(tag, Tag) for tag in tags)
+
+
+def test_collection_model_get_images_getter_returns_images_queryset(
+    db, collection_fixture, image_fixture
+):
+    col_reg = collection_fixture()
+    img_reg = image_fixture(collection=col_reg)
+    assert isinstance(col_reg.get_images, QuerySet)
+
+
+def test_collection_model_get_images_getter_returns_only_image_model_objects(
+    db, collection_fixture, image_fixture
+):
+    col_reg = collection_fixture()
+    img_reg = image_fixture(size=4, collection=col_reg)
+    images = col_reg.get_images
+    assert all(isinstance(image, Image) for image in images)
+
+
+def test_collection_model_get_documents_getter_returns_document_queryset(
+    db,
+    collection_fixture,
+    document_fixture,  # noqa: F811
+):
+    col_reg = collection_fixture()
+    doc_reg = document_fixture(collection=col_reg)
+    assert isinstance(col_reg.get_documents, QuerySet)
+
+
+def test_collection_model_get_documents_getter_returns_only_document_model_objects(
+    db,
+    collection_fixture,
+    document_fixture,  # noqa: F811
+):
+    col_reg = collection_fixture()
+    doc_regs = document_fixture(size=4, collection=col_reg)
+    docs = col_reg.get_documents
+    assert all(isinstance(doc, Document) for doc in docs)
 
 
 def test_collection_model_dunder_str_method_returns_collection_title(

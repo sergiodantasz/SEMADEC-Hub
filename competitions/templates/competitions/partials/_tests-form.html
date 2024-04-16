@@ -1,0 +1,35 @@
+{% load static %}
+<form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% for field in form %}
+    {% if field.name == "collection_type" %}
+      {{ field }}
+    {% else %}
+      <div class="field-group">
+        <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+        {% if field.name == 'teams' %}
+            {% for i in field %}
+              <div class="test">
+                {% comment %} Remove class later {% endcomment %}
+                {{ i }}
+              </div>
+            {% endfor %}
+        {% elif field.name == 'date_time' %}
+          <div class="input-datetime">
+            {{ field }}
+          </div>
+        {% else %}
+          {{ field }}
+        {% endif %}
+        {% if field.errors %}
+          <div class="field-errors">
+            {% for error in field.errors %}
+              <div class="field-error">{{ error }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% include "global/partials/_form-buttons.html" %}
+</form>

@@ -1,0 +1,10 @@
+.input-datetime {
+  padding: 1rem;
+  width: min-content;
+  border: 0.2rem solid var(--gray-500);
+  border-radius: 1rem;
+}
+
+.input-datetime input {
+  color: var(--gray-500);
+}

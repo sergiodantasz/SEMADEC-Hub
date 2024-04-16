@@ -12,17 +12,20 @@ class Course(models.Model):
 
 
 class Edition(models.Model):
+    EDITION_TYPE_CHOICES = (
+        ('classes', 'Confronto entre turmas'),
+        ('courses', 'Confronto entre cursos'),
+    )
     year = models.PositiveSmallIntegerField(
         primary_key=True,
     )
     name = models.CharField(
-        max_length=10,
         unique=True,
-        null=True,
-        blank=True,
+        max_length=20,
     )
     edition_type = models.CharField(
         max_length=30,
+        choices=EDITION_TYPE_CHOICES,
         db_column='type',
     )
     theme = models.CharField(
