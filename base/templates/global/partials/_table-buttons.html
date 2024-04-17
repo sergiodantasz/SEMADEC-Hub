@@ -1,0 +1,16 @@
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "global/css/table-buttons.css" %}">
+{% endblock additional_head %}
+<div class="action-buttons-wrapper">
+  <a class="button" href="{% url "editions:editions_edit" edition.year %}">
+    <img src="{% static "global/img/edit.svg" %}" alt="">
+    <span>Editar edição</span>
+  </a>
+  <a class="button" href="{% url "editions:editions_delete" edition.year %}">
+    <img src="{% static "global/img/add.svg" %}" alt="">
+    <span>Apagar edição</span>
+  </a>
+</div>
+
+

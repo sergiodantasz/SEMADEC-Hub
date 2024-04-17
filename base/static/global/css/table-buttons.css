@@ -1,0 +1,14 @@
+.action-buttons-wrapper {
+  width: 100%;
+  /* margin-inline: auto; */
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end !important;
+  /* justify-items: flex-end !important; */
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
+  /* margin-bottom: 5rem; */
+}

@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from editions.models import Edition, Team
@@ -9,6 +10,7 @@ from editions.tests.factories import (
     TeamFactory,
 )
 from helpers.decorators import admin_required
+from helpers.model import is_owner
 
 from .forms import EditionForm
 
@@ -44,3 +46,33 @@ def editions_create(request):
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'editions/pages/edition-create.html', context)
+
+
+@login_required
+@admin_required
+def editions_edit(request, year):
+    edition_obj = get_object_or_404(Edition, year=year)
+    form = EditionForm(
+        request.POST or None, request.FILES or None, instance=edition_obj
+    )
+    form.fields['year'].disabled = True
+    context = {
+        'title': 'Editar edição',
+        'edition': edition_obj,
+        'form': form,
+        'form_action': reverse(
+            'editions:editions_edit', kwargs={'year': edition_obj.year}
+        ),
+    }
+    if request.POST:
+        if form.is_valid():
+            edition = form.save()
+            messages.success(request, 'Edição editada com sucesso.')
+            return redirect(reverse('editions:editions'))
+        messages.error(request, 'Preencha os campos do formulário corretamente.')
+    return render(request, 'editions/pages/edition-edit.html', context)
+
+
+@login_required
+@admin_required
+def editions_delete(request, year): ...

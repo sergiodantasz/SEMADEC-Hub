@@ -65,7 +65,7 @@ class EditionFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.Edition'
         skip_postgeneration_save = True
-        # django_get_or_create = ('name',)
+        django_get_or_create = ('name',)
 
     year = Sequence(lambda x: fake.unique.edition_year())
     name = Sequence(lambda x: fake.edition_name())

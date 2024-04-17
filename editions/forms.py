@@ -1,7 +1,9 @@
 from tkinter import Widget
 
 from django import forms
+from django.db.models import Q
 
+from editions.models import EditionTeam
 from helpers.form import set_attr, set_placeholder
 
 from .models import Edition, Team
@@ -21,7 +23,13 @@ class EditionForm(forms.ModelForm):
 
     class Meta:
         model = Edition
-        fields = ['year', 'name', 'edition_type', 'theme', 'teams']
+        fields = [
+            'year',
+            'name',
+            'edition_type',
+            'theme',
+            'teams',
+        ]
 
     year = forms.CharField(
         label='Ano',
