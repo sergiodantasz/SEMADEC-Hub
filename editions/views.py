@@ -21,7 +21,7 @@ def editions(request):
     TeamFactory.create_batch(5)
     context = {
         'title': 'Edições',
-        'db_regs': Edition.objects.all().order_by(),
+        'db_regs': Edition.objects.all(),
     }
     return render(request, 'editions/pages/editions.html', context)
 
