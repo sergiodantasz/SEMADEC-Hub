@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory, modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -57,10 +57,22 @@ def editions_edit(request, year):
         request.POST or None, request.FILES or None, instance=edition_obj
     )
     form.fields['year'].disabled = True
-    form_teams_factory = inlineformset_factory(
-        Edition, EditionTeam, form=EditionTeamForm
+    EditionTeamFormSet = modelformset_factory(
+        EditionTeam, fields=['edition', 'team', 'score', 'classification'], extra=0
     )
-    form_teams = form_teams_factory()
+    form_teams = EditionTeamFormSet(
+        request.POST or None,
+        request.FILES or None,
+    )
+
+    if request.POST:
+        if form.is_valid() and form_teams.is_valid():
+            edition = form.save()
+            # form_teams.instance = edition
+            form_teams.save()
+            messages.success(request, 'Edição editada com sucesso.')
+            return redirect(reverse('editions:editions'))
+        messages.error(request, 'Preencha os campos do formulário corretamente.')
     context = {
         'title': 'Editar edição',
         'edition': edition_obj,
@@ -70,14 +82,6 @@ def editions_edit(request, year):
             'editions:editions_edit', kwargs={'year': edition_obj.year}
         ),
     }
-    if request.POST:
-        if form.is_valid() and form_teams.is_valid():
-            edition = form.save()
-            form_teams.instance = edition
-            form_teams.save()
-            messages.success(request, 'Edição editada com sucesso.')
-            return redirect(reverse('editions:editions'))
-        messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'editions/pages/edition-edit.html', context)
 
 

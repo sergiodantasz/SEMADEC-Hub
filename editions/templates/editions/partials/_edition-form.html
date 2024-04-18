@@ -1,6 +1,7 @@
 {% load static %}
 <form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
+  {{ form_teams.management_form }}
   {% for field in form %}
     {% if field.name == 'teams' %}
       {{field.get_edition_team}}
@@ -23,6 +24,12 @@
           {% endfor %}
         </div>
       {% endif %}
+    </div>
+  {% endfor %}
+  {% for ft in form_teams %}
+    <div class="inlineform">
+        <hr>
+        {{ ft }}
     </div>
   {% endfor %}
   {% include "global/partials/_form-buttons.html" %}

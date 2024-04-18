@@ -64,15 +64,10 @@ class EditionForm(forms.ModelForm):
 class EditionTeamForm(forms.ModelForm):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        if instance := kwargs.get('instance', ''):
-            self.instance = instance
-            self.fields['edition'].queryset = self.instance.edition
-            self.fields['team'].queryset = self.instance.team
-            ...
 
     class Meta:
         model = EditionTeam
-        fields = ['edition', 'team', 'score', 'classification']
+        fields = ['score', 'classification']
 
     # edition = forms.ModelChoiceField()
     # team = forms.ModelChoiceField()
