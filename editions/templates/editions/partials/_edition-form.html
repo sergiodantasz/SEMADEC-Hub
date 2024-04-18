@@ -1,7 +1,7 @@
 {% load static %}
 <form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-  {{ form_teams.management_form }}
+  {% comment %} {{ form_teams.management_form }} {% endcomment %}
   {% for field in form %}
     {% if field.name == 'teams' %}
       {{field.get_edition_team}}
@@ -26,10 +26,23 @@
       {% endif %}
     </div>
   {% endfor %}
-  {% for ft in form_teams %}
-    <div class="inlineform">
-      {{ ft }}
+  {{form_teams}}
+  {% comment %} {% for ft in form_teams %}
+    {{ft}}
+  {% endfor %} {% endcomment %}
+  {% comment %} {% for form_team in form_teams %}
+    <div class="field-group-inline">
+      {% for field in form_team %}
+        {% if field.name == 'team' %}
+          <span>{{ form_team.instance.team.name }}</span>
+        {% elif field.name != 'id' %}
+          <div>
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+          </div>
+        {% endif %}
+      {% endfor %}
     </div>
-  {% endfor %}
+  {% endfor %} {% endcomment %}
   {% include "global/partials/_form-buttons.html" %}
 </form>

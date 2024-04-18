@@ -68,12 +68,12 @@ input[type="checkbox"]:checked {
   opacity: 1;
 }
 
-.inlineform {
+.field-group-inline {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.inlineform input[type="number"] {
+.field-group-inline input[type="number"] {
   padding: 0.5rem;
 }

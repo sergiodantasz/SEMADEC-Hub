@@ -2,10 +2,58 @@
 {% load static %}
 {% block header %}Editar edição{% endblock header %}
 {% block additional_head %}
-  <link rel="stylesheet" href="{% static "editions/css/edition-create.css" %}">
+  <link rel="stylesheet" href="{% static "editions/css/edition-form.css" %}">
 {% endblock additional_head %}
 {% block content %}
-  {% include "editions/partials/_edition-form.html" %}
+{% load static %}
+<form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% comment %} {{ form_teams.management_form }} {% endcomment %}
+  {% for field in form %}
+    {% if field.name == 'teams' %}
+      {{field.get_edition_team}}
+      {% comment %} {{form_teams}} {% endcomment %}
+    {% endif %}
+    <div class="field-group">
+      <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+      {% if field.name == 'categories' %}
+        {% for i in field %}
+          <div class="{{ i.get_css_class }}">
+            {{ i }}
+          </div>
+        {% endfor %}
+      {% else %}
+        {{ field }}
+      {% endif %}
+      {% if field.errors %}
+        <div class="field-errors">
+          {% for error in field.errors %}
+            <div class="field-error">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+  {% comment %} {{form_teams}} {% endcomment %}
+  {% comment %} {% for ft in form_teams %}
+    {{ft}}
+  {% endfor %} {% endcomment %}
+  {% comment %} {% for form_team in form_teams %}
+    <div class="field-group-inline">
+      {% for field in form_team %}
+        {% if field.name == 'team' %}
+          <span>{{ form_team.instance.team.name }}</span>
+        {% elif field.name != 'id' %}
+          <div>
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endfor %} {% endcomment %}
+  {% include "global/partials/_form-buttons.html" %}
+</form>
 {% endblock content %}
 {% block additional_script %}
   <script src="{% static "editions/js/edition-type.js" %}"></script>

@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.forms import inlineformset_factory, modelformset_factory
+from django.forms import HiddenInput, inlineformset_factory, modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -30,11 +30,6 @@ def editions(request):
 @admin_required
 def editions_create(request):
     form = EditionForm(request.POST or None, request.FILES or None)
-    context = {
-        'title': 'Adicionar edição',
-        'form': form,
-        'form_action': reverse('editions:editions_create'),
-    }
     if request.POST:
         if form.is_valid():
             teams_m2m = form.cleaned_data['teams']
@@ -46,6 +41,11 @@ def editions_create(request):
             return redirect(reverse('editions:editions'))
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
+    context = {
+        'title': 'Adicionar edição',
+        'form': form,
+        'form_action': reverse('editions:editions_create'),
+    }
     return render(request, 'editions/pages/edition-create.html', context)
 
 
@@ -57,15 +57,21 @@ def editions_edit(request, year):
         request.POST or None, request.FILES or None, instance=edition_obj
     )
     form.fields['year'].disabled = True
-    EditionTeamFormSet = modelformset_factory(EditionTeam, EditionTeamForm, extra=0)
+    EditionTeamFormSet = modelformset_factory(
+        EditionTeam,
+        formset=EditionTeamForm,
+        extra=0,
+        fields=['score', 'classification'],  # add 'team' if desired
+    )
     form_teams = EditionTeamFormSet(
         request.POST or None,
         request.FILES or None,
+        queryset=EditionTeam.objects.filter(edition__year=edition_obj.year),
     )
 
     if request.POST:
         if form.is_valid() and form_teams.is_valid():
-            edition = form.save()
+            form.save()
             form_teams.save()
             messages.success(request, 'Edição editada com sucesso.')
             return redirect(reverse('editions:editions'))
