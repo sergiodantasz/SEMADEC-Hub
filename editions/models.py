@@ -49,7 +49,9 @@ class Edition(models.Model):
 
     @property
     def get_edition_team_current(self):
-        return self.edition_team.all().filter(edition__year=self.year)
+        return (
+            self.edition_team.all().filter(edition__year=self.year).order_by('-score')
+        )
 
     def __str__(self):
         return str(self.name)

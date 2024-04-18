@@ -57,3 +57,8 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
   accent-color: var(--green-600);
 }
+
+.team-name-text-disabled {
+  color: var(--green-950) !important;
+  opacity: 1;
+}

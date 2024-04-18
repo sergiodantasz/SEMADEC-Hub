@@ -21,7 +21,7 @@ def editions(request):
     TeamFactory.create_batch(5)
     context = {
         'title': 'Edições',
-        'db_regs': Edition.objects.all(),
+        'db_regs': Edition.objects.all().order_by(),
     }
     return render(request, 'editions/pages/editions.html', context)
 
@@ -57,9 +57,7 @@ def editions_edit(request, year):
         request.POST or None, request.FILES or None, instance=edition_obj
     )
     form.fields['year'].disabled = True
-    EditionTeamFormSet = modelformset_factory(
-        EditionTeam, fields=['edition', 'team', 'score', 'classification'], extra=0
-    )
+    EditionTeamFormSet = modelformset_factory(EditionTeam, EditionTeamForm, extra=0)
     form_teams = EditionTeamFormSet(
         request.POST or None,
         request.FILES or None,
@@ -68,7 +66,6 @@ def editions_edit(request, year):
     if request.POST:
         if form.is_valid() and form_teams.is_valid():
             edition = form.save()
-            # form_teams.instance = edition
             form_teams.save()
             messages.success(request, 'Edição editada com sucesso.')
             return redirect(reverse('editions:editions'))
