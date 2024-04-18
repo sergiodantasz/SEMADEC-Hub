@@ -67,3 +67,13 @@ input[type="checkbox"]:checked {
   color: var(--green-950) !important;
   opacity: 1;
 }
+
+.inlineform {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inlineform input[type="number"] {
+  padding: 0.5rem;
+}
