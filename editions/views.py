@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from editions.models import Edition, Team
+from editions.models import Edition, EditionTeam, Team
 from editions.tests.factories import (
     EditionWith2TeamsFactory,
     TeamFactory,
@@ -12,12 +13,12 @@ from editions.tests.factories import (
 from helpers.decorators import admin_required
 from helpers.model import is_owner
 
-from .forms import EditionForm
+from .forms import EditionForm, EditionTeamForm, TeamForm
 
 
 def editions(request):
-    EditionWith2TeamsFactory.create_batch(3)  # Remove if needed
-    # TeamFactory.create_batch(5)
+    # EditionWith2TeamsFactory.create_batch(3)  # Remove if needed
+    TeamFactory.create_batch(5)
     context = {
         'title': 'Edições',
         'db_regs': Edition.objects.all(),
@@ -56,17 +57,24 @@ def editions_edit(request, year):
         request.POST or None, request.FILES or None, instance=edition_obj
     )
     form.fields['year'].disabled = True
+    form_teams_factory = inlineformset_factory(
+        Edition, EditionTeam, form=EditionTeamForm
+    )
+    form_teams = form_teams_factory()
     context = {
         'title': 'Editar edição',
         'edition': edition_obj,
         'form': form,
+        'form_teams': form_teams,
         'form_action': reverse(
             'editions:editions_edit', kwargs={'year': edition_obj.year}
         ),
     }
     if request.POST:
-        if form.is_valid():
+        if form.is_valid() and form_teams.is_valid():
             edition = form.save()
+            form_teams.instance = edition
+            form_teams.save()
             messages.success(request, 'Edição editada com sucesso.')
             return redirect(reverse('editions:editions'))
         messages.error(request, 'Preencha os campos do formulário corretamente.')

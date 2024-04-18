@@ -59,3 +59,41 @@ class EditionForm(forms.ModelForm):
         ),
         label='Times',
     )
+
+
+class EditionTeamForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        if instance := kwargs.get('instance', ''):
+            self.instance = instance
+            self.fields['edition'].queryset = self.instance.edition
+            self.fields['team'].queryset = self.instance.team
+            ...
+
+    class Meta:
+        model = EditionTeam
+        fields = ['edition', 'team', 'score', 'classification']
+
+    # edition = forms.ModelChoiceField()
+    # team = forms.ModelChoiceField()
+    score = forms.CharField(
+        label='Pontuação',
+        widget=forms.NumberInput(),
+    )
+    classification = forms.CharField(
+        label='Classificação',
+        widget=forms.NumberInput(),
+    )
+
+
+class TeamForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+    class Meta:
+        model = EditionTeam
+        fields = ['name']
+
+    name = forms.CharField(
+        max_length=75,
+    )

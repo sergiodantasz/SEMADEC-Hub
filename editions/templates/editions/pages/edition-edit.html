@@ -6,4 +6,11 @@
 {% endblock additional_head %}
 {% block content %}
   {% include "editions/partials/_edition-form.html" %}
+  {{ form_teams.management_form }}
+  {% for ft in form_teams %}
+    <div class="inlineform">
+        <hr>
+        {{ ft }}
+    </div>
+  {% endfor %}
 {% endblock content %}
