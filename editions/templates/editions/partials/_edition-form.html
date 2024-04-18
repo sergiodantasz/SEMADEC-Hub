@@ -9,11 +9,11 @@
     <div class="field-group">
       <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
       {% if field.name == 'categories' %}
-          {% for i in field %}
-            <div class="{{ i.get_css_class }}">
-              {{ i }}
-            </div>
-          {% endfor %}
+        {% for i in field %}
+          <div class="{{ i.get_css_class }}">
+            {{ i }}
+          </div>
+        {% endfor %}
       {% else %}
         {{ field }}
       {% endif %}

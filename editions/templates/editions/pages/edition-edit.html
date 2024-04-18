@@ -7,3 +7,6 @@
 {% block content %}
   {% include "editions/partials/_edition-form.html" %}
 {% endblock content %}
+{% block additional_script %}
+  <script src="{% static "editions/js/edition-type.js" %}"></script>
+{% endblock additional_script %}

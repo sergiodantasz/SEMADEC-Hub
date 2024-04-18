@@ -1,13 +1,18 @@
 div#id_edition_type {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 div#id_edition_type div {
   padding: 1rem;
   border: 0.2rem solid var(--gray-500);
   border-radius: 1rem;
-  /* cursor: pointer; */
+  cursor: pointer;
+}
+
+div#id_edition_type div label,
+div#id_edition_type div label input {
+  cursor: pointer;
 }
 
 div#id_edition_type div:focus-within,
