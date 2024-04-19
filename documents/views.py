@@ -17,14 +17,14 @@ from home.models import Collection
 
 
 def documents_collection(request):
-    collection_fac = CollectionDocumentsFactory()  # Remove if needed
-    DocumentFactory.create_batch(
-        size=3,
-        collection=collection_fac,
-    )  # Remove if needed
+    # collection_fac = CollectionDocumentsFactory()  # Remove if needed
+    # DocumentFactory.create_batch(
+    #     size=3,
+    #     collection=collection_fac,
+    # )  # Remove if needed
     documents_collection_objs = Collection.objects.filter(
         collection_type='document'
-    ).order_by('-id')
+    ).order_by('-updated_at')
     context = {
         'title': 'Documentos',
         'db_regs': documents_collection_objs,
