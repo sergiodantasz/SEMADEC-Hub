@@ -16,7 +16,7 @@ div#id_edition_type div label input {
 }
 
 div#id_edition_type div:focus-within,
-div.input-checkbox-list#id_teams:focus-within {
+div.input-checkbox-list:focus-within {
   border-color: var(--green-600);
 }
 div#id_edition_type div:has(input[type="radio"]:checked) {
@@ -26,7 +26,7 @@ div#id_edition_type div:has(input[type="radio"]:checked) {
   border-color: var(--green-600);
 }
 
-div.input-checkbox-list#id_teams {
+div.input-checkbox-list {
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
@@ -36,22 +36,22 @@ div.input-checkbox-list#id_teams {
   color: var(--green-950);
 }
 
-div.input-checkbox-list#id_teams div {
+div.input-checkbox-list div {
   padding: 1rem;
   color: inherit;
   /* border-radius: inherit; */
 }
 
-div.input-checkbox-list#id_teams div:nth-child(even) {
+div.input-checkbox-list div:nth-child(even) {
   background-color: var(--gray-50);
 }
 
-div.input-checkbox-list#id_teams label {
+div.input-checkbox-list label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-/* div.input-checkbox-list#id_teams div:nth-child(odd) {
+/* div.input-checkbox-list div:nth-child(odd) {
   background-color: var(--gray-50);
 } */
 
