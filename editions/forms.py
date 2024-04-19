@@ -23,13 +23,7 @@ class EditionForm(forms.ModelForm):
 
     class Meta:
         model = Edition
-        fields = [
-            'year',
-            'name',
-            'edition_type',
-            'theme',
-            'teams',
-        ]
+        fields = '__all__'
 
     year = forms.CharField(
         label='Ano',
@@ -86,7 +80,7 @@ class TeamForm(forms.ModelForm):
 
     class Meta:
         model = EditionTeam
-        fields = ['name']
+        fields = '__all__'
 
     name = forms.CharField(
         max_length=75,

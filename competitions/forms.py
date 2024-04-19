@@ -12,7 +12,7 @@ class SportForm(forms.ModelForm):
 
     class Meta:
         model = Sport
-        fields = ['name', 'categories']
+        fields = '__all__'
 
     name = forms.CharField(
         max_length=30,
@@ -37,7 +37,7 @@ class TestForm(forms.ModelForm):
 
     class Meta:
         model = Test
-        fields = ['title', 'description', 'date_time', 'teams']
+        fields = '__all__'
 
     title = forms.CharField(
         max_length=50,
@@ -54,6 +54,8 @@ class TestForm(forms.ModelForm):
     )
     teams = forms.ModelMultipleChoiceField(
         queryset=Team.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'class': 'input-checkbox-list'},
+        ),
         label='Times',
     )

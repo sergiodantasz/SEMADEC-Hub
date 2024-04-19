@@ -94,6 +94,7 @@ class Test(models.Model):
         max_length=50,
         unique=True,  # I think it should have unique constraint
     )
+    # Add edition field??
     description = models.TextField(
         null=True,
         blank=True,
