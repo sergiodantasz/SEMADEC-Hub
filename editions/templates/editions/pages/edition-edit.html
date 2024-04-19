@@ -8,7 +8,6 @@
 {% load static %}
 <form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-  {{ form_teams.management_form }}
   {% for field in form %}
     <div class="field-group">
       <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
@@ -28,12 +27,6 @@
           {% endfor %}
         </div>
       {% endif %}
-    </div>
-  {% endfor %}
-  {% for form_team in form_teams %}
-    <div class="field-group-inline">
-      <p>{{form_team.instance.team.name}}</p>
-      {{form_team}}
     </div>
   {% endfor %}
   {% include "editions/partials/_edition-edit-table.html" %}

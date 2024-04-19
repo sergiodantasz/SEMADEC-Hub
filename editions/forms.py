@@ -65,6 +65,10 @@ class EditionTeamForm(forms.ModelForm):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
+    class Meta:
+        model = EditionTeam
+        fields = ['score', 'classification']
+
     # team = forms.CharField()
     score = forms.CharField(
         label='Pontuação',
