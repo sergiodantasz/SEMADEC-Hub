@@ -8,12 +8,8 @@
 {% load static %}
 <form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-  {% comment %} {{ form_teams.management_form }} {% endcomment %}
+  {{ form_teams.management_form }}
   {% for field in form %}
-    {% if field.name == 'teams' %}
-      {{field.get_edition_team}}
-      {% comment %} {{form_teams}} {% endcomment %}
-    {% endif %}
     <div class="field-group">
       <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
       {% if field.name == 'categories' %}
@@ -22,7 +18,7 @@
             {{ i }}
           </div>
         {% endfor %}
-      {% else %}
+      {% elif field.name != 'teams' %}
         {{ field }}
       {% endif %}
       {% if field.errors %}
@@ -34,25 +30,12 @@
       {% endif %}
     </div>
   {% endfor %}
-  {% comment %} {{form_teams}} {% endcomment %}
-  {% comment %} {% for ft in form_teams %}
-    {{ft}}
-  {% endfor %} {% endcomment %}
-  {% comment %} {% for form_team in form_teams %}
+  {% for form_team in form_teams %}
     <div class="field-group-inline">
-      {% for field in form_team %}
-        {% if field.name == 'team' %}
-          <span>{{ form_team.instance.team.name }}</span>
-        {% elif field.name != 'id' %}
-          <div>
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }}
-          </div>
-        {% endif %}
-      {% endfor %}
+      <p>{{form_team.instance.team.name}}</p>
+      {{form_team}}
     </div>
-  {% endfor %} {% endcomment %}
-  {{form_teams}}
+  {% endfor %}
   {% include "global/partials/_form-buttons.html" %}
 </form>
 {% endblock content %}

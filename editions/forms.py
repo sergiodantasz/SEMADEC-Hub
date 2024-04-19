@@ -61,15 +61,9 @@ class EditionForm(forms.ModelForm):
     )
 
 
-class EditionTeamForm(forms.BaseModelFormSet):
+class EditionTeamForm(forms.ModelForm):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        # self.fields['team'].disabled = True
-        # self.fields['team'].widget.attrs['class'] = 'team-name-text-disabled'
-
-    # class Meta:
-    #     model = EditionTeam
-    #     fields = ['score', 'classification']
 
     # team = forms.CharField()
     score = forms.CharField(

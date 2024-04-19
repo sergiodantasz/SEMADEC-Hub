@@ -57,9 +57,12 @@ def editions_edit(request, year):
         request.POST or None, request.FILES or None, instance=edition_obj
     )
     form.fields['year'].disabled = True
+    # form.fields['teams'].queryset = edition_obj.teams.all()
+    form.fields['teams'].required = False
+    # form.fields['teams'].widget = HiddenInput()
     EditionTeamFormSet = modelformset_factory(
         EditionTeam,
-        formset=EditionTeamForm,
+        EditionTeamForm,
         extra=0,
         fields=['score', 'classification'],  # add 'team' if desired
     )
