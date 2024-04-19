@@ -5,9 +5,15 @@
 {% endblock additional_head %}
 {% block header %}Acervo{% endblock header %}
 {% block content %}
-  <div class="archive-list">
-    {% for archive_reg in archive_regs %}
-      {% include "archive/partials/_archive-item.html" %}
-    {% endfor %}
-  </div>
+  {% if db_regs|length > 0 %}
+    {% include "global/partials/_searchbar.html" %}
+    <div class="archive-list">
+      {% for archive_reg in db_regs %}
+        {% include "archive/partials/_archive-item.html" %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="nothing-found">Nenhuma coleção de acervo foi encontrada.</p>
+  {% endif %}
+
 {% endblock content %}

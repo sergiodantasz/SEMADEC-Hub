@@ -13,7 +13,7 @@ from news.tests.factories import NewsFactory
 
 
 def news(request):
-    NewsFactory.create_batch(5)  # Remove if needed
+    # NewsFactory.create_batch(5)  # Remove if needed
     news_objs = News.objects.order_by('-created_at')
     context = {
         'title': 'Notícias',

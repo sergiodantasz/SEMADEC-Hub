@@ -6,14 +6,17 @@ from home.models import Collection
 
 def archive(request):
     # For test purposes
-    collection_fac = CollectionArchiveFactory()
-    document_fac = ImageFactory.create_batch(
-        size=3,
-        collection=collection_fac,
-    )
-    archive_regs = [collection_fac] * 5
+    # collection_fac = CollectionArchiveFactory()
+    # document_fac = ImageFactory.create_batch(
+    #     size=3,
+    #     collection=collection_fac,
+    # )
+    # archive_regs = [collection_fac] * 5
     # For test purposes
-    context = {'title': 'Acervo', 'archive_regs': archive_regs}
+    archive_regs = Collection.objects.filter(collection_type='image').order_by(
+        '-updated_at'
+    )
+    context = {'title': 'Acervo', 'db_regs': archive_regs}
     return render(request, 'archive/pages/archive.html', context)
 
 
