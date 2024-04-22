@@ -45,6 +45,16 @@
   border-bottom-right-radius: 1rem;
 }
 
+.table-cell-flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.base-table-edit {
+  width: 2.5rem;
+}
+
 .base-table-body .base-table-row:not(:last-child) .base-table-cell {
   border-bottom: 1px solid var(--gray-500);
 }
