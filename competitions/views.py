@@ -22,6 +22,7 @@ def competitions(request):
 def sports(request):
     # cats = CategoryFactory.create_batch(size=3)  # Remove if needed
     # SportFactory.create_batch(size=1, categories=choices(cats))  # Remove if needed
+    CategoryFactory.create_batch(size=3)  # Remove if needed
     context = {
         'title': 'Competições',
         'page_variant': 'sports',
@@ -49,8 +50,6 @@ def sports_search(request):
 @login_required
 @admin_required
 def sports_create(request):
-    CategoryFactory.create_batch(size=3)  # Remove if needed
-
     form = SportForm(request.POST or None, request.FILES or None)
     context = {
         'title': 'Adicionar esporte',
@@ -61,7 +60,7 @@ def sports_create(request):
         if form.is_valid():
             cats_m2m = form.cleaned_data['categories']
             form_reg = form.save(commit=True)
-            form_reg.categories.set(cats_m2m)
+            form_reg.categories.add(*cats_m2m)
             form_reg.administrator = request.user
             form_reg.save()
             messages.success(request, 'Esporte adicionado com sucesso.')
@@ -69,6 +68,9 @@ def sports_create(request):
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'competitions/pages/sport-create.html', context)
+
+
+def sports_edit(request): ...
 
 
 def tests(request):
@@ -113,11 +115,16 @@ def tests_create(request):
         if form.is_valid():
             teams_m2m = form.cleaned_data['teams']
             form_reg = form.save(commit=True)
-            form_reg.teams.set(teams_m2m)
+            form_reg.teams.add(*teams_m2m)
             form_reg.administrator = request.user
             form_reg.save()
-            messages.success(request, 'Teste adicionado com sucesso.')
+            messages.success(request, 'Prova adicionada com sucesso.')
             return redirect(reverse('competitions:tests'))
     # else:
     # messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'competitions/pages/test-create.html', context)
+
+
+def tests_edit(
+    request,
+): ...
