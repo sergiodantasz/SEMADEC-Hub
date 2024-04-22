@@ -1,6 +1,5 @@
 {% extends "global/pages/base_form.html" %}
 {% block form_fields %}
-  {% comment %} {{ form_teams.management_form }} {% endcomment %}
   {% for field in form %}
     {% if field.name == 'teams' %}
       {{field.get_edition_team}}
@@ -25,21 +24,4 @@
       {% endif %}
     </div>
   {% endfor %}
-  {% comment %} {% for ft in form_teams %}
-  {{ft}}
-  {% endfor %} {% endcomment %}
-  {% comment %} {% for form_team in form_teams %}
-  <div class="field-group-inline">
-    {% for field in form_team %}
-      {% if field.name == 'team' %}
-        <span>{{ form_team.instance.team.name }}</span>
-      {% elif field.name != 'id' %}
-        <div>
-          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-          {{ field }}
-        </div>
-      {% endif %}
-    {% endfor %}
-  </div>
-  {% endfor %} {% endcomment %}
 {% endblock form_fields %}
