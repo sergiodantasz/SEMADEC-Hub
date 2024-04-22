@@ -127,7 +127,10 @@ class TestTeam(models.Model):
         blank=True,
         default=0,
     )
-    winner = models.BooleanField()
+    winner = models.BooleanField(
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return str(self.team.name)
