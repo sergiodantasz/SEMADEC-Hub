@@ -1,6 +1,5 @@
-{% load static %}
-<form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
+{% extends "global/pages/base_form.html" %}
+{% block form_fields %}
   {% for field in form %}
     {% if field.name == "collection_type" %}
       {{ field }}
@@ -26,5 +25,4 @@
       </div>
     {% endif %}
   {% endfor %}
-  {% include "global/partials/_form-buttons.html" %}
-</form>
+{% endblock form_fields %}
