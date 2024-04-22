@@ -17,13 +17,13 @@ class SportForm(forms.ModelForm):
     name = forms.CharField(
         max_length=30,
         label='Nome',
-        required=True,
     )
     categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'class': 'input-checkbox-list'},
+        ),
         label='Categorias',
-        required=True,
     )
 
 
