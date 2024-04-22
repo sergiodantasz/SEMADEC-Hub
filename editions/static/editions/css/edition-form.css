@@ -15,45 +15,12 @@ div#id_edition_type div label input {
   cursor: pointer;
 }
 
-div#id_edition_type div:focus-within,
-div.input-checkbox-list:focus-within {
-  border-color: var(--green-600);
-}
 div#id_edition_type div:has(input[type="radio"]:checked) {
   background-color: var(--green-light);
   transition: var(--transition);
   accent-color: var(--green-600);
   border-color: var(--green-600);
 }
-
-div.input-checkbox-list {
-  display: flex;
-  flex-direction: column;
-  border-radius: 1rem;
-  overflow: hidden;
-  border: 0.2rem solid var(--gray-500);
-  transition: var(--transition);
-  color: var(--green-950);
-}
-
-div.input-checkbox-list div {
-  padding: 1rem;
-  color: inherit;
-  /* border-radius: inherit; */
-}
-
-div.input-checkbox-list div:nth-child(even) {
-  background-color: var(--gray-50);
-}
-
-div.input-checkbox-list label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-/* div.input-checkbox-list div:nth-child(odd) {
-  background-color: var(--gray-50);
-} */
 
 input[type="checkbox"] {
   width: 1.7rem;
