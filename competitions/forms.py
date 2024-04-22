@@ -49,7 +49,12 @@ class TestForm(forms.ModelForm):
         required=False,
     )
     date_time = forms.DateTimeField(
-        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        widget=forms.DateTimeInput(
+            attrs={
+                'type': 'datetime-local',
+                'class': 'input-datetime',
+            }
+        ),
         label='Horário',
     )
     teams = forms.ModelMultipleChoiceField(
