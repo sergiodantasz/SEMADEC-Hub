@@ -10,13 +10,6 @@
         <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
         {{ field }}
         {% check_error field %}
-        {% comment %} {% if field.errors %}
-          <div class="field-errors">
-            {% for error in field.errors %}
-              <div class="field-error">{{ error }}</div>
-            {% endfor %}
-          </div>
-        {% endif %} {% endcomment %}
       </div>
     {% endif %}
   {% endfor %}
