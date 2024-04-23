@@ -3,16 +3,17 @@ from random import choices
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import redirect, render
+from django.forms import modelformset_factory
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from competitions.models import Sport, Test
+from competitions.models import Sport, Test, TestTeam
 from competitions.tests.factories import CategoryFactory, SportFactory, TestFactory
 from editions.models import Team
 from editions.tests.factories import TeamFactory
 from helpers.decorators import admin_required
 
-from .forms import SportForm, TestForm
+from .forms import SportForm, TestForm, TestTeamForm
 
 
 def competitions(request):
@@ -70,6 +71,8 @@ def sports_create(request):
     return render(request, 'competitions/pages/sport-create.html', context)
 
 
+@login_required
+@admin_required
 def sports_edit(request, slug): ...
 
 
@@ -125,4 +128,37 @@ def tests_create(request):
     return render(request, 'competitions/pages/test-create.html', context)
 
 
-def tests_edit(request, slug): ...
+@login_required
+@admin_required
+def tests_edit(request, slug):
+    test_obj = get_object_or_404(Test, slug=slug)
+    form = TestForm(request.POST or None, request.FILES or None, instance=test_obj)
+    form.fields['teams'].required = False
+    TestTeamFormSet = modelformset_factory(
+        TestTeam,
+        TestTeamForm,
+        extra=0,
+        fields=['score', 'classification'],
+    )
+    form_teams = TestTeamFormSet(
+        request.POST or None,
+        request.FILES or None,
+        queryset=TestTeam.objects.filter(test__pk=test_obj.pk),
+    )
+    if request.POST:
+        if form.is_valid() and form_teams.is_valid():
+            form.save()
+            form_teams.save()
+            messages.success(request, 'Prova editada com sucesso.')
+            return redirect(reverse('competitions:tests'))
+        messages.error(request, 'Preencha os campos do formulário corretamente.')
+    context = {
+        'title': 'Editar prova',
+        'test': test_obj,
+        'form': form,
+        'form_teams': form_teams,
+        'form_action': reverse(
+            'competitions:tests_edit', kwargs={'slug': test_obj.slug}
+        ),
+    }
+    return render(request, 'competitions/pages/test-edit.html', context)
