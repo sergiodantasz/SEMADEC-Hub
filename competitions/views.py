@@ -70,7 +70,7 @@ def sports_create(request):
     return render(request, 'competitions/pages/sport-create.html', context)
 
 
-def sports_edit(request): ...
+def sports_edit(request, slug): ...
 
 
 def tests(request):
@@ -125,6 +125,4 @@ def tests_create(request):
     return render(request, 'competitions/pages/test-create.html', context)
 
 
-def tests_edit(
-    request,
-): ...
+def tests_edit(request, slug): ...
