@@ -120,8 +120,8 @@ def tests_create(request):
             form_reg.save()
             messages.success(request, 'Prova adicionada com sucesso.')
             return redirect(reverse('competitions:tests'))
-    # else:
-    # messages.error(request, 'Preencha os campos do formulário corretamente.')
+        else:
+            messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'competitions/pages/test-create.html', context)
 
 
