@@ -8,6 +8,7 @@
 {% load static %}
 <form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
+  {% load custom_tags %}
   {% for field in form %}
     <div class="field-group">
       <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
@@ -20,13 +21,14 @@
       {% elif field.name != 'teams' %}
         {{ field }}
       {% endif %}
-      {% if field.errors %}
+      {% check_error field %}
+      {% comment %} {% if field.errors %}
         <div class="field-errors">
           {% for error in field.errors %}
             <div class="field-error">{{ error }}</div>
           {% endfor %}
         </div>
-      {% endif %}
+      {% endif %} {% endcomment %}
     </div>
   {% endfor %}
   {% include "editions/partials/_edition-edit-table.html" %}

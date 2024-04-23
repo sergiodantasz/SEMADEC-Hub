@@ -1,5 +1,6 @@
 {% extends "global/pages/base_form.html" %}
 {% block form_fields %}
+  {% load custom_tags %}
   {% for field in form %}
     {% if field.name == 'teams' %}
       {{field.get_edition_team}}
@@ -15,13 +16,14 @@
       {% else %}
         {{ field }}
       {% endif %}
-      {% if field.errors %}
+      {% check_error field %}
+      {% comment %} {% if field.errors %}
         <div class="field-errors">
           {% for error in field.errors %}
             <div class="field-error">{{ error }}</div>
           {% endfor %}
         </div>
-      {% endif %}
+      {% endif %} {% endcomment %}
     </div>
   {% endfor %}
 {% endblock form_fields %}
