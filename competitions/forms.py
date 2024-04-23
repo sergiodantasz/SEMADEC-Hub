@@ -12,7 +12,8 @@ class SportForm(forms.ModelForm):
 
     class Meta:
         model = Sport
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ['slug']
 
     name = forms.CharField(
         max_length=30,
@@ -37,7 +38,8 @@ class TestForm(forms.ModelForm):
 
     class Meta:
         model = Test
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ['slug']
 
     title = forms.CharField(
         max_length=50,
