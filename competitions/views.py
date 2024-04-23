@@ -29,7 +29,7 @@ def sports(request):
         'db_regs': Sport.objects.all(),
         'search_url': reverse('competitions:sports_search'),
     }
-    return render(request, 'competitions/pages/competitions.html', context)
+    return render(request, 'competitions/pages/sports.html', context)
 
 
 def sports_search(request):
@@ -82,7 +82,7 @@ def tests(request):
         'db_regs': Test.objects.all(),
         'search_url': reverse('competitions:tests_search'),
     }
-    return render(request, 'competitions/pages/competitions.html', context)
+    return render(request, 'competitions/pages/tests.html', context)
 
 
 def tests_search(request):

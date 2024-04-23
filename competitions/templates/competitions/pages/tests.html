@@ -1,0 +1,17 @@
+{% extends "competitions/pages/competitions.html" %}
+{% load static %}
+{% block competitions_content %}
+  {% if user.is_admin %}
+    <div class="admin-actions-wrapper">
+      <a class="button" href="{% url "competitions:tests_create" %}">
+        <img src="{% static "global/img/add.svg" %}" alt="">
+        <span>Adicionar prova</span>
+      </a>
+    </div>
+  {% endif %}
+  {% if db_regs|length != 0 %}
+    {% include "competitions/partials/_competitions-table-tests.html" %}
+  {% else %}
+    <p class="nothing-found">Nenhuma prova foi encontrada.</p>
+  {% endif %}
+{% endblock competitions_content %}
