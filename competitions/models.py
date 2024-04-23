@@ -1,5 +1,8 @@
 from django.db import models
 
+from helpers.model import get_object
+from helpers.slug import generate_dynamic_slug
+
 
 class Category(models.Model):
     name = models.CharField(
@@ -24,8 +27,12 @@ class Category(models.Model):
 
 class Sport(models.Model):
     name = models.CharField(
-        primary_key=True,
         max_length=30,
+        unique=True,
+    )
+    slug = models.SlugField(
+        max_length=225,
+        unique=True,
     )
     categories = models.ManyToManyField(
         to='competitions.Category',
@@ -38,6 +45,14 @@ class Sport(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = generate_dynamic_slug(self, 'name')
+        reg = get_object(self.__class__, pk=self.id)  # type: ignore
+        if reg and self.name != reg.name:
+            self.slug = generate_dynamic_slug(self, 'name')
+        return super().save(*args, **kwargs)
 
 
 class Match(models.Model):
@@ -94,6 +109,10 @@ class Test(models.Model):
         max_length=50,
         unique=True,  # I think it should have unique constraint
     )
+    slug = models.SlugField(
+        max_length=225,
+        unique=True,
+    )
     # Add edition field??
     description = models.TextField(
         null=True,
@@ -111,6 +130,14 @@ class Test(models.Model):
 
     def __str__(self):
         return str(self.title)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = generate_dynamic_slug(self, 'title')
+        reg = get_object(self.__class__, pk=self.id)  # type: ignore
+        if reg and self.title != reg.title:
+            self.slug = generate_dynamic_slug(self, 'title')
+        return super().save(*args, **kwargs)
 
 
 class TestTeam(models.Model):
