@@ -18,3 +18,17 @@ def load_regs(db_regs, reg, div, empty):
         return mark_safe(container)
     else:
         return mark_safe(f'<p class="nothing-found">{empty}</p>')
+
+
+@register.simple_tag()
+def check_error(field):
+    if field.errors:
+        container_outer = '<div class="field-errors">{}</div>'
+        errors_list = []
+        for error in field.errors:
+            container_inner = f'<div class="field-error">{error}</div>'
+            errors_list.append(container_inner)
+        final_content = ''.join(errors_list)
+        container_outer = container_outer.format(final_content)
+        return mark_safe(container_outer)
+    return ''
