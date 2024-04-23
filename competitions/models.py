@@ -154,9 +154,14 @@ class TestTeam(models.Model):
         blank=True,
         default=0,
     )
-    winner = models.BooleanField(
+    # winner = models.BooleanField(
+    #     null=True,
+    #     blank=True,
+    # )
+    classification = models.PositiveSmallIntegerField(
         null=True,
         blank=True,
+        default=None,
     )
 
     def __str__(self):
