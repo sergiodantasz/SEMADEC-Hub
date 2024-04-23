@@ -1,0 +1,25 @@
+{% extends "global/pages/base_header.html" %}
+{% load static %}
+{% block header %}Editar prova{% endblock header %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "global/css/forms.css" %}">
+  <link rel="stylesheet" href="{% static "competitions/css/test-create.css" %}">
+{% endblock additional_head %}
+{% block content %}
+  {% load static %}
+  <form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% load custom_tags %}
+    {% for field in form %}
+      <div class="field-group">
+        <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+        {% if field.name != 'teams' %}
+          {{ field }}
+        {% endif %}
+        {% check_error field %}
+      </div>
+    {% endfor %}
+    {% include "competitions/partials/_test-edit-table.html" %}
+    {% include "global/partials/_form-buttons.html" %}
+  </form>
+{% endblock content %}
