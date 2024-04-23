@@ -1,6 +1,6 @@
 from django import forms
 
-from competitions.models import Category, Sport, Test
+from competitions.models import Category, Sport, Test, TestTeam
 from editions.models import Team
 from helpers.form import set_attr, set_placeholder
 
@@ -65,4 +65,22 @@ class TestForm(forms.ModelForm):
             attrs={'class': 'input-checkbox-list'},
         ),
         label='Times',
+    )
+
+
+class TestTeamForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+    class Meta:
+        model = TestTeam
+        fields = ['score', 'classification']
+
+    score = forms.CharField(
+        label='Pontuação',
+        widget=forms.NumberInput(),
+    )
+    classification = forms.CharField(
+        label='Classificação',
+        widget=forms.NumberInput(),
     )
