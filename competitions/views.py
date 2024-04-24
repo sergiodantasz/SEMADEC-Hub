@@ -53,7 +53,7 @@ def sports_create(request):
 
     form = SportForm(request.POST or None, request.FILES or None)
     context = {
-        'title': 'Adicionar esporte',
+        'title': 'Criar esporte',
         'form': form,
         'form_action': reverse('competitions:sports_create'),
     }
@@ -105,7 +105,7 @@ def tests_search(request):
 def tests_create(request):
     form = TestForm(request.POST or None, request.FILES or None)
     context = {
-        'title': 'Adicionar prova',
+        'title': 'Criar prova',
         'form': form,
         'form_action': reverse('competitions:tests_create'),
     }

@@ -42,7 +42,7 @@ def editions_create(request):
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     context = {
-        'title': 'Adicionar edição',
+        'title': 'Criar edição',
         'form': form,
         'form_action': reverse('editions:editions_create'),
     }
