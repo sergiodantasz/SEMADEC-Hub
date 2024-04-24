@@ -6,7 +6,7 @@
 {% block header %}Competições{% endblock header %}
 {% block content %}
   {% if db_regs|length != 0 %}
-    {% include "global/partials/_searchbar.html" %}
+    {% include "global/partials/_search-bar.html" %}
   {% endif %}
   <div class="competitions-options">
     <a class="competitions-option-container" href="{% url "competitions:sports" %}">

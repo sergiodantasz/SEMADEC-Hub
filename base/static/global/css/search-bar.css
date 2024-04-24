@@ -1,0 +1,35 @@
+.search-bar {
+  margin-bottom: 5rem;
+  border: 0.2rem solid var(--green-950);
+  border-radius: 10rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar-input {
+  padding: 1rem;
+  padding-left: 5rem;
+  width: 100%;
+  border-radius: inherit;
+}
+
+.search-bar-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.search-bar-button {
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.3rem;
+  height: 4.3rem;
+  position: absolute;
+  left: -0.2rem;
+}
+
+.search-bar-icon {
+  width: inherit;
+  height: inherit;
+}
