@@ -27,7 +27,7 @@ def sports(request):
     context = {
         'title': 'Competições',
         'page_variant': 'sports',
-        'db_regs': Sport.objects.all(),
+        'db_regs': Sport.objects.order_by('name'),
         'search_url': reverse('competitions:sports_search'),
     }
     return render(request, 'competitions/pages/sports.html', context)
@@ -82,7 +82,7 @@ def tests(request):
     context = {
         'title': 'Competições',
         'page_variant': 'tests',
-        'db_regs': Test.objects.all(),
+        'db_regs': Test.objects.order_by('-date_time'),
         'search_url': reverse('competitions:tests_search'),
     }
     return render(request, 'competitions/pages/tests.html', context)
