@@ -47,7 +47,7 @@ class Collection(models.Model):
         db_column='type',
     )
     cover = models.ImageField(
-        upload_to=generate_collection_cover_path,
+        upload_to=generate_collection_cover_path,  # type: ignore
         null=True,
         blank=True,
     )
