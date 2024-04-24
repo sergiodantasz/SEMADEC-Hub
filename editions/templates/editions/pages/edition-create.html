@@ -1,12 +1,12 @@
-{% extends "global/pages/base_header.html" %}
+{% extends "global/pages/base_form.html" %}
 {% load static %}
 {% block header %}Criar edição{% endblock header %}
 {% block additional_head %}
   <link rel="stylesheet" href="{% static "editions/css/edition-form.css" %}">
 {% endblock additional_head %}
-{% block content %}
+{% block form_fields %}
   {% include "editions/partials/_edition-form.html" %}
-{% endblock content %}
+{% endblock form_fields %}
 {% block additional_script %}
   <script src="{% static "editions/js/edition-type.js" %}"></script>
 {% endblock additional_script %}

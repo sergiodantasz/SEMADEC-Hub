@@ -67,3 +67,34 @@ textarea::placeholder {
   background-color: var(--red-light);
   color: var(--red-dark);
 }
+
+div#id_edition_type div:focus-within,
+div.input-checkbox-list:focus-within {
+  border-color: var(--green-600);
+}
+
+div.input-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 0.2rem solid var(--gray-500);
+  transition: var(--transition);
+  color: var(--green-950);
+}
+
+div.input-checkbox-list div {
+  padding: 1rem;
+  color: inherit;
+  /* border-radius: inherit; */
+}
+
+div.input-checkbox-list div:nth-child(even) {
+  background-color: var(--gray-50);
+}
+
+div.input-checkbox-list label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

@@ -1,0 +1,11 @@
+{% extends "competitions/pages/competitions.html" %}
+{% load static %}
+{% block competitions_content %}
+  {% load custom_tags %}
+  {% load_create_button user=user namespace="competitions:sports_create" label="Adicionar esporte" %}
+  {% if db_regs|length != 0 %}
+    {% include "competitions/partials/_competitions-table-sports.html" %}
+  {% else %}
+    <p class="nothing-found">Nenhum esporte foi encontrado.</p>
+  {% endif %}
+{% endblock competitions_content %}

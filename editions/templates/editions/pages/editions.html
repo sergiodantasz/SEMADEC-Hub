@@ -5,17 +5,7 @@
 {% endblock additional_head %}
 {% block header %}Edições{% endblock header %}
 {% block content %}
-  {% if user.is_admin %}
-    <div class="admin-actions-wrapper">
-      <a class="button" href="{% url "editions:editions_create" %}">
-        <img src="{% static "global/img/add.svg" %}" alt="">
-        <span>Criar edição</span>
-      </a>
-    </div>
-  {% endif %}
-  {% for edition in db_regs %}
-    {% include "editions/partials/_edition-item.html" %}
-  {% empty %}
-    <p class="nothing-found">Nenhuma edição foi encontrada.</p>
-  {% endfor %}
+  {% load custom_tags %}
+  {% load_create_button user=user namespace="editions:editions_create" label="Criar edição" %}
+  {% load_regs db_regs template="editions/partials/_edition-item.html" empty="Nenhuma edição foi encontrada."%}
 {% endblock content %}

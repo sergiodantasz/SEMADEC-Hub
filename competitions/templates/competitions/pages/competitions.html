@@ -23,7 +23,7 @@
       {% endif %}
     </a>
   </div>
-  {% if page_variant == 'sports'%}
+  {% if page_variant == 'sports' %}
     {% if user.is_admin %}
       <div class="admin-actions-wrapper">
         <a class="button" href="{% url "competitions:sports_create" %}">
@@ -38,14 +38,14 @@
       <p class="nothing-found">Nenhum esporte foi encontrado.</p>
     {% endif %}
   {% elif page_variant == 'tests' %}
-  {% if user.is_admin %}
-    <div class="admin-actions-wrapper">
-      <a class="button" href="{% url "competitions:tests_create" %}">
-        <img src="{% static "global/img/add.svg" %}" alt="">
-        <span>Criar prova</span>
-      </a>
-    </div>
-  {% endif %}
+    {% if user.is_admin %}
+      <div class="admin-actions-wrapper">
+        <a class="button" href="{% url "competitions:tests_create" %}">
+          <img src="{% static "global/img/add.svg" %}" alt="">
+          <span>Criar prova</span>
+        </a>
+      </div>
+    {% endif %}
     {% if db_regs|length != 0 %}
       {% include "competitions/partials/_competitions-table-tests.html" %}
     {% else %}

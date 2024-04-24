@@ -1,6 +1,12 @@
+{% extends "global/pages/base_header.html" %}
 {% load static %}
-<form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {% block form_fields %}{% endblock form_fields %}
-  {% include "global/partials/_form-buttons.html" %}
-</form>
+{% block additional_head %}
+  {% comment %} <link rel="stylesheet" href="{% static "global/css/forms.css" %}"> {% endcomment %}
+{% endblock additional_head %}
+{% block content %}
+  <form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% block form_fields %}{% endblock form_fields %}
+    {% include "global/partials/_form-buttons.html" %}
+  </form>
+{% endblock content %}

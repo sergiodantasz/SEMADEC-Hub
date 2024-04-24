@@ -19,6 +19,10 @@
   color: var(--gray-800);
 }
 
+.base-table-wrapper {
+  overflow-x: auto;
+}
+
 .base-table-head,
 .base-table-body {
   font-size: var(--font-size-content-normal);
@@ -45,10 +49,22 @@
   border-bottom-right-radius: 1rem;
 }
 
+.table-cell-flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.base-table-edit {
+  width: 2.5rem;
+}
+
 .base-table-body .base-table-row:not(:last-child) .base-table-cell {
   border-bottom: 1px solid var(--gray-500);
 }
 
 .base-table-row td:first-child {
   width: 55%;
+  max-width: 32rem;
+  word-wrap: break-word;
 }

@@ -1,4 +1,4 @@
-from random import choice
+from random import choice, randint
 from random import uniform as randfloat
 
 from django.utils import timezone
@@ -128,7 +128,8 @@ class TestTeamFactory(DjangoModelFactory):
     test = SubFactory(TestFactory)
     team = SubFactory(TeamFactory)
     score = randfloat(1.0, 100.0)
-    winner = choice([True, False])
+    classification = randint(1, 10)
+    # winner = choice([True, False])
 
 
 class TestWithTeamFactory(TestFactory):

@@ -18,10 +18,10 @@ from .forms import EditionForm, EditionTeamForm, TeamForm
 
 def editions(request):
     # EditionWith2TeamsFactory.create_batch(3)  # Remove if needed
-    TeamFactory.create_batch(5)
+    TeamFactory.create_batch(5)  # Remove if needed
     context = {
         'title': 'Edições',
-        'db_regs': Edition.objects.all(),
+        'db_regs': Edition.objects.order_by('-year'),
     }
     return render(request, 'editions/pages/editions.html', context)
 

@@ -6,12 +6,12 @@ from home.models import Collection
 
 def archive(request):
     # For test purposes
-    # collection_fac = CollectionArchiveFactory()
+    # collection_fac = CollectionArchiveFactory.create_batch(5)
     # document_fac = ImageFactory.create_batch(
     #     size=3,
-    #     collection=collection_fac,
+    #     collection=collection_fac[0],
     # )
-    # archive_regs = [collection_fac] * 5
+    # archive_regs = collection_fac
     # For test purposes
     archive_regs = Collection.objects.filter(collection_type='image').order_by(
         '-updated_at'

@@ -4,12 +4,10 @@
   {{ block.super }}
   <link rel="stylesheet" href="{% static "competitions/css/competitions-table-sports.css" %}">
 {% endblock additional_head %}
-{% if db_regs|length != 0 %}
-  {% block table_header_rows %}
-    <th class="base-table-header">Esporte</th>
-    <th class="base-table-header">Categorias</th>
-  {% endblock table_header_rows %}
-{% endif %}
+{% block table_header_rows %}
+  <th class="base-table-header">Esporte</th>
+  <th class="base-table-header">Categorias</th>
+{% endblock table_header_rows %}
 {% block table_rows %}
   {% for reg in db_regs %}
     <tr class="base-table-row">
