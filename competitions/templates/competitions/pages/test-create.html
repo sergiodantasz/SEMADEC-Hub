@@ -1,10 +1,9 @@
-{% extends "global/pages/base_header.html" %}
+{% extends "global/pages/base_form.html" %}
 {% load static %}
 {% block header %}Adicionar prova{% endblock header %}
 {% block additional_head %}
-  <link rel="stylesheet" href="{% static "global/css/forms.css" %}">
   <link rel="stylesheet" href="{% static "competitions/css/test-create.css" %}">
 {% endblock additional_head %}
-{% block content %}
+{% block form_fields %}
   {% include "competitions/partials/_tests-form.html" %}
-{% endblock content %}
+{% endblock form_fields %}

@@ -1,5 +1,3 @@
-{% extends "global/pages/base_form.html" %}
-{% block form_fields %}
   {% load custom_tags %}
   {% for field in form %}
     <div class="field-group">
@@ -8,4 +6,3 @@
       {% check_error field %}
     </div>
   {% endfor %}
-{% endblock form_fields %}
