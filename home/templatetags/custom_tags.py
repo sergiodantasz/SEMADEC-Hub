@@ -11,25 +11,29 @@ register = template.Library()
 
 
 @register.simple_tag()
-def load_regs(db_regs: QuerySet, reg, div, empty):
+def load_regs(
+    db_regs: QuerySet, template: str, empty: str, reg: str = 'reg', div: str = ''
+):
     """Load regs inside a Django QuerySet of returns error message if none exists.
 
     Args:
         db_regs (QuerySet): QuerySet object related to model query.
-        reg (str): Object variable name to be used during iteration.
-        div (str): Div class name for objects wrapping.
+        template (str): Template name to be used.
         empty (str): Message to display if the given QuerySet is empty.
+        reg (str, optional): Object variable name to be used during iteration.
+        div (str, optional): Div class name for objects wrapping.
 
     Returns:
         SafeString: Output string to be appended on html page.
     """
-    template = 'archive/partials/_archive-item.html'
-    container = '<div class={}>{}</div>'
     if db_regs:
         process = (render_to_string(template, {reg: i}) for i in db_regs)
         final_content = ''.join(process)
-        container = container.format(div, final_content)
-        return mark_safe(container)
+        if div:
+            container = '<div class={}>{}</div>'
+            container = container.format(div, final_content)
+            return mark_safe(container)
+        return mark_safe(final_content)
     else:
         return mark_safe(f'<p class="nothing-found">{empty}</p>')
 

@@ -3,11 +3,11 @@
   <link rel="stylesheet" href="{% static "global/css/table-buttons.css" %}">
 {% endblock additional_head %}
 <div class="action-buttons-wrapper">
-  <a class="button" href="{% url "editions:editions_edit" edition.year %}">
+  <a class="button" href="{% url "editions:editions_edit" reg.year %}">
     <img src="{% static "global/img/edit.svg" %}" alt="">
     <span>Editar edição</span>
   </a>
-  <a class="button" href="{% url "editions:editions_delete" edition.year %}">
+  <a class="button" href="{% url "editions:editions_delete" reg.year %}">
     <img src="{% static "global/img/delete.svg" %}" alt="">
     <span>Apagar edição</span>
   </a>

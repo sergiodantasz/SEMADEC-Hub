@@ -6,7 +6,7 @@
   <th class="base-table-header">Posição</th>
 {% endblock table_header_rows %}
 {% block table_rows %}
-  {% for junc in edition.get_edition_team_current%}
+  {% for junc in reg.get_edition_team_current%}
     <tr class="base-table-row">
       <td class="base-table-cell">{{ junc.team.name }}</td>
       <td class="base-table-cell">{{ junc.score|floatformat:2 }}</td>

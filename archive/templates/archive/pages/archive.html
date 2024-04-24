@@ -9,6 +9,6 @@
   {% if db_regs|length > 0 %}
     {% include "global/partials/_searchbar.html" %}
   {% endif %}
-  {% load_regs db_regs reg="archive_reg" div="archive-list" empty="Nenhuma coleção de acervo foi encontrada."%}
+  {% load_regs db_regs template="archive/partials/_archive-item.html" div="archive-list" empty="Nenhuma coleção de acervo foi encontrada."%}
 
 {% endblock content %}

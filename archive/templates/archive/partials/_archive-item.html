@@ -1,6 +1,6 @@
-<a class="archive-item-container" href="{% url 'archive:archive_detailed' archive_reg.slug%}">
+<a class="archive-item-container" href="{% url 'archive:archive_detailed' reg.slug%}">
   <div class="archive-item-cover-wrapper">
-    <img class="archive-item-cover" src="{{ archive_reg.cover.url }}" alt="Capa de coleção de arquivo.">
+    <img class="archive-item-cover" src="{{ reg.cover.url }}" alt="Capa de coleção de arquivo.">
   </div>
-  <h5 class="archive-item-title">{{ archive_reg.title }}</h5>
+  <h5 class="archive-item-title">{{ reg.title }}</h5>
 </a>
