@@ -1,14 +1,8 @@
 {% extends "competitions/pages/competitions.html" %}
 {% load static %}
 {% block competitions_content %}
-  {% if user.is_admin %}
-    <div class="admin-actions-wrapper">
-      <a class="button" href="{% url "competitions:sports_create" %}">
-        <img src="{% static "global/img/add.svg" %}" alt="">
-        <span>Adicionar esporte</span>
-      </a>
-    </div>
-  {% endif %}
+  {% load custom_tags %}
+  {% load_create_button user=user namespace="competitions:sports_create" label="Adicionar esporte" %}
   {% if db_regs|length != 0 %}
     {% include "competitions/partials/_competitions-table-sports.html" %}
   {% else %}

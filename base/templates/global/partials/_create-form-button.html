@@ -1,0 +1,9 @@
+{% load static %}
+{% if user.is_admin %}
+  <div class="admin-actions-wrapper">
+    <a class="button" href="{{ namespace }}">
+      <img src="{% static "global/img/add.svg" %}" alt="">
+      <span>{{ label }}</span>
+    </a>
+  </div>
+{% endif %}

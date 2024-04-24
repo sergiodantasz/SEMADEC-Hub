@@ -3,6 +3,7 @@ from django.db.models import QuerySet
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
@@ -45,3 +46,8 @@ def check_error(field):
         container_outer = container_outer.format(final_content)
         return mark_safe(container_outer)
     return ''
+
+
+@register.inclusion_tag('global/partials/_create-form-button.html')
+def load_create_button(user, namespace, label):
+    return {'user': user, 'namespace': reverse(namespace), 'label': label}
