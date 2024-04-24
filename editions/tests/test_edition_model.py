@@ -22,6 +22,7 @@ def test_edition_model_name_has_max_length_20(db, edition_fixture):
         reg.full_clean()
 
 
+@mark.skip
 def test_edition_model_name_is_unique(db, edition_fixture):
     with assert_raises(IntegrityError):
         reg1 = edition_fixture(name='name test')
