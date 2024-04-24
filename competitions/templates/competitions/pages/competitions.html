@@ -6,7 +6,7 @@
 {% block header %}Competições{% endblock header %}
 {% block content %}
   {% if db_regs|length != 0 %}
-    {% include "global/partials/_searchbar.html" %}
+    {% include "global/partials/_search-bar.html" %}
   {% endif %}
   <div class="competitions-options">
     <a class="competitions-option-container" href="{% url "competitions:sports" %}">
@@ -23,5 +23,33 @@
       {% endif %}
     </a>
   </div>
-  {% block competitions_content %}{% endblock competitions_content %}
+  {% if page_variant == 'sports' %}
+    {% if user.is_admin %}
+      <div class="admin-actions-wrapper">
+        <a class="button" href="{% url "competitions:sports_create" %}">
+          <img src="{% static "global/img/add.svg" %}" alt="">
+          <span>Criar esporte</span>
+        </a>
+      </div>
+    {% endif %}
+    {% if db_regs|length != 0 %}
+      {% include "competitions/partials/_competitions-table-sports.html" %}
+    {% else %}
+      <p class="nothing-found">Nenhum esporte foi encontrado.</p>
+    {% endif %}
+  {% elif page_variant == 'tests' %}
+    {% if user.is_admin %}
+      <div class="admin-actions-wrapper">
+        <a class="button" href="{% url "competitions:tests_create" %}">
+          <img src="{% static "global/img/add.svg" %}" alt="">
+          <span>Criar prova</span>
+        </a>
+      </div>
+    {% endif %}
+    {% if db_regs|length != 0 %}
+      {% include "competitions/partials/_competitions-table-tests.html" %}
+    {% else %}
+      <p class="nothing-found">Nenhuma prova foi encontrada.</p>
+    {% endif %}
+  {% endif %}
 {% endblock content %}

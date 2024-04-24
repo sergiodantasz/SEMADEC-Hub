@@ -1,0 +1,10 @@
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "global/css/search-bar.css" %}">
+{% endblock additional_head %}
+<form action="{{ search_url }}" class="search-bar" method="get">
+  <button class="search-bar-button" type="submit">
+    <img class="search-bar-icon" src="{% static "global/img/search.svg" %}" alt="Search icon.">
+  </button>
+  <input class="search-bar-input" type="search" name="q" value="{{ query_string }}" placeholder="Pesquisar..." required>
+</form>
