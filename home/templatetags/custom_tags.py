@@ -1,14 +1,27 @@
 from django import template
+from django.db.models import QuerySet
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
-from django.utils.html import conditional_escape, mark_safe
+from django.utils.html import conditional_escape
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
 
 @register.simple_tag()
-def load_regs(db_regs, reg, div, empty):
+def load_regs(db_regs: QuerySet, reg, div, empty):
+    """Load regs inside a Django QuerySet of returns error message if none exists.
+
+    Args:
+        db_regs (QuerySet): QuerySet object related to model query.
+        reg (str): Object variable name to be used during iteration.
+        div (str): Div class name for objects wrapping.
+        empty (str): Message to display if the given QuerySet is empty.
+
+    Returns:
+        SafeString: Output string to be appended on html page.
+    """
     template = 'archive/partials/_archive-item.html'
     container = '<div class={}>{}</div>'
     if db_regs:
