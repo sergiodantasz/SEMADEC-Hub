@@ -1,0 +1,38 @@
+.tags-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.tag-item {
+  padding-block: 1rem;
+  border-bottom: 0.2rem solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tag-item:first-of-type {
+  border-top: 0.2rem solid var(--gray-200);
+}
+
+.tag-action {
+  background-color: var(--green-600);
+  padding: 0.5rem;
+  border-radius: 10rem;
+  display: block;
+  height: 3.5rem;
+  transition: var(--transition);
+}
+
+.tag-action:hover {
+  background-color: var(--green-700);
+}
+
+.tag-action:active {
+  background-color: var(--green-800);
+}
+
+.tag-action img {
+  width: 2.5rem;
+  height: 2.5rem;
+}
