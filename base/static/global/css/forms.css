@@ -37,6 +37,10 @@
   border-color: var(--green-600);
 }
 
+.field-group input[type="checkbox"],
+.field-group input[type="radio"] {
+  accent-color: var(--green-600);
+}
 textarea {
   font-family: var(--vont-family);
 }

@@ -18,16 +18,12 @@ div#id_edition_type div label input {
 div#id_edition_type div:has(input[type="radio"]:checked) {
   background-color: var(--green-light);
   transition: var(--transition);
-  accent-color: var(--green-600);
   border-color: var(--green-600);
 }
 
 input[type="checkbox"] {
   width: 1.7rem;
   height: 1.7rem;
-}
-input[type="checkbox"]:checked {
-  accent-color: var(--green-600);
 }
 
 .team-name-text-disabled {
