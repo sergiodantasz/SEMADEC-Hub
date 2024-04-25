@@ -8,13 +8,6 @@
 {% block content %}
   {% if db_regs|length > 0 %}
     {% include "global/partials/_search-bar.html" %}
-    <div class="archive-list">
-      {% for archive_reg in db_regs %}
-        {% include "archive/partials/_archive-item.html" %}
-      {% endfor %}
-    </div>
-  {% else %}
-    <p class="nothing-found">Nenhuma coleção de acervo foi encontrada.</p>
   {% endif %}
   {% load_regs db_regs template="archive/partials/_archive-item.html" div="archive-list" empty="Nenhuma coleção de acervo foi encontrada." %}
 {% endblock content %}
