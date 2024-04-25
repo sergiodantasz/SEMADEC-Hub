@@ -56,7 +56,7 @@ def create_news(request):
             news.administrator = request.user
             news.save()
             messages.success(request, 'Notícia criada com sucesso.')
-            return redirect(reverse('news:view_news', kwargs={'slug': news.slug}))
+            return redirect(reverse('news:view_news'))
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'news/pages/create-news.html', context)
