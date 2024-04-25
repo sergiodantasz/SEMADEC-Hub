@@ -28,6 +28,7 @@ def documents_collection(request):
     context = {
         'title': 'Documentos',
         'db_regs': documents_collection_objs,
+        'search_url': reverse('documents:search_document'),
     }
     return render(request, 'documents/pages/documents.html', context)
 
@@ -39,11 +40,9 @@ def search_document_collection(request):
     search = Collection.objects.filter(  # CHANGE
         Q(
             Q(collection_type__iexact='document')
-            & Q(
-                Q(title__icontains=query),
-            )
+            & Q(Q(title__icontains=query) | Q(documents__name__icontains=query))
         ),
-    )
+    ).distinct()
     context = {
         'title': 'Documentos',
         'db_regs': search,
