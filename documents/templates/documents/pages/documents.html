@@ -11,11 +11,6 @@
     {% include "global/partials/_search-bar.html" %}
   {% endif %}
   {% load_create_button user=user namespace="documents:create_document" label="Criar documento"%}
-  <div class="document-collection-list">
-    {% for document_collection in db_regs %}
-      {% include "documents/partials/_document-collection-item.html" %}
-    {% empty %}
-      <p class="nothing-found">Nenhum documento foi encontrado.</p>
-    {% endfor %}
-  </div>
+  {% load_regs db_regs template="documents/partials/_document-collection-item.html" empty="Nenhum documento foi encontrado." reg="document_collection" div="document-collection-list"%}
+
 {% endblock content %}
