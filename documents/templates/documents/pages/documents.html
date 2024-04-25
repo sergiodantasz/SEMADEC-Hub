@@ -6,17 +6,11 @@
 {% endblock additional_head %}
 {% block header %}Documentos{% endblock header %}
 {% block content %}
+  {% load custom_tags %}
   {% if db_regs|length != 0 %}
     {% include "global/partials/_search-bar.html" %}
   {% endif %}
-  {% if user.is_admin %}
-    <div class="admin-actions-wrapper">
-      <a class="button" href="{% url "documents:create_document" %}">
-        <img src="{% static "global/img/add.svg" %}" alt="">
-        <span>Criar documento</span>
-      </a>
-    </div>
-  {% endif %}
+  {% load_create_button user=user namespace="documents:create_document" label="Criar documento"%}
   <div class="document-collection-list">
     {% for document_collection in db_regs %}
       {% include "documents/partials/_document-collection-item.html" %}
