@@ -26,6 +26,7 @@ def news(request):
 def search_news(request):
     query = request.GET.get('q').strip()
     if not query:
+        messages.warning(request, 'Digite um termo de busca válido.')
         return redirect(reverse('news:news'))
     news_objs = News.objects.filter(
         Q(

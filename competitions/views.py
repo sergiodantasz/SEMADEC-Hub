@@ -37,6 +37,7 @@ def sports_search(request):
     querystr = request.GET.get('q').strip()
 
     if not querystr:
+        messages.warning(request, 'Digite um termo de busca válido.')
         return redirect(reverse('competitions:sports'))
 
     db_regs = Sport.objects.filter(name__icontains=querystr).order_by('name')
@@ -92,6 +93,7 @@ def tests_search(request):
     querystr = request.GET.get('q').strip()
 
     if not querystr:
+        messages.warning(request, 'Digite um termo de busca válido.')
         return redirect(reverse('competitions:tests'))
 
     db_regs = Test.objects.filter(

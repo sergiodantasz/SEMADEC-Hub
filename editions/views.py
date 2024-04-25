@@ -56,6 +56,7 @@ def editions_search(request):
     querystr = request.GET.get('q').strip()
 
     if not querystr:
+        messages.warning(request, 'Digite um termo de busca válido.')
         return redirect(reverse('editions:editions_search'))
 
     search = Edition.objects.filter(

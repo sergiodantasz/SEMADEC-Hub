@@ -17,6 +17,12 @@
   border-color: var(--green-dark);
 }
 
+.message-warning {
+  background-color: var(--yellow-light);
+  color: var(--yellow-dark);
+  border-color: var(--yellow-dark);
+}
+
 .message-error {
   background-color: var(--red-light);
   color: var(--red-dark);

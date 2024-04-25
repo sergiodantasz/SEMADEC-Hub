@@ -36,6 +36,7 @@ def documents_collection(request):
 def search_document_collection(request):
     query = request.GET.get('q').strip()
     if not query:
+        messages.warning(request, 'Digite um termo de busca válido.')
         return redirect(reverse('documents:documents'))
     search = Collection.objects.filter(  # CHANGE
         Q(
