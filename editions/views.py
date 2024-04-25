@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import DatabaseError
+from django.db.models import Q
 from django.forms import HiddenInput, inlineformset_factory, modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -23,6 +24,7 @@ def editions(request):
     context = {
         'title': 'Edições',
         'db_regs': Edition.objects.order_by('-year'),
+        'search_url': reverse('editions:editions_search'),
     }
     return render(request, 'editions/pages/editions.html', context)
 
@@ -48,6 +50,27 @@ def editions_create(request):
         'form_action': reverse('editions:editions_create'),
     }
     return render(request, 'editions/pages/edition-create.html', context)
+
+
+def editions_search(request):
+    querystr = request.GET.get('q').strip()
+
+    if not querystr:
+        return redirect(reverse('editions:editions_search'))
+
+    search = Edition.objects.filter(
+        Q(
+            Q(year__icontains=querystr)
+            | Q(name__icontains=querystr)
+            | Q(edition_type__icontains=querystr)
+            | Q(theme__icontains=querystr)
+        )
+    )
+    context = {
+        'title': 'Edições',
+        'db_regs': search,
+    }
+    return render(request, 'editions/pages/editions.html', context)
 
 
 @login_required
