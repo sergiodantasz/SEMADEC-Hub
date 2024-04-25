@@ -56,7 +56,7 @@ def create_news(request):
             news.administrator = request.user
             news.save()
             messages.success(request, 'Notícia criada com sucesso.')
-            return redirect(reverse('news:view_news'))
+            return redirect(reverse('news:news'))
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'news/pages/create-news.html', context)
@@ -90,7 +90,7 @@ def edit_news(request, slug):
         if form.is_valid():
             news = form.save()
             messages.success(request, 'Notícia editada com sucesso.')
-            return redirect(reverse('news:view_news', kwargs={'slug': news.slug}))
+            return redirect(reverse('news:news'))
         messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'news/pages/edit-news.html', context)
 
