@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db import DatabaseError
 from django.forms import HiddenInput, inlineformset_factory, modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -95,7 +96,7 @@ def editions_delete(request, year):
     try:
         edition_obj = get_object_or_404(Edition, year=year)
         edition_obj.delete()
-    except Exception:
+    except DatabaseError:
         messages.error(request, 'Não foi possível remover esta edição.')
     else:
         messages.success(request, 'Edição removida com sucesso!')
