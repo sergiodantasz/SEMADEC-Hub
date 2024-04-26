@@ -114,7 +114,7 @@ class TestFactory(DjangoModelFactory):
         model = 'competitions.Test'
         skip_postgeneration_save = True
 
-    title = Sequence(lambda x: fake.unique.text(max_nb_chars=50))
+    title = Sequence(lambda x: fake.unique.test())
     description = fake.text(max_nb_chars=200)
     date_time = fake.date_time(tzinfo=timezone.get_current_timezone())
     post_generation(fake.unique.clear())
