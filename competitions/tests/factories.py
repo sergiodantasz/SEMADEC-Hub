@@ -128,7 +128,6 @@ class TestTeamFactory(DjangoModelFactory):
     test = SubFactory(TestFactory)
     team = SubFactory(TeamFactory)
     score = randfloat(1.0, 100.0)
-    classification = randint(1, 10)
     # winner = choice([True, False])
 
 
