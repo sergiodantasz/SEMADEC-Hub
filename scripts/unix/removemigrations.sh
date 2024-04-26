@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python utils/remove_migrations.py
+python3 utils/remove_migrations.py
