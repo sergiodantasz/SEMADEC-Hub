@@ -172,11 +172,6 @@ class TestTeam(models.Model):
     #     null=True,
     #     blank=True,
     # )
-    classification = models.PositiveSmallIntegerField(
-        null=True,
-        blank=True,
-        default=None,
-    )
 
     def __str__(self):
         return str(self.team.name)

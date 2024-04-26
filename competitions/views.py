@@ -140,7 +140,7 @@ def tests_edit(request, slug):
         TestTeam,
         TestTeamForm,
         extra=0,
-        fields=['score', 'classification'],
+        fields=['score'],
     )
     form_teams = TestTeamFormSet(
         request.POST or None,

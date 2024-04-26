@@ -74,13 +74,9 @@ class TestTeamForm(forms.ModelForm):
 
     class Meta:
         model = TestTeam
-        fields = ['score', 'classification']
+        fields = ['score']
 
     score = forms.CharField(
         label='Pontuação',
-        widget=forms.NumberInput(),
-    )
-    classification = forms.CharField(
-        label='Classificação',
         widget=forms.NumberInput(),
     )
