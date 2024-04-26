@@ -36,6 +36,7 @@ class Sport(models.Model):
     )
     categories = models.ManyToManyField(
         to='competitions.Category',
+        through='competitions.SportCategory',
         related_name='sports',
     )
 
@@ -55,13 +56,26 @@ class Sport(models.Model):
         return super().save(*args, **kwargs)
 
 
-class Match(models.Model):
+class SportCategory(models.Model):
     sport = models.ForeignKey(
         'competitions.Sport',
+        related_name='sport_category',
         on_delete=models.CASCADE,
     )
     category = models.ForeignKey(
         'competitions.Category',
+        related_name='sport_category',
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return f'{self.sport.name} - {self.category.name}'
+
+
+class Match(models.Model):
+    sport_category = models.ForeignKey(
+        'competitions.SportCategory',
+        related_name='matches',
         on_delete=models.CASCADE,
     )
     edition = models.ForeignKey(
