@@ -36,7 +36,7 @@
 
 .base-table-header,
 .base-table-cell {
-  padding: 0.7rem 1.5rem;
+  padding: 1rem 1.5rem;
 }
 
 .base-table-header:first-child {
@@ -64,7 +64,7 @@
 }
 
 .base-table-row td:first-child {
-  width: 55%;
+  width: 70%;
   max-width: 32rem;
   word-wrap: break-word;
 }
