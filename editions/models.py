@@ -93,6 +93,7 @@ class EditionTeam(models.Model):
         default=0,
     )
     classification = models.PositiveSmallIntegerField(
+        unique=True,
         null=True,
         blank=True,
         default=None,
