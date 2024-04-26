@@ -78,5 +78,12 @@ omit = [
     "*/migrations/*.py",
 ]
 
+[tool.coverage.report]
+exclude_also = [
+    "def __init__",
+    "super().__init__",
+    "def save",
+    ]
+
 [tool.coverage.html]
 directory = "coverage"
