@@ -87,7 +87,7 @@ def editions_edit(request, year):
         EditionTeam,
         EditionTeamForm,
         extra=0,
-        fields=['score', 'classification'],  # add 'team' if desired
+        fields=['score'],  # add 'team' if desired
     )
     form_teams = EditionTeamFormSet(
         request.POST or None,

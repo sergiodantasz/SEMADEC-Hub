@@ -59,15 +59,11 @@ class EditionTeamForm(forms.ModelForm):
 
     class Meta:
         model = EditionTeam
-        fields = ['score', 'classification']
+        fields = ['score']
 
     # team = forms.CharField()
     score = forms.CharField(
         label='Pontuação',
-        widget=forms.NumberInput(),
-    )
-    classification = forms.CharField(
-        label='Classificação',
         widget=forms.NumberInput(),
     )
 

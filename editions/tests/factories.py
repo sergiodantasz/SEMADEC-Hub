@@ -101,7 +101,6 @@ class EditionTeamFactory(DjangoModelFactory):
     edition = SubFactory(EditionFactory)
     team = SubFactory(TeamFactory)
     score = randfloat(1.0, 100.0)
-    classification = randint(1, 10)
 
 
 class EditionWithTeamFactory(EditionFactory):

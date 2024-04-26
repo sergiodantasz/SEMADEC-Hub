@@ -3,7 +3,6 @@
 {% block table_header_rows %}
   <th class="base-table-header">Time</th>
   <th class="base-table-header">Pontuação</th>
-  <th class="base-table-header">Classificação</th>
 {% endblock table_header_rows %}
 {% block table_rows %}
   {% csrf_token %}
@@ -12,7 +11,6 @@
     <tr class="base-table-row">
       <td class="base-table-cell">{{ form_team.instance.team.name }}</td>
       <td class="base-table-cell">{{ form_team.score }}</td>
-      <td class="base-table-cell">{{ form_team.classification }}</td>
       <td class="base-table-cell" style="display:none;">{{ form_team.id }}</td>
     </tr>
   {% endfor %}

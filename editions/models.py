@@ -92,12 +92,6 @@ class EditionTeam(models.Model):
         blank=True,
         default=0,
     )
-    classification = models.PositiveSmallIntegerField(
-        unique=True,
-        null=True,
-        blank=True,
-        default=None,
-    )
 
     def __str__(self):
         return f'{self.team} - {self.edition}'
