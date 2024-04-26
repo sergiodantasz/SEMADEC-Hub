@@ -1,5 +1,3 @@
-from tkinter import Widget
-
 from django import forms
 from django.db.models import Q
 
