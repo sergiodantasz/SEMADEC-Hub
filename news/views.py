@@ -9,11 +9,9 @@ from helpers.decorators import admin_required
 from helpers.model import is_owner
 from news.forms import NewsForm
 from news.models import News
-from news.tests.factories import NewsFactory
 
 
 def news(request):
-    # NewsFactory.create_batch(5)  # Remove if needed
     news_objs = News.objects.order_by('-created_at')
     context = {
         'title': 'Notícias',
