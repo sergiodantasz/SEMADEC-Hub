@@ -1,0 +1,26 @@
+.tags-checkbox-list {
+  max-height: 30rem;
+  overflow-y: auto;
+  border: 0.2rem solid var(--gray-500);
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tags-checkbox-list > div {
+  background-color: var(--gray-100);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: var(--transition);
+}
+
+.tags-checkbox-list > div:has(input[type="checkbox"]:checked) {
+  background-color: var(--green-200);
+}
+
+.tags-checkbox-list label {
+  display: flex;
+  gap: 0.5rem;
+}

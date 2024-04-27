@@ -40,3 +40,17 @@
 .news-content li {
   margin-left: 3rem;
 }
+
+.news-tags-container {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.news-tag-item {
+  text-align: center;
+  background-color: var(--gray-100);
+  padding: 0.5rem 1rem;
+  border-radius: 10rem;
+  color: var(--gray-600);
+}

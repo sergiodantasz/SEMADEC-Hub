@@ -25,6 +25,13 @@
     <h3 class="news-title">{{ news.title }}</h3>
     <p class="news-excerpt">{{ news.excerpt }}</p>
     <span class="news-meta">Por {{ news.administrator.name }} em {{ news.created_at }}</span>
+    {% if news.tags.all|length > 0 %}
+      <div class="news-tags-container">
+        {% for tag in news.tags.all %}
+          <div class="news-tag-item">{{tag}}</div><!-- add link to search containing news with the tag -->
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
   <hr class="news-separator">
   <main class="news-content">

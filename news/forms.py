@@ -2,6 +2,7 @@ from django import forms
 from django_summernote.widgets import SummernoteWidget
 
 from helpers.form import set_attr, set_placeholder
+from home.models import Tag
 from news.models import News
 
 
@@ -14,7 +15,7 @@ class NewsForm(forms.ModelForm):
 
     class Meta:
         model = News
-        fields = ['cover', 'title', 'excerpt', 'content']
+        fields = ['cover', 'title', 'excerpt', 'content', 'tags']
 
     cover = forms.ImageField(
         widget=forms.FileInput(),
@@ -32,4 +33,12 @@ class NewsForm(forms.ModelForm):
     content = forms.CharField(
         widget=SummernoteWidget(),
         label='Conteúdo',
+    )
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.order_by('name'),
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'class': 'tags-checkbox-list'},
+        ),
+        required=False,
+        label='Tags',
     )

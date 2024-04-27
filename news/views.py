@@ -56,6 +56,7 @@ def create_news(request):
             news = form.save(commit=False)
             news.administrator = request.user
             news.save()
+            form.save_m2m()
             messages.success(request, 'Notícia criada com sucesso.')
             return redirect(reverse('news:news'))
         else:
