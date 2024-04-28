@@ -110,7 +110,7 @@ h6 {
   border: 0.2rem solid var(--green-600);
   color: var(--green-600);
   text-align: center;
-  font-size: var(--font-size-content-normal);
+  font-size: var(--font-size-content-small);
   border-radius: 100rem;
   padding: 1rem 2rem;
 }

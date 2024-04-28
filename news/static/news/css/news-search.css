@@ -1,0 +1,35 @@
+.result-value {
+  margin-bottom: 5rem;
+}
+
+.query-result-search-term,
+.result-value-number {
+  font-weight: 700;
+  color: var(--green-700);
+}
+
+.tags-list-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tags-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  text-align: center;
+  background-color: var(--gray-100);
+  padding: 0.5rem 1rem;
+  border-radius: 10rem;
+  color: var(--gray-600);
+}
+
+.query-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

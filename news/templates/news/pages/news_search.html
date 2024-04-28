@@ -1,0 +1,35 @@
+{% extends "global/pages/base_header.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "news/css/news-item.css" %}">
+  <link rel="stylesheet" href="{% static "news/css/news-search.css" %}">
+{% endblock additional_head %}
+{% block header %}Notícias{% endblock header %}
+{% block content %}
+  {% include "global/partials/_search-bar.html" %}
+  <div class="query-info">
+    {% if search_term %}
+      <p class="query-result">Exibindo resultados da pesquisa: <span class="query-result-search-term">"{{ search_term }}"</span></p>
+    {% endif %}
+    {% if tags %}
+      <div class="tags-list-container">
+        <p>Filtrando por tags:</p>
+        <div class="tags-list">
+          {% for tag in tags %}
+            <div class="tag">{{ tag }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+    <div class="result-value">Resultado: <span class="result-value-number">{{ news_list.count }}</span></div>
+  </div>
+  {% if news_list|length > 0 %}
+    <div class="news-list">
+      {% for news in news_list %}
+        {% include "news/partials/_news-item.html" %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="nothing-found">Nenhuma notícia foi encontrada.</p>
+  {% endif %}
+{% endblock content %}

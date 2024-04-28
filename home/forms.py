@@ -1,3 +1,5 @@
+from string import punctuation
+
 from django import forms
 
 from home.models import Tag
@@ -18,3 +20,10 @@ class TagForm(forms.ModelForm):
             'unique': 'Uma tag com este nome já foi criada.',
         },
     )
+
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        for p in punctuation:
+            if p in name:
+                self.add_error('name', 'O nome da tag não pode conter pontuação.')
+        return name

@@ -1,0 +1,26 @@
+{% extends "global/pages/base_header.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "news/css/news-item.css" %}">
+{% endblock additional_head %}
+{% block header %}Notícias{% endblock header %}
+{% block content %}
+  {% if user.is_admin %}
+    <div class="admin-actions-wrapper">
+      <a class="button" href="{% url "news:create_news" %}">
+        <img src="{% static "global/img/add.svg" %}" alt="">
+        <span>Criar notícia</span>
+      </a>
+    </div>
+  {% endif %}
+  {% if news_list|length > 0 %}
+    {% include "global/partials/_search-bar.html" %}
+    <div class="news-list">
+      {% for news in news_list %}
+        {% include "news/partials/_news-item.html" %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="nothing-found">Nenhuma notícia foi encontrada.</p>
+  {% endif %}
+{% endblock content %}
