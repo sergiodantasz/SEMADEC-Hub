@@ -8,6 +8,11 @@ app_name = 'competitions'
 urlpatterns = [
     path('', views.competitions, name='competitions'),
     path('esportes/', views.sports, name='sports'),
+    path(
+        'esportes/visualizar/<slug:slug>/',
+        views.sports_detailed,
+        name='sports_detailed',
+    ),
     path('esportes/buscar', views.sports_search, name='sports_search'),
     path('esportes/criar', views.sports_create, name='sports_create'),
     path('esportes/editar/<slug:slug>/', views.sports_edit, name='sports_edit'),
