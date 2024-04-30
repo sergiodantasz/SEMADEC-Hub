@@ -74,7 +74,35 @@ def sports_create(request):
 
 @login_required
 @admin_required
-def sports_edit(request, slug): ...
+def sports_edit(request, slug):
+    obj = get_object_or_404(Sport, slug=slug)
+    form = SportForm(request.POST or None, request.FILES or None, instance=obj)
+    form.fields['name'].disabled = True
+    context = {
+        'title': 'Editar esporte',
+        'form': form,
+        'form_action': reverse('competitions:sports_edit', kwargs={'slug': obj.slug}),
+    }
+    if request.POST:
+        if form.is_valid():
+            cats_m2m = form.cleaned_data['categories']
+            form_reg = form.save(commit=True)
+            form_reg.categories.add(*cats_m2m)
+            form_reg.administrator = request.user
+            form_reg.save()
+            messages.success(request, 'Esporte editado com sucesso.')
+            return redirect(reverse('competitions:sports'))
+        messages.error(request, 'Preencha os campos do formulário corretamente.')
+    return render(request, 'competitions/pages/sport-create.html', context)
+
+
+def sports_detailed(request, slug):
+    obj = get_object_or_404(Sport, slug=slug)
+    context = {
+        'title': f'Esportes - {obj.title}',
+        'sport': obj,
+    }
+    return render(request, 'competitions/pages/sport-detailed.html', context)
 
 
 def tests(request):

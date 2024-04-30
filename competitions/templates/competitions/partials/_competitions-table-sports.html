@@ -18,6 +18,7 @@
             <div class="category-tag {{ category.get_css_class }}">{{ category.name }}</div>
           {% endfor %}
         </div>
+        <a href="{% url 'competitions:sports_edit' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
       </td>
     </tr>
   {% endfor %}
