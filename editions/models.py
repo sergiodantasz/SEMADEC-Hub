@@ -38,10 +38,20 @@ class Edition(models.Model):
         through='editions.EditionTeam',
         related_name='editions',
     )
+    sports = models.ManyToManyField(
+        to='competitions.Sport',
+        # through='competitions.SportCategory',  # Is this through field necessary?
+        related_name='editions',
+    )
 
+    # Add EditionSportCategory?
     @property
     def get_teams(self):
         return self.teams.all()
+
+    @property
+    def get_matches(self):
+        return self.matches.all()
 
     @property
     def get_edition_team(self):
