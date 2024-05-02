@@ -110,6 +110,7 @@ def editions_edit(request, year):
     )
     form.fields['year'].disabled = True
     form.fields['teams'].required = False
+    form.fields['sports'].required = False
     EditionTeamFormSet = modelformset_factory(
         EditionTeam,
         EditionTeamForm,
@@ -124,7 +125,10 @@ def editions_edit(request, year):
 
     if request.POST:
         if form.is_valid() and form_teams.is_valid():
-            form.save()
+            sports_m2m = edition_obj.sports.all()
+            test = form.save(commit=False)
+            test.sports.add(*sports_m2m)
+            test.save()
             form_teams.save()
             messages.success(request, 'Edição editada com sucesso.')
             return redirect(reverse('editions:editions'))
