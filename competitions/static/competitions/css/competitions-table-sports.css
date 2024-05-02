@@ -10,12 +10,6 @@
   font-family: var(--font-family);
 }
 
-.base-table-cell-right {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
 .category-tag-male {
   background: var(--blue-light);
   color: var(--blue-dark);

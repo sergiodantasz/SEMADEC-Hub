@@ -11,7 +11,11 @@
 {% block table_rows %}
   {% for reg in db_regs %}
     <tr class="base-table-row">
-      <td class="base-table-cell base-table-cell-left">{{ reg.name }}</td>
+      <td class="base-table-cell base-table-cell-left">
+        <a href="{% url 'competitions:sports_detailed' reg.slug %}">
+          {{ reg.name }}
+        </a>
+      </td>
       <td class="base-table-cell base-table-cell-right">
         <div class="category-tags-wrapper">
           {% for category in reg.get_categories %}
