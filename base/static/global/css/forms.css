@@ -22,6 +22,17 @@
   color: var(--green-950);
 }
 
+.field-group .input-datetime {
+  padding: 1rem;
+  width: min-content;
+  border: 0.2rem solid var(--gray-500);
+  border-radius: 1rem;
+}
+
+.field-group .input-datetime input {
+  color: var(--gray-500);
+}
+
 .field-group input[type="text"]::placeholder,
 .field-group input[type="number"]::placeholder,
 .field-group-inline input[type="number"]::placeholder,
@@ -41,6 +52,19 @@
 .field-group input[type="radio"] {
   accent-color: var(--green-600);
 }
+
+.field-group input[type="checkbox"],
+.field-group input[type="radio"] {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+.field-group .input-radio label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 textarea {
   font-family: var(--vont-family);
 }
@@ -73,11 +97,13 @@ textarea::placeholder {
 }
 
 div#id_edition_type div:focus-within,
-div.input-checkbox-list:focus-within {
+div.input-checkbox-list:focus-within,
+div.input-radio-list:focus-within {
   border-color: var(--green-600);
 }
 
-div.input-checkbox-list {
+div.input-checkbox-list,
+div.input-radio-list {
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
@@ -87,17 +113,20 @@ div.input-checkbox-list {
   color: var(--green-950);
 }
 
-div.input-checkbox-list div {
+div.input-checkbox-list div,
+div.input-radio-list div {
   padding: 1rem;
   color: inherit;
   /* border-radius: inherit; */
 }
 
-div.input-checkbox-list div:nth-child(even) {
+div.input-checkbox-list div:nth-child(even),
+div.input-radio-list div:nth-child(even) {
   background-color: var(--gray-50);
 }
 
-div.input-checkbox-list label {
+div.input-checkbox-list label,
+div.input-radio-list label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
