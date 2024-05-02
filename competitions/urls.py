@@ -9,6 +9,16 @@ urlpatterns = [
     path('', views.competitions, name='competitions'),
     path('esportes/', views.sports, name='sports'),
     path(
+        'esportes/partidas/criar/<int:pk>/',
+        views.matches_create,
+        name='matches_create',
+    ),
+    path(
+        'esportes/partidas/editar/<int:pk>/',
+        views.matches_edit,
+        name='matches_edit',
+    ),
+    path(
         'esportes/visualizar/<slug:slug>/',
         views.sports_detailed,
         name='sports_detailed',

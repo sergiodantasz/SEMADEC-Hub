@@ -1,0 +1,17 @@
+{% extends "global/partials/_table.html" %}
+{% load static %}
+{% block table_header_rows %}
+  <th class="base-table-header">Time</th>
+  <th class="base-table-header">Pontuação</th>
+{% endblock table_header_rows %}
+{% block table_rows %}
+  {% csrf_token %}
+  {{ form_matches.management_form }}
+  {% for form_match in form_matches %}
+    <tr class="base-table-row">
+      <td class="base-table-cell">{{ form_match.instance.team.name }}</td>
+      <td class="base-table-cell">{{ form_match.score }}</td>
+      <td class="base-table-cell" style="display:none;">{{ form_match.id }}</td>
+    </tr>
+  {% endfor %}
+{% endblock table_rows %}
