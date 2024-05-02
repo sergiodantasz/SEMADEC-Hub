@@ -22,14 +22,9 @@ def competitions(request):
 
 
 def sports(request):
-    # cats = CategoryFactory.create_batch(size=3)  # Remove if needed
-    # SportFactory.create_batch(size=1, categories=choices(cats))  # Remove if needed
-    # CategoryFactory.create_batch(size=3)  # Remove if needed
-    cat1 = CategoryFactory(name='Masculino')
-    cat2 = CategoryFactory(name='Feminino')
-    cat3 = CategoryFactory(name='Misto')
-    sport1 = SportFactory(name='Futsal', categories=(cat1, cat2))
-    sport2 = SportFactory(name='Vôlei', categories=(cat1, cat3))
+    cat_masculino = CategoryFactory(name='Masculino')
+    cat_feminino = CategoryFactory(name='Feminino')
+    cat_misto = CategoryFactory(name='Misto')
     context = {
         'title': 'Competições',
         'page_variant': 'sports',
