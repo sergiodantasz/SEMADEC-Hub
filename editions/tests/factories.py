@@ -1,11 +1,7 @@
 from random import choice, choices, randint
 from random import uniform as randfloat
 
-from factory import (
-    RelatedFactory,
-    Sequence,
-    SubFactory,
-)
+from factory import RelatedFactory, Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory
 from factory.faker import faker
 from faker.providers import BaseProvider
@@ -72,6 +68,12 @@ class EditionFactory(DjangoModelFactory):
     edition_type = fake.edition_type()
     theme = fake.text(max_nb_chars=100)
 
+    @post_generation
+    def sports(self, created, extracted):
+        if not created or not extracted:
+            return
+        self.sports.add(*extracted)
+
 
 class TeamFactory(DjangoModelFactory):
     class Meta:
@@ -79,7 +81,8 @@ class TeamFactory(DjangoModelFactory):
         skip_postgeneration_save = True
         django_get_or_create = ('name',)
 
-    name = Sequence(lambda x: fake.pystr(max_chars=75))
+    # name = Sequence(lambda x: fake.pystr(max_chars=75))
+    name = Sequence(lambda x: fake.team_name())  # Change later
 
 
 class ClassFactory(DjangoModelFactory):
