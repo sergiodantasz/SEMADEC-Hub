@@ -1,6 +1,7 @@
 from django import forms
 from django.db.models import Q
 
+from competitions.models import Sport
 from editions.models import EditionTeam
 from helpers.form import set_attr, set_placeholder
 
@@ -50,6 +51,13 @@ class EditionForm(forms.ModelForm):
             attrs={'class': 'input-checkbox-list'},
         ),
         label='Times',
+    )
+    sports = forms.ModelMultipleChoiceField(
+        queryset=Sport.objects.all(),
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'class': 'input-checkbox-list'},
+        ),
+        label='Esportes',
     )
 
 
