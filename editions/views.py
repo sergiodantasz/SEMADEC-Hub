@@ -7,6 +7,15 @@ from django.forms import HiddenInput, inlineformset_factory, modelformset_factor
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
+from competitions.models import Category, Sport
+from competitions.tests.factories import (
+    CategoryFactory,
+    MatchFactory,
+    MatchTeamFactory,
+    MatchWithTeamFactory,
+    SportCategoryFactory,
+    SportFactory,
+)
 from editions.models import Edition, EditionTeam, Team
 from editions.tests.factories import (
     EditionWith2TeamsFactory,
@@ -33,6 +42,15 @@ def editions(request):
 @admin_required
 def editions_create(request):
     form = EditionForm(request.POST or None, request.FILES or None)
+    if not form.fields['teams'].queryset:
+        messages.error(request, 'Adicione ao menos um time antes de criar uma edição.')
+        return redirect(reverse('editions:editions'))
+    if not form.fields['sports'].queryset:
+        messages.error(
+            request, 'Adicione ao menos um esporte antes de criar uma edição.'
+        )
+        return redirect(reverse('editions:editions'))
+
     if request.POST:
         if form.is_valid():
             teams_m2m = form.cleaned_data['teams']
@@ -72,6 +90,15 @@ def editions_search(request):
         'db_regs': search,
     }
     return render(request, 'editions/pages/editions.html', context)
+
+
+def editions_detailed(request, pk):
+    edition_obj = get_object_or_404(Edition, pk=pk)
+    context = {
+        'reg': edition_obj,
+        'matches': edition_obj.matches.all(),
+    }
+    return render(request, 'editions/pages/edition-detailed.html', context)
 
 
 @login_required

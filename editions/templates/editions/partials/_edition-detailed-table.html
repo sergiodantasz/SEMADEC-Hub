@@ -1,0 +1,21 @@
+{% extends "global/partials/_table.html" %}
+{% load static %}
+{% block table_header_rows %}
+  <th class="base-table-header">Esporte</th>
+  <th class="base-table-header">Times</th>
+  <th class="base-table-header">Categoria</th>
+  <th class="base-table-header">Placar</th>
+{% endblock table_header_rows %}
+{% block table_rows %}
+  {% for match in matches%}
+    <tr class="base-table-row">
+      <td class="base-table-cell">{{ match.sport_category.sport.name }}</td>
+      <td class="base-table-cell">{{ match.get_match_teams_display }}</td>
+      <td class="base-table-cell">{{ match.sport_category.category.name }}</td>
+      <td class="base-table-cell">
+        <span>adicionar dps</span>
+        <a href="{% url 'competitions:matches_edit' match.pk %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
+      </td>
+    </tr>
+  {% endfor %}
+{% endblock table_rows %}

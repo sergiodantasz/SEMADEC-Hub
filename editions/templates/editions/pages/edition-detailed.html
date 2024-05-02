@@ -1,0 +1,13 @@
+{% extends "global/pages/base_header.html" %}
+{% load static %}
+{% block header %}{{ reg.name }}{% endblock header %}
+{% block content %}
+{% load custom_tags %}
+{% load_create_button user=user namespace="competitions:matches_create" label="Criar partida" dispatcher=reg.pk%}
+{% if matches %}
+  <h1>Partidas</h1>
+  {% include "editions/partials/_edition-detailed-table.html" %}
+{% else %}
+  <p class="nothing-found">Nenhuma partida foi encontrada.</p>
+{% endif %}
+{% endblock content %}
