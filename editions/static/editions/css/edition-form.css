@@ -21,11 +21,6 @@ div#id_edition_type div:has(input[type="radio"]:checked) {
   border-color: var(--green-600);
 }
 
-input[type="checkbox"] {
-  width: 1.7rem;
-  height: 1.7rem;
-}
-
 .team-name-text-disabled {
   color: var(--green-950) !important;
   opacity: 1;
