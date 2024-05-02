@@ -1,4 +1,5 @@
 .base-table {
+  table-layout: auto;
   width: 100%;
   border-spacing: 0;
 }
@@ -71,7 +72,7 @@
 }
 
 .base-table-row td:first-child {
-  width: 70%;
+  /* width: 70%; */
   max-width: 32rem;
   word-wrap: break-word;
 }

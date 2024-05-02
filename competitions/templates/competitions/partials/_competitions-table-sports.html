@@ -3,6 +3,11 @@
 {% block additional_head %}
   {{ block.super }}
   <link rel="stylesheet" href="{% static "competitions/css/competitions-table-sports.css" %}">
+  <style>
+    .base-table-cell-left {
+      width: 60%;
+    }
+  </style>
 {% endblock additional_head %}
 {% block table_header_rows %}
   <th class="base-table-header">Esporte</th>
