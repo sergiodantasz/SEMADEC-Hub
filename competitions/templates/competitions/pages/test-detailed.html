@@ -1,0 +1,9 @@
+{% extends "global/pages/base_header.html" %}
+{% load static %}
+{% block additional_head %}
+  {% comment %} Add style {% endcomment %}
+{% endblock additional_head %}
+{% block header %}{{ test.title }}{% endblock header %}
+{% block content %}
+{{test.description}}
+{% endblock content %}

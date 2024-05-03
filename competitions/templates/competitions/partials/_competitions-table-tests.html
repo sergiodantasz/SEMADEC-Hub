@@ -9,7 +9,9 @@
 {% block table_rows %}
   {% for reg in db_regs %}
     <tr class="base-table-row">
-      <td class="base-table-cell base-table-cell-left">{{ reg.title }}</td>
+      <td class="base-table-cell base-table-cell-left">
+        <a href="{% url 'competitions:tests_detailed' reg.slug %}">{{ reg.title }}</a>
+      </td>
       <td class="base-table-cell base-table-cell-right table-cell-flex">
         <span class="base-table-date">{{ reg.date_time|date:"SHORT_DATETIME_FORMAT" }}</span>
         <a href="{% url 'competitions:tests_edit' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>

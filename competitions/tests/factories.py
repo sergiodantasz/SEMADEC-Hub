@@ -69,6 +69,7 @@ class SportFactory(DjangoModelFactory):
         skip_postgeneration_save = True
 
     name = Sequence(lambda x: fake.sport())
+    slug = Sequence(lambda x: fake.unique.slug())
 
     @post_generation
     def categories(self, created, extracted):
@@ -79,13 +80,22 @@ class SportFactory(DjangoModelFactory):
     post_generation(fake.unique.clear())
 
 
+class SportCategoryFactory(DjangoModelFactory):
+    class Meta:
+        model = 'competitions.SportCategory'
+        skip_postgeneration_save = True
+        # django_get_or_create = ('edition', 'team')
+
+    sport = SubFactory(SportFactory)
+    category = SubFactory(CategoryFactory)
+
+
 class MatchFactory(DjangoModelFactory):
     class Meta:
         model = 'competitions.Match'
         skip_postgeneration_save = True
 
-    sport = SubFactory(SportFactory)
-    category = SubFactory(CategoryFactory)
+    sport_category = SubFactory(SportCategoryFactory)
     edition = SubFactory(EditionFactory)
     scoreboard = fake.pystr(max_chars=10)
     date_time = fake.date_time(tzinfo=timezone.get_current_timezone())

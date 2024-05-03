@@ -2,7 +2,21 @@
   margin-top: 3rem;
 }
 
+.edition-item-link {
+  transition: var(--transition);
+  text-decoration: none;
+  text-decoration-color: transparent;
+}
+
+.edition-item-link:hover {
+  text-decoration: underline dotted;
+  text-decoration-color: var(--green-800);
+  text-underline-offset: 0.5rem;
+  text-decoration-thickness: 0.3rem;
+}
+
 .edition-item-name {
+  display: inline;
   font-size: var(--font-size-heading-big);
   color: var(--green-800);
   font-weight: 700;

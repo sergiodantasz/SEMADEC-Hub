@@ -53,5 +53,11 @@ def check_error(field):
 
 
 @register.inclusion_tag('global/partials/_create-form-button.html')
-def load_create_button(user, namespace, label):
+def load_create_button(user, namespace, label, dispatcher=None):
+    if dispatcher:
+        return {
+            'user': user,
+            'namespace': reverse(namespace, kwargs={'pk': dispatcher}),
+            'label': label,
+        }
     return {'user': user, 'namespace': reverse(namespace), 'label': label}

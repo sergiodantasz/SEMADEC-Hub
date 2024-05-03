@@ -1,0 +1,19 @@
+.edition-detailed-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.edition-detailed-divider {
+  display: inline;
+  height: 0.3rem;
+  background-color: var(--green-700);
+  border-radius: 1rem;
+  width: 10rem;
+}
+
+.edition-detailed-heading {
+  font-size: var(--font-size-heading-big);
+}

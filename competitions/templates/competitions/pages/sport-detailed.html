@@ -1,0 +1,18 @@
+{% extends "global/pages/base_header.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "editions/css/edition-item.css" %}">
+  <link rel="stylesheet" href="{% static "competitions/css/sports-detailed.css" %}">
+  {% comment %} Remove Later {% endcomment %}
+{% endblock additional_head %}
+{% block header %}{{ sport_name }}{% endblock header %}
+{% block content %}
+  {% for edition,matches in regs.items %}
+    <section class="edition-item-wrapper">
+      <a class="edition-item-link" href="{% url 'editions:editions_detailed' edition.year %}">
+        <h2 class="edition-item-name">{{ edition.name }}</h2>
+      </a>
+      {% include "competitions/partials/_sports-detailed-table.html" %}
+    </section>
+  {% endfor %}
+{% endblock content %}

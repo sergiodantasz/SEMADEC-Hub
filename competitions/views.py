@@ -4,16 +4,17 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.forms import modelformset_factory
-from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponse
+from django.shortcuts import get_list_or_404, get_object_or_404, redirect, render
 from django.urls import reverse
 
-from competitions.models import Sport, Test, TestTeam
+from competitions.models import Match, MatchTeam, Sport, SportCategory, Test, TestTeam
 from competitions.tests.factories import CategoryFactory, SportFactory, TestFactory
-from editions.models import Team
+from editions.models import Edition, Team
 from editions.tests.factories import TeamFactory
 from helpers.decorators import admin_required
 
-from .forms import SportForm, TestForm, TestTeamForm
+from .forms import MatchForm, MatchTeamForm, SportForm, TestForm, TestTeamForm
 
 
 def competitions(request):
@@ -21,9 +22,9 @@ def competitions(request):
 
 
 def sports(request):
-    # cats = CategoryFactory.create_batch(size=3)  # Remove if needed
-    # SportFactory.create_batch(size=1, categories=choices(cats))  # Remove if needed
-    CategoryFactory.create_batch(size=3)  # Remove if needed
+    cat_masculino = CategoryFactory(name='Masculino')
+    cat_feminino = CategoryFactory(name='Feminino')
+    cat_misto = CategoryFactory(name='Misto')
     context = {
         'title': 'Competições',
         'page_variant': 'sports',
@@ -97,12 +98,80 @@ def sports_edit(request, slug):
 
 
 def sports_detailed(request, slug):
-    obj = get_object_or_404(Sport, slug=slug)
+    sport = get_object_or_404(Sport, slug=slug)
+    editions = Edition.objects.filter(matches__sport_category__sport=sport).distinct()
+    editions_matches = dict()
+    for edition in editions:
+        query_matches = edition.matches.filter(sport_category__sport=sport)
+        editions_matches.update({edition: query_matches})
+
     context = {
-        'title': f'Esportes - {obj.title}',
-        'sport': obj,
+        'title': f'{sport.name}',
+        'sport_name': sport.name,
+        'regs': editions_matches,
     }
     return render(request, 'competitions/pages/sport-detailed.html', context)
+
+
+@login_required
+@admin_required
+def matches_create(request, pk):
+    edition_obj = get_object_or_404(Edition, pk=pk)
+    form = MatchForm(
+        request.POST or None,
+        request.FILES or None,
+        edition_obj=edition_obj,
+    )
+    context = {
+        'title': 'Criar partida',
+        'form': form,
+    }
+    if request.POST:
+        if form.is_valid():
+            form_reg = form.save(commit=False)
+            form_reg.edition = edition_obj
+            form_reg.save()
+            form.save_m2m()
+            messages.success(request, 'Partida adicionada com sucesso.')
+            return redirect(reverse('editions:editions_detailed', kwargs={'pk': pk}))
+    return render(request, 'competitions/pages/match-create.html', context)
+
+
+@login_required
+@admin_required
+def matches_edit(request, pk):
+    match_obj = get_object_or_404(Match, pk=pk)
+    form = MatchForm(request.POST or None, request.FILES or None, instance=match_obj)
+    form.fields['sport_category'].disabled = True
+    form.fields['teams'].disabled = True
+    MatchTeamFormSet = modelformset_factory(
+        MatchTeam,
+        MatchTeamForm,
+        extra=0,
+        fields=['score'],
+    )
+    form_matches = MatchTeamFormSet(
+        request.POST or None,
+        request.FILES or None,
+        queryset=MatchTeam.objects.filter(match__pk=match_obj.pk),
+    )
+    if request.POST:
+        if form.is_valid() and form_matches.is_valid():
+            form.save()
+            form_matches.save()
+            messages.success(request, 'Partida editada com sucesso.')
+            return redirect(reverse('editions:editions'))
+        messages.error(request, 'Preencha os campos do formulário corretamente.')
+
+    context = {
+        'title': 'Editar partida',
+        'form': form,
+        'form_matches': form_matches,
+        'form_action': reverse(
+            'competitions:matches_edit', kwargs={'pk': match_obj.pk}
+        ),
+    }
+    return render(request, 'competitions/pages/match-edit.html', context)
 
 
 def tests(request):
@@ -192,3 +261,13 @@ def tests_edit(request, slug):
         ),
     }
     return render(request, 'competitions/pages/test-edit.html', context)
+
+
+def tests_detailed(request, slug):
+    test = get_object_or_404(Test, slug=slug)
+
+    context = {
+        'title': test.title,
+        'test': test,
+    }
+    return render(request, 'competitions/pages/test-detailed.html', context)

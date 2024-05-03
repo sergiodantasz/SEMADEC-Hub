@@ -81,30 +81,37 @@ class Match(models.Model):
     edition = models.ForeignKey(
         'editions.Edition',
         on_delete=models.CASCADE,
+        related_name='matches',
     )
     teams = models.ManyToManyField(
         to='editions.Team',
         through='competitions.MatchTeam',
         related_name='matches',
     )
-    scoreboard = models.CharField(max_length=10)  # Change later
+    # scoreboard = models.CharField(max_length=10)  # Change later
     date_time = models.DateTimeField(
         null=True,
         blank=True,
         default=None,
     )
 
-    def __str__(self):
-        return str(self.sport.name)
+    @property
+    def get_scoreboard(self):
+        return self.match_team.values_list('score', flat=True)
+
+    def get_match_teams_display(self):
+        return f'{self.teams.first()} x {self.teams.last()}'
 
 
 class MatchTeam(models.Model):
     match = models.ForeignKey(
         'competitions.Match',
+        related_name='match_team',
         on_delete=models.CASCADE,
     )
     team = models.ForeignKey(
         'editions.Team',
+        related_name='match_team',
         on_delete=models.CASCADE,
     )
     score = models.FloatField(
@@ -112,7 +119,6 @@ class MatchTeam(models.Model):
         blank=True,
         default=0,
     )
-    winner = models.BooleanField()
 
     def __str__(self):
         return str(self.team.name)
