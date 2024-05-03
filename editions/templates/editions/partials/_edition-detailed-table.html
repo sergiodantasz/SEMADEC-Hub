@@ -13,6 +13,9 @@
   <th class="base-table-header">Times</th>
   <th class="base-table-header">Categoria</th>
   <th class="base-table-header">Placar</th>
+  {% if user.is_admin %}
+    <th class="base-table-header">Ações</th>
+  {% endif %}
 {% endblock table_header_rows %}
 {% block table_rows %}
   {% for match in matches%}
@@ -26,8 +29,12 @@
       <td class="base-table-cell">{{ match.sport_category.category.name }}</td>
       <td class="base-table-cell">
         <span>{{ match.get_scoreboard|join:" x " }}</span>
-        <a href="{% url 'competitions:matches_edit' match.pk %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
       </td>
+      {% if user.is_admin %}
+        <td class="base-table-cell base-table-cell-right">
+          <a href="{% url 'competitions:matches_edit' match.pk %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
+        </td>
+      {% endif %}
     </tr>
   {% endfor %}
 {% endblock table_rows %}

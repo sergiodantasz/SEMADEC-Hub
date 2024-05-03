@@ -4,6 +4,9 @@
   {% block table_header_rows %}
     <th class="base-table-header">Prova</th>
     <th class="base-table-header">Data</th>
+    {% if user.is_admin %}
+      <th class="base-table-header">Ações</th>
+    {% endif %}
   {% endblock table_header_rows %}
 {% endif %}
 {% block table_rows %}
@@ -14,8 +17,12 @@
       </td>
       <td class="base-table-cell base-table-cell-right table-cell-flex">
         <span class="base-table-date">{{ reg.date_time|date:"SHORT_DATETIME_FORMAT" }}</span>
-        <a href="{% url 'competitions:tests_edit' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
       </td>
+      {% if user.is_admin %}
+        <td class="base-table-cell base-table-cell-right">
+          <a href="{% url 'competitions:tests_edit' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
+        </td>
+      {% endif %}
     </tr>
   {% endfor %}
 {% endblock table_rows %}
