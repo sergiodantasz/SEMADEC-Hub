@@ -1,13 +1,13 @@
 from django.shortcuts import redirect
 from django.urls import path, reverse
 
-from users.views import login, logout, profile
+from users import views
 
 app_name = 'users'
 
 urlpatterns = [
-    path('perfil/', profile, name='profile'),
+    path('perfil/', views.ProfileView.as_view(), name='profile'),
     path('accounts/profile/', lambda r: redirect(reverse('users:profile'))),
-    path('login/', login, name='login'),
-    path('logout/', logout, name='logout'),
+    path('login/', views.LoginView.as_view(), name='login'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
 ]
