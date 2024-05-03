@@ -20,6 +20,8 @@
   transition: var(--transition);
   border-radius: 1rem;
   color: var(--green-950);
+  min-width: 100%;
+  max-width: 100%;
 }
 
 .field-group .input-datetime {
