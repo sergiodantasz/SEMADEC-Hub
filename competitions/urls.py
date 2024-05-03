@@ -30,4 +30,9 @@ urlpatterns = [
     path('provas/buscar', views.tests_search, name='tests_search'),
     path('provas/criar', views.tests_create, name='tests_create'),
     path('provas/editar/<slug:slug>/', views.tests_edit, name='tests_edit'),
+    path(
+        'provas/visualizar/<slug:slug>/',
+        views.tests_detailed,
+        name='tests_detailed',
+    ),
 ]

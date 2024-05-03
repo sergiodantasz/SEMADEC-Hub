@@ -261,3 +261,13 @@ def tests_edit(request, slug):
         ),
     }
     return render(request, 'competitions/pages/test-edit.html', context)
+
+
+def tests_detailed(request, slug):
+    test = get_object_or_404(Test, slug=slug)
+
+    context = {
+        'title': test.title,
+        'test': test,
+    }
+    return render(request, 'competitions/pages/test-detailed.html', context)
