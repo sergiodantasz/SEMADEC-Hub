@@ -7,12 +7,19 @@ from django.urls import reverse
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
+from users.models import User
+
 register = template.Library()
 
 
 @register.simple_tag()
 def load_regs(
-    db_regs: QuerySet, template: str, empty: str, reg: str = 'reg', div: str = ''
+    db_regs: QuerySet,
+    template: str,
+    empty: str,
+    user=None,
+    reg: str = 'reg',
+    div: str = '',
 ):
     """Load regs inside a Django QuerySet of returns error message if none exists.
 
@@ -20,6 +27,7 @@ def load_regs(
         db_regs (QuerySet): QuerySet object related to model query.
         template (str): Template name to be used.
         empty (str): Message to display if the given QuerySet is empty.
+        user (User, optional): Object representing the user that made the request.
         reg (str, optional): Object variable name to be used during iteration.
         div (str, optional): Div class name for objects wrapping.
 
@@ -27,7 +35,7 @@ def load_regs(
         SafeString: Output string to be appended on html page.
     """
     if db_regs:
-        process = (render_to_string(template, {reg: i}) for i in db_regs)
+        process = (render_to_string(template, {reg: i, 'user': user}) for i in db_regs)
         final_content = ''.join(process)
         if div:
             container = '<div class={}>{}</div>'
