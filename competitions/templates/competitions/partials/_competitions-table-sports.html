@@ -12,6 +12,9 @@
 {% block table_header_rows %}
   <th class="base-table-header">Esporte</th>
   <th class="base-table-header">Categorias</th>
+  {% if user.is_admin %}
+    <th class="base-table-header">Ações</th>
+  {% endif %}
 {% endblock table_header_rows %}
 {% block table_rows %}
   {% for reg in db_regs %}
@@ -27,8 +30,12 @@
             <div class="category-tag {{ category.get_css_class }}">{{ category.name }}</div>
           {% endfor %}
         </div>
-        <a href="{% url 'competitions:sports_edit' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
       </td>
+      {% if user.is_admin %}
+        <td class="base-table-cell base-table-cell-right">
+          <a href="{% url 'competitions:sports_edit' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
+        </td>
+      {% endif %}
     </tr>
   {% endfor %}
 {% endblock table_rows %}
