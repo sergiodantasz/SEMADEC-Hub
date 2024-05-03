@@ -15,7 +15,9 @@
     </p>
     <div class="edition-item-container-inner">
       {% include "editions/partials/_edition-table.html" %}
-      {% include "global/partials/_table-buttons.html" %}
+      {% if user.is_admin %}
+        {% include "global/partials/_table-buttons.html" %}
+      {% endif %}
     </div>
   </div>
 </section>
