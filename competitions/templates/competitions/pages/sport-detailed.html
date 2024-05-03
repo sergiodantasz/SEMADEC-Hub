@@ -14,5 +14,7 @@
       </a>
       {% include "competitions/partials/_sports-detailed-table.html" %}
     </section>
+  {% empty %}
+    <p class="nothing-found">Nenhuma partida desse esporte foi encontrada.</p>
   {% endfor %}
 {% endblock content %}
