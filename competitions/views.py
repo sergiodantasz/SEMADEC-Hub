@@ -98,13 +98,17 @@ def sports_edit(request, slug):
 
 
 def sports_detailed(request, slug):
-    # test = get_list_or_404(SportCategory, sport__slug=slug)
-    # obj = get_list_or_404(Match, sport_category__sport__slug=slug)
-    obj = Match.objects.get(sport_category__sport__slug=slug)
+    sport = get_object_or_404(Sport, slug=slug)
+    editions = Edition.objects.filter(matches__sport_category__sport=sport).distinct()
+    editions_matches = dict()
+    for edition in editions:
+        query_matches = edition.matches.filter(sport_category__sport=sport)
+        editions_matches.update({edition: query_matches})
+
     context = {
-        'title': f'Esportes - {obj[0].sport.name}',
-        'sport_name': obj[0].sport.name,
-        'regs': obj,
+        'title': f'{sport.name}',
+        'sport_name': sport.name,
+        'regs': editions_matches,
     }
     return render(request, 'competitions/pages/sport-detailed.html', context)
 
