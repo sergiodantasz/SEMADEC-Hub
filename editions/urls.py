@@ -5,10 +5,18 @@ from editions import views
 app_name = 'editions'
 
 urlpatterns = [
-    path('', views.editions, name='editions'),
-    path('criar/', views.editions_create, name='editions_create'),
-    path('buscar/', views.editions_search, name='editions_search'),
-    path('visualizar/<int:pk>/', views.editions_detailed, name='editions_detailed'),
-    path('editar/<int:year>/', views.editions_edit, name='editions_edit'),
-    path('apagar/<int:year>/', views.editions_delete, name='editions_delete'),
+    path('', views.EditionView.as_view(), name='editions'),
+    path('criar/', views.EditionCreateFormView.as_view(), name='editions_create'),
+    path('buscar/', views.EditionSearchView.as_view(), name='editions_search'),
+    path(
+        'visualizar/<int:pk>/',
+        views.EditionDetailedView.as_view(),
+        name='editions_detailed',
+    ),
+    path(
+        'editar/<int:year>/', views.EditionEditFormView.as_view(), name='editions_edit'
+    ),
+    path(
+        'apagar/<int:year>/', views.EditionDeleteView.as_view(), name='editions_delete'
+    ),
 ]

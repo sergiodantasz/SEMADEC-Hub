@@ -7,12 +7,15 @@ from django.db import DatabaseError
 from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.forms import modelformset_factory
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
 
+from competitions.models import Sport
 from editions.forms import EditionForm, EditionTeamForm
 from editions.models import Edition, EditionTeam
 from editions.tests.factories import EditionWith2TeamsFactory, TeamFactory
@@ -35,6 +38,16 @@ class EditionView(ListView):
         context['title'] = 'Edições'
         context['search_url'] = reverse('editions:editions_search')
         return context
+
+
+class EditionDetailedView(DetailView):
+    model = Edition
+    template_name = 'editions/pages/edition-detailed.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reg'] = self.get_object()
+        context['matches'] = self.object().matches.all()
 
 
 class EditionSearchView(ListView):
@@ -75,10 +88,14 @@ class EditionCreateFormView(SuccessMessageMixin, FormView):
     success_url = reverse_lazy('editions:editions')
     success_message = 'Edição adicionada com sucesso.'
 
-    def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Criar edição'
-        return context
+    def get(self, request, *args, **kwargs):
+        if not Sport.objects.exists():
+            messages.error(
+                self.request, 'Adicione ao menos um time antes de criar uma edição.'
+            )
+            return redirect(reverse('editions:editions'))
+        context = {'title': 'Criar edição', 'form': self.get_form()}
+        return render(request, self.template_name, context)
 
     def form_valid(self, form):
         teams_m2m = form.cleaned_data['teams']
