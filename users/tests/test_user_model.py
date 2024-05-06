@@ -42,8 +42,8 @@ def test_user_model_school_email_has_max_length_250(db, user_fixture):
 
 def test_user_model_academic_email_is_unique(db, user_fixture):
     with assert_raises(IntegrityError):
-        reg1 = user_fixture(school_email='academic@test.com')
-        reg2 = user_fixture(school_email='academic@test.com')
+        reg1 = user_fixture(academic_email='academic@test.com')
+        reg2 = user_fixture(academic_email='academic@test.com')
 
 
 def test_user_model_academic_email_has_max_length_250(db, user_fixture):
