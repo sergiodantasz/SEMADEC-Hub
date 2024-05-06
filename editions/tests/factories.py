@@ -8,7 +8,7 @@ from faker.providers import BaseProvider
 
 
 class ModelsDummyData(BaseProvider):
-    def edition_name(self):
+    def edition_name(self) -> str:
         options = [
             'I Semadec',
             'II Semadec',
