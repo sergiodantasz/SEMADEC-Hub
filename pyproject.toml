@@ -2,9 +2,11 @@
 name = "semadec-hub"
 version = "0.1.0"
 description = "Projeto desenvolvido com a finalidade de facilitar o gerenciamento da SEMADEC no IFRN Campus Currais Novos."
-authors = ["Joamerson Islan <joamersonislan38@gmail.com>, Sérgio Dantas <sergiodnts828@gmail.com>"]
+authors = ["Joamerson Islan <islan.j@escolar.ifrn.edu.br>, Sérgio Dantas <dantas.sergio@escolar.ifrn.edu.br>"]
+package-mode = false
 license = "MIT"
 readme = "README.md"
+repository = "https://github.com/sergiodantasz/SEMADEC-Hub"
 
 [tool.poetry.dependencies]
 python = "~3.12"
