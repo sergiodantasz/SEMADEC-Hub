@@ -2,7 +2,9 @@
 name = "semadec-hub"
 version = "0.1.0"
 description = "Projeto desenvolvido com a finalidade de facilitar o gerenciamento da SEMADEC no IFRN Campus Currais Novos."
-authors = ["Joamerson Islan <islan.j@escolar.ifrn.edu.br>, Sérgio Dantas <dantas.sergio@escolar.ifrn.edu.br>"]
+authors = [
+    "Joamerson Islan <islan.j@escolar.ifrn.edu.br>, Sérgio Dantas <dantas.sergio@escolar.ifrn.edu.br>",
+]
 package-mode = false
 license = "MIT"
 readme = "README.md"
@@ -32,16 +34,17 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "core.settings"
 python_files = [
-    "test.py", "test_*.py", "*_test.py",
-    "tests.py", "tests_*.py", "*_tests.py",
-    "testing/python/*.py"
-    ]
+    "test.py",
+    "test_*.py",
+    "*_test.py",
+    "tests.py",
+    "tests_*.py",
+    "*_tests.py",
+    "testing/python/*.py",
+]
 addopts = ["--doctest-modules", "--strict-markers", "-rP"]
 markers = ["slow", "fast"]
-filterwarnings = [
-    "error",
-    "ignore::pytest.PytestCollectionWarning",
-]
+filterwarnings = ["error", "ignore::pytest.PytestCollectionWarning"]
 
 [tool.ruff]
 line-length = 88
@@ -81,11 +84,7 @@ omit = [
 ]
 
 [tool.coverage.report]
-exclude_also = [
-    "def __init__",
-    "super().__init__",
-    "def save",
-    ]
+exclude_also = ["def __init__", "super().__init__", "def save"]
 
 [tool.coverage.html]
 directory = "coverage"
