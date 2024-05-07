@@ -9,7 +9,7 @@ class News(models.Model):
         'users.User',
         on_delete=models.SET_NULL,
         null=True,
-        db_column='administrator_id',
+        db_column='administrator_registration',
     )
     title = models.CharField(
         max_length=200,

@@ -36,7 +36,7 @@ class Collection(models.Model):
         'users.User',
         on_delete=models.SET_NULL,
         null=True,
-        db_column='user_id',
+        db_column='administrator_registration',
     )
     title = models.CharField(
         max_length=200,
