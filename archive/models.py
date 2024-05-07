@@ -10,6 +10,7 @@ class Image(models.Model):
     )
     content = models.ImageField(
         upload_to='collections/image/files',
+        unique=True,
         db_column='path',
     )
 
