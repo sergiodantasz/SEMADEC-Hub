@@ -1,10 +1,10 @@
 from dataclasses import asdict, dataclass
+from pprint import pprint
 
-from django.core.files.images import ImageFile
 from social_core.backends.oauth import BaseOAuth2
 
 from editions.models import Course
-from helpers.user import download_photo
+from helpers.model import get_object
 from users.models import Campus, User
 
 
@@ -21,12 +21,12 @@ class UserData:
     link_type: str
     sex: str
     date_of_birth: str
-    photo: ImageFile
+    photo: str
     is_admin: bool = False
     is_staff: bool = False
     is_superuser: bool = False
 
-    def __init__(self, response):
+    def __init__(self, response) -> None:
         self.registration = response.get('identificacao')
         self.campus = Campus.objects.filter(acronym=response.get('campus')).first()  # type: ignore
         self.course = Course.objects.filter(name=response.get('course')).first()  # type: ignore
@@ -39,18 +39,11 @@ class UserData:
         self.link_type = response.get('tipo_usuario')
         self.sex = response.get('sexo')
         self.date_of_birth = response.get('data_de_nascimento')
-        self.photo = download_photo(response.get('foto'), self.registration)
-        if self.is_existing_user():
-            self._set_user_permissions()
+        self.photo = response.get('foto')
+        if user_obj := get_object(User, registration=self.registration):
+            self.set_user_permissions(user_obj)
 
-    def is_existing_user(self) -> bool:
-        return User.objects.filter(registration=self.registration).exists()
-
-    def get_user_object(self):
-        return User.objects.get(registration=self.registration)
-
-    def _set_user_permissions(self):
-        user_obj = self.get_user_object()
+    def set_user_permissions(self, user_obj) -> None:
         self.is_admin = user_obj.is_admin
         self.is_staff = user_obj.is_staff
         self.is_superuser = user_obj.is_superuser
@@ -81,7 +74,9 @@ class SuapOAuth2(BaseOAuth2):
         extra_response = self.request(
             url=self.EXTRA_USER_DATA_URL, method=method, headers=headers
         ).json()
+        photo = extra_response.get('url_foto_150x200')
         course = extra_response.get('vinculo').get('curso')
+        response['foto'] = photo
         response['curso'] = course
         return response
 

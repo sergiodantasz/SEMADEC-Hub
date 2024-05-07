@@ -9,7 +9,7 @@
     <div class="profile-content-inner-left">
       <div class="profile-content-photo-wrapper">
         {% if user.photo %}
-          <img class="profile-content-photo" src="{{ user.photo.url }}" alt="Foto do usuário.">
+          <img class="profile-content-photo" src="{{ user.photo }}" alt="Foto do usuário.">
         {% else %}
           <img class="profile-content-photo-icon" src="{% static "users/img/user.svg" %}" alt="Ícone de perfil do usuário.">
         {% endif %}

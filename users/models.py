@@ -101,8 +101,8 @@ class User(DjangoAbstractUser):
         max_length=1,
     )
     date_of_birth = models.DateField()
-    photo = models.ImageField(
-        upload_to='users',
+    photo = models.URLField(
+        max_length=600,
     )
     is_admin = models.BooleanField(
         default=False,
