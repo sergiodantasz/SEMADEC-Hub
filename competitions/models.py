@@ -31,7 +31,7 @@ class Sport(models.Model):
         unique=True,
     )
     slug = models.SlugField(
-        max_length=225,
+        max_length=45,
         unique=True,
     )
     categories = models.ManyToManyField(
@@ -88,7 +88,6 @@ class Match(models.Model):
         through='competitions.MatchTeam',
         related_name='matches',
     )
-    # scoreboard = models.CharField(max_length=10)  # Change later
     date_time = models.DateTimeField(
         null=True,
         blank=True,
@@ -130,7 +129,7 @@ class Test(models.Model):
         unique=True,  # I think it should have unique constraint
     )
     slug = models.SlugField(
-        max_length=225,
+        max_length=45,
         unique=True,
     )
     # Add edition field??
@@ -140,6 +139,8 @@ class Test(models.Model):
         default='',
     )
     date_time = models.DateTimeField(
+        null=True,
+        blank=True,
         default=None,
     )
     teams = models.ManyToManyField(
