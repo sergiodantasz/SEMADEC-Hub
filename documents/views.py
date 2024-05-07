@@ -7,21 +7,12 @@ from django.urls import reverse
 
 from documents.forms import DocumentCollectionForm, DocumentForm
 from documents.models import Document
-from documents.tests.factories import CollectionDocumentsFactory, DocumentFactory
 from helpers.decorators import admin_required
 from helpers.model import is_owner
 from home.models import Collection
 
-# from archive.tests.factories import CollectionFactory, DocumentFactory
-# from home.tests.factories import CollectionFactory
-
 
 def documents_collection(request):
-    # collection_fac = CollectionDocumentsFactory()  # Remove if needed
-    # DocumentFactory.create_batch(
-    #     size=3,
-    #     collection=collection_fac,
-    # )  # Remove if needed
     documents_collection_objs = Collection.objects.filter(
         collection_type='document'
     ).order_by('-updated_at')
