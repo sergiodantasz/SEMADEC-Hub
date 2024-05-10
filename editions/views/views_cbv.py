@@ -168,7 +168,7 @@ class EditionEditFormView(UpdateView):
 @method_decorator(admin_required, name='dispatch')
 class EditionDeleteView(DeleteView):
     model = Edition
-    redirect_url = reverse_lazy('editions:editions')
+    success_url = reverse_lazy('editions:editions')
     success_message = 'Edição removida com sucesso!'
     error_message = 'Não foi possível remover esta edição.'
 
@@ -179,4 +179,4 @@ class EditionDeleteView(DeleteView):
             messages.error(request, self.error_message)
         else:
             messages.success(request, self.success_message)
-        return redirect(self.redirect_url)
+        return redirect(self.success_url)
