@@ -13,10 +13,6 @@ urlpatterns = [
         views.EditionDetailedView.as_view(),
         name='editions_detailed',
     ),
-    path(
-        'editar/<int:year>/', views.EditionEditFormView.as_view(), name='editions_edit'
-    ),
-    path(
-        'apagar/<int:year>/', views.EditionDeleteView.as_view(), name='editions_delete'
-    ),
+    path('editar/<int:pk>/', views.EditionEditFormView.as_view(), name='editions_edit'),
+    path('apagar/<int:pk>/', views.EditionDeleteView.as_view(), name='editions_delete'),
 ]
