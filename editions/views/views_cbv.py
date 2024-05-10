@@ -17,7 +17,7 @@ from django.views.generic.edit import DeleteView, FormView, UpdateView
 
 from competitions.models import Sport
 from editions.forms import EditionForm, EditionTeamForm
-from editions.models import Edition, EditionTeam
+from editions.models import Edition, EditionTeam, Team
 from editions.tests.factories import EditionWith2TeamsFactory, TeamFactory
 from helpers.decorators import admin_required
 
@@ -33,7 +33,7 @@ class EditionView(ListView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         # EditionWith2TeamsFactory.create_batch(3)  # Remove if needed
-        TeamFactory.create_batch(2)  # Remove if needed
+        # TeamFactory.create_batch(2)  # Remove if needed
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edições'
         context['search_url'] = reverse('editions:editions_search')
@@ -85,15 +85,18 @@ class EditionSearchView(ListView):
 class EditionCreateFormView(SuccessMessageMixin, FormView):
     template_name = 'editions/pages/edition-create.html'
     form_class = EditionForm
+    form_error_sport = 'Adicione ao menos um esporte antes de criar uma edição.'
+    form_error_team = 'Adicione ao menos um time antes de criar uma edição.'
     success_url = reverse_lazy('editions:editions')
     success_message = 'Edição adicionada com sucesso.'
 
     def get(self, request, *args, **kwargs):
         if not Sport.objects.exists():
-            messages.error(
-                self.request, 'Adicione ao menos um time antes de criar uma edição.'
-            )
-            return redirect(reverse('editions:editions'))
+            messages.error(self.request, self.form_error_sport)
+            return redirect(self.success_url)
+        if not Team.objects.exists():
+            messages.error(self.request, self.form_error_team)
+            return redirect(self.success_url)
         context = {'title': 'Criar edição', 'form': self.get_form()}
         return render(request, self.template_name, context)
 
