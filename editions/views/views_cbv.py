@@ -17,9 +17,10 @@ from django.views.generic.edit import DeleteView, FormView, UpdateView
 
 from competitions.models import Sport
 from editions.forms import EditionForm, EditionTeamForm
-from editions.models import Edition, EditionTeam, Team
+from editions.models import Edition, EditionTeam
 from editions.tests.factories import EditionWith2TeamsFactory, TeamFactory
 from helpers.decorators import admin_required
+from teams.models import Team
 
 
 class EditionView(ListView):

@@ -3,8 +3,8 @@ from pprint import pprint
 
 from social_core.backends.oauth import BaseOAuth2
 
-from editions.models import Course
 from helpers.model import get_object
+from teams.models import Course
 from users.models import Campus, User
 
 

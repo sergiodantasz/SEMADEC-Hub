@@ -1,6 +1,6 @@
 from django import forms
 
-from editions.models import Class, Course, Team
+from teams.models import Class, Course, Team
 
 
 class TeamForm(forms.ModelForm):

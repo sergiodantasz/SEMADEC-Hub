@@ -3,7 +3,7 @@ from django.db.utils import IntegrityError
 from pytest import raises as assert_raises
 
 from competitions.models import Test, TestTeam
-from editions.models import Team
+from teams.models import Team
 
 
 def test_test_model_title_has_max_length_50(db, test_fixture):  # Review it later

@@ -51,7 +51,7 @@ fake.add_provider(ModelsDummyData)
 
 class CourseFactory(DjangoModelFactory):
     class Meta:
-        model = 'editions.Course'
+        model = 'teams.Course'
         skip_postgeneration_save = True
 
     name = Sequence(lambda x: fake.unique.text(max_nb_chars=75))
@@ -77,7 +77,7 @@ class EditionFactory(DjangoModelFactory):
 
 class TeamFactory(DjangoModelFactory):
     class Meta:
-        model = 'editions.Team'
+        model = 'teams.Team'
         skip_postgeneration_save = True
         django_get_or_create = ('name',)
 
@@ -87,7 +87,7 @@ class TeamFactory(DjangoModelFactory):
 
 class ClassFactory(DjangoModelFactory):
     class Meta:
-        model = 'editions.Class'
+        model = 'teams.Class'
         skip_postgeneration_save = True
 
     name = Sequence(lambda x: fake.text(max_nb_chars=30))

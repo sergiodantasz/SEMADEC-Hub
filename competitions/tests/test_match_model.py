@@ -3,7 +3,7 @@ from django.db.utils import IntegrityError
 from pytest import raises as assert_raises
 
 from competitions.models import Match
-from editions.models import Team
+from teams.models import Team
 
 
 def test_match_model_teams_has_related_name_matchs(db, match_fixture):

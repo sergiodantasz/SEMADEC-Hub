@@ -5,10 +5,9 @@ from django.db.models import Q
 from django.forms.models import BaseModelFormSet
 
 from competitions.models import Sport
-from editions.models import EditionTeam
+from editions.models import Edition, EditionTeam
 from helpers.form import set_attr, set_placeholder
-
-from .models import Edition, Team
+from teams.models import Team
 
 
 class EditionForm(forms.ModelForm):

@@ -11,10 +11,11 @@ from django.urls import reverse
 
 from competitions.models import Match, MatchTeam, Sport, SportCategory, Test, TestTeam
 from competitions.tests.factories import CategoryFactory, SportFactory, TestFactory
-from editions.models import Class, Course, Edition, Team
+from editions.models import Edition
 from editions.tests.factories import TeamFactory
 from helpers.decorators import admin_required
 from teams.forms import ClassForm, CourseForm, TeamForm
+from teams.models import Class, Course, Team
 
 
 # Teams
