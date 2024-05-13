@@ -143,19 +143,23 @@ class Class(models.Model):
         max_length=30,
         unique=True,
     )
+    slug = models.SlugField(
+        max_length=45,
+        unique=True,
+    )
     course = models.ForeignKey(
         'editions.Course',
         on_delete=models.SET_NULL,
         null=True,
         db_column='course_id',
     )
-    # team = models.ForeignKey(
-    #     'editions.Team',
-    #     related_name='classes',
-    #     null=True,
-    #     blank=True,
-    #     on_delete=models.SET_NULL,
-    # )
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = generate_dynamic_slug(self, 'name')
+        reg = get_object(self.__class__, pk=self.pk)  # type: ignore
+        if reg and self.name != reg.name:
+            self.slug = generate_dynamic_slug(self, 'name')
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return str(self.name)
