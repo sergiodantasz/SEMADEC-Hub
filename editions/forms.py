@@ -77,16 +77,3 @@ class EditionTeamForm(forms.ModelForm):
         label='Pontuação',
         widget=forms.NumberInput(),
     )
-
-
-class TeamForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-
-    class Meta:
-        model = EditionTeam
-        fields = '__all__'
-
-    name = forms.CharField(
-        max_length=75,
-    )
