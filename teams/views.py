@@ -104,7 +104,15 @@ def classes_edit(request, slug): ...
 
 @login_required
 @admin_required
-def classes_delete(request, slug): ...
+def classes_delete(request, slug):
+    try:
+        reg = get_object_or_404(Class, slug=slug)
+        reg.delete()
+    except DatabaseError:
+        messages.error(request, 'Não foi possível remover esta turma.')
+    else:
+        messages.success(request, 'Turma removida com sucesso!')
+    return redirect(reverse('home:home'))  # Change later
 
 
 # Courses
@@ -140,4 +148,12 @@ def courses_edit(request, slug): ...
 
 @login_required
 @admin_required
-def courses_delete(request, slug): ...
+def courses_delete(request, slug):
+    try:
+        reg = get_object_or_404(Course, slug=slug)
+        reg.delete()
+    except DatabaseError:
+        messages.error(request, 'Não foi possível remover este curso.')
+    else:
+        messages.success(request, 'Curso removido com sucesso!')
+    return redirect(reverse('home:home'))  # Change later
