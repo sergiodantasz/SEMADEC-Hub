@@ -158,4 +158,4 @@ class Class(models.Model):
     # )
 
     def __str__(self):
-        return str(self.course.name)
+        return str(self.name)
