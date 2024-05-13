@@ -18,7 +18,13 @@ from teams.forms import ClassForm, CourseForm, TeamForm
 
 
 # Teams
-def teams(request): ...
+def teams(request):
+    context = {
+        'title': 'Times',
+        'db_regs': Team.objects.order_by('name'),
+        'search_url': reverse('teams:teams_search'),
+    }
+    return render(request, 'teams/pages/teams.html', context)
 
 
 @login_required
@@ -69,7 +75,13 @@ def teams_delete(request, slug):
 
 
 # Classes
-def classes(request): ...
+def classes(request):
+    context = {
+        'title': 'Turmas',
+        'db_regs': Class.objects.order_by('name'),
+        'search_url': reverse('teams:classes_search'),
+    }
+    return render(request, 'teams/pages/classes.html', context)
 
 
 @login_required
@@ -116,7 +128,13 @@ def classes_delete(request, slug):
 
 
 # Courses
-def courses(request): ...
+def courses(request):
+    context = {
+        'title': 'Cursos',
+        'db_regs': Course.objects.order_by('name'),
+        'search_url': reverse('teams:courses_search'),
+    }
+    return render(request, 'teams/pages/courses.html', context)
 
 
 @login_required
