@@ -4,5 +4,8 @@
 {% endblock additional_head %}
 {% block header %}Turmas{% endblock header %}
 {% block content %}
+  {% if db_regs|length != 0 %}
+    {% include "global/partials/_search-bar.html" %}
+  {% endif %}
   <p>Turmas</p>
 {% endblock content %}
