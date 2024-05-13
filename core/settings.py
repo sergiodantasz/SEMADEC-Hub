@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'home',
     'users',
     'news',
+    'teams',
     'handlers',
     # Django Summernote
     'django_summernote',
