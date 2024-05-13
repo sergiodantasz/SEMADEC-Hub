@@ -1,0 +1,7 @@
+{% extends "global/pages/base_form.html" %}
+{% load static %}
+{% block header %}Criar time{% endblock header %}
+{% block form_fields %}
+  {% include "competitions/partials/_sports-form.html" %}
+  {% comment %} Change partial to specific teams {% endcomment %}
+{% endblock form_fields %}
