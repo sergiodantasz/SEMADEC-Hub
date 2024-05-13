@@ -1,11 +1,26 @@
 from django.db import models
 
+from helpers.model import get_object
+from helpers.slug import generate_dynamic_slug
+
 
 class Course(models.Model):
     name = models.CharField(
         max_length=75,
         unique=True,
     )
+    slug = models.SlugField(
+        unique=True,
+        max_length=100,
+    )
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = generate_dynamic_slug(self, 'name')
+        reg = get_object(self.__class__, pk=self.pk)  # type: ignore
+        if reg and self.name != reg.name:
+            self.slug = generate_dynamic_slug(self, 'name')
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return str(self.name)
@@ -71,6 +86,14 @@ class Team(models.Model):
     name = models.CharField(
         max_length=75,
     )
+    slug = models.SlugField(
+        max_length=100,
+        unique=True,
+    )
+    classes = models.ManyToManyField(
+        to='editions.Class',
+        related_name='teams',
+    )
 
     @property
     def get_editions(self):
@@ -79,6 +102,14 @@ class Team(models.Model):
     @property
     def get_edition_team(self):
         return self.edition_team.all()
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = generate_dynamic_slug(self, 'name')
+        reg = get_object(self.__class__, pk=self.pk)  # type: ignore
+        if reg and self.name != reg.name:
+            self.slug = generate_dynamic_slug(self, 'name')
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return str(self.name)
@@ -118,13 +149,13 @@ class Class(models.Model):
         null=True,
         db_column='course_id',
     )
-    team = models.ForeignKey(
-        'editions.Team',
-        related_name='classes',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-    )
+    # team = models.ForeignKey(
+    #     'editions.Team',
+    #     related_name='classes',
+    #     null=True,
+    #     blank=True,
+    #     on_delete=models.SET_NULL,
+    # )
 
     def __str__(self):
         return str(self.course.name)
