@@ -2,6 +2,7 @@ from random import choices
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db import DatabaseError
 from django.db.models import Q
 from django.forms import modelformset_factory
 from django.http import HttpResponse
@@ -56,7 +57,15 @@ def teams_edit(request, slug): ...
 
 @login_required
 @admin_required
-def teams_delete(request, slug): ...
+def teams_delete(request, slug):
+    try:
+        reg = get_object_or_404(Team, slug=slug)
+        reg.delete()
+    except DatabaseError:
+        messages.error(request, 'Não foi possível remover este time.')
+    else:
+        messages.success(request, 'Time removido com sucesso!')
+    return redirect(reverse('home:home'))  # Change later
 
 
 # Classes
