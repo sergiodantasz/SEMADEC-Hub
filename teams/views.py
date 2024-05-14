@@ -175,7 +175,7 @@ def courses_create(request):
     form = CourseForm(request.POST or None, request.FILES or None)
     if request.POST:
         if form.is_valid():
-            reg = form.save(commit=True)
+            form.save(commit=True)
             messages.success(request, 'Curso adicionado com sucesso.')
             return redirect(reverse('teams:courses'))
         else:
@@ -207,7 +207,21 @@ def courses_search(request):
 
 @login_required
 @admin_required
-def courses_edit(request, slug): ...
+def courses_edit(request, slug):
+    obj = get_object_or_404(Course, slug=slug)
+    form = CourseForm(request.POST or None, request.FILES or None, instance=obj)
+    if request.POST:
+        if form.is_valid():
+            form.save(commit=True)
+            messages.success(request, 'Curso editado com sucesso.')
+            return redirect(reverse('teams:courses'))
+        messages.error(request, 'Preencha os campos do formulário corretamente.')
+    context = {
+        'title': 'Editar curso',
+        'form': form,
+        'form_action': reverse('teams:courses_edit', kwargs={'slug': obj.slug}),
+    }
+    return render(request, 'teams/pages/course-create.html', context)
 
 
 @login_required
