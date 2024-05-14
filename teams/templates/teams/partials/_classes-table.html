@@ -1,0 +1,26 @@
+{% extends "global/partials/_table.html" %}
+{% load static %}
+{% block additional_head %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static "competitions/css/competitions-table-sports.css" %}">
+{% endblock additional_head %}
+{% block table_header_rows %}
+  <th class="base-table-header">Turma</th>
+  <th class="base-table-header">Curso</th>
+  {% if user.is_admin %}
+    <th class="base-table-header">Ações</th>
+  {% endif %}
+{% endblock table_header_rows %}
+{% block table_rows %}
+  {% for reg in db_regs %}
+    <tr class="base-table-row">
+      <td class="base-table-cell base-table-cell-left">{{ reg.name }}</td>
+      <td class="base-table-cell base-table-cell-left">{{ reg.course.name }}</td>
+      {% if user.is_admin %}
+        <td class="base-table-cell base-table-cell-right">
+          <a href="{% url 'teams:classes_edit' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
+        </td>
+    {% endif %}
+    </tr>
+  {% endfor %}
+{% endblock table_rows %}
