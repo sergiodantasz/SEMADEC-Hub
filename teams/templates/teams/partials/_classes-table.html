@@ -1,9 +1,5 @@
 {% extends "global/partials/_table.html" %}
 {% load static %}
-{% block additional_head %}
-  {{ block.super }}
-  <link rel="stylesheet" href="{% static "competitions/css/competitions-table-sports.css" %}">
-{% endblock additional_head %}
 {% block table_header_rows %}
   <th class="base-table-header">Turma</th>
   <th class="base-table-header">Curso</th>
