@@ -143,7 +143,21 @@ def classes_search(request):
 
 @login_required
 @admin_required
-def classes_edit(request, slug): ...
+def classes_edit(request, slug):
+    obj = get_object_or_404(Class, slug=slug)
+    form = ClassForm(request.POST or None, request.FILES or None, instance=obj)
+    if request.POST:
+        if form.is_valid():
+            form.save(commit=True)
+            messages.success(request, 'Turma editada com sucesso.')
+            return redirect(reverse('teams:classes'))
+        messages.error(request, 'Preencha os campos do formulário corretamente.')
+    context = {
+        'title': 'Editar turma',
+        'form': form,
+        'form_action': reverse('teams:classes_edit', kwargs={'slug': obj.slug}),
+    }
+    return render(request, 'teams/pages/class-create.html', context)
 
 
 @login_required
