@@ -4,8 +4,12 @@
 {% endblock additional_head %}
 {% block header %}Turmas{% endblock header %}
 {% block content %}
+  {% load custom_tags %}
+  {% load_create_button user=user namespace="teams:classes_create" label="Adicionar turma" %}
   {% if db_regs|length != 0 %}
     {% include "global/partials/_search-bar.html" %}
+    {% include "teams/partials/_classes-table.html" %}
+  {% else %}
+    <p class="nothing-found">Nenhuma turma foi encontrada.</p>
   {% endif %}
-  <p>Turmas</p>
 {% endblock content %}

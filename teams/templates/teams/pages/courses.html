@@ -4,8 +4,12 @@
 {% endblock additional_head %}
 {% block header %}Cursos{% endblock header %}
 {% block content %}
+  {% load custom_tags %}
+  {% load_create_button user=user namespace="teams:courses_create" label="Adicionar curso" %}
   {% if db_regs|length != 0 %}
     {% include "global/partials/_search-bar.html" %}
+    {% include "teams/partials/_courses-table.html" %}
+  {% else %}
+    <p class="nothing-found">Nenhum curso foi encontrado.</p>
   {% endif %}
-  <p>Cursos</p>
 {% endblock content %}
