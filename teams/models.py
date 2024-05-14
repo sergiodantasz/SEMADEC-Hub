@@ -68,6 +68,10 @@ class Team(models.Model):
     )
 
     @property
+    def get_classes(self):
+        return self.classes.all()
+
+    @property
     def get_editions(self):
         return self.editions.all()
 
