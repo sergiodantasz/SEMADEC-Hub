@@ -3,7 +3,7 @@
   overflow-y: auto;
   border: 0.2rem solid var(--gray-500);
   border-radius: 1rem;
-  padding: 1rem;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

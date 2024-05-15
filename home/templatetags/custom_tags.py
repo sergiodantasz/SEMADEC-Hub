@@ -1,13 +1,10 @@
+from os import path
+
 from django import template
 from django.db.models import QuerySet
-from django.http import HttpResponse
-from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
-
-from users.models import User
 
 register = template.Library()
 
@@ -69,3 +66,8 @@ def load_create_button(user, namespace, label, dispatcher=None):
             'label': label,
         }
     return {'user': user, 'namespace': reverse(namespace), 'label': label}
+
+
+@register.filter
+def filename(value):
+    return path.basename(value.file.name)

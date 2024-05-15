@@ -14,7 +14,7 @@
     {% endif %}
   {% endfor %}
   <div class="field-group documents-container">
-    <label class="button" for="id_documents">
+    <label class="button" for="{{ document_form.documents.id_for_label }}">
       <span>Selecionar documentos</span>
       {{ document_form.documents }}
     </label>
@@ -30,6 +30,3 @@
   </div>
   {% include "global/partials/_form-buttons.html" %}
 </form>
-{% block additional_script %}
-  <script src="{% static "documents/js/documents.js" %}"></script>
-{% endblock additional_script %}

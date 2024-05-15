@@ -1,0 +1,52 @@
+{% extends "global/pages/base_no_header.html" %}
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "archive/css/view-archive.css" %}">
+{% endblock additional_head %}
+{% block content %}
+  {% include "archive/partials/_archive-item-modal.html" %}
+  {% if user.is_admin and is_owner %}
+  <div class="admin-actions-wrapper">
+    <a class="button" href="{% url "archive:edit_archive" archive_collection.slug %}">
+      <img src="{% static "global/img/edit.svg" %}" alt="">
+      <span>Editar coleção</span>
+    </a>
+    <a class="button" href="{% url "archive:delete_archive" archive_collection.slug %}">
+      <img src="{% static "global/img/delete.svg" %}" alt="">
+      <span>Apagar coleção</span>
+    </a>
+  </div>
+  {% endif %}
+  <div class="archive-cover-wrapper">
+    <img src="{{ archive_collection.cover.url }}" alt="" class="archive-cover">
+  </div>
+  <div class="archive-info-container">
+    <h3 class="archive-title">{{ archive_collection.title }}</h3>
+    <span class="archive-meta">Por {{ archive_collection.administrator.name }} em {{ archive_collection.created_at }}</span>
+    <span class="archive-count">
+      {% if archive_collection.get_images|length > 1 %}
+        {{ archive_collection.get_images.count }} imagens
+      {% else %}
+        1 imagem
+      {% endif %}
+    </span>
+    {% if archive_collection.tags.all|length > 0 %}
+      <div class="archive-tags-container">
+        {% for tag in archive_collection.tags.all %}
+          <div class="archive-tag-item">{{tag}}</div><!-- add link to search containing archive with the tag -->
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  <hr class="archive-separator">
+  <div class="images-container">
+    {% for image in archive_collection.get_images %}
+      <div class="archive-image-wrapper" pk="{{ image.id }}">
+        <img class="archive-image-item" src="{{ image.content.url }}" alt="">
+      </div>
+    {% endfor %}
+  </div>
+{% endblock content %}
+{% block additional_script %}
+  <script src="{% static "archive/js/archive-item-modal.js" %}"></script>
+{% endblock additional_script %}
