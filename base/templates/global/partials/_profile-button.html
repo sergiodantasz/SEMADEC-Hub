@@ -1,7 +1,7 @@
-{% load cache %}
-{% cache 500 user.photo user.first_name%}
-  <a type="button" href="{% url "users:profile" %}" class="profile-button">
-    <img src="{{ user.photo }}" alt="User icon." class="user-icon user-photo">
-    <span>{{ user.first_name }}</span>
-  </a>
-{% endcache %}
+{% comment %} {% load cache %} {% endcomment %}
+{% comment %} {% cache 500 user.photo user.first_name%} {% endcomment %}
+<a type="button" href="{% url "users:profile" %}" class="profile-button">
+  <img src="{{ user.photo }}" alt="User icon." class="user-icon user-photo">
+  <span>{{ user.first_name }}</span>
+</a>
+{% comment %} {% endcache %} {% endcomment %}

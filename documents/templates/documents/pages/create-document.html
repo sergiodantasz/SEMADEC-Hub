@@ -6,3 +6,6 @@
 {% block content %}
   {% include "documents/partials/_form.html" %}
 {% endblock content %}
+{% block additional_script %}
+  <script src="{% static "documents/js/documents.js" %}"></script>
+{% endblock additional_script %}

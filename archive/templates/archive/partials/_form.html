@@ -1,0 +1,66 @@
+{% load static %}
+<form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% load custom_tags %}
+  {% for field in form %}
+    {% if field.name == "collection_type" %}
+      {{ field }}
+    {% elif field.name == "cover" %}
+      <div class="field-group">
+        <div id="dropzone-container" class="dropzone-default">
+          <img src="{% static "global/img/upload.svg" %}" alt="" draggable="false">
+          {{ field }}
+          <p id="dropzone-file-info">Nenhum arquivo selecionado.</p>
+          <button id="dropzone-upload-button" class="button" type="button">
+            <span>Selecionar arquivo</span>
+          </button>
+          <p>... ou arraste o arquivo até aqui.</p>
+          <!-- add link to current cover -->
+          <div id="dropzone-area"></div>
+        </div>
+        {% check_error field %}
+      </div>
+    {% elif field.name == "tags" and field.field.queryset|length == 0 %}
+    {% else %}
+      <div class="field-group">
+        <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+        {{ field }}
+        {% check_error field %}
+      </div>
+    {% endif %}
+  {% endfor %}
+  <div class="field-group">
+    <label class="button" for="{{ image_form.images.id_for_label }}">
+      <span>Selecionar imagens</span>
+      {{ image_form.images }}
+    </label>
+    <p class="images-info">Nenhum arquivo selecionado.</p>
+    {% check_error image_form.images %}
+  </div>
+  {% if is_editing %}
+    <table class="images-table">
+      <thead>
+        <tr>
+          <th>Imagem</th>
+          <th>Remover?</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for image in form.instance.get_images %}
+          <tr>
+            <td class="image-link"><a href="{{ image.content.url }}" target="_blank">{{ image.content|filename }}</a></td>
+            <td>
+              <label>
+                <input type="radio" name="image-{{ image.id }}" value="yes"> Sim
+              </label>
+              <label>
+                <input type="radio" name="image-{{ image.id }}" value="no" checked> Não
+              </label>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+  {% include "global/partials/_form-buttons.html" %}
+</form>

@@ -2,16 +2,21 @@
 {% block additional_head %}
   <link rel="stylesheet" href="{% static "archive/css/archive-item-modal.css" %}">
 {% endblock additional_head %}
-<dialog class="archive-modal">
-  <div class="archive-modal-wrapper">
-    <img class="archive-modal-image" src="" />
+<dialog class="dialog">
+  <div class="dialog-image-wrapper">
+    <img class="dialog-image">
   </div>
-  <div class="archive-modal-buttons">
-    <button class="archive-modal-button" id="archive-modal-button-close">
-      <img class="archive-modal-button-image" src="{% static "global/img/close.svg"%}" alt="">
+  <div class="dialog-buttons">
+    <button type="button" class="dialog-button" id="dialog-button-close">
+      <img class="dialog-button-image" src="{% static "global/img/close.svg"%}" alt="">
     </button>
-    <button class="archive-modal-button" id="archive-modal-button-remove">
-      <img class="archive-modal-button-image" src="{% static "global/img/delete.svg"%}" alt="">
-    </button>
+    <a type="button" class="dialog-button" id="dialog-button-download">
+      <img class="dialog-button-image" src="{% static "global/img/download.svg"%}" alt="">
+    </a>
+    {% if user.is_admin and is_owner %}
+      <a type="button" class="dialog-button" id="dialog-button-delete">
+        <img class="dialog-button-image" src="{% static "global/img/delete.svg"%}" alt="">
+      </a>
+    {% endif %}
   </div>
 </dialog>
