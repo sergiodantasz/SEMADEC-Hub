@@ -67,6 +67,7 @@ def create_document_collection(request):
                 document_collection = form.save(commit=False)
                 document_collection.administrator = request.user
                 document_collection.save()
+                form.save_m2m()
                 for i, document in enumerate(documents):
                     Document.objects.create(
                         collection=document_collection,

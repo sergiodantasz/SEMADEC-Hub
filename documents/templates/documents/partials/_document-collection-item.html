@@ -3,6 +3,13 @@
   <header class="document-collection-item-header">
     <h5 class="document-collection-item-title">{{ document_collection.title }}</h5>
     <p class="document-collection-item-meta">Por {{ document_collection.administrator.name }} em {{ document_collection.created_at }}</p>
+    {% if document_collection.tags.all|length > 0 %}
+      <div class="document-tags-container">
+        {% for tag in document_collection.tags.all %}
+          <div class="document-tag-item">{{tag}}</div><!-- add link to search containing documents with the tag -->
+        {% endfor %}
+      </div>
+    {% endif %}
   </header>
   <div class="document-list">
     {% for document in document_collection.get_documents %}

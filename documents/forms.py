@@ -1,7 +1,7 @@
 from django import forms
 
 from helpers.form import set_attr, set_placeholder
-from home.models import Collection
+from home.models import Collection, Tag
 
 
 class DocumentCollectionForm(forms.ModelForm):
@@ -11,7 +11,7 @@ class DocumentCollectionForm(forms.ModelForm):
 
     class Meta:
         model = Collection
-        fields = ['title', 'collection_type']  # Add tags
+        fields = ['title', 'collection_type', 'tags']
 
     title = forms.CharField(
         max_length=200,
@@ -20,6 +20,14 @@ class DocumentCollectionForm(forms.ModelForm):
     collection_type = forms.CharField(
         widget=forms.HiddenInput(),
         initial='document',
+    )
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.order_by('name'),
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'class': 'tags-checkbox-list'},
+        ),
+        required=False,
+        label='Tags',
     )
 
 
