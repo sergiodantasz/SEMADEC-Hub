@@ -5,6 +5,7 @@
   {% for field in form %}
     {% if field.name == "collection_type" %}
       {{ field }}
+    {% elif field.name == "tags" and field.field.queryset|length == 0 %}
     {% else %}
       <div class="field-group">
         <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
