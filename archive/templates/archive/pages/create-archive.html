@@ -1,19 +1,14 @@
 {% extends "global/pages/base_no_header.html" %}
 {% load static %}
 {% block additional_head %}
-  <link rel="stylesheet" href="{% static "news/css/news-item.css" %}">
+  <link rel="stylesheet" href="{% static "archive/css/create-archive-collection.css" %}">
   <link rel="stylesheet" href="{% static "global/css/tags-form.css" %}">
   <link rel="stylesheet" href="{% static "global/css/dropzone.css" %}">
-  <style>
-    .summernote-div > iframe {
-      border-radius: 1rem;
-      border: 0.2rem solid var(--gray-500);
-    }
-  </style>
 {% endblock additional_head %}
 {% block content %}
-  {% include "news/partials/_form.html" %}
+  {% include "archive/partials/_form.html" %}
 {% endblock content %}
 {% block additional_script %}
   <script src="{% static "global/js/dropzone.js" %}"></script>
+  <script src="{% static "archive/js/archive.js" %}"></script>
 {% endblock additional_script %}

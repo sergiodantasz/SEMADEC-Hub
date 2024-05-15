@@ -1,4 +1,4 @@
-.archive-modal {
+.dialog {
   margin: auto;
   outline: none;
   border: none;
@@ -7,7 +7,7 @@
   background: none;
 }
 
-.archive-modal[open] {
+.dialog[open] {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,44 +17,44 @@
   height: 80vh;
 }
 
-.archive-modal::backdrop {
+.dialog::backdrop {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   transition: var(--transition);
 }
 
-.archive-modal-wrapper {
+.dialog-image-wrapper {
   overflow: hidden;
   width: auto;
   height: auto;
 }
 
-.archive-modal-image {
-  border-radius: 2.5rem;
+.dialog-image {
+  border-radius: 1rem;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.archive-modal-buttons {
+.dialog-buttons {
   display: flex;
   justify-content: space-around;
   align-items: baseline;
   gap: 1rem;
 }
 
-.archive-modal-button {
+.dialog-button {
   cursor: pointer;
   background: white;
   border: none;
   outline: none;
   width: 4rem;
   height: 4rem;
-  padding: 0.5rem;
+  padding: 0.3rem;
   border-radius: 50%;
 }
 
-.archive-modal-button-image {
+.dialog-button-image {
   width: 100%;
   height: 100%;
   filter: var(--filter-green-500);

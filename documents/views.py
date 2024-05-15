@@ -54,11 +54,13 @@ def create_document_collection(request):
         'form_action': reverse('documents:create_document'),
     }
     if request.POST:
-        documents = request.FILES.getlist('documents')
-        names = [
-            name for item, name in request.POST.items() if item.startswith('document-')
-        ]
         if form.is_valid():
+            names = [
+                name
+                for item, name in request.POST.items()
+                if item.startswith('document-')
+            ]
+            documents = request.FILES.getlist('documents')
             if not documents or not names:
                 messages.error(request, 'Nenhum documento foi selecionado.')
             else:
@@ -81,9 +83,7 @@ def create_document_collection(request):
 @login_required
 @admin_required
 def delete_document_collection(request, slug):
-    document_collection_obj = get_object_or_404(
-        Collection, collection_type='document', slug=slug
-    )
+    document_collection_obj = get_object_or_404(Collection, slug=slug)
     if not is_owner(request.user, document_collection_obj):
         raise PermissionDenied()
     document_collection_obj.delete()

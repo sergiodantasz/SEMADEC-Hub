@@ -1,0 +1,39 @@
+.images-table {
+  text-align: left;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+
+.image-link {
+  transition: var(--transition);
+  color: var(--green-800);
+  word-break: break-all;
+}
+
+.image-link:hover {
+  color: var(--green-950);
+}
+
+.images-table th,
+.images-table td {
+  padding: 0.5rem 1rem;
+}
+
+.images-table th {
+  background-color: var(--gray-400);
+  color: white;
+}
+
+.images-table thead tr th:first-child {
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.images-table thead tr th:last-child {
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.images-table td {
+  border-bottom: 0.2rem solid var(--gray-400);
+}
