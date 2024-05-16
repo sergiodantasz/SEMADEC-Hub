@@ -1,11 +1,10 @@
 {% load static %}
-<form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
+<form class="form" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {% load custom_tags %}
   {% for field in form %}
-    <div class="field-group">
-      <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
-      {% if field.name == "cover" %}
+    {% if field.name == "cover" %}
+      <div class="field-group">
         <div id="dropzone-container" class="dropzone-default">
           <img src="{% static "global/img/upload.svg" %}" alt="" draggable="false">
           {{ field }}
@@ -14,16 +13,21 @@
             <span>Selecionar arquivo</span>
           </button>
           <p>... ou arraste o arquivo até aqui.</p>
-          {% if news.cover %}
-            <a class="news-cover-link" href="{{ news.cover.url }}" target="_blank">Clique aqui para ver a capa atual.</a>
+          {% if form.instance.cover %}
+            <a class="dropzone-cover-link" href="{{ form.instance.cover.url }}" target="_blank">Clique aqui para ver a capa atual.</a>
           {% endif %}
           <div id="dropzone-area"></div>
         </div>
-      {% else %}
+        {% check_error field %}
+      </div>
+    {% elif field.name == "tags" and field.field.queryset|length == 0 %}
+    {% else %}
+      <div class="field-group">
+        <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
         {{ field }}
-      {% endif %}
-      {% check_error field %}
-    </div>
+        {% check_error field %}
+      </div>
+    {% endif %}
   {% endfor %}
   {% include "global/partials/_form-buttons.html" %}
 </form>

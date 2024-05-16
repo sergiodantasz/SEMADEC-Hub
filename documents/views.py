@@ -51,7 +51,6 @@ def create_document_collection(request):
         'title': 'Criar coleção de documentos',
         'form': form,
         'document_form': document_form,
-        'form_action': reverse('documents:create_document'),
     }
     if request.POST:
         if form.is_valid():

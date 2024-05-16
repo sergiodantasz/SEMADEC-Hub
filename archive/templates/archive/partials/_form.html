@@ -1,5 +1,5 @@
 {% load static %}
-<form class="form" action="{{ form_action }}" method="post" enctype="multipart/form-data">
+<form class="form" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {% load custom_tags %}
   {% for field in form %}
@@ -15,7 +15,9 @@
             <span>Selecionar arquivo</span>
           </button>
           <p>... ou arraste o arquivo até aqui.</p>
-          <!-- add link to current cover -->
+          {% if form.instance.cover %}
+            <a class="dropzone-cover-link" href="{{ form.instance.cover.url }}" target="_blank">Clique aqui para ver a capa atual.</a>
+          {% endif %}
           <div id="dropzone-area"></div>
         </div>
         {% check_error field %}

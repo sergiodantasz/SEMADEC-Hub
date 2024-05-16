@@ -75,7 +75,7 @@ class SportFactory(DjangoModelFactory):
     def categories(self, created, extracted):
         if not created or not extracted:
             return
-        self.categories.add(*extracted)
+        self.categories.add(*extracted)  # type: ignore
 
     post_generation(fake.unique.clear())
 

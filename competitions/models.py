@@ -96,7 +96,7 @@ class Match(models.Model):
 
     @property
     def get_scoreboard(self):
-        return self.match_team.values_list('score', flat=True)
+        return self.match_team.values_list('score', flat=True)  # type: ignore
 
     def get_match_teams_display(self):
         return f'{self.teams.first()} x {self.teams.last()}'
