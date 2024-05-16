@@ -102,7 +102,6 @@ def sports_detailed(request, slug):
     for edition in editions:
         query_matches = edition.get_matches.filter(sport_category__sport=sport)
         editions_matches.update({edition: query_matches})
-
     context = {
         'title': f'{sport.name}',
         'sport_name': sport.name,
