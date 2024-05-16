@@ -1,10 +1,12 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from archive.forms import ImageCollectionForm, ImageForm
 from archive.models import Image
+from helpers.decorators import admin_required
 from helpers.model import is_owner
 from home.models import Collection
 
@@ -21,6 +23,8 @@ def archive_collection(request):
     return render(request, 'archive/pages/archive.html', context)
 
 
+@login_required
+@admin_required
 def create_archive_collection(request):
     form = ImageCollectionForm(request.POST or None, request.FILES or None)
     image_form = ImageForm(request.POST or None, request.FILES or None)
@@ -61,6 +65,8 @@ def view_archive_collection(request, slug):
     return render(request, 'archive/pages/view-archive.html', context)
 
 
+@login_required
+@admin_required
 def delete_archive_collection(request, slug):
     archive_collection_obj = get_object_or_404(Collection, slug=slug)
     if not is_owner(request.user, archive_collection_obj):
@@ -70,6 +76,8 @@ def delete_archive_collection(request, slug):
     return redirect(reverse('archive:archive'))
 
 
+@login_required
+@admin_required
 def delete_image(request, pk):
     image_obj = get_object_or_404(Image, pk=pk)
     if not is_owner(request.user, image_obj.collection):
@@ -85,6 +93,8 @@ def delete_image(request, pk):
     return redirect(reverse('archive:archive'))
 
 
+@login_required
+@admin_required
 def edit_archive_collection(request, slug):
     archive_collection_obj = get_object_or_404(Collection, slug=slug)
     form = ImageCollectionForm(
