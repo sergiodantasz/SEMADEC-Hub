@@ -74,7 +74,23 @@ def teams_search(request):
 
 @login_required
 @admin_required
-def teams_edit(request, slug): ...
+def teams_edit(request, slug):
+    obj = get_object_or_404(Team, slug=slug)
+    form = TeamForm(request.POST or None, request.FILES or None, instance=obj)
+    if request.POST:
+        if form.is_valid():
+            reg = form.save(commit=True)
+            reg.save()
+            messages.success(request, 'Time editado com sucesso.')
+            return redirect(reverse('teams:teams'))
+        else:
+            messages.error(request, 'Preencha os campos do formulário corretamente.')
+    context = {
+        'title': 'Editar time',
+        'form': form,
+        'form_action': reverse('teams:teams_edit', kwargs={'slug': obj.slug}),
+    }
+    return render(request, 'teams/pages/team-create.html', context)
 
 
 @login_required
