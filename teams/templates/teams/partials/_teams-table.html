@@ -12,9 +12,7 @@
     <tr class="base-table-row">
       <td class="base-table-cell base-table-cell-left">{{ reg.name }}</td>
       <td class="base-table-cell base-table-cell-left">
-        {% for class in reg.get_classes %}
-          <span>{{ class.name }}</span>
-        {% endfor %}
+        {{ reg.get_classes|join:", " }}
       </td>
       {% if user.is_admin %}
         <td class="base-table-cell base-table-cell-right">
