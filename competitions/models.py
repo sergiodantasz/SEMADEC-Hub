@@ -50,7 +50,7 @@ class Sport(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = generate_dynamic_slug(self, 'name')
-        reg = get_object(self.__class__, pk=self.id)  # type: ignore
+        reg = get_object(self.__class__, pk=self.pk)  # type: ignore
         if reg and self.name != reg.name:
             self.slug = generate_dynamic_slug(self, 'name')
         return super().save(*args, **kwargs)
@@ -155,7 +155,7 @@ class Test(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = generate_dynamic_slug(self, 'title')
-        reg = get_object(self.__class__, pk=self.id)  # type: ignore
+        reg = get_object(self.__class__, pk=self.pk)  # type: ignore
         if reg and self.title != reg.title:
             self.slug = generate_dynamic_slug(self, 'title')
         return super().save(*args, **kwargs)

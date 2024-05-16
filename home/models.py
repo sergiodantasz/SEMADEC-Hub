@@ -20,8 +20,8 @@ class Tag(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = generate_dynamic_slug(self, 'name')
-        tag = get_object(self.__class__, id=self.id)  # type: ignore
-        if tag and self.name != tag.title:
+        reg = get_object(self.__class__, pk=self.pk)  # type: ignore
+        if reg and self.name != reg.title:
             self.slug = generate_dynamic_slug(self, 'name')
         return super().save(*args, **kwargs)
 
@@ -85,7 +85,7 @@ class Collection(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = generate_dynamic_slug(self, 'title')
-        collection = get_object(self.__class__, id=self.id)  # type: ignore
-        if collection and self.title != collection.title:
+        reg = get_object(self.__class__, pk=self.pk)  # type: ignore
+        if reg and self.title != reg.title:
             self.slug = generate_dynamic_slug(self, 'title')
         return super().save(*args, **kwargs)
