@@ -89,3 +89,10 @@ def delete_document_collection(request, slug):
     document_collection_obj.delete()
     messages.success(request, 'Coleção de documentos apagada com sucesso.')
     return redirect(reverse('documents:documents'))
+
+
+# @login_required
+# @admin_required
+def edit_document_collection(request, slug):
+    # TO DO
+    pass

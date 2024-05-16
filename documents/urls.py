@@ -11,4 +11,5 @@ urlpatterns = [
         'apagar/<slug:slug>/', views.delete_document_collection, name='delete_document'
     ),
     path('buscar/', views.search_document_collection, name='search_document'),
+    # path('editar/', views.edit_document_collection, name='edit_document'),
 ]
