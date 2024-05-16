@@ -1,5 +1,3 @@
-from importlib.metadata import requires
-
 from django import forms
 from django.db.models import Q
 from django.forms.models import BaseModelFormSet
@@ -24,7 +22,7 @@ class EditionForm(forms.ModelForm):
 
     class Meta:
         model = Edition
-        fields = '__all__'
+        fields = ['year', 'name', 'edition_type', 'theme', 'sports', 'teams']
 
     year = forms.CharField(
         label='Ano',
@@ -71,7 +69,6 @@ class EditionTeamForm(forms.ModelForm):
         model = EditionTeam
         fields = ['score']
 
-    # team = forms.CharField()
     score = forms.CharField(
         label='Pontuação',
         widget=forms.NumberInput(),
