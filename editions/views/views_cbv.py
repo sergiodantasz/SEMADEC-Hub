@@ -6,7 +6,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db import DatabaseError
 from django.db.models import Q
 from django.db.models.query import QuerySet
-from django.forms import modelformset_factory
+from django.forms import HiddenInput, modelformset_factory
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
@@ -132,7 +132,10 @@ class EditionEditFormView(UpdateView):
         self.object = self.get_object()
         form = self.form(instance=self.object)
         form.fields['year'].disabled = True
+        form.fields['sports'].disabled = True
         form.fields['teams'].required = False
+        form.fields['teams'].widget = HiddenInput()
+        form.fields['sports'].required = False
         form_teams = self.form_teams(
             queryset=EditionTeam.objects.filter(
                 edition__pk=self.object.pk,
@@ -149,7 +152,10 @@ class EditionEditFormView(UpdateView):
         self.object = self.get_object()
         form = self.form(request.POST, instance=self.object)
         form.fields['year'].disabled = True
+        form.fields['sports'].disabled = True
         form.fields['teams'].required = False
+        form.fields['teams'].widget = HiddenInput()
+        form.fields['sports'].required = False
         form_teams = self.form_teams(
             request.POST,
             queryset=EditionTeam.objects.filter(
