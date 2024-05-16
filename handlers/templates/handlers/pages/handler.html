@@ -9,6 +9,10 @@
     <main class="handler-container">
       <h1 class="error-code">{{ error_code }}</h1>
       <h5 class="error-description">{{ error_description }}</h5>
+      <a class="return-home" href="{% url "home:home" %}">
+        <span>Voltar para o início.</span>
+        <img src="{% static "handlers/img/link.svg" %}" alt="Ícone de link.">
+      </a>
     </main>
   </body>
 </html>

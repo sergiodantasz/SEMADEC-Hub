@@ -26,6 +26,28 @@ body {
   color: var(--green-100);
   padding: 1rem 2rem;
   border-radius: 10rem;
+  margin-bottom: 1rem;
+}
+
+.return-home {
+  color: var(--green-50);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+}
+
+.return-home:hover {
+  transform: scale(1.05);
+}
+
+.return-home span {
+  text-decoration: underline;
+}
+
+.return-home img {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 @media screen and (max-width: 400px) {
