@@ -28,7 +28,6 @@ def create_archive_collection(request):
         'title': 'Criar coleção de imagens',
         'form': form,
         'image_form': image_form,
-        'form_action': reverse('archive:create_archive'),
     }
     if request.POST:
         images = request.FILES.getlist('images')
@@ -96,9 +95,6 @@ def edit_archive_collection(request, slug):
         'title': 'Editar coleção de imagens',
         'form': form,
         'image_form': image_form,
-        'form_action': reverse(
-            'archive:edit_archive', kwargs={'slug': archive_collection_obj.slug}
-        ),
         'is_editing': True,
     }
     if request.POST:
@@ -109,10 +105,7 @@ def edit_archive_collection(request, slug):
                 if k.startswith('image-') and v == 'yes'
             ]
             images = request.FILES.getlist('images')
-            archive_collection = form.save(commit=False)
-            archive_collection.administrator = request.user
-            archive_collection.save()
-            form.save_m2m()
+            archive_collection = form.save()
             for image in images:
                 Image.objects.create(
                     collection=archive_collection,

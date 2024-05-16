@@ -46,7 +46,6 @@ def create_news(request):
     context = {
         'title': 'Criar notícia',
         'form': form,
-        'form_action': reverse('news:create_news'),
     }
     if request.POST:
         if form.is_valid():
@@ -81,13 +80,11 @@ def edit_news(request, slug):
     form = NewsForm(request.POST or None, request.FILES or None, instance=news_obj)
     context = {
         'title': 'Editar notícia',
-        'news': news_obj,
         'form': form,
-        'form_action': reverse('news:edit_news', kwargs={'slug': news_obj.slug}),
     }
     if request.POST:
         if form.is_valid():
-            news = form.save()
+            form.save()
             messages.success(request, 'Notícia editada com sucesso.')
             return redirect(reverse('news:list'))
         messages.error(request, 'Preencha os campos do formulário corretamente.')
