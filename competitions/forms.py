@@ -11,8 +11,8 @@ from competitions.models import (
     Test,
     TestTeam,
 )
-from editions.models import Team
 from helpers.form import set_attr, set_placeholder
+from teams.models import Team
 
 
 class SportForm(forms.ModelForm):

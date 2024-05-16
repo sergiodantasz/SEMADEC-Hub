@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import django
 from django.contrib.messages import constants
 from environ import Env
 
@@ -31,6 +32,7 @@ INSTALLED_APPS = [
     'home',
     'users',
     'news',
+    'teams',
     'handlers',
     # Django Summernote
     'django_summernote',
@@ -50,11 +52,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'core.urls'
 
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'base' / 'templates',
+            django.__path__[0] + '/forms/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

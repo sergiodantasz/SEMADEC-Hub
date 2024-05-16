@@ -11,6 +11,7 @@ urlpatterns = [
     path('edicoes/', include('editions.urls')),
     path('acervo/', include('archive.urls')),
     path('documentos/', include('documents.urls')),
+    path('times/', include('teams.urls')),
     path('', include('users.urls')),
     path('', include('social_django.urls'), name='social'),
     path('summernote/', include('django_summernote.urls')),

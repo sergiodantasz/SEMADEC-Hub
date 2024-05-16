@@ -1,14 +1,11 @@
-from importlib.metadata import requires
-
 from django import forms
 from django.db.models import Q
 from django.forms.models import BaseModelFormSet
 
 from competitions.models import Sport
-from editions.models import EditionTeam
+from editions.models import Edition, EditionTeam
 from helpers.form import set_attr, set_placeholder
-
-from .models import Edition, Team
+from teams.models import Team
 
 
 class EditionForm(forms.ModelForm):
@@ -25,7 +22,7 @@ class EditionForm(forms.ModelForm):
 
     class Meta:
         model = Edition
-        fields = '__all__'
+        fields = ['year', 'name', 'edition_type', 'theme', 'sports', 'teams']
 
     year = forms.CharField(
         label='Ano',
@@ -72,21 +69,7 @@ class EditionTeamForm(forms.ModelForm):
         model = EditionTeam
         fields = ['score']
 
-    # team = forms.CharField()
     score = forms.CharField(
         label='Pontuação',
         widget=forms.NumberInput(),
-    )
-
-
-class TeamForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-
-    class Meta:
-        model = EditionTeam
-        fields = '__all__'
-
-    name = forms.CharField(
-        max_length=75,
     )

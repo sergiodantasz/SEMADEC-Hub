@@ -69,7 +69,7 @@ class User(DjangoAbstractUser):
         default=None,
     )
     course = models.ForeignKey(
-        'editions.Course',
+        'teams.Course',
         on_delete=models.SET_NULL,
         null=True,
         db_column='course_id',

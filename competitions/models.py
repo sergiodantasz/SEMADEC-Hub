@@ -84,7 +84,7 @@ class Match(models.Model):
         related_name='matches',
     )
     teams = models.ManyToManyField(
-        to='editions.Team',
+        to='teams.Team',
         through='competitions.MatchTeam',
         related_name='matches',
     )
@@ -109,7 +109,7 @@ class MatchTeam(models.Model):
         on_delete=models.CASCADE,
     )
     team = models.ForeignKey(
-        'editions.Team',
+        'teams.Team',
         related_name='match_team',
         on_delete=models.CASCADE,
     )
@@ -144,7 +144,7 @@ class Test(models.Model):
         default=None,
     )
     teams = models.ManyToManyField(
-        to='editions.Team',
+        to='teams.Team',
         through='competitions.TestTeam',
         related_name='tests',
     )
@@ -167,7 +167,7 @@ class TestTeam(models.Model):
         on_delete=models.CASCADE,
     )
     team = models.ForeignKey(
-        'editions.Team',
+        'teams.Team',
         on_delete=models.CASCADE,
     )
     score = models.FloatField(

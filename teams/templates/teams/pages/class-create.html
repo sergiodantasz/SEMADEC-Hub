@@ -1,0 +1,7 @@
+{% extends "global/pages/base_form.html" %}
+{% load static %}
+{% block header %}{{ title }}{% endblock header %}
+{% block form_fields %}
+  {% include "competitions/partials/_sports-form.html" %}
+  {% comment %} Change partial to specific classes {% endcomment %}
+{% endblock form_fields %}

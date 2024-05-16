@@ -1,14 +1,7 @@
 from django.db import models
 
-
-class Course(models.Model):
-    name = models.CharField(
-        max_length=75,
-        unique=True,
-    )
-
-    def __str__(self):
-        return str(self.name)
+from helpers.model import get_object
+from helpers.slug import generate_dynamic_slug
 
 
 class Edition(models.Model):
@@ -34,7 +27,7 @@ class Edition(models.Model):
         blank=True,
     )
     teams = models.ManyToManyField(
-        to='editions.Team',
+        to='teams.Team',
         through='editions.EditionTeam',
         related_name='editions',
     )
@@ -67,23 +60,6 @@ class Edition(models.Model):
         return self.name
 
 
-class Team(models.Model):
-    name = models.CharField(
-        max_length=75,
-    )
-
-    @property
-    def get_editions(self):
-        return self.editions.all()  # type: ignore
-
-    @property
-    def get_edition_team(self):
-        return self.edition_team.all()  # type: ignore
-
-    def __str__(self):
-        return str(self.name)
-
-
 class EditionTeam(models.Model):
     edition = models.ForeignKey(
         'editions.Edition',
@@ -92,7 +68,7 @@ class EditionTeam(models.Model):
         db_column='edition_year',
     )
     team = models.ForeignKey(
-        'editions.Team',
+        'teams.Team',
         related_name='edition_team',
         on_delete=models.CASCADE,
         db_column='team_id',
@@ -105,26 +81,3 @@ class EditionTeam(models.Model):
 
     def __str__(self):
         return f'{self.team} - {self.edition}'
-
-
-class Class(models.Model):
-    name = models.CharField(
-        max_length=30,
-        unique=True,
-    )
-    course = models.ForeignKey(
-        'editions.Course',
-        on_delete=models.SET_NULL,
-        null=True,
-        db_column='course_id',
-    )
-    team = models.ForeignKey(
-        'editions.Team',
-        related_name='classes',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-    )
-
-    def __str__(self):
-        return str(self.course.name)  # type: ignore
