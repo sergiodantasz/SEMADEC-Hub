@@ -51,20 +51,20 @@ class Edition(models.Model):
 
     @property
     def get_matches(self):
-        return self.matches.all()
+        return self.matches.all()  # type: ignore
 
     @property
     def get_edition_team(self):
-        return self.edition_team.all()
+        return self.edition_team.all()  # type: ignore
 
     @property
     def get_edition_team_current(self):
         return (
-            self.edition_team.all().filter(edition__year=self.year).order_by('-score')
+            self.edition_team.all().filter(edition__year=self.year).order_by('-score')  # type: ignore
         )
 
     def __str__(self):
-        return str(self.name)
+        return self.name
 
 
 class Team(models.Model):
@@ -74,11 +74,11 @@ class Team(models.Model):
 
     @property
     def get_editions(self):
-        return self.editions.all()
+        return self.editions.all()  # type: ignore
 
     @property
     def get_edition_team(self):
-        return self.edition_team.all()
+        return self.edition_team.all()  # type: ignore
 
     def __str__(self):
         return str(self.name)
@@ -127,4 +127,4 @@ class Class(models.Model):
     )
 
     def __str__(self):
-        return str(self.course.name)
+        return str(self.course.name)  # type: ignore

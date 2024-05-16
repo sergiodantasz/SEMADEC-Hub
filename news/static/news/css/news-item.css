@@ -16,9 +16,9 @@
 }
 
 .news-item-cover-wrapper {
-  flex: 1;
   border-radius: inherit;
   min-width: 35rem;
+  max-width: 35rem;
   height: 25rem;
 }
 
@@ -48,13 +48,11 @@
 @media screen and (max-width: 900px) {
   .news-item-container {
     flex-direction: column;
-    row-gap: 1.5rem;
   }
   .news-item-cover-wrapper {
-    flex: none;
     min-width: 100%;
   }
   .news-item-content {
-    margin: 0 2rem 2rem 2rem;
+    margin-right: auto;
   }
 }

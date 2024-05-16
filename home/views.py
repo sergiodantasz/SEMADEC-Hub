@@ -29,7 +29,6 @@ def tags_create(request):
     context = {
         'title': 'Criar tag',
         'form': form,
-        'form_action': reverse('home:tags_create'),
     }
     if request.POST:
         if form.is_valid():

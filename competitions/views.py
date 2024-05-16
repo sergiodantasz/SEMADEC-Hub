@@ -57,7 +57,6 @@ def sports_create(request):
     context = {
         'title': 'Criar esporte',
         'form': form,
-        'form_action': reverse('competitions:sports_create'),
     }
     if request.POST:
         if form.is_valid():
@@ -82,7 +81,6 @@ def sports_edit(request, slug):
     context = {
         'title': 'Editar esporte',
         'form': form,
-        'form_action': reverse('competitions:sports_edit', kwargs={'slug': obj.slug}),
     }
     if request.POST:
         if form.is_valid():
@@ -102,9 +100,8 @@ def sports_detailed(request, slug):
     editions = Edition.objects.filter(matches__sport_category__sport=sport).distinct()
     editions_matches = dict()
     for edition in editions:
-        query_matches = edition.matches.filter(sport_category__sport=sport)
+        query_matches = edition.get_matches.filter(sport_category__sport=sport)
         editions_matches.update({edition: query_matches})
-
     context = {
         'title': f'{sport.name}',
         'sport_name': sport.name,
@@ -162,14 +159,10 @@ def matches_edit(request, pk):
             messages.success(request, 'Partida editada com sucesso.')
             return redirect(reverse('editions:editions'))
         messages.error(request, 'Preencha os campos do formulário corretamente.')
-
     context = {
         'title': 'Editar partida',
         'form': form,
         'form_matches': form_matches,
-        'form_action': reverse(
-            'competitions:matches_edit', kwargs={'pk': match_obj.pk}
-        ),
     }
     return render(request, 'competitions/pages/match-edit.html', context)
 
@@ -211,7 +204,6 @@ def tests_create(request):
     context = {
         'title': 'Criar prova',
         'form': form,
-        'form_action': reverse('competitions:tests_create'),
     }
     if request.POST:
         if form.is_valid():
@@ -256,9 +248,6 @@ def tests_edit(request, slug):
         'test': test_obj,
         'form': form,
         'form_teams': form_teams,
-        'form_action': reverse(
-            'competitions:tests_edit', kwargs={'slug': test_obj.slug}
-        ),
     }
     return render(request, 'competitions/pages/test-edit.html', context)
 

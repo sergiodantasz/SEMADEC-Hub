@@ -28,7 +28,7 @@
     {% if news.tags.all|length > 0 %}
       <div class="news-tags-container">
         {% for tag in news.tags.all %}
-          <div class="news-tag-item">{{tag}}</div><!-- add link to search containing news with the tag -->
+          <a class="news-tag-item" href="{% url "news:search" %}?tags={{tag.slug}}">{{ tag.name }}</a><!-- add link to search containing news with the tag -->
         {% endfor %}
       </div>
     {% endif %}
