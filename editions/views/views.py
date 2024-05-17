@@ -7,7 +7,6 @@ from django.db import DatabaseError
 from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.forms import HiddenInput, modelformset_factory
-from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -18,10 +17,8 @@ from django.views.generic.edit import DeleteView, FormView, UpdateView
 from competitions.models import Sport
 from editions.forms import EditionForm, EditionTeamForm
 from editions.models import Edition, EditionTeam
-from editions.tests.factories import EditionWith2TeamsFactory
 from helpers.decorators import admin_required
 from teams.models import Team
-from teams.tests.factories import TeamFactory
 
 
 class EditionView(ListView):
@@ -34,8 +31,6 @@ class EditionView(ListView):
         return Edition.objects.order_by('-year')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        # EditionWith2TeamsFactory.create_batch(3)  # Remove if needed
-        # TeamFactory.create_batch(2)  # Remove if needed
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edições'
         context['search_url'] = reverse('editions:editions_search')
