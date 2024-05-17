@@ -12,7 +12,8 @@ from factory.django import DjangoModelFactory
 from factory.faker import faker
 from faker.providers import BaseProvider
 
-from editions.tests.factories import EditionFactory, TeamFactory
+from editions.tests.factories import EditionFactory
+from teams.tests.factories import TeamFactory
 
 
 class ModelsDummyData(BaseProvider):
@@ -97,7 +98,6 @@ class MatchFactory(DjangoModelFactory):
 
     sport_category = SubFactory(SportCategoryFactory)
     edition = SubFactory(EditionFactory)
-    scoreboard = fake.pystr(max_chars=10)
     date_time = fake.date_time(tzinfo=timezone.get_current_timezone())
 
 
@@ -109,7 +109,6 @@ class MatchTeamFactory(DjangoModelFactory):
     match = SubFactory(MatchFactory)
     team = SubFactory(TeamFactory)
     score = randfloat(1.0, 100.0)
-    winner = choice([True, False])
 
 
 class MatchWithTeamFactory(MatchFactory):
@@ -125,8 +124,16 @@ class TestFactory(DjangoModelFactory):
         skip_postgeneration_save = True
 
     title = Sequence(lambda x: fake.unique.test())
+    slug = Sequence(lambda x: fake.unique.slug())
     description = fake.text(max_nb_chars=200)
     date_time = fake.date_time(tzinfo=timezone.get_current_timezone())
+
+    @post_generation
+    def teams(self, created, extracted):
+        if not created or not extracted:
+            return
+        self.teams.add(*extracted)  # type: ignore
+
     post_generation(fake.unique.clear())
 
 

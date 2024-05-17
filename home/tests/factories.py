@@ -1,3 +1,4 @@
+from django.utils import timezone
 from factory import Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory, ImageField
 from factory.faker import faker
@@ -28,6 +29,8 @@ class CollectionFactory(DjangoModelFactory):
     collection_type = FuzzyChoice(('document', 'image'))
     # cover = ImageField(from_func=generate_placeholder)
     slug = Sequence(lambda x: fake.unique.slug())
+    created_at = fake.date_time(tzinfo=timezone.get_current_timezone())
+    updated_at = fake.date_time(tzinfo=timezone.get_current_timezone())
 
     @post_generation
     def tags(self, created, extracted):
