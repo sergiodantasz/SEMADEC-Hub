@@ -18,9 +18,10 @@ from django.views.generic.edit import DeleteView, FormView, UpdateView
 from competitions.models import Sport
 from editions.forms import EditionForm, EditionTeamForm
 from editions.models import Edition, EditionTeam
-from editions.tests.factories import EditionWith2TeamsFactory, TeamFactory
+from editions.tests.factories import EditionWith2TeamsFactory
 from helpers.decorators import admin_required
 from teams.models import Team
+from teams.tests.factories import TeamFactory
 
 
 class EditionView(ListView):
@@ -47,8 +48,10 @@ class EditionDetailedView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['reg'] = self.get_object()
-        context['matches'] = self.object().matches.all()
+        self.object = self.get_object()
+        context['reg'] = self.object
+        context['matches'] = self.object.matches.all()
+        return context
 
 
 class EditionSearchView(ListView):

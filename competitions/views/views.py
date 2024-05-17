@@ -8,14 +8,19 @@ from django.http import HttpResponse
 from django.shortcuts import get_list_or_404, get_object_or_404, redirect, render
 from django.urls import reverse
 
+from competitions.forms import (
+    MatchForm,
+    MatchTeamForm,
+    SportForm,
+    TestForm,
+    TestTeamForm,
+)
 from competitions.models import Match, MatchTeam, Sport, SportCategory, Test, TestTeam
 from competitions.tests.factories import CategoryFactory, SportFactory, TestFactory
 from editions.models import Edition
-from editions.tests.factories import TeamFactory
 from helpers.decorators import admin_required
 from teams.models import Team
-
-from .forms import MatchForm, MatchTeamForm, SportForm, TestForm, TestTeamForm
+from teams.tests.factories import TeamFactory
 
 
 def competitions(request):
@@ -169,7 +174,7 @@ def matches_edit(request, pk):
 
 
 def tests(request):
-    TeamFactory()
+    # TeamFactory()
     # TestFactory.create_batch(size=1)  # Remove if needed
     context = {
         'title': 'Competições',
