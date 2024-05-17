@@ -42,10 +42,9 @@ python_files = [
     "*_tests.py",
     "testing/python/*.py",
 ]
-addopts = ["--doctest-modules", "--strict-markers", "-rP"]
+addopts = ["--doctest-modules", "--strict-markers", "-rP", "--import-mode=importlib"]
 markers = ["slow", "fast"]
 filterwarnings = ["error", "ignore::pytest.PytestCollectionWarning"]
-
 [tool.ruff]
 line-length = 88
 indent-width = 4
