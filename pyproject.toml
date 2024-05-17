@@ -39,7 +39,6 @@ python_files = [
     "*_test.py",
     "tests.py",
     "tests_*.py",
-    "*_tests.py",
     "testing/python/*.py",
 ]
 addopts = ["--doctest-modules", "--strict-markers", "-rP", "--import-mode=importlib"]
