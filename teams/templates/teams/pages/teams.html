@@ -5,7 +5,7 @@
 {% block header %}Times{% endblock header %}
 {% block content %}
   {% load custom_tags %}
-  {% load_create_button user=user namespace="teams:teams_create" label="Adicionar time" %}
+  {% load_create_button user=user namespace="teams:create" label="Adicionar time" %}
   {% if db_regs|length != 0 %}
     {% include "global/partials/_search-bar.html" %}
     {% include "teams/partials/_teams-table.html" %}

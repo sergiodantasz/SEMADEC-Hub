@@ -5,7 +5,7 @@
 {% block header %}Cursos{% endblock header %}
 {% block content %}
   {% load custom_tags %}
-  {% load_create_button user=user namespace="teams:courses_create" label="Adicionar curso" %}
+  {% load_create_button user=user namespace="teams:courses:create" label="Adicionar curso" %}
   {% if db_regs|length != 0 %}
     {% include "global/partials/_search-bar.html" %}
     {% include "teams/partials/_courses-table.html" %}

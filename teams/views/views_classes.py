@@ -14,7 +14,7 @@ def classes(request):
     context = {
         'title': 'Turmas',
         'db_regs': Class.objects.order_by('name'),
-        'search_url': reverse('teams:classes_search'),
+        'search_url': reverse('teams:classes:search'),
     }
     return render(request, 'teams/pages/classes.html', context)
 
@@ -25,18 +25,18 @@ def classes_create(request):
     form = ClassForm(request.POST or None, request.FILES or None)
     if not Course.objects.exists():
         messages.error(request, 'Adicione ao menos um curso antes de criar uma turma.')
-        return redirect(reverse('teams:classes'))
+        return redirect(reverse('teams:classes:home'))
     if request.POST:
         if form.is_valid():
             reg = form.save(commit=True)
             messages.success(request, 'Turma adicionada com sucesso.')
-            return redirect(reverse('teams:classes'))
+            return redirect(reverse('teams:classes:home'))
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     context = {
         'title': 'Criar turma',
         'form': form,
-        'form_action': reverse('teams:classes_create'),
+        'form_action': reverse('teams:classes:create'),
     }
     return render(request, 'teams/pages/class-create.html', context)
 
@@ -46,7 +46,7 @@ def classes_search(request):
 
     if not querystr:
         messages.warning(request, 'Digite um termo de busca válido.')
-        return redirect(reverse('teams:classes'))
+        return redirect(reverse('teams:classes:home'))
 
     db_regs = Class.objects.filter(
         Q(
@@ -69,12 +69,12 @@ def classes_edit(request, slug):
         if form.is_valid():
             form.save(commit=True)
             messages.success(request, 'Turma editada com sucesso.')
-            return redirect(reverse('teams:classes'))
+            return redirect(reverse('teams:classes:home'))
         messages.error(request, 'Preencha os campos do formulário corretamente.')
     context = {
         'title': 'Editar turma',
         'form': form,
-        'form_action': reverse('teams:classes_edit', kwargs={'slug': obj.slug}),
+        'form_action': reverse('teams:classes:edit', kwargs={'slug': obj.slug}),
     }
     return render(request, 'teams/pages/class-create.html', context)
 
@@ -89,4 +89,4 @@ def classes_delete(request, slug):
         messages.error(request, 'Não foi possível remover esta turma.')
     else:
         messages.success(request, 'Turma removida com sucesso!')
-    return redirect(reverse('teams:classes'))
+    return redirect(reverse('teams:classes:home'))

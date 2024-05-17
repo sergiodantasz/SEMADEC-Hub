@@ -14,8 +14,8 @@
       <td class="base-table-cell base-table-cell-left">{{ reg.course.name }}</td>
       {% if user.is_admin %}
         <td class="base-table-cell base-table-cell-right">
-          <a href="{% url 'teams:classes_edit' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
-          <a href="{% url 'teams:classes_delete' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/delete.svg" alt=""></a>
+          <a href="{% url 'teams:classes:edit' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
+          <a href="{% url 'teams:classes:delete' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/delete.svg" alt=""></a>
         </td>
     {% endif %}
     </tr>
