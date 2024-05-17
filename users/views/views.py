@@ -22,10 +22,10 @@ class ProfileView(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         # REMOVE LATER
-        reg = User.objects.first()
-        reg.is_admin = True
-        reg.is_staff = True
-        reg.save()
+        # reg = User.objects.first()
+        # reg.is_admin = True
+        # reg.is_staff = True
+        # reg.save()
         # REMOVE LATER
         context = super().get_context_data(**kwargs)
         context['title'] = 'Perfil'
