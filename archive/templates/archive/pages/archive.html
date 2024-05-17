@@ -9,6 +9,6 @@
   {% if db_regs|length > 0 %}
     {% include "global/partials/_search-bar.html" %}
   {% endif %}
-  {% load_create_button user=user namespace="archive:create_archive" label="Criar arquivo"%}
+  {% load_create_button user=user namespace="archive:create" label="Criar arquivo"%}
   {% load_regs db_regs user=user template="archive/partials/_archive-item.html" div="archive-list" empty="Nenhuma coleção de acervo foi encontrada." %}
 {% endblock content %}

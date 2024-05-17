@@ -49,7 +49,7 @@ def create_archive_collection(request):
                         content=image,
                     )
                 messages.success(request, 'Coleção de imagens criada com sucesso.')
-                return redirect(reverse('archive:archive'))
+                return redirect(reverse('archive:home'))
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'archive/pages/create-archive.html', context)
@@ -73,7 +73,7 @@ def delete_archive_collection(request, slug):
         raise PermissionDenied()
     archive_collection_obj.delete()
     messages.success(request, 'Coleção de imagens apagada com sucesso.')
-    return redirect(reverse('archive:archive'))
+    return redirect(reverse('archive:home'))
 
 
 @login_required
@@ -86,11 +86,11 @@ def delete_image(request, pk):
     if image_obj.collection.get_images.exists():
         messages.success(request, 'Imagem apagada com sucesso.')
         return redirect(
-            reverse('archive:view_archive', kwargs={'slug': image_obj.collection.slug})
+            reverse('archive:detailed', kwargs={'slug': image_obj.collection.slug})
         )
     image_obj.collection.delete()
     messages.success(request, 'Coleção de imagens apagada com sucesso.')
-    return redirect(reverse('archive:archive'))
+    return redirect(reverse('archive:home'))
 
 
 @login_required
@@ -129,7 +129,7 @@ def edit_archive_collection(request, slug):
                 messages.success(request, 'Coleção de imagens apagada com sucesso.')
             else:
                 messages.success(request, 'Coleção de imagens editada com sucesso.')
-            return redirect(reverse('archive:archive'))
+            return redirect(reverse('archive:home'))
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'archive/pages/edit-archive.html', context)

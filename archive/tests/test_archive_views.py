@@ -5,7 +5,7 @@ from archive import views
 
 
 def test_archive_viewname_redirects_to_archive_view():
-    view = resolve(reverse('archive:archive'))
+    view = resolve(reverse('archive:home'))
     assert view.func is views.archive
 
 

@@ -7,11 +7,11 @@
   {% include "archive/partials/_archive-item-modal.html" %}
   {% if user.is_admin and is_owner %}
   <div class="admin-actions-wrapper">
-    <a class="button" href="{% url "archive:edit_archive" archive_collection.slug %}">
+    <a class="button" href="{% url "archive:edit" archive_collection.slug %}">
       <img src="{% static "global/img/edit.svg" %}" alt="">
       <span>Editar coleção</span>
     </a>
-    <a class="button" href="{% url "archive:delete_archive" archive_collection.slug %}">
+    <a class="button" href="{% url "archive:delete" archive_collection.slug %}">
       <img src="{% static "global/img/delete.svg" %}" alt="">
       <span>Apagar coleção</span>
     </a>
