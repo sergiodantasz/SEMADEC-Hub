@@ -3,4 +3,4 @@ from django.urls import reverse
 
 
 def competitions(request):
-    return redirect(reverse('competitions:sports'))
+    return redirect(reverse('competitions:sports:home'))

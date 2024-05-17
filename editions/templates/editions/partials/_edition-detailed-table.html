@@ -32,7 +32,7 @@
       </td>
       {% if user.is_admin %}
         <td class="base-table-cell base-table-cell-right">
-          <a href="{% url 'competitions:matches_edit' match.pk %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
+          <a href="{% url 'competitions:sports:matches:edit' match.pk %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
         </td>
       {% endif %}
     </tr>

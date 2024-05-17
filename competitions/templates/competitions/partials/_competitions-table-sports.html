@@ -20,7 +20,7 @@
   {% for reg in db_regs %}
     <tr class="base-table-row">
       <td class="base-table-cell base-table-cell-left">
-        <a href="{% url 'competitions:sports_detailed' reg.slug %}">
+        <a href="{% url 'competitions:sports:detailed' reg.slug %}">
           {{ reg.name }}
         </a>
       </td>
@@ -33,7 +33,7 @@
       </td>
       {% if user.is_admin %}
         <td class="base-table-cell base-table-cell-right">
-          <a href="{% url 'competitions:sports_edit' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
+          <a href="{% url 'competitions:sports:edit' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
         </td>
       {% endif %}
     </tr>

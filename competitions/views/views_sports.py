@@ -20,7 +20,7 @@ def sports(request):
         'title': 'Competições',
         'page_variant': 'sports',
         'db_regs': Sport.objects.order_by('name'),
-        'search_url': reverse('competitions:sports_search'),
+        'search_url': reverse('competitions:sports:search'),
     }
     return render(request, 'competitions/pages/sports.html', context)
 
@@ -30,7 +30,7 @@ def sports_search(request):
 
     if not querystr:
         messages.warning(request, 'Digite um termo de busca válido.')
-        return redirect(reverse('competitions:sports'))
+        return redirect(reverse('competitions:sports:home'))
 
     db_regs = Sport.objects.filter(name__icontains=querystr).order_by('name')
     context = {
@@ -57,7 +57,7 @@ def sports_create(request):
             form_reg.administrator = request.user
             form_reg.save()
             messages.success(request, 'Esporte adicionado com sucesso.')
-            return redirect(reverse('competitions:sports'))
+            return redirect(reverse('competitions:sports:home'))
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'competitions/pages/sport-create.html', context)
@@ -81,7 +81,7 @@ def sports_edit(request, slug):
             form_reg.administrator = request.user
             form_reg.save()
             messages.success(request, 'Esporte editado com sucesso.')
-            return redirect(reverse('competitions:sports'))
+            return redirect(reverse('competitions:sports:home'))
         messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'competitions/pages/sport-create.html', context)
 
@@ -99,3 +99,6 @@ def sports_detailed(request, slug):
         'regs': editions_matches,
     }
     return render(request, 'competitions/pages/sport-detailed.html', context)
+
+
+def sports_delete(request, slug): ...

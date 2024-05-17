@@ -9,14 +9,14 @@
     {% include "global/partials/_search-bar.html" %}
   {% endif %}
   <div class="competitions-options">
-    <a class="competitions-option-container" href="{% url "competitions:sports" %}">
+    <a class="competitions-option-container" href="{% url "competitions:sports:home" %}">
       <span>Esportes</span>
       {% if page_variant == 'sports' %}
         <hr class="competitions-options-selected">
       {% endif %}
     </a>
     <hr class="competitions-options-line">
-    <a class="competitions-option-container" href="{% url "competitions:tests" %}">
+    <a class="competitions-option-container" href="{% url "competitions:tests:home" %}">
       <span>Provas</span>
       {% if page_variant == 'tests' %}
         <hr class="competitions-options-selected">
@@ -26,7 +26,7 @@
   {% if page_variant == 'sports' %}
     {% if user.is_admin %}
       <div class="admin-actions-wrapper">
-        <a class="button" href="{% url "competitions:sports_create" %}">
+        <a class="button" href="{% url "competitions:sports:create" %}">
           <img src="{% static "global/img/add.svg" %}" alt="">
           <span>Criar esporte</span>
         </a>
@@ -40,7 +40,7 @@
   {% elif page_variant == 'tests' %}
     {% if user.is_admin %}
       <div class="admin-actions-wrapper">
-        <a class="button" href="{% url "competitions:tests_create" %}">
+        <a class="button" href="{% url "competitions:tests:create" %}">
           <img src="{% static "global/img/add.svg" %}" alt="">
           <span>Criar prova</span>
         </a>

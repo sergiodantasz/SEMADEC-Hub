@@ -2,7 +2,7 @@
 {% load static %}
 {% block competitions_content %}
   {% load custom_tags %}
-  {% load_create_button user=user namespace="competitions:tests_create" label="Adicionar prova" %}
+  {% load_create_button user=user namespace="competitions:tests:create" label="Adicionar prova" %}
   {% if db_regs|length != 0 %}
     {% include "competitions/partials/_competitions-table-tests.html" %}
   {% else %}

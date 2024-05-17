@@ -11,16 +11,15 @@ from competitions.forms import (
 )
 from competitions.models import Test, TestTeam
 from helpers.decorators import admin_required
+from teams.models import Team
 
 
 def tests(request):
-    # TeamFactory()
-    # TestFactory.create_batch(size=1)  # Remove if needed
     context = {
         'title': 'Competições',
         'page_variant': 'tests',
         'db_regs': Test.objects.order_by('-date_time'),
-        'search_url': reverse('competitions:tests_search'),
+        'search_url': reverse('competitions:tests:search'),
     }
     return render(request, 'competitions/pages/tests.html', context)
 
@@ -30,7 +29,7 @@ def tests_search(request):
 
     if not querystr:
         messages.warning(request, 'Digite um termo de busca válido.')
-        return redirect(reverse('competitions:tests'))
+        return redirect(reverse('competitions:tests:home'))
 
     db_regs = Test.objects.filter(
         Q(Q(title__icontains=querystr) | Q(description__icontains=querystr))
@@ -47,6 +46,9 @@ def tests_search(request):
 @admin_required
 def tests_create(request):
     form = TestForm(request.POST or None, request.FILES or None)
+    if not Team.objects.exists():
+        messages.error(request, 'Adicione ao menos um time antes de criar uma prova.')
+        return redirect(reverse('competitions:tests:home'))
     context = {
         'title': 'Criar prova',
         'form': form,
@@ -59,7 +61,7 @@ def tests_create(request):
             form_reg.administrator = request.user
             form_reg.save()
             messages.success(request, 'Prova adicionada com sucesso.')
-            return redirect(reverse('competitions:tests'))
+            return redirect(reverse('competitions:tests:home'))
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'competitions/pages/test-create.html', context)
@@ -87,7 +89,7 @@ def tests_edit(request, slug):
             form.save()
             form_teams.save()
             messages.success(request, 'Prova editada com sucesso.')
-            return redirect(reverse('competitions:tests'))
+            return redirect(reverse('competitions:tests:home'))
         messages.error(request, 'Preencha os campos do formulário corretamente.')
     context = {
         'title': 'Editar prova',
@@ -106,3 +108,6 @@ def tests_detailed(request, slug):
         'test': test,
     }
     return render(request, 'competitions/pages/test-detailed.html', context)
+
+
+def tests_delete(request, slug): ...

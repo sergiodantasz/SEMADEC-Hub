@@ -6,7 +6,7 @@
 {% block header %}{{ reg.name }}{% endblock header %}
 {% block content %}
 {% load custom_tags %}
-{% load_create_button user=user namespace="competitions:matches_create" label="Criar partida" dispatcher=reg.pk%}
+{% load_create_button user=user namespace="competitions:sports:matches:create" label="Criar partida" dispatcher=reg.pk%}
 {% if matches %}
   <div class="edition-detailed-wrapper">
     <hr class="edition-detailed-divider">
