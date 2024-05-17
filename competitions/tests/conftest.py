@@ -6,22 +6,13 @@ from competitions.tests.factories import (
     MatchFactory,
     MatchWithTeamFactory,
     SportFactory,
-    TestFactory,
     TestWithTeamFactory,
-)
-from editions.tests.factories import (
-    ClassFactory,
 )
 
 
 @pytest.fixture
 def category_fixture():
     yield CategoryFactory
-
-
-@pytest.fixture
-def class_fixture():
-    yield ClassFactory
 
 
 @pytest.fixture
