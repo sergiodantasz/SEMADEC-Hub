@@ -3,6 +3,7 @@
 {% load custom_tags %}
 {% block additional_head %}
   <link rel="stylesheet" href="{% static "archive/css/archive.css" %}">
+  <link rel="stylesheet" href="{% static "global/css/pagination.css" %}">
 {% endblock additional_head %}
 {% block header %}Acervo{% endblock header %}
 {% block content %}
@@ -11,4 +12,7 @@
   {% endif %}
   {% load_create_button user=user namespace="archive:create" label="Criar arquivo"%}
   {% load_regs db_regs user=user template="archive/partials/_archive-item.html" div="archive-list" empty="Nenhuma coleção de acervo foi encontrada." %}
+  {% if db_regs.has_other_pages %}
+    {% include "global/partials/_pagination.html" %}
+  {% endif %}
 {% endblock content %}

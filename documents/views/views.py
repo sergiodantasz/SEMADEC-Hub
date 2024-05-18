@@ -9,17 +9,22 @@ from documents.forms import DocumentCollectionForm, DocumentForm
 from documents.models import Document
 from helpers.decorators import admin_required
 from helpers.model import is_owner
+from helpers.pagination import make_pagination
 from home.models import Collection
 
 
 def documents_collection(request):
     documents_collection_objs = Collection.objects.filter(
         collection_type='document'
-    ).order_by('-updated_at')
+    ).order_by('-created_at')
+    page_obj, pagination_range, paginator = make_pagination(
+        request, documents_collection_objs, 10
+    )
     context = {
         'title': 'Documentos',
-        'db_regs': documents_collection_objs,
+        'db_regs': page_obj,
         'search_url': reverse('documents:search_document'),
+        'pagination_range': pagination_range,
     }
     return render(request, 'documents/pages/documents.html', context)
 
@@ -29,6 +34,7 @@ def search_document_collection(request):
     if not query:
         messages.warning(request, 'Digite um termo de busca válido.')
         return redirect(reverse('documents:documents'))
+    # ADD PAGINATION
     search = Collection.objects.filter(  # CHANGE
         Q(
             Q(collection_type__iexact='document')

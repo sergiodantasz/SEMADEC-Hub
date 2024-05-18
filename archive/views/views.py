@@ -8,17 +8,22 @@ from archive.forms import ImageCollectionForm, ImageForm
 from archive.models import Image
 from helpers.decorators import admin_required
 from helpers.model import is_owner
+from helpers.pagination import make_pagination
 from home.models import Collection
 
 
 def archive_collection(request):
     archive_collection_objs = Collection.objects.filter(
         collection_type='image'
-    ).order_by('-updated_at')
+    ).order_by('-created_at')
+    page_obj, pagination_range, paginator = make_pagination(
+        request, archive_collection_objs, 15
+    )
     context = {
         'title': 'Acervo',
-        'db_regs': archive_collection_objs,
+        'db_regs': page_obj,
         'search_url': '',
+        'pagination_range': pagination_range,
     }
     return render(request, 'archive/pages/archive.html', context)
 
@@ -133,3 +138,8 @@ def edit_archive_collection(request, slug):
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'archive/pages/edit-archive.html', context)
+
+
+def search_archive_collection(request):
+    # TO DO
+    pass
