@@ -41,7 +41,12 @@ python_files = [
     "tests_*.py",
     "testing/python/*.py",
 ]
-addopts = ["--doctest-modules", "--strict-markers", "-rP", "--import-mode=importlib"]
+addopts = [
+    "--doctest-modules",
+    "--strict-markers",
+    "-rP",
+    "--import-mode=importlib",
+]
 markers = ["slow", "fast"]
 filterwarnings = ["error", "ignore::pytest.PytestCollectionWarning"]
 [tool.ruff]
