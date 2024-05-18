@@ -2,6 +2,7 @@
 {% load static %}
 {% block additional_head %}
   <link rel="stylesheet" href="{% static "news/css/news-item.css" %}">
+  <link rel="stylesheet" href="{% static "global/css/pagination.css" %}">
 {% endblock additional_head %}
 {% block header %}Notícias{% endblock header %}
 {% block content %}
@@ -20,6 +21,9 @@
         {% include "news/partials/_news-item.html" %}
       {% endfor %}
     </div>
+    {% if news_list.has_other_pages %}
+      {% include "global/partials/_pagination.html" %}
+    {% endif %}
   {% else %}
     <p class="nothing-found">Nenhuma notícia foi encontrada.</p>
   {% endif %}

@@ -3,6 +3,7 @@
 {% block additional_head %}
   <link rel="stylesheet" href="{% static "news/css/news-item.css" %}">
   <link rel="stylesheet" href="{% static "news/css/news-search.css" %}">
+  <link rel="stylesheet" href="{% static "global/css/pagination.css" %}">
 {% endblock additional_head %}
 {% block header %}Notícias{% endblock header %}
 {% block content %}
@@ -21,7 +22,7 @@
         </div>
       </div>
     {% endif %}
-    <div class="result-value">Resultado: <span class="result-value-number">{{ news_list.count }}</span></div>
+    <div class="result-value">Quantidade: <span class="result-value-number">{{ paginator.count }}</span></div>
   </div>
   {% if news_list|length > 0 %}
     <div class="news-list">
@@ -29,6 +30,9 @@
         {% include "news/partials/_news-item.html" %}
       {% endfor %}
     </div>
+    {% if news_list.has_other_pages %}
+      {% include "global/partials/_pagination.html" %}
+    {% endif %}
   {% else %}
     <p class="nothing-found">Nenhuma notícia foi encontrada.</p>
   {% endif %}

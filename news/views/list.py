@@ -5,6 +5,7 @@ from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.views.generic.list import ListView
 
+from helpers.pagination import make_pagination
 from home.models import Tag
 from news.models import News
 
@@ -22,6 +23,11 @@ class NewsListView(BaseNewsListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Notícias'
         context['search_url'] = reverse('news:search')
+        page_obj, pagination_range, paginator = make_pagination(
+            self.request, context.get('news_list'), 10
+        )
+        context['news_list'] = page_obj
+        context['pagination_range'] = pagination_range
         return context
 
 
@@ -63,6 +69,14 @@ class NewsSearchListView(BaseNewsListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Pesquisa - Notícias'
         context['search_url'] = reverse('news:search')
-        context['search_term'] = self.get_search_term()
+        search_term = self.get_search_term()
+        context['search_term'] = search_term
         context['tags'] = self.get_tags(self.get_tags_from_url())
+        page_obj, pagination_range, paginator = make_pagination(
+            self.request, context.get('news_list'), 10
+        )
+        context['news_list'] = page_obj
+        context['pagination_range'] = pagination_range
+        context['paginator'] = paginator
+        context['additional_url_params'] = f'&q={search_term}'
         return context
