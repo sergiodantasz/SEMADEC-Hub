@@ -1,0 +1,45 @@
+.pagination {
+  margin-top: 5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pagination .first-page div,
+.pagination .last-page div {
+  background-color: var(--green-900);
+  color: white;
+  transition: var(--transition);
+  padding: 1rem 2rem;
+  border-radius: 10rem;
+}
+
+.pagination .first-page:hover div,
+.pagination .last-page:hover div {
+  color: var(--green-600);
+}
+
+.pagination .pagination-pages {
+  display: flex;
+  background-color: var(--green-600);
+  color: white;
+  border-radius: 10rem;
+  padding-inline: 1rem;
+}
+
+.pagination-pages-item div {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  transition: var(--transition);
+}
+
+.pagination-pages-item:hover div {
+  color: var(--green-900);
+}
+
+.pagination-pages-item.current-page div {
+  color: var(--green-900);
+}

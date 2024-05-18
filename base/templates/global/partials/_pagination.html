@@ -1,0 +1,19 @@
+<div class="pagination">
+  {% if pagination_range.first_page_out_of_range %}
+    <a href="?page=1{{ additional_url_params }}" class="first-page">
+      <div>1</div>
+    </a>
+  {% endif %}
+  <div class="pagination-pages">
+    {% for page in pagination_range.pagination %}
+      <a href="?page={{ page }}{{ additional_url_params }}" class="pagination-pages-item {% if pagination_range.current_page == page %}current-page{% endif %}">
+        <div>{{ page }}</div>
+      </a>
+    {% endfor %}
+  </div>
+  {% if pagination_range.last_page_out_of_range %}
+    <a href="?page={{ pagination_range.total_pages }}{{ additional_url_params }}" class="last-page">
+      <div>{{ pagination_range.total_pages }}</div>
+    </a>
+  {% endif %}
+</div>
