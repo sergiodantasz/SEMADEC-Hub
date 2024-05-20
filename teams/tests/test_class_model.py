@@ -10,4 +10,4 @@ def test_class_model_course_can_be_null(db, class_fixture):
 
 def test_class_model_dunder_str_method_returns_class_course_name(db, class_fixture):
     reg = class_fixture()
-    assert str(reg) == reg.course.name
+    assert str(reg) == reg.name

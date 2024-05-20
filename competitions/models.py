@@ -98,8 +98,12 @@ class Match(models.Model):
     def get_scoreboard(self):
         return self.match_team.values_list('score', flat=True)  # type: ignore
 
+    @property
     def get_match_teams_display(self):
         return f'{self.teams.first()} x {self.teams.last()}'
+
+    def __str__(self):
+        return 'Partida: ' + ' x '.join(team.name for team in self.teams.all())
 
 
 class MatchTeam(models.Model):

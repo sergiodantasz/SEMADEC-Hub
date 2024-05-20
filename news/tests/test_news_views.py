@@ -3,17 +3,17 @@ from django.urls import resolve, reverse
 from news import views
 
 
-def test_news_viewname_redirects_to_news_view():
-    view = resolve(reverse('news:news'))
-    assert view.func is views.news
+def test_news_list_viewname_redirects_to_news_list_view():
+    view = resolve(reverse('news:list'))
+    assert view.func.view_class is views.NewsListView
 
 
-def test_search_news_viewname_redirects_to_news_search_view():
-    view = resolve(reverse('news:search_news'))
-    assert view.func is views.search_news
+def test_news_search_viewname_redirects_to_news_search_view():
+    view = resolve(reverse('news:search'))
+    assert view.func.view_class is views.NewsSearchListView
 
 
-def test_create_news_viewname_redirects_to_create_news_view():
+def test_news_create_viewname_redirects_to_create_news_view():
     view = resolve(reverse('news:create_news'))
     assert view.func is views.create_news
 

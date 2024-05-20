@@ -1,8 +1,26 @@
+from random import choice
+
 from factory import RelatedFactory, Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory
 from factory.faker import faker
+from faker.providers import BaseProvider
+
+
+class ModelsDummyData(BaseProvider):
+    def team_name(self):
+        options = [
+            'Técnico Integrado em Informática',
+            'Técnico Integrado em Manutenção e Suporte em Informática',
+            'Técnico Integrado em Eletrônica',
+            'Técnico Integrado em Alimentos',
+            'Graduação em Tecnologia em Sistemas para Internet',
+            'Graduação em Química',
+        ]
+        return choice(options)
+
 
 fake = faker.Faker('pt_BR')
+fake.add_provider(ModelsDummyData)
 
 
 class CourseFactory(DjangoModelFactory):
