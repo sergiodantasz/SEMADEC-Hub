@@ -27,7 +27,6 @@ class CollectionFactory(DjangoModelFactory):
     administrator = SubFactory(UserFactory)  # Add later
     title = Sequence(lambda x: fake.unique.text(max_nb_chars=200))
     collection_type = FuzzyChoice(('document', 'image'))
-    # cover = ImageField(from_func=generate_placeholder)
     slug = Sequence(lambda x: fake.unique.slug())
     created_at = fake.date_time(tzinfo=timezone.get_current_timezone())
     updated_at = fake.date_time(tzinfo=timezone.get_current_timezone())

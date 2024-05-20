@@ -17,7 +17,7 @@ class NewsFactory(DjangoModelFactory):
     administrator = SubFactory(UserFactory)
     title = Sequence(lambda x: fake.unique.text(max_nb_chars=200))
     excerpt = Sequence(lambda x: fake.unique.text(max_nb_chars=200))
-    cover = ImageField(from_func=generate_placeholder)
+    cover = ImageField(width=10, height=10)
     content = Sequence(lambda x: fake.unique.text(max_nb_chars=10000))
     slug = Sequence(lambda x: fake.unique.slug())
     created_at = fake.date_time(tzinfo=timezone.get_current_timezone())

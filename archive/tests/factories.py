@@ -10,7 +10,7 @@ fake = faker.Faker('pt_BR')
 
 class CollectionArchiveFactory(CollectionFactory):
     collection_type = 'image'
-    cover = ImageField(from_func=generate_placeholder)
+    cover = ImageField(width=10, height=10)
 
 
 class ImageFactory(DjangoModelFactory):
@@ -19,4 +19,4 @@ class ImageFactory(DjangoModelFactory):
         skip_postgeneration_save = True
 
     collection = SubFactory(CollectionArchiveFactory)
-    content = ImageField(from_func=generate_placeholder)
+    content = ImageField(width=10, height=10)
