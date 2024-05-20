@@ -19,6 +19,12 @@ def test_archive_create_viewname_redirects_to_archive_create_view():
     assert view_new.func is views.create_archive_collection
 
 
+@mark.skip
+def test_archive_search_viewname_redirects_to_archive_create_view():
+    view_new = resolve(reverse('archive:search'))
+    assert view_new.func is views.search_archive_collection
+
+
 def test_archive_edit_viewname_redirects_to_archive_edit_view():
     view_new = resolve(reverse('archive:edit', kwargs={'slug': 'test'}))
     assert view_new.func is views.edit_archive_collection
