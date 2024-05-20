@@ -5,14 +5,14 @@ import requests
 from django.core.files.images import ImageFile
 
 
-def generate_placeholder() -> ImageFile:
+def generate_placeholder(*args, **kwargs) -> ImageFile:
     """Generate a placeholder image with random dimensions.
     Returns:
         ImageFile: A Django's ImageFile object.
     """
     image_name = 'placeholder.jpg'
-    width = randint(100, 5000)
-    height = randint(100, 5000)
+    width = kwargs.get('width') or randint(100, 5000)
+    height = kwargs.get('height') or randint(100, 5000)
     image = requests.get(
         f'https://placehold.co/{width}x{height}/22C55E/052E16.jpg'
     ).content
