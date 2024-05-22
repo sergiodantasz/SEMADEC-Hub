@@ -1,6 +1,9 @@
 import pytest
 from django.conf import settings
+from django.utils import timezone
+from factory.faker import faker
 
+from competitions.forms import SportForm, TestForm
 from competitions.tests.factories import (
     CategoryFactory,
     MatchFactory,
@@ -8,6 +11,9 @@ from competitions.tests.factories import (
     SportFactory,
     TestWithTeamFactory,
 )
+from teams.tests.factories import ClassFactory, TeamFactory
+
+fake = faker.Faker('pt_BR')
 
 
 @pytest.fixture
@@ -23,6 +29,33 @@ def sport_fixture():
 
 
 @pytest.fixture
+def sport_form_fixture():
+    data = {
+        'name': 'test name',
+        'categories': CategoryFactory.create_batch(2),
+    }
+    caller = lambda **kwargs: SportForm(data=data | kwargs)  # noqa
+    yield caller
+
+
+@pytest.fixture
+def test_fixture():
+    yield TestWithTeamFactory
+
+
+@pytest.fixture
+def test_form_fixture():
+    data = {
+        'title': 'test title',
+        'description': 'test description',
+        'date_time': fake.date_time(tzinfo=timezone.get_current_timezone()),
+        'teams': TeamFactory(),
+    }
+    caller = lambda **kwargs: TestForm(data=data | kwargs)  # noqa
+    yield caller
+
+
+@pytest.fixture
 def match_fixture():
     yield MatchWithTeamFactory
 
@@ -31,11 +64,6 @@ def match_fixture():
 def sport_with_categories_fixture():
     reg = SportFactory.create(categories=(category_fixture(),))
     yield reg
-
-
-@pytest.fixture
-def test_fixture():
-    yield TestWithTeamFactory
 
 
 if __name__.startswith('test'):

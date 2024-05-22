@@ -9,6 +9,13 @@ def test_course_form_is_valid(db, course_form_fixture):
     assert form.is_valid()
 
 
+def test_course_form_name_placeholder_is_correct(db, course_form_fixture):
+    form = course_form_fixture()
+    assert (
+        form.fields['name'].widget.attrs['placeholder'] == 'Digite o nome do curso...'
+    )
+
+
 def test_course_form_name_max_length_is_75(db, course_form_fixture):
     form = course_form_fixture()
     assert form.fields['name'].max_length == 75
@@ -22,6 +29,13 @@ def test_course_form_name_label_is_correct(db, course_form_fixture):
 def test_class_form_is_valid(db, class_form_fixture):
     form = class_form_fixture()
     assert form.is_valid()
+
+
+def test_class_form_name_placeholder_is_correct(db, class_form_fixture):
+    form = class_form_fixture()
+    assert (
+        form.fields['name'].widget.attrs['placeholder'] == 'Digite o nome da turma...'
+    )
 
 
 def test_class_form_name_max_length_is_30(db, class_form_fixture):
@@ -62,6 +76,11 @@ def test_team_form_is_valid(db, team_form_fixture):
 def test_team_form_name_max_length_is_75(db, team_form_fixture):
     form = team_form_fixture()
     assert form.fields['name'].max_length == 75
+
+
+def test_team_form_name_placeholder_is_correct(db, team_form_fixture):
+    form = team_form_fixture()
+    assert form.fields['name'].widget.attrs['placeholder'] == 'Digite o nome do time...'
 
 
 def test_team_form_name_label_is_correct(db, team_form_fixture):
