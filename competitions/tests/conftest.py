@@ -3,7 +3,13 @@ from django.conf import settings
 from django.utils import timezone
 from factory.faker import faker
 
-from competitions.forms import MatchForm, SportForm, TestForm, TestTeamForm
+from competitions.forms import (
+    MatchForm,
+    MatchTeamForm,
+    SportForm,
+    TestForm,
+    TestTeamForm,
+)
 from competitions.tests.factories import (
     CategoryFactory,
     MatchFactory,
@@ -78,6 +84,15 @@ def match_form_fixture():
         'teams': TeamFactory.create_batch(3),
     }
     caller = lambda **kwargs: MatchForm(data=data | kwargs)  # noqa
+    yield caller
+
+
+@pytest.fixture
+def match_team_form_fixture():
+    data = {
+        'score': 10,
+    }
+    caller = lambda **kwargs: MatchTeamForm(data=data | kwargs)  # noqa
     yield caller
 
 
