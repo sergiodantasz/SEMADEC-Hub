@@ -5,7 +5,6 @@ from factory.faker import faker
 from factory.fuzzy import FuzzyChoice
 
 from users.tests.factories import UserFactory
-from utils.generate_placeholder import generate_placeholder
 
 fake = faker.Faker('pt_BR')
 
