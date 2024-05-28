@@ -2,7 +2,7 @@
 /static
 /media
 local-only
-*/migrations/0*.py
+/apps/*/migrations/0*.py
 *.session.sql
 
 # Django #
