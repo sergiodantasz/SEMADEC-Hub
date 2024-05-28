@@ -7,9 +7,7 @@ from django.contrib.messages import constants
 from environ import Env
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-# PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
-print(sys.path)
 env = Env()
 env.read_env(BASE_DIR / '.env', True)
 
@@ -100,7 +98,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'core' / 'db.sqlite3',
     }
 }
 
