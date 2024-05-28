@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rm -rf static media db.sqlite3
+rm -rf static media core/db.sqlite3
