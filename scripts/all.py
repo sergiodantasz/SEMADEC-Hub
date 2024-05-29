@@ -1,12 +1,16 @@
 from os import system
 from sys import argv
 
-system('python scripts/removemigrations.py')
-system('python scripts/removedata.py')
+from removedata import remove_data
+from removemigrations import remove_migrations
 
-system('python manage.py makemigrations')
-system('python manage.py migrate')
-system('python manage.py collectstatic --no-input --clear')
+if __name__ == '__main__':
+    remove_migrations()
+    remove_data()
 
-if '-r' not in argv:
-    system('python manage.py runserver')
+    system('python manage.py makemigrations')
+    system('python manage.py migrate')
+    system('python manage.py collectstatic --no-input --clear')
+
+    if '-r' not in argv:
+        system('python manage.py runserver')

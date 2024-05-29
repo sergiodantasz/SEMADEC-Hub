@@ -7,9 +7,12 @@ from django.contrib.messages import constants
 from environ import Env
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+
 env = Env()
 env.read_env(BASE_DIR / '.env', True)
+
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+sys.path.insert(0, os.path.join(BASE_DIR, 'scripts'))
 
 SECRET_KEY = env.str('SECRET_KEY')
 DEBUG = env.bool('DEBUG')
