@@ -1,1 +1,0 @@
-rm .\static -Force && rm .\db.sqlite3 && rm .\media

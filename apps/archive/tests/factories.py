@@ -3,7 +3,6 @@ from factory.django import DjangoModelFactory, ImageField
 from factory.faker import faker
 
 from home.tests.factories import CollectionFactory
-from utils.generate_placeholder import generate_placeholder
 
 fake = faker.Faker('pt_BR')
 

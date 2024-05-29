@@ -1,3 +1,5 @@
+import os
+import sys
 from pathlib import Path
 
 import django
@@ -5,7 +7,7 @@ from django.contrib.messages import constants
 from environ import Env
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 env = Env()
 env.read_env(BASE_DIR / '.env', True)
 
@@ -58,7 +60,6 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'base' / 'templates',
-            # django.__path__[0] + '/forms/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
