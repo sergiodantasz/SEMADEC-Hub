@@ -60,7 +60,6 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'base' / 'templates',
-            django.__path__[0] + '/forms/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -95,12 +94,7 @@ CACHES = {
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'core' / 'db.sqlite3',
-    }
-}
+DATABASES = {'default': env.db_url()}
 
 AUTHENTICATION_BACKENDS = (
     # SUAP backend
