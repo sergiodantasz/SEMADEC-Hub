@@ -2,10 +2,10 @@ from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from pytest import raises as assert_raises
 
-from competitions.models import Match
-from competitions.tests.factories import MatchFactory, MatchTeamFactory
-from teams.models import Team
-from teams.tests.factories import TeamFactory
+from apps.competitions.models import Match
+from apps.competitions.tests.factories import MatchFactory, MatchTeamFactory
+from apps.teams.models import Team
+from apps.teams.tests.factories import TeamFactory
 
 
 def test_match_model_teams_has_related_name_matchs(db, match_fixture):

@@ -3,12 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from competitions.forms import (
+from apps.competitions.forms import (
     SportForm,
 )
-from competitions.models import Sport
-from competitions.tests.factories import CategoryFactory
-from editions.models import Edition
+from apps.competitions.models import Sport
+from apps.competitions.tests.factories import CategoryFactory
+from apps.editions.models import Edition
 from helpers.decorators import admin_required
 
 

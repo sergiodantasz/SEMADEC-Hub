@@ -1,7 +1,7 @@
 import pytest
 from django.conf import settings
 
-from documents.tests.factories import DocumentFactory
+from apps.documents.tests.factories import DocumentFactory
 
 
 @pytest.fixture(scope='session')

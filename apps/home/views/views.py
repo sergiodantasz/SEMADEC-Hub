@@ -3,9 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
+from apps.home.forms import TagForm
+from apps.home.models import Tag
 from helpers.decorators import admin_required
-from home.forms import TagForm
-from home.models import Tag
 
 
 def home(request):

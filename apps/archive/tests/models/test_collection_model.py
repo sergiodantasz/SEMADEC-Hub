@@ -4,10 +4,10 @@ from django.db.utils import IntegrityError
 from pytest import mark
 from pytest import raises as assert_raises
 
-from archive.models import Image
-from documents.models import Document
-from documents.tests.conftest import document_fixture
-from home.models import Tag
+from apps.archive.models import Image
+from apps.documents.models import Document
+from apps.documents.tests.conftest import document_fixture
+from apps.home.models import Tag
 
 
 def test_collection_model_administrator_db_column_is_administrator_id(

@@ -3,8 +3,8 @@ from django.db.utils import IntegrityError
 from pytest import mark
 from pytest import raises as assert_raises
 
-from editions.models import Edition
-from teams.models import Team
+from apps.editions.models import Edition
+from apps.teams.models import Team
 
 
 def test_edition_model_year_is_integer(db, edition_fixture):

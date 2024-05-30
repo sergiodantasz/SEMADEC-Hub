@@ -5,9 +5,9 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
+from apps.teams.forms import ClassForm
+from apps.teams.models import Class, Course
 from helpers.decorators import admin_required
-from teams.forms import ClassForm
-from teams.models import Class, Course
 
 
 def classes(request):

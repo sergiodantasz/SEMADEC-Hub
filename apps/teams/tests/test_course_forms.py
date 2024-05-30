@@ -1,7 +1,7 @@
 from django.forms import CheckboxSelectMultiple
 from django.forms.widgets import RadioSelect
 
-from teams.models import Class, Course
+from apps.teams.models import Class, Course
 
 
 def test_course_form_is_valid(db, course_form_fixture):

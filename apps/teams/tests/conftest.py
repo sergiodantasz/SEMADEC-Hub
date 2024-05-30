@@ -1,8 +1,8 @@
 import pytest
 from django.conf import settings
 
-from teams.forms import ClassForm, CourseForm, TeamForm
-from teams.tests.factories import ClassFactory, CourseFactory, TeamFactory
+from apps.teams.forms import ClassForm, CourseForm, TeamForm
+from apps.teams.tests.factories import ClassFactory, CourseFactory, TeamFactory
 
 
 @pytest.fixture

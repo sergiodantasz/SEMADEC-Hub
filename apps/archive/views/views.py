@@ -4,12 +4,12 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from archive.forms import ImageCollectionForm, ImageForm
-from archive.models import Image
+from apps.archive.forms import ImageCollectionForm, ImageForm
+from apps.archive.models import Image
+from apps.home.models import Collection
 from helpers.decorators import admin_required
 from helpers.model import is_owner
 from helpers.pagination import make_pagination
-from home.models import Collection
 
 
 def archive_collection(request):

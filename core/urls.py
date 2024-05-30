@@ -5,14 +5,14 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('home.urls')),
-    path('competicoes/', include('competitions.urls')),
-    path('noticias/', include('news.urls')),
-    path('edicoes/', include('editions.urls')),
-    path('acervo/', include('archive.urls')),
-    path('documentos/', include('documents.urls')),
-    path('times/', include('teams.urls')),
-    path('', include('users.urls')),
+    path('', include('apps.home.urls')),
+    path('competicoes/', include('apps.competitions.urls')),
+    path('noticias/', include('apps.news.urls')),
+    path('edicoes/', include('apps.editions.urls')),
+    path('acervo/', include('apps.archive.urls')),
+    path('documentos/', include('apps.documents.urls')),
+    path('times/', include('apps.teams.urls')),
+    path('', include('apps.users.urls')),
     path('', include('social_django.urls'), name='social'),
     path('summernote/', include('django_summernote.urls')),
 ]
@@ -23,7 +23,7 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG_TOOLBAR:
     urlpatterns.append(path('__debug__/', include('debug_toolbar.urls')))
 
-handler404 = 'handlers.views.page_not_found_404'
-handler500 = 'handlers.views.server_error_500'
-handler403 = 'handlers.views.permission_denied_403'
-handler400 = 'handlers.views.bad_request_400'
+handler404 = 'apps.handlers.views.page_not_found_404'
+handler500 = 'apps.handlers.views.server_error_500'
+handler403 = 'apps.handlers.views.permission_denied_403'
+handler400 = 'apps.handlers.views.bad_request_400'

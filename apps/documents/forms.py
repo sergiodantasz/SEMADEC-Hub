@@ -1,7 +1,7 @@
 from django import forms
 
+from apps.home.models import Collection, Tag
 from helpers.form import set_attr, set_placeholder
-from home.models import Collection, Tag
 
 
 class DocumentCollectionForm(forms.ModelForm):

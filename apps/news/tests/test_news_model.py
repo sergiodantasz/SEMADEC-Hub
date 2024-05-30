@@ -3,8 +3,8 @@ from django.db.utils import IntegrityError
 from pytest import mark
 from pytest import raises as assert_raises
 
-from home.models import Tag
-from news.models import News
+from apps.home.models import Tag
+from apps.news.models import News
 
 
 def test_news_model_administrator_db_column_is_administrator_id(db, news_fixture):

@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-from teams import views
+from apps.teams import views
 
 app_name = 'teams'
 

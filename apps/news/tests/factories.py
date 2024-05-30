@@ -3,7 +3,7 @@ from factory import Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory, ImageField
 from factory.faker import faker
 
-from users.tests.factories import UserFactory
+from apps.users.tests.factories import UserFactory
 
 fake = faker.Faker('pt_BR')
 

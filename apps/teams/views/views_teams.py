@@ -4,9 +4,9 @@ from django.db import DatabaseError
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
+from apps.teams.forms import TeamForm
+from apps.teams.models import Class, Team
 from helpers.decorators import admin_required
-from teams.forms import TeamForm
-from teams.models import Class, Team
 
 
 def teams(request):

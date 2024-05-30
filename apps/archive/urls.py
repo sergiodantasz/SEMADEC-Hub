@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-from archive import views
+from apps.archive import views
 
 app_name = 'archive'
 

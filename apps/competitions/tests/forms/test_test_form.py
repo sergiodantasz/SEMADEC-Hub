@@ -4,7 +4,7 @@ from django.forms import (
     Textarea,
 )
 
-from teams.models import Team
+from apps.teams.models import Team
 
 
 def test_test_form_title_field_placeholder_is_correct(db, test_form_fixture):

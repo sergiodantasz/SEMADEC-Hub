@@ -5,12 +5,12 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from documents.forms import DocumentCollectionForm, DocumentForm
-from documents.models import Document
+from apps.documents.forms import DocumentCollectionForm, DocumentForm
+from apps.documents.models import Document
+from apps.home.models import Collection
 from helpers.decorators import admin_required
 from helpers.model import is_owner
 from helpers.pagination import make_pagination
-from home.models import Collection
 
 
 def documents_collection(request):

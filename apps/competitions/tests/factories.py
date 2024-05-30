@@ -12,8 +12,8 @@ from factory.django import DjangoModelFactory
 from factory.faker import faker
 from faker.providers import BaseProvider
 
-from editions.tests.factories import EditionFactory
-from teams.tests.factories import TeamFactory
+from apps.editions.tests.factories import EditionFactory
+from apps.teams.tests.factories import TeamFactory
 
 
 class ModelsDummyData(BaseProvider):

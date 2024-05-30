@@ -6,7 +6,7 @@ from factory.django import DjangoModelFactory
 from factory.faker import faker
 from faker.providers import BaseProvider
 
-from teams.tests.factories import TeamFactory
+from apps.teams.tests.factories import TeamFactory
 
 
 class ModelsDummyData(BaseProvider):

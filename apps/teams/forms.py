@@ -1,7 +1,7 @@
 from django import forms
 
+from apps.teams.models import Class, Course, Team
 from helpers.form import set_placeholder
-from teams.models import Class, Course, Team
 
 
 class TeamForm(forms.ModelForm):

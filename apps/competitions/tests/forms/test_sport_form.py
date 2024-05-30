@@ -2,7 +2,7 @@ from django.forms import (
     CheckboxSelectMultiple,
 )
 
-from competitions.models import Category
+from apps.competitions.models import Category
 
 
 def test_sport_form_name_field_placeholder_is_correct(db, sport_form_fixture):

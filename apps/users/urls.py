@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.urls import path, reverse
 
-from users import views
+from apps.users import views
 
 app_name = 'users'
 

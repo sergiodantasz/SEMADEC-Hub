@@ -1,7 +1,7 @@
 from django.urls import resolve, reverse
 from pytest import mark
 
-from archive import views
+from apps.archive import views
 
 
 def test_archive_viewname_redirects_to_archive_view():

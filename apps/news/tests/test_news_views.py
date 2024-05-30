@@ -1,6 +1,6 @@
 from django.urls import resolve, reverse
 
-from news import views
+from apps.news import views
 
 
 def test_news_list_viewname_redirects_to_news_list_view():

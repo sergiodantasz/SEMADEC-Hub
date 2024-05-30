@@ -5,10 +5,10 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
+from apps.news.forms import NewsForm
+from apps.news.models import News
 from helpers.decorators import admin_required
 from helpers.model import is_owner
-from news.forms import NewsForm
-from news.models import News
 
 # def news(request):
 #     news_objs = News.objects.order_by('-created_at')

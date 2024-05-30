@@ -2,7 +2,7 @@ from string import punctuation
 
 from django import forms
 
-from home.models import Tag
+from apps.home.models import Tag
 
 
 class TagForm(forms.ModelForm):

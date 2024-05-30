@@ -7,12 +7,12 @@ from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from competitions.forms import (
+from apps.competitions.forms import (
     MatchForm,
     MatchTeamForm,
 )
-from competitions.models import Match, MatchTeam
-from editions.models import Edition
+from apps.competitions.models import Match, MatchTeam
+from apps.editions.models import Edition
 from helpers.decorators import admin_required
 
 

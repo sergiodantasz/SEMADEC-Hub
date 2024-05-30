@@ -2,8 +2,8 @@ from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from pytest import raises as assert_raises
 
-from archive.models import Image
-from home.models import Collection
+from apps.archive.models import Image
+from apps.home.models import Collection
 
 
 def test_image_model_collection_fk_points_to_collection_model(db, image_fixture):

@@ -2,10 +2,10 @@ from django import forms
 from django.db.models import Q
 from django.forms.models import BaseModelFormSet
 
-from competitions.models import Sport
-from editions.models import Edition, EditionTeam
+from apps.competitions.models import Sport
+from apps.editions.models import Edition, EditionTeam
+from apps.teams.models import Team
 from helpers.form import set_attr, set_placeholder
-from teams.models import Team
 
 
 class EditionForm(forms.ModelForm):

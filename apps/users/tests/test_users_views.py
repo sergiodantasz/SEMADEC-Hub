@@ -1,6 +1,6 @@
 from django.urls import resolve, reverse
 
-from users import views
+from apps.users import views
 
 
 def test_profile_viewname_redirects_to_profile_view():

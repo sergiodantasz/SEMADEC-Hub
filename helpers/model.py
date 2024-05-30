@@ -3,10 +3,10 @@ from __future__ import annotations
 from os.path import split
 from typing import TYPE_CHECKING, Any
 
-from users.models import User
+from apps.users.models import User
 
 if TYPE_CHECKING:
-    from home.models import Collection
+    from apps.home.models import Collection
 
 
 def get_object(model, *args, **kwargs) -> Any | None:

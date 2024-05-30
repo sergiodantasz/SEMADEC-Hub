@@ -14,11 +14,11 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
 
-from competitions.models import Sport
-from editions.forms import EditionForm, EditionTeamForm
-from editions.models import Edition, EditionTeam
+from apps.competitions.models import Sport
+from apps.editions.forms import EditionForm, EditionTeamForm
+from apps.editions.models import Edition, EditionTeam
+from apps.teams.models import Team
 from helpers.decorators import admin_required
-from teams.models import Team
 
 
 class EditionView(ListView):

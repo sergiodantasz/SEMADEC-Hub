@@ -1,9 +1,9 @@
 from django import forms
 from django_summernote.widgets import SummernoteWidget
 
+from apps.home.models import Tag
+from apps.news.models import News
 from helpers.form import set_attr, set_placeholder
-from home.models import Tag
-from news.models import News
 
 
 class NewsForm(forms.ModelForm):

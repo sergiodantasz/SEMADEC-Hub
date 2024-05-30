@@ -1,6 +1,6 @@
 from django.urls import resolve, reverse
 
-from documents import views
+from apps.documents import views
 
 
 def test_documents_viewname_redirects_to_documents_view():

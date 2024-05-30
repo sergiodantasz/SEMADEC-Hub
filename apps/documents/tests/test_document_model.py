@@ -2,8 +2,8 @@ from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from pytest import raises as assert_raises
 
-from documents.models import Document
-from home.models import Collection
+from apps.documents.models import Document
+from apps.home.models import Collection
 
 
 def test_document_model_collection_fk_points_to_collection_model(db, document_fixture):

@@ -6,7 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic.base import RedirectView, TemplateView
 
-from users.models import User
+from apps.users.models import User
 
 
 class LoginView(RedirectView):

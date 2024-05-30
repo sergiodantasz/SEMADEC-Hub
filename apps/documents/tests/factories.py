@@ -2,7 +2,7 @@ from factory import SubFactory
 from factory.django import DjangoModelFactory, FileField
 from factory.faker import faker
 
-from home.tests.factories import CollectionFactory
+from apps.home.tests.factories import CollectionFactory
 
 fake = faker.Faker('pt_BR')
 

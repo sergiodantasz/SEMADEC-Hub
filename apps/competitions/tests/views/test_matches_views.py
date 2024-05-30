@@ -1,6 +1,6 @@
 from django.urls import resolve, reverse
 
-from competitions import views
+from apps.competitions import views
 
 
 def test_matches_create_viewname_redirects_to_matches_create_view():

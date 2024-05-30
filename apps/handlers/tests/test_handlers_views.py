@@ -3,7 +3,7 @@ from django.test import RequestFactory
 from django.urls import resolve
 from pytest import mark
 
-from handlers import views
+from apps.handlers import views
 
 
 @mark.skip

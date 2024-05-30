@@ -1,6 +1,6 @@
 from django.urls import resolve, reverse
 
-from competitions import views
+from apps.competitions import views
 
 
 def test_tests_viewname_redirects_to_tests_view():

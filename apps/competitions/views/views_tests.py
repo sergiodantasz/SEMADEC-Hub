@@ -5,13 +5,13 @@ from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from competitions.forms import (
+from apps.competitions.forms import (
     TestForm,
     TestTeamForm,
 )
-from competitions.models import Test, TestTeam
+from apps.competitions.models import Test, TestTeam
+from apps.teams.models import Team
 from helpers.decorators import admin_required
-from teams.models import Team
 
 
 def tests(request):

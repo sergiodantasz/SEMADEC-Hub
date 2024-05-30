@@ -4,9 +4,9 @@ from django.forms import (
     RadioSelect,
 )
 
-from competitions.models import SportCategory
-from editions.tests.factories import EditionFactory
-from teams.models import Team
+from apps.competitions.models import SportCategory
+from apps.editions.tests.factories import EditionFactory
+from apps.teams.models import Team
 
 
 def test_match_form_if_edition_object_is_given(db, match_form_fixture):

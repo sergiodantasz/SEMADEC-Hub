@@ -4,9 +4,9 @@ from django.db import DatabaseError
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
+from apps.teams.forms import CourseForm
+from apps.teams.models import Course
 from helpers.decorators import admin_required
-from teams.forms import CourseForm
-from teams.models import Course
 
 
 def courses(request):

@@ -4,7 +4,7 @@ from django.db.utils import IntegrityError
 from pytest import mark
 from pytest import raises as assert_raises
 
-from competitions.models import Category, Sport
+from apps.competitions.models import Category, Sport
 
 
 def test_sport_model_name_has_max_length_30(db, sport_fixture):

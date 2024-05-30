@@ -1,8 +1,8 @@
 from django.forms import CheckboxSelectMultiple, FileInput, HiddenInput
 from pytest import mark
 
-from competitions import forms
-from home.models import Tag
+from apps.competitions import forms
+from apps.home.models import Tag
 
 
 def test_image_collection_form_cover_widget_is_fileinput(

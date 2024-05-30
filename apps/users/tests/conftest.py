@@ -1,7 +1,7 @@
 import pytest
 from django.conf import settings
 
-from users.tests.factories import (
+from apps.users.tests.factories import (
     CampusFactory,
     EmailFactory,
     UserFactory,

@@ -12,7 +12,7 @@ env = Env()
 env.read_env(BASE_DIR / '.env', True)
 
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
-sys.path.insert(0, os.path.join(BASE_DIR, 'scripts'))
+sys.path.insert(1, os.path.join(BASE_DIR, 'scripts'))
 
 SECRET_KEY = env.str('SECRET_KEY')
 DEBUG = env.bool('DEBUG')
@@ -63,6 +63,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'base' / 'templates',
+            django.__path__[0] + '/forms/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

@@ -1,12 +1,12 @@
 import pytest
 from django.conf import settings
 
-from competitions.tests.factories import (
+from apps.competitions.tests.factories import (
     MatchTeamFactory,
     TestTeamFactory,
     TestWithTeamFactory,
 )
-from editions.tests.factories import (
+from apps.editions.tests.factories import (
     EditionTeamFactory,
     EditionWithTeamFactory,
 )

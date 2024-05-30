@@ -1,9 +1,9 @@
 import pytest
 from django.conf import settings
 
-from archive.forms import ImageCollectionForm, ImageForm
-from archive.tests.factories import CollectionFactory, ImageFactory
-from home.tests.factories import TagFactory
+from apps.archive.forms import ImageCollectionForm, ImageForm
+from apps.archive.tests.factories import CollectionFactory, ImageFactory
+from apps.home.tests.factories import TagFactory
 
 
 @pytest.fixture

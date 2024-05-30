@@ -5,9 +5,9 @@ from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.views.generic.list import ListView
 
+from apps.home.models import Tag
+from apps.news.models import News
 from helpers.pagination import make_pagination
-from home.models import Tag
-from news.models import News
 
 
 class BaseNewsListView(ListView):

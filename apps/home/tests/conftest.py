@@ -1,7 +1,7 @@
 import pytest
 from django.conf import settings
 
-from home.tests.factories import TagFactory
+from apps.home.tests.factories import TagFactory
 
 
 @pytest.fixture

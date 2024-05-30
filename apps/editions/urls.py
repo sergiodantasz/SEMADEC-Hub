@@ -1,6 +1,6 @@
 from django.urls import path
 
-from editions import views
+from apps.editions import views
 
 app_name = 'editions'
 

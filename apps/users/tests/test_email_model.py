@@ -3,7 +3,7 @@ from django.db.utils import IntegrityError
 from pytest import mark
 from pytest import raises as assert_raises
 
-from users.models import Email, User
+from apps.users.models import Email, User
 
 
 @mark.skip

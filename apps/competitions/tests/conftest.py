@@ -3,14 +3,14 @@ from django.conf import settings
 from django.utils import timezone
 from factory.faker import faker
 
-from competitions.forms import (
+from apps.competitions.forms import (
     MatchForm,
     MatchTeamForm,
     SportForm,
     TestForm,
     TestTeamForm,
 )
-from competitions.tests.factories import (
+from apps.competitions.tests.factories import (
     CategoryFactory,
     MatchFactory,
     MatchWithTeamFactory,
@@ -18,7 +18,7 @@ from competitions.tests.factories import (
     SportFactory,
     TestWithTeamFactory,
 )
-from teams.tests.factories import ClassFactory, TeamFactory
+from apps.teams.tests.factories import ClassFactory, TeamFactory
 
 fake = faker.Faker('pt_BR')
 

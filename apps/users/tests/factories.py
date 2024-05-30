@@ -2,7 +2,7 @@ from factory import LazyAttribute, Sequence, SubFactory
 from factory.django import DjangoModelFactory, DjangoOptions, ImageField
 from factory.faker import faker
 
-from teams.tests.factories import CourseFactory
+from apps.teams.tests.factories import CourseFactory
 
 fake = faker.Faker('pt_BR')
 
