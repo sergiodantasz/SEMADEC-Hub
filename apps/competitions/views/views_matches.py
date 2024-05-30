@@ -63,7 +63,11 @@ def matches_edit(request, pk):
             form.save()
             form_matches.save()
             messages.success(request, 'Partida editada com sucesso.')
-            return redirect(reverse('editions:editions'))
+            return redirect(
+                reverse(
+                    'editions:editions_detailed', kwargs={'pk': match_obj.edition.pk}
+                )
+            )
         messages.error(request, 'Preencha os campos do formulário corretamente.')
     context = {
         'title': 'Editar partida',
