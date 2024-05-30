@@ -1,8 +1,7 @@
-import os
-import sys
 from pathlib import Path
+from sys import path
 
-import django
+from django import __path__
 from django.contrib.messages import constants
 from environ import Env
 
@@ -11,8 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = Env()
 env.read_env(BASE_DIR / '.env', True)
 
-sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
-sys.path.insert(1, os.path.join(BASE_DIR, 'scripts'))
+path.insert(0, str(BASE_DIR / 'apps'))
+path.insert(1, str(BASE_DIR / 'scripts'))
 
 SECRET_KEY = env.str('SECRET_KEY')
 DEBUG = env.bool('DEBUG')
@@ -63,7 +62,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'base' / 'templates',
-            django.__path__[0] + '/forms/templates',
+            Path(__path__[0]) / 'forms' / 'templates',  # type: ignore
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -185,6 +184,7 @@ USER_FIELDS = [
 ]
 
 LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'users:profile'
 
 SOCIAL_AUTH_SUAP_KEY = env.str('SOCIAL_AUTH_SUAP_KEY')
 SOCIAL_AUTH_SUAP_SECRET = env.str('SOCIAL_AUTH_SUAP_SECRET')
