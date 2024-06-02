@@ -14,6 +14,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
+from home.views import MessageMixin
 
 from apps.competitions.forms import (
     SportForm,
@@ -52,7 +53,7 @@ class SportSearchView(ListView):
     model = Sport
     template_name = 'competitions/pages/competitions.html'
     context_object_name = 'db_regs'
-    paginate_by = 10
+    # paginate_by = 10
     warning_message = 'Digite um termo de busca válido.'
 
     def get_search_term(self) -> str:
@@ -73,7 +74,7 @@ class SportSearchView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class SportCreateView(FormView):
+class SportCreateView(MessageMixin, FormView):
     template_name = 'competitions/pages/sport-create.html'
     form_class = SportForm
     # Add error for non existing categories
@@ -81,57 +82,43 @@ class SportCreateView(FormView):
     success_message = 'Esporte adicionado com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
-    def get(self, request, *args, **kwargs) -> HttpResponse:
-        context = {'title': 'Criar esporte', 'form': self.get_form()}
-        return render(request, self.template_name, context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context |= {'title': 'Criar esporte'}
+        return context
 
     def form_valid(self, form):
-        cats_m2m = form.cleaned_data['categories']
         form_reg = form.save(commit=True)
-        form_reg.categories.add(*cats_m2m)
         form_reg.administrator = self.request.user
         form_reg.save()
-        messages.success(self.request, self.success_message)
         return super().form_valid(form)
-
-    def form_invalid(self, form):
-        messages.error(self.request, self.error_message)
-        return super().form_invalid(form)
 
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class SportEditView(UpdateView):
+class SportEditView(MessageMixin, UpdateView):
     model = Sport
-    form = SportForm
+    form_class = SportForm
     template_name = 'competitions/pages/sport-create.html'
-    redirect_url = 'competitions:sports:home'
+    success_url = reverse_lazy('competitions:sports:home')
     success_message = 'Esporte editado com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
-    def get(self, request, *args, **kwargs) -> HttpResponse:
-        self.object = self.get_object()
-        form = self.form(instance=self.object)
-        form.fields['name'].disabled = True
-        context = {'title': 'Editar esporte', 'form': form}
-        return render(request, self.template_name, context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context |= {'title': 'Editar esporte'}
+        return context
 
-    def post(
-        self, request, *args, **kwargs
-    ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-        self.object = self.get_object()
-        form = self.form(request.POST, instance=self.object)
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
         form.fields['name'].disabled = True
-        if form.is_valid():
-            cats_m2m = form.cleaned_data['categories']
-            form_reg = form.save(commit=True)
-            form_reg.categories.add(*cats_m2m)
-            form_reg.administrator = request.user
-            form_reg.save()
-            messages.success(self.request, self.success_message)
-        else:
-            messages.error(request, self.error_message)
-        return redirect(self.redirect_url)
+        return form
+
+    def form_valid(self, form):
+        form_reg = form.save(commit=True)
+        form_reg.administrator = self.request.user
+        form_reg.save()
+        return super().form_valid(form)
 
 
 class SportDetailedView(DetailView):
