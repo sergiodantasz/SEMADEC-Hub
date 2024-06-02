@@ -37,9 +37,11 @@ class TestView(ListView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Competições'
-        context['page_variant'] = 'tests'
-        context['search_url'] = reverse('competitions:tests:search')
+        context |= {
+            'title': 'Competições',
+            'page_variant': 'tests',
+            'search_url': reverse('competitions:tests:search'),
+        }
         return context
 
 
@@ -65,8 +67,7 @@ class TestSearchView(ListView):
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         # Implement a better dict join solution
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Competições'
-        context['page_variant'] = 'tests'
+        context |= {'title': 'Competições', 'page_variant': 'tests'}
         return context
 
 
@@ -167,7 +168,7 @@ class TestDetailedView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         self.object = self.get_object()
-        context['test'] = self.object
+        context |= {'test': self.object}
         return context
 
 

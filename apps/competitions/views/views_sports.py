@@ -40,9 +40,11 @@ class SportView(ListView):
         cat_misto = CategoryFactory(name='Misto')
         # Remove later
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Competições'
-        context['page_variant'] = 'sports'
-        context['search_url'] = reverse('competitions:sports:search')
+        context |= {
+            'title': 'Competições',
+            'page_variant': 'sports',
+            'search_url': reverse('competitions:sports:search'),
+        }
         return context
 
 
@@ -65,8 +67,7 @@ class SportSearchView(ListView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Competições'
-        context['page_variant'] = 'sports'
+        context |= {'title': 'Competições', 'page_variant': 'sports'}
         return context
 
 
@@ -149,9 +150,7 @@ class SportDetailedView(DetailView):
                 sport_category__sport=self.object
             )
             editions_matches.update({edition: query_matches})
-        context['title'] = self.object.name
-        context['sport_name'] = self.object.name
-        context['regs'] = editions_matches
+        context |= {'title': self.object.name, 'regs': editions_matches}
         return context
 
 
