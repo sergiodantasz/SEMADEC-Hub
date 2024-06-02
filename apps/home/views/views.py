@@ -8,6 +8,23 @@ from apps.home.models import Tag
 from helpers.decorators import admin_required
 
 
+class MessageMixin:
+    success_message = ''
+    error_message = ''
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        if self.success_message:
+            messages.success(self.request, self.success_message)
+        return response
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        if self.error_message:
+            messages.error(self.request, self.error_message)
+        return response
+
+
 def home(request):
     context = {'title': 'Início'}
     return render(request, 'home/pages/home.html', context)
