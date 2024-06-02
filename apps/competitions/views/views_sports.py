@@ -1,7 +1,19 @@
+from typing import Any
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
+from django.db.models.query import QuerySet
+from django.http import (
+    HttpResponse,
+    HttpResponsePermanentRedirect,
+    HttpResponseRedirect,
+)
+from django.shortcuts import redirect, render
+from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import DeleteView, FormView, UpdateView
 
 from apps.competitions.forms import (
     SportForm,
@@ -12,93 +24,137 @@ from apps.editions.models import Edition
 from helpers.decorators import admin_required
 
 
-def sports(request):
-    cat_masculino = CategoryFactory(name='Masculino')
-    cat_feminino = CategoryFactory(name='Feminino')
-    cat_misto = CategoryFactory(name='Misto')
-    context = {
-        'title': 'Competições',
-        'page_variant': 'sports',
-        'db_regs': Sport.objects.order_by('name'),
-        'search_url': reverse('competitions:sports:search'),
-    }
-    return render(request, 'competitions/pages/sports.html', context)
+class SportView(ListView):
+    model = Sport
+    template_name = 'competitions/pages/competitions.html'
+    context_object_name = 'db_regs'
+    paginate_by = 10
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return Sport.objects.order_by('name')
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        # Remove later
+        cat_masculino = CategoryFactory(name='Masculino')
+        cat_feminino = CategoryFactory(name='Feminino')
+        cat_misto = CategoryFactory(name='Misto')
+        # Remove later
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Competições'
+        context['page_variant'] = 'sports'
+        context['search_url'] = reverse('competitions:sports:search')
+        return context
 
 
-def sports_search(request):
-    querystr = request.GET.get('q').strip()
+class SportSearchView(ListView):
+    model = Sport
+    template_name = 'competitions/pages/competitions.html'
+    context_object_name = 'db_regs'
+    paginate_by = 10
+    warning_message = 'Digite um termo de busca válido.'
 
-    if not querystr:
-        messages.warning(request, 'Digite um termo de busca válido.')
-        return redirect(reverse('competitions:sports:home'))
+    def get_search_term(self) -> str:
+        return self.request.GET.get('q', '').strip()
 
-    db_regs = Sport.objects.filter(name__icontains=querystr).order_by('name')
-    context = {
-        'title': 'Competições',
-        'page_variant': 'sports',
-        'db_regs': db_regs,
-    }
-    return render(request, 'competitions/pages/competitions.html', context)
+    def get_queryset(self) -> QuerySet[Any]:
+        querystr = self.get_search_term()
+        if not querystr:
+            messages.warning(self.request, self.warning_message)
+        queryset = Sport.objects.filter(name__icontains=querystr).order_by('name')
+        return queryset
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Competições'
+        context['page_variant'] = 'sports'
+        return context
 
 
-@login_required
-@admin_required
-def sports_create(request):
-    form = SportForm(request.POST or None, request.FILES or None)
-    context = {
-        'title': 'Criar esporte',
-        'form': form,
-    }
-    if request.POST:
+@method_decorator(login_required, name='dispatch')
+@method_decorator(admin_required, name='dispatch')
+class SportCreateView(FormView):
+    template_name = 'competitions/pages/sport-create.html'
+    form_class = SportForm
+    # Add error for non existing categories
+    success_url = reverse_lazy('competitions:sports:home')
+    success_message = 'Esporte adicionado com sucesso.'
+    error_message = 'Preencha os campos do formulário corretamente.'
+
+    def get(self, request, *args, **kwargs) -> HttpResponse:
+        context = {'title': 'Criar esporte', 'form': self.get_form()}
+        return render(request, self.template_name, context)
+
+    def form_valid(self, form):
+        cats_m2m = form.cleaned_data['categories']
+        form_reg = form.save(commit=True)
+        form_reg.categories.add(*cats_m2m)
+        form_reg.administrator = self.request.user
+        form_reg.save()
+        messages.success(self.request, self.success_message)
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, self.error_message)
+        return super().form_invalid(form)
+
+
+@method_decorator(login_required, name='dispatch')
+@method_decorator(admin_required, name='dispatch')
+class SportEditView(UpdateView):
+    model = Sport
+    form = SportForm
+    template_name = 'competitions/pages/sport-create.html'
+    redirect_url = 'competitions:sports:home'
+    success_message = 'Esporte editado com sucesso.'
+    error_message = 'Preencha os campos do formulário corretamente.'
+
+    def get(self, request, *args, **kwargs) -> HttpResponse:
+        self.object = self.get_object()
+        form = self.form(instance=self.object)
+        form.fields['name'].disabled = True
+        context = {'title': 'Editar esporte', 'form': form}
+        return render(request, self.template_name, context)
+
+    def post(
+        self, request, *args, **kwargs
+    ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
+        self.object = self.get_object()
+        form = self.form(request.POST, instance=self.object)
+        form.fields['name'].disabled = True
         if form.is_valid():
             cats_m2m = form.cleaned_data['categories']
             form_reg = form.save(commit=True)
             form_reg.categories.add(*cats_m2m)
             form_reg.administrator = request.user
             form_reg.save()
-            messages.success(request, 'Esporte adicionado com sucesso.')
-            return redirect(reverse('competitions:sports:home'))
+            messages.success(self.request, self.success_message)
         else:
-            messages.error(request, 'Preencha os campos do formulário corretamente.')
-    return render(request, 'competitions/pages/sport-create.html', context)
+            messages.error(request, self.error_message)
+        return redirect(self.redirect_url)
 
 
-@login_required
-@admin_required
-def sports_edit(request, slug):
-    obj = get_object_or_404(Sport, slug=slug)
-    form = SportForm(request.POST or None, request.FILES or None, instance=obj)
-    form.fields['name'].disabled = True
-    context = {
-        'title': 'Editar esporte',
-        'form': form,
-    }
-    if request.POST:
-        if form.is_valid():
-            cats_m2m = form.cleaned_data['categories']
-            form_reg = form.save(commit=True)
-            form_reg.categories.add(*cats_m2m)
-            form_reg.administrator = request.user
-            form_reg.save()
-            messages.success(request, 'Esporte editado com sucesso.')
-            return redirect(reverse('competitions:sports:home'))
-        messages.error(request, 'Preencha os campos do formulário corretamente.')
-    return render(request, 'competitions/pages/sport-create.html', context)
+class SportDetailedView(DetailView):
+    model = Sport
+    template_name = 'competitions/pages/sport-detailed.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.object = self.get_object()
+        editions = Edition.objects.filter(
+            matches__sport_category__sport=self.object
+        ).distinct()
+        editions_matches = dict()
+        for edition in editions:
+            query_matches = edition.get_matches.filter(
+                sport_category__sport=self.object
+            )
+            editions_matches.update({edition: query_matches})
+        context['title'] = self.object.name
+        context['sport_name'] = self.object.name
+        context['regs'] = editions_matches
+        return context
 
 
-def sports_detailed(request, slug):
-    sport = get_object_or_404(Sport, slug=slug)
-    editions = Edition.objects.filter(matches__sport_category__sport=sport).distinct()
-    editions_matches = dict()
-    for edition in editions:
-        query_matches = edition.get_matches.filter(sport_category__sport=sport)
-        editions_matches.update({edition: query_matches})
-    context = {
-        'title': f'{sport.name}',
-        'sport_name': sport.name,
-        'regs': editions_matches,
-    }
-    return render(request, 'competitions/pages/sport-detailed.html', context)
-
-
-def sports_delete(request, slug): ...
+@method_decorator(login_required, name='dispatch')
+@method_decorator(admin_required, name='dispatch')
+class SportDeleteView(DeleteView): ...

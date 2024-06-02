@@ -7,6 +7,11 @@ from django.db import DatabaseError
 from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.forms import HiddenInput, modelformset_factory
+from django.http import (
+    HttpResponse,
+    HttpResponsePermanentRedirect,
+    HttpResponseRedirect,
+)
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -88,8 +93,9 @@ class EditionCreateFormView(SuccessMessageMixin, FormView):
     form_error_team = 'Adicione ao menos um time antes de criar uma edição.'
     success_url = reverse_lazy('editions:editions')
     success_message = 'Edição adicionada com sucesso.'
+    error_message = 'Preencha os campos do formulário corretamente.'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs) -> HttpResponse:
         if not Sport.objects.exists():
             messages.error(self.request, self.form_error_sport)
             return redirect(self.success_url)
@@ -108,7 +114,7 @@ class EditionCreateFormView(SuccessMessageMixin, FormView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.error(self.request, 'Preencha os campos do formulário corretamente.')
+        messages.error(self.request, self.error_message)
         return super().form_invalid(form)
 
 
@@ -125,8 +131,10 @@ class EditionEditFormView(UpdateView):
     )
     template_name = 'editions/pages/edition-edit.html'
     redirect_url = reverse_lazy('editions:editions')
+    success_message = 'Edição editada com sucesso.'
+    error_message = 'Preencha os campos do formulário corretamente.'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs) -> HttpResponse:
         self.object = self.get_object()
         form = self.form(instance=self.object)
         form.fields['year'].disabled = True
@@ -146,7 +154,9 @@ class EditionEditFormView(UpdateView):
         }
         return render(request, self.template_name, context)
 
-    def post(self, request, *args, **kwargs):
+    def post(
+        self, request, *args, **kwargs
+    ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         self.object = self.get_object()
         form = self.form(request.POST, instance=self.object)
         form.fields['year'].disabled = True
@@ -163,9 +173,9 @@ class EditionEditFormView(UpdateView):
         if form.is_valid() and form_teams.is_valid():
             form.save()
             form_teams.save()
-            messages.success(self.request, 'Edição editada com sucesso.')
+            messages.success(self.request, self.success_message)
         else:
-            messages.error(request, 'Preencha os campos do formulário corretamente.')
+            messages.error(request, self.error_message)
         return redirect(self.redirect_url)
 
 

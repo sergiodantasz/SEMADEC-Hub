@@ -1,6 +1,7 @@
-from django.shortcuts import redirect
 from django.urls import reverse
+from django.views.generic.base import RedirectView
 
 
-def competitions(request):
-    return redirect(reverse('competitions:sports:home'))
+class CompetitionView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('competitions:sports:home')

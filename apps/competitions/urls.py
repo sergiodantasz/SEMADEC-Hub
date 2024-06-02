@@ -6,20 +6,24 @@ app_name = 'competitions'
 
 matches_urls = (
     [
-        path('criar/<int:pk>/', views.matches_create, name='create'),
-        path('editar/<int:pk>/', views.matches_edit, name='edit'),
+        path('criar/<int:pk>/', views.MatchCreateView.as_view(), name='create'),
+        path('editar/<int:pk>/', views.MatchEditView.as_view(), name='edit'),
     ],
     'matches',
 )
 
 sports_urls = (
     [
-        path('', views.sports, name='home'),
-        path('visualizar/<slug:slug>/', views.sports_detailed, name='detailed'),
-        path('criar', views.sports_create, name='create'),
-        path('buscar', views.sports_search, name='search'),
-        path('editar/<slug:slug>/', views.sports_edit, name='edit'),
-        path('apagar/<slug:slug>/', views.sports_delete, name='delete'),
+        path('', views.SportView.as_view(), name='home'),
+        path(
+            'visualizar/<slug:slug>/',
+            views.SportDetailedView.as_view(),
+            name='detailed',
+        ),
+        path('criar', views.SportCreateView.as_view(), name='create'),
+        path('buscar', views.SportSearchView.as_view(), name='search'),
+        path('editar/<slug:slug>/', views.SportEditView.as_view(), name='edit'),
+        path('apagar/<slug:slug>/', views.SportDeleteView.as_view(), name='delete'),
         path('partidas/', include(matches_urls)),
     ],
     'sports',
@@ -27,18 +31,20 @@ sports_urls = (
 
 tests_urls = (
     [
-        path('', views.tests, name='home'),
-        path('visualizar/<slug:slug>/', views.tests_detailed, name='detailed'),
-        path('criar', views.tests_create, name='create'),
-        path('buscar', views.tests_search, name='search'),
-        path('editar/<slug:slug>/', views.tests_edit, name='edit'),
-        path('apagar/<slug:slug>/', views.tests_delete, name='delete'),
+        path('', views.TestView.as_view(), name='home'),
+        path(
+            'visualizar/<slug:slug>/', views.TestDetailedView.as_view(), name='detailed'
+        ),
+        path('criar', views.TestCreateView.as_view(), name='create'),
+        path('buscar', views.TestSearchView.as_view(), name='search'),
+        path('editar/<slug:slug>/', views.TestEditView.as_view(), name='edit'),
+        path('apagar/<slug:slug>/', views.TestDeleteView.as_view(), name='delete'),
     ],
     'tests',
 )
 
 urlpatterns = [
-    path('', views.competitions, name='home'),
+    path('', views.CompetitionView.as_view(), name='home'),
     path('esportes/', include(sports_urls)),
     path('provas/', include(tests_urls)),
 ]
