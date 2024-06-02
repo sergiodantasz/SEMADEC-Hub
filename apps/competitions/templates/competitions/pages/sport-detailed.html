@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="{% static "competitions/css/sports-detailed.css" %}">
   {% comment %} Remove Later {% endcomment %}
 {% endblock additional_head %}
-{% block header %}{{ sport_name }}{% endblock header %}
+{% block header %}{{ title }}{% endblock header %}
 {% block content %}
   {% for edition,matches in regs.items %}
     <section class="edition-item-wrapper">
