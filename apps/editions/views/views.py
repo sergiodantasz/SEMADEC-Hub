@@ -102,6 +102,11 @@ class EditionCreateFormView(MessageMixin, FormView):
     def is_model_populated(self, model: Model):
         return model.objects.exists()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context |= {'title': 'Criar edição'}
+        return context
+
     def get(self, request, *args, **kwargs) -> HttpResponse:
         # Remove later
         # sport = SportFactory()
@@ -117,9 +122,8 @@ class EditionCreateFormView(MessageMixin, FormView):
             # Change for a better message displaying
             messages.error(self.request, self.error_message_team)
             return redirect(self.success_url)
-        context = {'title': 'Criar edição', 'form': self.get_form()}
-        # Remove 'form' entry?
-        return render(request, self.template_name, context)
+        context = self.get_context_data()
+        return self.render_to_response(context)
 
     def form_valid(self, form):
         form_reg = form.save(commit=True)

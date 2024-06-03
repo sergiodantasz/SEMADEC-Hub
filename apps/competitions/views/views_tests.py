@@ -22,6 +22,7 @@ from apps.competitions.forms import (
     TestTeamForm,
 )
 from apps.competitions.models import Test, TestTeam
+from apps.home.views.views import MessageMixin
 from apps.teams.models import Team
 from helpers.decorators import admin_required
 
@@ -73,7 +74,7 @@ class TestSearchView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class TestCreateView(FormView):
+class TestCreateView(MessageMixin, FormView):
     template_name = 'competitions/pages/test-create.html'
     form_class = TestForm
     success_url = reverse_lazy('competitions:tests:home')
@@ -84,35 +85,33 @@ class TestCreateView(FormView):
     def is_model_populated(self, model: Model):
         return model.objects.exists()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context |= {'title': 'Criar prova'}
+        return context
+
     def get(
         self, request, *args, **kwargs
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         if not self.is_model_populated(Team):
             messages.error(request, self.error_message_teams)
             return redirect(reverse('competitions:tests:home'))
-        context = {'title': 'Criar prova', 'form': self.get_form()}
-        return render(request, self.template_name, context)
+        context = self.get_context_data()
+        return self.render_to_response(context)
 
     def form_valid(self, form):
-        teams_m2m = form.cleaned_data['teams']
         form_reg = form.save(commit=True)
-        form_reg.teams.add(*teams_m2m)
         form_reg.administrator = self.request.user
         form_reg.save()
         # Add success message
-        messages.success(self.request, self.success_message)
         return super().form_valid(form)
-
-    def form_invalid(self, form):
-        messages.error(self.request, self.error_message)
-        return super().form_invalid(form)
 
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class TestEditView(UpdateView):
+class TestEditView(MessageMixin, UpdateView):
     model = Test
-    form = TestForm
+    form_class = TestForm
     form_teams = modelformset_factory(
         TestTeam,
         TestTeamForm,
@@ -124,34 +123,31 @@ class TestEditView(UpdateView):
     success_message = 'Prova editada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
-    def get(self, request, *args, **kwargs) -> HttpResponse:
-        self.object = self.get_object()
-        form = self.form(instance=self.object)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context |= {'title': 'Editar prova', 'form_teams': self.get_form_teams()}
+        return context
+
+    def get_form(self, form_class=None):
+        form = self.form_class(self.request.POST or None, instance=self.get_object())
         form.fields['teams'].required = False
+        return form
+
+    def get_form_teams(self, form_class=None):
         form_teams = self.form_teams(
+            self.request.POST or None,
             queryset=TestTeam.objects.filter(
-                test__pk=self.object.pk,
-            )
+                test__pk=self.get_object().pk,
+            ),
         )
-        context = {
-            'title': 'Editar prova',
-            'form': form,
-            'form_teams': form_teams,
-        }
-        return render(request, self.template_name, context)
+        return form_teams
 
     def post(
         self, request, *args, **kwargs
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         self.object = self.get_object()
-        form = self.form(request.POST, instance=self.object)
-        form.fields['teams'].required = False
-        form_teams = self.form_teams(
-            request.POST,
-            queryset=TestTeam.objects.filter(
-                test__pk=self.object.pk,
-            ),
-        )
+        form = self.get_form()
+        form_teams = self.get_form_teams()
         if form.is_valid() and form_teams.is_valid():
             form.save()
             form_teams.save()
@@ -167,8 +163,7 @@ class TestDetailedView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        self.object = self.get_object()
-        context |= {'test': self.object}
+        context |= {'test': self.get_object()}
         return context
 
 
