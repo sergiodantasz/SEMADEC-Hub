@@ -197,6 +197,5 @@ class EditionDeleteView(MessageMixin, DeleteView):
     # error_message = 'Não foi possível remover esta edição.'
 
     def get(self, request, *args, **kwargs):
-        super().get(args, kwargs)
         self.delete(request, *args, **kwargs)
         return redirect(self.success_url)
