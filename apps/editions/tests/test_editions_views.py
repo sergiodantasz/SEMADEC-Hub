@@ -10,7 +10,7 @@ def test_editions_viewname_redirects_to_editions_view():
 
 def test_editions_create_viewname_redirects_to_editions_create_view():
     view = resolve(reverse('editions:editions_create'))
-    assert view.func.view_class is views.EditionCreateFormView
+    assert view.func.view_class is views.EditionCreateView
 
 
 def test_editions_search_viewname_redirects_to_editions_search_view():
@@ -25,7 +25,7 @@ def test_editions_detailed_viewname_redirects_to_editions_detailed_view():
 
 def test_editions_edit_viewname_redirects_to_editions_edit_view():
     view = resolve(reverse('editions:editions_edit', kwargs={'pk': 1}))
-    assert view.func.view_class is views.EditionEditFormView
+    assert view.func.view_class is views.EditionEditView
 
 
 def test_editions_delete_viewname_redirects_to_editions_delete_view():

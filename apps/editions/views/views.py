@@ -90,7 +90,7 @@ class EditionSearchView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class EditionCreateFormView(MessageMixin, FormView):
+class EditionCreateView(MessageMixin, FormView):
     template_name = 'editions/pages/edition-create.html'
     form_class = EditionForm
     error_message_sport = 'Adicione ao menos um esporte antes de criar uma edição.'
@@ -134,7 +134,7 @@ class EditionCreateFormView(MessageMixin, FormView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class EditionEditFormView(MessageMixin, UpdateView):
+class EditionEditView(MessageMixin, UpdateView):
     model = Edition
     form_class = EditionForm
     form_teams = modelformset_factory(
