@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import DatabaseError
-from django.db.models import Q
+from django.db.models import Model, Q
 from django.db.models.query import QuerySet
 from django.forms import HiddenInput, modelformset_factory
 from django.http import (
@@ -18,11 +18,14 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
+from home.views import MessageMixin
 
 from apps.competitions.models import Sport
+from apps.competitions.tests.factories import SportFactory
 from apps.editions.forms import EditionForm, EditionTeamForm
 from apps.editions.models import Edition, EditionTeam
 from apps.teams.models import Team
+from apps.teams.tests.factories import ClassFactory, CourseFactory, TeamFactory
 from helpers.decorators import admin_required
 
 
@@ -32,13 +35,15 @@ class EditionView(ListView):
     context_object_name = 'db_regs'
     paginate_by = 10
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[Any]:
         return Edition.objects.order_by('-year')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Edições'
-        context['search_url'] = reverse('editions:editions_search')
+        context |= {
+            'title': 'Edições',
+            'search_url': reverse('editions:editions_search'),
+        }
         return context
 
 
@@ -49,8 +54,7 @@ class EditionDetailedView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         self.object = self.get_object()
-        context['reg'] = self.object
-        context['matches'] = self.object.matches.all()
+        context |= {'reg': self.object, 'matches': self.objects.matches.all()}
         return context
 
 
@@ -80,49 +84,55 @@ class EditionSearchView(ListView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Edições'
+        context |= {'title': 'Edições'}
         return context
 
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class EditionCreateFormView(SuccessMessageMixin, FormView):
+class EditionCreateFormView(MessageMixin, FormView):
     template_name = 'editions/pages/edition-create.html'
     form_class = EditionForm
-    form_error_sport = 'Adicione ao menos um esporte antes de criar uma edição.'
-    form_error_team = 'Adicione ao menos um time antes de criar uma edição.'
+    error_message_sport = 'Adicione ao menos um esporte antes de criar uma edição.'
+    error_message_team = 'Adicione ao menos um time antes de criar uma edição.'
     success_url = reverse_lazy('editions:editions')
     success_message = 'Edição adicionada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
+    def is_model_populated(self, model: Model):
+        return model.objects.exists()
+
     def get(self, request, *args, **kwargs) -> HttpResponse:
-        if not Sport.objects.exists():
-            messages.error(self.request, self.form_error_sport)
+        # Remove later
+        # sport = SportFactory()
+        # cursos = CourseFactory()
+        # class1 = ClassFactory(course=cursos)
+        # time = TeamFactory(classes=(class1,))
+        # Remove later
+        if not self.is_model_populated(Sport):
+            # Change for a better message displaying
+            messages.error(self.request, self.error_message_sport)
             return redirect(self.success_url)
-        if not Team.objects.exists():
-            messages.error(self.request, self.form_error_team)
+        if not self.is_model_populated(Team):
+            # Change for a better message displaying
+            messages.error(self.request, self.error_message_team)
             return redirect(self.success_url)
         context = {'title': 'Criar edição', 'form': self.get_form()}
+        # Remove 'form' entry?
         return render(request, self.template_name, context)
 
     def form_valid(self, form):
-        teams_m2m = form.cleaned_data['teams']
         form_reg = form.save(commit=True)
-        form_reg.teams.add(*teams_m2m)
         form_reg.administrator = self.request.user
         form_reg.save()
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        messages.error(self.request, self.error_message)
-        return super().form_invalid(form)
-
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class EditionEditFormView(UpdateView):
+class EditionEditFormView(MessageMixin, UpdateView):
     model = Edition
-    form = EditionForm
+    form_class = EditionForm
     form_teams = modelformset_factory(
         EditionTeam,
         EditionTeamForm,
@@ -134,42 +144,37 @@ class EditionEditFormView(UpdateView):
     success_message = 'Edição editada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
-    def get(self, request, *args, **kwargs) -> HttpResponse:
-        self.object = self.get_object()
-        form = self.form(instance=self.object)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context |= {
+            'title': 'Editar edição',
+            'form_teams': self.get_form_teams(),
+        }
+        return context
+
+    def get_form_teams(self, form_class=None):
+        form_teams = self.form_teams(
+            self.request.POST or None,
+            queryset=EditionTeam.objects.filter(
+                edition__pk=self.get_object().pk,
+            ),
+        )
+        return form_teams
+
+    def get_form(self, form_class=None):
+        form = self.form_class(self.request.POST or None, instance=self.get_object())
         form.fields['year'].disabled = True
         form.fields['sports'].disabled = True
         form.fields['teams'].required = False
         form.fields['teams'].widget = HiddenInput()
         form.fields['sports'].required = False
-        form_teams = self.form_teams(
-            queryset=EditionTeam.objects.filter(
-                edition__pk=self.object.pk,
-            ),
-        )
-        context = {
-            'title': 'Editar edição',
-            'form': form,
-            'form_teams': form_teams,
-        }
-        return render(request, self.template_name, context)
+        return form
 
     def post(
         self, request, *args, **kwargs
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-        self.object = self.get_object()
-        form = self.form(request.POST, instance=self.object)
-        form.fields['year'].disabled = True
-        form.fields['sports'].disabled = True
-        form.fields['teams'].required = False
-        form.fields['teams'].widget = HiddenInput()
-        form.fields['sports'].required = False
-        form_teams = self.form_teams(
-            request.POST,
-            queryset=EditionTeam.objects.filter(
-                edition__pk=self.object.pk,
-            ),
-        )
+        form = self.get_form()
+        form_teams = self.get_form_teams()
         if form.is_valid() and form_teams.is_valid():
             form.save()
             form_teams.save()
@@ -181,17 +186,13 @@ class EditionEditFormView(UpdateView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class EditionDeleteView(DeleteView):
+class EditionDeleteView(MessageMixin, DeleteView):
     model = Edition
     success_url = reverse_lazy('editions:editions')
     success_message = 'Edição removida com sucesso!'
-    error_message = 'Não foi possível remover esta edição.'
+    # error_message = 'Não foi possível remover esta edição.'
 
     def get(self, request, *args, **kwargs):
-        try:
-            self.delete(request, *args, **kwargs)
-        except DatabaseError:
-            messages.error(request, self.error_message)
-        else:
-            messages.success(request, self.success_message)
+        super().get(args, kwargs)
+        self.delete(request, *args, **kwargs)
         return redirect(self.success_url)
