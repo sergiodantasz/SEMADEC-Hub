@@ -36,6 +36,12 @@ def sport_fixture():
 
 
 @pytest.fixture
+def sport_category_fixture():
+    caller = lambda **kwargs: SportCategoryFactory(**kwargs)  # noqa
+    yield caller
+
+
+@pytest.fixture
 def sport_form_fixture():
     data = {
         'name': 'test name',
