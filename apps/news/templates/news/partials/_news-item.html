@@ -1,4 +1,4 @@
-<a class="news-item-container" href="{% url "news:view_news" news.slug %}">
+<a class="news-item-container" href="{% url "news:view" news.slug %}">
   {% if news.cover %}
     <div class="news-item-cover-wrapper">
       <img src="{{ news.cover.url }}" alt="Capa da notícia." class="news-item-cover">

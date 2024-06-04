@@ -6,11 +6,11 @@
 {% block content %}
   {% if user.is_admin and is_owner %}
     <div class="admin-actions-wrapper">
-      <a class="button" href="{% url "news:edit_news" news.slug %}">
+      <a class="button" href="{% url "news:edit" news.slug %}">
         <img src="{% static "global/img/edit.svg" %}" alt="">
         <span>Editar notícia</span>
       </a>
-      <a class="button" href="{% url "news:delete_news" news.slug %}">
+      <a class="button" href="{% url "news:delete" news.slug %}">
         <img src="{% static "global/img/delete.svg" %}" alt="">
         <span>Apagar notícia</span>
       </a>
