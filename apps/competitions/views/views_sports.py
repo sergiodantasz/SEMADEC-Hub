@@ -31,9 +31,6 @@ class SportView(ListView):
     context_object_name = 'db_regs'
     paginate_by = 10
 
-    def get_queryset(self) -> QuerySet[Any]:
-        return Sport.objects.order_by('name')
-
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         # Remove later
         cat_masculino = CategoryFactory(name='Masculino')
