@@ -79,6 +79,7 @@ class TeamCreateView(MessageMixin, FormView):
     def get(self, request, *args, **kwargs):
         if not self.is_model_populated(Class):
             messages.error(self.request, self.error_message_class)
+            return redirect(self.success_url)
         context = self.get_context_data()
         return self.render_to_response(context)
 
