@@ -169,4 +169,12 @@ class TestDetailedView(DetailView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class TestDeleteView(DeleteView): ...
+class TestDeleteView(MessageMixin, DeleteView):
+    model = Test
+    success_url = reverse_lazy('competitions:tests:home')
+    success_message = 'Prova removida com sucesso!'
+    # error_message = 'Não foi possível remover esta prova'
+
+    def get(self, request, *args, **kwargs):
+        self.delete(request, *args, **kwargs)
+        return redirect(self.success_url)

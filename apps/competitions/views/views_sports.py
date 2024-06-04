@@ -143,4 +143,12 @@ class SportDetailedView(DetailView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class SportDeleteView(DeleteView): ...
+class SportDeleteView(MessageMixin, DeleteView):
+    model = Sport
+    success_url = reverse_lazy('competitions:sports:home')
+    success_message = 'Esporte removido com sucesso!'
+    # error_message = 'Não foi possível remover este esporte'
+
+    def get(self, request, *args, **kwargs):
+        self.delete(request, *args, **kwargs)
+        return redirect(self.success_url)

@@ -34,6 +34,7 @@
       {% if user.is_admin %}
         <td class="base-table-cell base-table-cell-right">
           <a href="{% url 'competitions:sports:edit' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
+          <a href="{% url 'competitions:sports:delete' reg.slug %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/delete.svg" alt=""></a>
         </td>
       {% endif %}
     </tr>
