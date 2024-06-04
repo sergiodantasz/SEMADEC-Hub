@@ -40,7 +40,7 @@ def create_archive_collection(request):
     }
     if request.POST:
         images = request.FILES.getlist('images')
-        if form.is_valid():
+        if form.is_valid() and image_form.is_valid():
             if not images:
                 messages.error(request, 'Nenhum arquivo foi selecionado.')
             else:
@@ -113,7 +113,7 @@ def edit_archive_collection(request, slug):
         'is_editing': True,
     }
     if request.POST:
-        if form.is_valid():
+        if form.is_valid() and image_form.is_valid():
             images_to_remove_ids = [
                 k.split('-')[-1]
                 for k, v in request.POST.items()
