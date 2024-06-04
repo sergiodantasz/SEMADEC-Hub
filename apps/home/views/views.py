@@ -11,6 +11,7 @@ from helpers.decorators import admin_required
 class MessageMixin:
     success_message = ''
     error_message = ''
+    warning_message = ''
 
     def is_model_populated(self, model):
         if self.success_message:
@@ -23,6 +24,12 @@ class MessageMixin:
         response = super().delete(request, *args, **kwargs)
         if self.success_message:
             messages.success(self.request, self.success_message)
+        return response
+
+    def get_queryset(self):
+        response = super().get_queryset()
+        if self.warning_message:
+            messages.warning(self.request, self.warning_message)
         return response
 
     def form_valid(self, form):

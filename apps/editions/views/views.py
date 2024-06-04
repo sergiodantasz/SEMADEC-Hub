@@ -144,7 +144,7 @@ class EditionEditView(MessageMixin, UpdateView):
         fields=['score'],
     )
     template_name = 'editions/pages/edition-edit.html'
-    redirect_url = reverse_lazy('editions:editions')
+    redirect_url = reverse_lazy('editions:editions')  # Change to success_url
     success_message = 'Edição editada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
