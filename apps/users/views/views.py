@@ -28,7 +28,7 @@ class ProfileView(TemplateView):
         reg.save()
         # REMOVE LATER
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Perfil'
+        context |= {'title': 'Perfil'}
         return context
 
 
