@@ -15,12 +15,12 @@ def test_news_search_viewname_redirects_to_news_search_view():
 
 def test_news_create_viewname_redirects_to_create_view():
     view = resolve(reverse('news:create'))
-    assert view.func.view_class is views.CreateView
+    assert view.func.view_class is views.NewsCreateView
 
 
 def test_delete_viewname_redirects_to_delete_view():
     view = resolve(reverse('news:delete', kwargs={'slug': 'test-slug'}))
-    assert view.func.view_class is views.DeleteView
+    assert view.func.view_class is views.NewsDeleteView
 
 
 def test_edit_viewname_redirects_to_edit_view():
