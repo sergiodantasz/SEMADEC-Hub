@@ -21,13 +21,15 @@ class NewsListView(BaseNewsListView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Notícias'
-        context['search_url'] = reverse('news:search')
         page_obj, pagination_range, paginator = make_pagination(
             self.request, context.get('news_list'), 10
         )
-        context['news_list'] = page_obj
-        context['pagination_range'] = pagination_range
+        context |= {
+            'title': 'Notícias',
+            'search_url': reverse('news:search'),
+            'news_list': page_obj,
+            'pagination_range': pagination_range,
+        }
         return context
 
 
@@ -67,16 +69,18 @@ class NewsSearchListView(BaseNewsListView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Pesquisa - Notícias'
-        context['search_url'] = reverse('news:search')
         search_term = self.get_search_term()
-        context['search_term'] = search_term
-        context['tags'] = self.get_tags(self.get_tags_from_url())
         page_obj, pagination_range, paginator = make_pagination(
             self.request, context.get('news_list'), 10
         )
-        context['news_list'] = page_obj
-        context['pagination_range'] = pagination_range
-        context['paginator'] = paginator
-        context['additional_url_params'] = f'&q={search_term}'
+        context |= {
+            'title': 'Pesquisa - Notícias',
+            'search_url': reverse('news:search'),
+            'search_term': search_term,
+            'tags': self.get_tags(self.get_tags_from_url()),
+            'news_list': page_obj,
+            'pagination_range': pagination_range,
+            'paginator': paginator,
+            'additional_url_params': f'&q={search_term}',
+        }
         return context
