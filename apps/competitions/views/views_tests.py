@@ -160,10 +160,11 @@ class TestEditView(MessageMixin, UpdateView):
 class TestDetailedView(DetailView):
     model = Test
     template_name = 'competitions/pages/test-detailed.html'
+    context_object_name = 'test'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context |= {'test': self.get_object()}
+        context |= {'title': self.get_object().title}
         return context
 
 
