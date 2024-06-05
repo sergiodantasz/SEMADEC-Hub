@@ -16,7 +16,7 @@ from apps.teams.models import Class, Course
 from helpers.decorators import admin_required
 
 
-class ClassView(ListView):
+class ClassListView(ListView):
     model = Class
     template_name = 'teams/pages/classes.html'
     context_object_name = 'db_regs'

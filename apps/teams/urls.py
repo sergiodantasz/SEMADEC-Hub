@@ -6,7 +6,7 @@ app_name = 'teams'
 
 classes_urls = (
     [
-        path('', views.ClassView.as_view(), name='home'),
+        path('', views.ClassListView.as_view(), name='home'),
         path('criar/', views.ClassCreateView.as_view(), name='create'),
         path('buscar/', views.ClassSearchView.as_view(), name='search'),
         path('editar/<slug:slug>/', views.ClassEditView.as_view(), name='edit'),
