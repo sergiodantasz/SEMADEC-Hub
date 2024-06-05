@@ -16,7 +16,7 @@ from apps.teams.models import Class, Team
 from helpers.decorators import admin_required
 
 
-class TeamView(ListView):
+class TeamListView(ListView):
     model = Team
     template_name = 'teams/pages/teams.html'
     context_object_name = 'db_regs'

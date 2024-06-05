@@ -27,7 +27,7 @@ courses_urls = (
 )
 
 urlpatterns = [
-    path('', views.TeamView.as_view(), name='home'),
+    path('', views.TeamListView.as_view(), name='home'),
     path('criar/', views.TeamCreateView.as_view(), name='create'),
     path('buscar/', views.TeamSearchView.as_view(), name='search'),
     path('editar/<slug:slug>/', views.TeamEditView.as_view(), name='edit'),
