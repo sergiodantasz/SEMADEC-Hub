@@ -5,7 +5,7 @@ from apps.editions import views
 
 def test_editions_viewname_redirects_to_editions_view():
     view = resolve(reverse('editions:editions'))
-    assert view.func.view_class is views.EditionView
+    assert view.func.view_class is views.EditionListView
 
 
 def test_editions_create_viewname_redirects_to_editions_create_view():

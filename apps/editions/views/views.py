@@ -29,7 +29,7 @@ from apps.teams.tests.factories import ClassFactory, CourseFactory, TeamFactory
 from helpers.decorators import admin_required
 
 
-class EditionView(ListView):
+class EditionListView(ListView):
     model = Edition
     template_name = 'editions/pages/editions.html'
     context_object_name = 'db_regs'

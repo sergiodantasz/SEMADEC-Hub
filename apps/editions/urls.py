@@ -5,7 +5,7 @@ from apps.editions import views
 app_name = 'editions'
 
 urlpatterns = [
-    path('', views.EditionView.as_view(), name='editions'),
+    path('', views.EditionListView.as_view(), name='editions'),
     path('criar/', views.EditionCreateView.as_view(), name='editions_create'),
     path('buscar/', views.EditionSearchView.as_view(), name='editions_search'),
     path(
