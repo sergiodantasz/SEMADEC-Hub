@@ -22,7 +22,7 @@ from apps.teams.models import Course
 from helpers.decorators import admin_required
 
 
-class CourseView(ListView):
+class CourseListView(ListView):
     model = Course
     template_name = 'teams/pages/courses.html'
     context_object_name = 'db_regs'

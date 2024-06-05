@@ -17,7 +17,7 @@ classes_urls = (
 
 courses_urls = (
     [
-        path('', views.CourseView.as_view(), name='home'),
+        path('', views.CourseListView.as_view(), name='home'),
         path('buscar/', views.CourseSearchView.as_view(), name='search'),
         path('criar/', views.CourseCreateView.as_view(), name='create'),
         path('editar/<slug:slug>/', views.CourseEditView.as_view(), name='edit'),
