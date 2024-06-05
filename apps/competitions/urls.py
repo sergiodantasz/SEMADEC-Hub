@@ -14,7 +14,7 @@ matches_urls = (
 
 sports_urls = (
     [
-        path('', views.SportView.as_view(), name='home'),
+        path('', views.SportListView.as_view(), name='home'),
         path(
             'visualizar/<slug:slug>/',
             views.SportDetailedView.as_view(),

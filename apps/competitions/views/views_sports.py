@@ -25,7 +25,7 @@ from apps.editions.models import Edition
 from helpers.decorators import admin_required
 
 
-class SportView(ListView):
+class SportListView(ListView):
     model = Sport
     template_name = 'competitions/pages/competitions.html'
     context_object_name = 'db_regs'
