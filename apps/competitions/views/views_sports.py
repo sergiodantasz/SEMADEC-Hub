@@ -118,7 +118,7 @@ class SportEditView(MessageMixin, UpdateView):
         return super().form_valid(form)
 
 
-class SportDetailedView(DetailView):
+class SportDetailView(DetailView):
     model = Sport
     template_name = 'competitions/pages/sport-detailed.html'
 

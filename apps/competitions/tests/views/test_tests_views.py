@@ -10,7 +10,7 @@ def test_tests_viewname_redirects_to_tests_view():
 
 def test_tests_detailed_viewname_redirects_to_tests_detailed_view():
     view = resolve(reverse('competitions:tests:detailed', kwargs={'slug': 'test'}))
-    assert view.func.view_class is views.TestDetailedView
+    assert view.func.view_class is views.TestDetailView
 
 
 def test_tests_create_viewname_redirects_to_tests_create_view():

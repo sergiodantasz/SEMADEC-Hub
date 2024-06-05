@@ -10,7 +10,7 @@ urlpatterns = [
     path('buscar/', views.EditionSearchView.as_view(), name='editions_search'),
     path(
         'visualizar/<int:pk>/',
-        views.EditionDetailedView.as_view(),
+        views.EditionDetailView.as_view(),
         name='editions_detailed',
     ),
     path('editar/<int:pk>/', views.EditionEditView.as_view(), name='editions_edit'),

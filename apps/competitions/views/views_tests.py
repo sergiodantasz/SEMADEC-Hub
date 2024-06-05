@@ -157,7 +157,7 @@ class TestEditView(MessageMixin, UpdateView):
         return redirect(self.redirect_url)
 
 
-class TestDetailedView(DetailView):
+class TestDetailView(DetailView):
     model = Test
     template_name = 'competitions/pages/test-detailed.html'
     context_object_name = 'test'

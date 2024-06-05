@@ -20,7 +20,7 @@ def test_editions_search_viewname_redirects_to_editions_search_view():
 
 def test_editions_detailed_viewname_redirects_to_editions_detailed_view():
     view = resolve(reverse('editions:editions_detailed', kwargs={'pk': 1}))
-    assert view.func.view_class is views.EditionDetailedView
+    assert view.func.view_class is views.EditionDetailView
 
 
 def test_editions_edit_viewname_redirects_to_editions_edit_view():

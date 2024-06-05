@@ -17,7 +17,7 @@ sports_urls = (
         path('', views.SportListView.as_view(), name='home'),
         path(
             'visualizar/<slug:slug>/',
-            views.SportDetailedView.as_view(),
+            views.SportDetailView.as_view(),
             name='detailed',
         ),
         path('criar', views.SportCreateView.as_view(), name='create'),
@@ -33,7 +33,7 @@ tests_urls = (
     [
         path('', views.TestListView.as_view(), name='home'),
         path(
-            'visualizar/<slug:slug>/', views.TestDetailedView.as_view(), name='detailed'
+            'visualizar/<slug:slug>/', views.TestDetailView.as_view(), name='detailed'
         ),
         path('criar', views.TestCreateView.as_view(), name='create'),
         path('buscar', views.TestSearchView.as_view(), name='search'),

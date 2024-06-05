@@ -47,7 +47,7 @@ class EditionListView(ListView):
         return context
 
 
-class EditionDetailedView(DetailView):
+class EditionDetailView(DetailView):
     model = Edition
     template_name = 'editions/pages/edition-detailed.html'
 
