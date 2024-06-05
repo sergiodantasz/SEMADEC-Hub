@@ -5,7 +5,7 @@ from apps.competitions import views
 
 def test_tests_viewname_redirects_to_tests_view():
     view = resolve(reverse('competitions:tests:home'))
-    assert view.func.view_class is views.TestView
+    assert view.func.view_class is views.TestListView
 
 
 def test_tests_detailed_viewname_redirects_to_tests_detailed_view():

@@ -27,7 +27,7 @@ from apps.teams.models import Team
 from helpers.decorators import admin_required
 
 
-class TestView(ListView):
+class TestListView(ListView):
     model = Test
     template_name = 'competitions/pages/tests.html'
     context_object_name = 'db_regs'

@@ -31,7 +31,7 @@ sports_urls = (
 
 tests_urls = (
     [
-        path('', views.TestView.as_view(), name='home'),
+        path('', views.TestListView.as_view(), name='home'),
         path(
             'visualizar/<slug:slug>/', views.TestDetailedView.as_view(), name='detailed'
         ),
