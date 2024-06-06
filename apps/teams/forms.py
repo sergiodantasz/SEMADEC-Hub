@@ -30,14 +30,21 @@ class ClassForm(forms.ModelForm):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         set_placeholder(self.fields['name'], 'Digite o nome da turma...')
+        set_placeholder(
+            self.fields['entry_year'], 'Digite o ano de ingresso da turma...'
+        )
 
     class Meta:
         model = Class
-        fields = ['name', 'course']
+        fields = ['name', 'entry_year', 'course']
 
     name = forms.CharField(
         max_length=30,
         label='Nome',
+    )
+    entry_year = forms.CharField(
+        label='Ano',
+        widget=forms.NumberInput(attrs={'min': 2000, 'max': 3000}),
     )
     course = forms.ModelChoiceField(
         queryset=Course.objects.all(),  # Review it later

@@ -2,6 +2,7 @@
 {% load static %}
 {% block table_header_rows %}
   <th class="base-table-header">Turma</th>
+  <th class="base-table-header">Ano</th>
   <th class="base-table-header">Curso</th>
   {% if user.is_admin %}
     <th class="base-table-header">Ações</th>
@@ -11,6 +12,7 @@
   {% for reg in db_regs %}
     <tr class="base-table-row">
       <td class="base-table-cell base-table-cell-left">{{ reg.name }}</td>
+      <td class="base-table-cell base-table-cell-left">{{ reg.entry_year }}.1</td>
       <td class="base-table-cell base-table-cell-left">{{ reg.course.name }}</td>
       {% if user.is_admin %}
         <td class="base-table-cell base-table-cell-right">

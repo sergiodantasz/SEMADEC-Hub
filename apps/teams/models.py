@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from helpers.model import get_object
@@ -30,6 +31,12 @@ class Class(models.Model):
     name = models.CharField(
         max_length=30,
         unique=True,
+    )
+    entry_year = models.PositiveSmallIntegerField(
+        validators=[
+            MinValueValidator(2000),
+            MaxValueValidator(3000),
+        ],
     )
     slug = models.SlugField(
         max_length=45,
