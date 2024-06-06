@@ -17,6 +17,18 @@ def test_edition_model_year_is_positive(db, edition_fixture):
     assert reg.year > 0
 
 
+def test_edition_model_year_minimum_value_is_2000(db, edition_fixture):
+    reg = edition_fixture(year=1999)
+    with assert_raises(ValidationError):
+        reg.full_clean()
+
+
+def test_edition_model_year_maximum_value_is_3000(db, edition_fixture):
+    reg = edition_fixture(year=3001)
+    with assert_raises(ValidationError):
+        reg.full_clean()
+
+
 def test_edition_model_name_has_max_length_20(db, edition_fixture):
     reg = edition_fixture(name='a' * 21)
     with assert_raises(ValidationError):

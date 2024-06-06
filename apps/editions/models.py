@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from helpers.model import get_object
@@ -11,6 +12,10 @@ class Edition(models.Model):
     )
     year = models.PositiveSmallIntegerField(
         primary_key=True,
+        validators=[
+            MinValueValidator(2000),
+            MaxValueValidator(3000),
+        ],
     )
     name = models.CharField(
         unique=True,
