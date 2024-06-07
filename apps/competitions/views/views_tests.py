@@ -10,12 +10,13 @@ from django.http import (
     HttpResponsePermanentRedirect,
     HttpResponseRedirect,
 )
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
+from home.views import BaseListView
 
 from apps.competitions.forms import (
     TestForm,
@@ -27,21 +28,19 @@ from apps.teams.models import Team
 from helpers.decorators import admin_required
 
 
-class TestListView(ListView):
+class TestListView(BaseListView):
     model = Test
     template_name = 'competitions/pages/tests.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Test.objects.order_by('-date_time')
+        return super().get_queryset('-date_time')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context |= {
             'title': 'Competições',
             'page_variant': 'tests',
-            'search_url': reverse('competitions:tests:search'),
         }
         return context
 

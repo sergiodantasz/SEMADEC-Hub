@@ -8,13 +8,13 @@ from django.http import (
     HttpResponsePermanentRedirect,
     HttpResponseRedirect,
 )
-from django.shortcuts import redirect, render
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
-from home.views import MessageMixin
+from home.views import BaseListView, MessageMixin
 
 from apps.competitions.forms import (
     SportForm,
@@ -25,11 +25,13 @@ from apps.editions.models import Edition
 from helpers.decorators import admin_required
 
 
-class SportListView(ListView):
+class SportListView(BaseListView):
     model = Sport
     template_name = 'competitions/pages/competitions.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return super().get_queryset('name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         # Remove later
@@ -41,7 +43,6 @@ class SportListView(ListView):
         context |= {
             'title': 'Competições',
             'page_variant': 'sports',
-            'search_url': reverse('competitions:sports:search'),
         }
         return context
 

@@ -5,31 +5,29 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Model, Q
 from django.db.models.query import QuerySet
 from django.shortcuts import redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
-from home.views import MessageMixin
+from home.views import BaseListView, MessageMixin
 
 from apps.teams.forms import ClassForm
 from apps.teams.models import Class, Course
 from helpers.decorators import admin_required
 
 
-class ClassListView(ListView):
+class ClassListView(BaseListView):
     model = Class
     template_name = 'teams/pages/classes.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Class.objects.order_by('name')
+        return super().get_queryset('name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context |= {
             'title': 'Turmas',
-            'search_url': reverse('teams:classes:search'),
         }
         return context
 

@@ -5,31 +5,29 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Model, Q
 from django.db.models.query import QuerySet
 from django.shortcuts import redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
-from home.views import MessageMixin
+from home.views import BaseListView, MessageMixin
 
 from apps.teams.forms import TeamForm
 from apps.teams.models import Class, Team
 from helpers.decorators import admin_required
 
 
-class TeamListView(ListView):
+class TeamListView(BaseListView):
     model = Team
     template_name = 'teams/pages/teams.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Team.objects.order_by('name')
+        return super().get_queryset('name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context |= {
             'title': 'Times',
-            'search_url': reverse('teams:search'),
         }
         return context
 

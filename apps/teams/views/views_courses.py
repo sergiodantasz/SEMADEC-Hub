@@ -15,6 +15,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
+from home.views import BaseListView
 
 from apps.home.views.views import MessageMixin
 from apps.teams.forms import CourseForm
@@ -22,18 +23,19 @@ from apps.teams.models import Course
 from helpers.decorators import admin_required
 
 
-class CourseListView(ListView):
+class CourseListView(BaseListView):
     model = Course
     template_name = 'teams/pages/courses.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Course.objects.order_by('name')
+        return super().get_queryset('name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context |= {'title': 'Cursos', 'search_url': reverse('teams:courses:search')}
+        context |= {
+            'title': 'Cursos',
+        }
         return context
 
 
