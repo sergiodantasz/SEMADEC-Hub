@@ -54,7 +54,7 @@ class EditionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         self.object = self.get_object()
-        context |= {'reg': self.object, 'matches': self.objects.matches.all()}
+        context |= {'reg': self.object, 'matches': self.object.matches.all()}
         return context
 
 
