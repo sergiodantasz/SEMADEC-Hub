@@ -20,6 +20,7 @@ from apps.competitions.forms import (
 )
 from apps.competitions.models import Match, MatchTeam
 from apps.editions.models import Edition
+from apps.home.views.views import MessageMixin
 from apps.teams.models import Team
 from helpers.decorators import admin_required
 
@@ -30,7 +31,6 @@ class MatchCreateView(FormView):
     template_name = 'competitions/pages/match-create.html'
     form_class = MatchForm
     # success_url = reverse_lazy('editions:editions_detailed')
-    success_url = reverse_lazy('editions:editions')
     success_message = 'Partida adicionada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
     error_message_teams = 'Adicione ao menos um time antes de criar uma prova.'
@@ -40,6 +40,11 @@ class MatchCreateView(FormView):
 
     def is_model_populated(self, model: Model):
         return model.objects.exists()
+
+    def get_success_url(self) -> str:
+        return reverse_lazy(
+            'editions:editions_detailed', kwargs={'pk': self.get_object_pk()}
+        )
 
     def get(
         self, request, *args, **kwargs
@@ -77,7 +82,6 @@ class MatchEditView(UpdateView):
     )
     template_name = 'competitions/pages/match-edit.html'
     # success_url = reverse_lazy('editions:editions_detailed')
-    redirect_url = reverse_lazy('editions:editions')
     success_message = 'Partida editada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
@@ -86,6 +90,11 @@ class MatchEditView(UpdateView):
 
     def is_model_populated(self, model: Model):
         return model.objects.exists()
+
+    def get_success_url(self) -> str:
+        return reverse_lazy(
+            'editions:editions_detailed', kwargs={'pk': self.get_object().edition.pk}
+        )
 
     def get(
         self, request, *args, **kwargs
@@ -120,4 +129,22 @@ class MatchEditView(UpdateView):
             messages.success(request, self.success_message)
         else:
             messages.error(request, self.error_message)
-        return redirect(self.redirect_url)
+        return redirect(self.get_success_url())
+
+
+@method_decorator(login_required, name='dispatch')
+@method_decorator(admin_required, name='dispatch')
+class MatchDeleteView(MessageMixin, DeleteView):
+    model = Match
+    success_message = 'Partida removida com sucesso!'
+    # error_message = 'Não foi possível remover esta partida'
+
+    def get_success_url(self) -> str:
+        return reverse_lazy(
+            'editions:editions_detailed', kwargs={'pk': self.get_object().edition.pk}
+        )
+
+    def get(self, request, *args, **kwargs):
+        success_url = self.get_success_url()
+        self.delete(request, *args, **kwargs)
+        return redirect(success_url)
