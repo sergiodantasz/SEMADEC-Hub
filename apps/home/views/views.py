@@ -2,6 +2,7 @@ from typing import Any
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -62,6 +63,23 @@ class BaseListView(ListView):
         context = super().get_context_data(**kwargs)
         context |= {'search_url': reverse(f'{self.get_app_name()}:search')}
         return context
+
+
+class BaseSearchView(MessageMixin, ListView):
+    context_object_name = 'db_regs'
+    warning_message = 'Digite um termo de busca válido.'
+
+    def get_search_term(self) -> str:
+        self.querystr = self.request.GET.get('q', '').strip()
+        return self.querystr
+
+    def get_queryset(self, query: Q, ordering: str) -> QuerySet[Any]:
+        self.querystr = self.get_search_term()
+        if not self.querystr:
+            messages.warning(self.request, self.warning_message)
+
+        queryset = self.model.objects.filter(query).order_by(ordering)
+        return queryset
 
 
 def home(request):

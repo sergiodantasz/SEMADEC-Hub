@@ -2,6 +2,7 @@ from typing import Any
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.http import (
     HttpResponse,
@@ -14,7 +15,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
-from home.views import BaseListView, MessageMixin
+from home.views import BaseListView, BaseSearchView, MessageMixin
 
 from apps.competitions.forms import (
     SportForm,
@@ -47,22 +48,15 @@ class SportListView(BaseListView):
         return context
 
 
-class SportSearchView(ListView):
+class SportSearchView(BaseSearchView):
     model = Sport
     template_name = 'competitions/pages/competitions.html'
-    context_object_name = 'db_regs'
     # paginate_by = 10
-    warning_message = 'Digite um termo de busca válido.'
-
-    def get_search_term(self) -> str:
-        return self.request.GET.get('q', '').strip()
 
     def get_queryset(self) -> QuerySet[Any]:
-        querystr = self.get_search_term()
-        if not querystr:
-            messages.warning(self.request, self.warning_message)
-        queryset = Sport.objects.filter(name__icontains=querystr).order_by('name')
-        return queryset
+        self.querystr = self.get_search_term()
+        query = Q(name__icontains=self.querystr)
+        return super().get_queryset(query, 'name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)

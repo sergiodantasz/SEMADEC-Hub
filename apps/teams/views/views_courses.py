@@ -15,7 +15,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
-from home.views import BaseListView
+from home.views import BaseListView, BaseSearchView
 
 from apps.home.views.views import MessageMixin
 from apps.teams.forms import CourseForm
@@ -39,24 +39,15 @@ class CourseListView(BaseListView):
         return context
 
 
-class CourseSearchView(ListView):
+class CourseSearchView(BaseSearchView):
     model = Course
     template_name = 'teams/pages/courses.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
-    warning_message = 'Digite um termo de busca válido.'
-
-    def get_search_term(self) -> str:
-        return self.request.GET.get('q', '').strip()
 
     def get_queryset(self) -> QuerySet[Any]:
-        querystr = self.get_search_term()
-        if not querystr:
-            messages.warning(self.request, self.warning_message)
-        queryset = Course.objects.filter(
-            name__icontains=querystr,
-        ).order_by('name')
-        return queryset
+        self.querystr = self.get_search_term()
+        query = Q(name__icontains=self.querystr)
+        return super().get_queryset(query, 'name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)

@@ -18,7 +18,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
-from home.views import BaseListView, MessageMixin
+from home.views import BaseListView, BaseSearchView, MessageMixin
 
 from apps.competitions.models import Sport
 from apps.competitions.tests.factories import SportFactory
@@ -39,9 +39,7 @@ class EditionListView(BaseListView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context |= {
-            'title': 'Edições',
-        }
+        context |= {'title': 'Edições'}
         return context
 
 
@@ -56,29 +54,20 @@ class EditionDetailView(DetailView):
         return context
 
 
-class EditionSearchView(ListView):
+class EditionSearchView(BaseSearchView):
     model = Edition
     template_name = 'editions/pages/editions.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
-    warning_message = 'Digite um termo de busca válido.'
-
-    def get_search_term(self) -> str:
-        return self.request.GET.get('q', '').strip()
 
     def get_queryset(self) -> QuerySet[Any]:
-        querystr = self.get_search_term()
-        if not querystr:
-            messages.warning(self.request, self.warning_message)
-        queryset = Edition.objects.filter(
-            Q(
-                Q(year__icontains=querystr)
-                | Q(name__icontains=querystr)
-                | Q(edition_type__icontains=querystr)
-                | Q(theme__icontains=querystr)
-            )
+        self.querystr = self.get_search_term()
+        query = Q(
+            Q(year__icontains=self.querystr)
+            | Q(name__icontains=self.querystr)
+            | Q(edition_type__icontains=self.querystr)
+            | Q(theme__icontains=self.querystr)
         )
-        return queryset
+        return super().get_queryset(query, '-year')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)

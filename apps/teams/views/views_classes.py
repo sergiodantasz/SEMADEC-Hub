@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
-from home.views import BaseListView, MessageMixin
+from home.views import BaseListView, BaseSearchView, MessageMixin
 
 from apps.teams.forms import ClassForm
 from apps.teams.models import Class, Course
@@ -32,26 +32,16 @@ class ClassListView(BaseListView):
         return context
 
 
-class ClassSearchView(MessageMixin, ListView):
+class ClassSearchView(BaseSearchView):
     model = Class
     template_name = 'teams/pages/classes.html'
-    context_object_name = 'db_regs'
-    warning_message = 'Digite um termo de busca válido.'
-
-    def get_search_term(self) -> str:
-        return self.request.GET.get('q', '').strip()
 
     def get_queryset(self) -> QuerySet[Any]:
-        querystr = self.get_search_term()
-        # Test with MessageMixin
-        if not querystr:  # Remove later
-            messages.warning(self.request, self.warning_message)
-        queryset = Class.objects.filter(
-            Q(
-                Q(name__icontains=querystr) | Q(course__name__icontains=querystr),
-            )
-        ).order_by('name')
-        return queryset
+        self.querystr = self.get_search_term()
+        query = Q(
+            Q(name__icontains=self.querystr) | Q(course__name__icontains=self.querystr),
+        )
+        return super().get_queryset(query, 'name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)

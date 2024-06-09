@@ -23,7 +23,7 @@ from apps.competitions.forms import (
     TestTeamForm,
 )
 from apps.competitions.models import Test, TestTeam
-from apps.home.views.views import MessageMixin
+from apps.home.views.views import BaseSearchView, MessageMixin
 from apps.teams.models import Team
 from helpers.decorators import admin_required
 
@@ -45,27 +45,19 @@ class TestListView(BaseListView):
         return context
 
 
-class TestSearchView(ListView):
+class TestSearchView(BaseSearchView):
     model = Test
     template_name = 'competitions/pages/competitions.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
-    warning_message = 'Digite um termo de busca válido.'
-
-    def get_search_term(self) -> str:
-        return self.request.GET.get('q', '').strip()
 
     def get_queryset(self) -> QuerySet[Any]:
-        querystr = self.get_search_term()
-        if not querystr:
-            messages.warning(self.request, self.warning_message)
-        queryset = Test.objects.filter(
-            Q(Q(title__icontains=querystr) | Q(description__icontains=querystr))
-        ).order_by('title')
-        return queryset
+        self.querystr = self.get_search_term()
+        query = Q(
+            Q(title__icontains=self.querystr) | Q(description__icontains=self.querystr)
+        )
+        return super().get_queryset(query, 'title')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        # Implement a better dict join solution
         context = super().get_context_data(**kwargs)
         context |= {'title': 'Competições', 'page_variant': 'tests'}
         return context
