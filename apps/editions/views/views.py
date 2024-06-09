@@ -18,7 +18,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
-from home.views import MessageMixin
+from home.views import BaseListView, MessageMixin
 
 from apps.competitions.models import Sport
 from apps.competitions.tests.factories import SportFactory
@@ -29,20 +29,18 @@ from apps.teams.tests.factories import ClassFactory, CourseFactory, TeamFactory
 from helpers.decorators import admin_required
 
 
-class EditionListView(ListView):
+class EditionListView(BaseListView):
     model = Edition
     template_name = 'editions/pages/editions.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Edition.objects.order_by('-year')
+        return super().get_queryset('-year')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context |= {
             'title': 'Edições',
-            'search_url': reverse('editions:search'),
         }
         return context
 
