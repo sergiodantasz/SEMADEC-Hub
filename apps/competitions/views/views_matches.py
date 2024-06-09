@@ -30,7 +30,7 @@ from helpers.decorators import admin_required
 class MatchCreateView(FormView):
     template_name = 'competitions/pages/match-create.html'
     form_class = MatchForm
-    # success_url = reverse_lazy('editions:editions_detailed')
+    # success_url = reverse_lazy('editions:detailed')
     success_message = 'Partida adicionada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
     error_message_teams = 'Adicione ao menos um time antes de criar uma prova.'
@@ -42,16 +42,14 @@ class MatchCreateView(FormView):
         return model.objects.exists()
 
     def get_success_url(self) -> str:
-        return reverse_lazy(
-            'editions:editions_detailed', kwargs={'pk': self.get_object_pk()}
-        )
+        return reverse_lazy('editions:detailed', kwargs={'pk': self.get_object_pk()})
 
     def get(
         self, request, *args, **kwargs
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         if not self.is_model_populated(Team):
             messages.error(request, self.error_message_teams)
-            return redirect(reverse('editions:editions'))
+            return redirect(reverse('editions:home'))
         context = {'title': 'Criar partida', 'form': self.get_form()}
         return render(request, self.template_name, context)
 
@@ -81,7 +79,7 @@ class MatchEditView(UpdateView):
         fields=['score'],
     )
     template_name = 'competitions/pages/match-edit.html'
-    # success_url = reverse_lazy('editions:editions_detailed')
+    # success_url = reverse_lazy('editions:detailed')
     success_message = 'Partida editada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
@@ -93,7 +91,7 @@ class MatchEditView(UpdateView):
 
     def get_success_url(self) -> str:
         return reverse_lazy(
-            'editions:editions_detailed', kwargs={'pk': self.get_object().edition.pk}
+            'editions:detailed', kwargs={'pk': self.get_object().edition.pk}
         )
 
     def get(
@@ -141,7 +139,7 @@ class MatchDeleteView(MessageMixin, DeleteView):
 
     def get_success_url(self) -> str:
         return reverse_lazy(
-            'editions:editions_detailed', kwargs={'pk': self.get_object().edition.pk}
+            'editions:detailed', kwargs={'pk': self.get_object().edition.pk}
         )
 
     def get(self, request, *args, **kwargs):

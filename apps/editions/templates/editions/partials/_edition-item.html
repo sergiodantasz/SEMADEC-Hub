@@ -3,7 +3,7 @@
   <link rel="stylesheet" href="{% static "editions/css/edition-item.css" %}">
 {% endblock additional_head %}
 <section class="edition-item-wrapper">
-  <a class="edition-item-link" href="{% url 'editions:editions_detailed' reg.year %}">
+  <a class="edition-item-link" href="{% url 'editions:detailed' reg.year %}">
     <h2 class="edition-item-name">{{ reg.name }}</h2>
   </a>
   <h5 class="edition-item-year">{{ reg.year }}</h5>

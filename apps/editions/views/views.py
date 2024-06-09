@@ -42,7 +42,7 @@ class EditionListView(ListView):
         context = super().get_context_data(**kwargs)
         context |= {
             'title': 'Edições',
-            'search_url': reverse('editions:editions_search'),
+            'search_url': reverse('editions:search'),
         }
         return context
 
@@ -95,7 +95,7 @@ class EditionCreateView(MessageMixin, FormView):
     form_class = EditionForm
     error_message_sport = 'Adicione ao menos um esporte antes de criar uma edição.'
     error_message_team = 'Adicione ao menos um time antes de criar uma edição.'
-    success_url = reverse_lazy('editions:editions')
+    success_url = reverse_lazy('editions:home')
     success_message = 'Edição adicionada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
@@ -144,7 +144,7 @@ class EditionEditView(MessageMixin, UpdateView):
         fields=['score'],
     )
     template_name = 'editions/pages/edition-edit.html'
-    redirect_url = reverse_lazy('editions:editions')  # Change to success_url
+    redirect_url = reverse_lazy('editions:home')  # Change to success_url
     success_message = 'Edição editada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
@@ -192,7 +192,7 @@ class EditionEditView(MessageMixin, UpdateView):
 @method_decorator(admin_required, name='dispatch')
 class EditionDeleteView(MessageMixin, DeleteView):
     model = Edition
-    success_url = reverse_lazy('editions:editions')
+    success_url = reverse_lazy('editions:home')
     success_message = 'Edição removida com sucesso!'
     # error_message = 'Não foi possível remover esta edição.'
 
