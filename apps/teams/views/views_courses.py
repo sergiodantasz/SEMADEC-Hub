@@ -72,25 +72,6 @@ class CourseCreateView(BaseCreateView):
         return context
 
 
-@login_required
-@admin_required
-def courses_edit(request, slug):
-    obj = get_object_or_404(Course, slug=slug)
-    form = CourseForm(request.POST or None, request.FILES or None, instance=obj)
-    if request.POST:
-        if form.is_valid():
-            form.save(commit=True)
-            messages.success(request, 'Curso editado com sucesso.')
-            return redirect(reverse('teams:courses:home'))
-        messages.error(request, 'Preencha os campos do formulário corretamente.')
-    context = {
-        'title': 'Editar curso',
-        'form': form,
-        'form_action': reverse('teams:courses:edit', kwargs={'slug': obj.slug}),
-    }
-    return render(request, 'teams/pages/course-create.html', context)
-
-
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
 class CourseEditView(MessageMixin, UpdateView):
