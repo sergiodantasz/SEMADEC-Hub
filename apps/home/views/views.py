@@ -6,7 +6,7 @@ from django.db.models import Model, Q
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.views.generic import FormView, ListView
 
 from apps.home.forms import TagForm
 from apps.home.models import Tag
@@ -17,7 +17,7 @@ class MessageMixin:
     success_message = ''
     error_message = ''
     warning_message = ''
-    messages = {
+    msg = {
         'success': dict(),
         'error': dict(),
     }
@@ -45,7 +45,7 @@ class MessageMixin:
         response = super().form_valid(form)
         if self.success_message:
             messages.success(self.request, self.success_message)
-        elif msg := self.messages['success']['form']:
+        elif msg := self.msg['success'].get('form', ''):
             messages.success(self.request, msg)
         return response
 
@@ -53,7 +53,7 @@ class MessageMixin:
         response = super().form_invalid(form)
         if self.error_message:
             messages.error(self.request, self.error_message)
-        elif msg := self.messages['error']['form']:
+        elif msg := self.msg['error'].get('form', ''):
             messages.error(self.request, msg)
         return response
 
@@ -90,10 +90,10 @@ class BaseSearchView(MessageMixin, ListView):
         return queryset
 
 
-class BaseCreateView(MessageMixin, CreateView):
-    messages = {
+class BaseCreateView(MessageMixin, FormView):
+    msg = {
         'success': dict(),
-        'error': dict(),
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
     }
 
     def is_model_populated(self, model: Model):

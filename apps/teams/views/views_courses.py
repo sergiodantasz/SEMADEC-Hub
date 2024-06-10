@@ -61,7 +61,7 @@ class CourseCreateView(BaseCreateView):
     template_name = 'teams/pages/course-create.html'
     form_class = CourseForm
     success_url = reverse_lazy('teams:courses:home')
-    messages = {
+    msg = {
         'success': {'form': 'Curso adicionado com sucesso.'},
         'error': {'form': 'Preencha os campos do formulário corretamente.'},
     }
@@ -70,6 +70,10 @@ class CourseCreateView(BaseCreateView):
         context = super().get_context_data(**kwargs)
         context |= {'title': 'Criar curso'}
         return context
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
