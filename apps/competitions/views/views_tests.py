@@ -23,7 +23,12 @@ from apps.competitions.forms import (
     TestTeamForm,
 )
 from apps.competitions.models import Test, TestTeam
-from apps.home.views.views import BaseCreateView, BaseSearchView, MessageMixin
+from apps.home.views.views import (
+    BaseCreateView,
+    BaseEditView,
+    BaseSearchView,
+    MessageMixin,
+)
 from apps.teams.models import Team
 from helpers.decorators import admin_required
 
@@ -93,7 +98,7 @@ class TestCreateView(BaseCreateView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class TestEditView(MessageMixin, UpdateView):
+class TestEditView(BaseEditView):
     model = Test
     form_class = TestForm
     form_teams = modelformset_factory(
@@ -103,9 +108,10 @@ class TestEditView(MessageMixin, UpdateView):
         fields=['score'],
     )
     template_name = 'competitions/pages/test-edit.html'
-    redirect_url = 'competitions:tests:home'
-    success_message = 'Prova editada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    msg = {
+        'success': {'form': 'Prova editada com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -135,10 +141,10 @@ class TestEditView(MessageMixin, UpdateView):
         if form.is_valid() and form_teams.is_valid():
             form.save()
             form_teams.save()
-            messages.success(request, self.success_message)
+            messages.success(request, self.msg['success']['form'])
         else:
-            messages.error(request, self.error_message)
-        return redirect(self.redirect_url)
+            messages.error(request, self.msg['success']['form'])
+        return redirect(self.get_success_url())
 
 
 class TestDetailView(DetailView):
