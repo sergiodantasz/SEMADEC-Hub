@@ -71,10 +71,6 @@ class CourseCreateView(BaseCreateView):
         context |= {'title': 'Criar curso'}
         return context
 
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')

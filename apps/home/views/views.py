@@ -105,6 +105,10 @@ class BaseCreateView(MessageMixin, FormView):
     def get_success_url(self) -> str:
         return reverse_lazy(f'{self.get_app_name()}:home')
 
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
 
 def home(request):
     context = {'title': 'Início'}

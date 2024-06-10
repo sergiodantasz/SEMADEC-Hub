@@ -90,10 +90,6 @@ class TestCreateView(BaseCreateView):
         context = self.get_context_data()
         return self.render_to_response(context)
 
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
