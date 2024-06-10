@@ -23,7 +23,7 @@ from apps.competitions.forms import (
 from apps.competitions.models import Sport
 from apps.competitions.tests.factories import CategoryFactory
 from apps.editions.models import Edition
-from apps.home.views.views import BaseCreateView
+from apps.home.views.views import BaseCreateView, BaseEditView
 from helpers.decorators import admin_required
 
 
@@ -84,13 +84,14 @@ class SportCreateView(BaseCreateView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class SportEditView(MessageMixin, UpdateView):
+class SportEditView(BaseEditView):
     model = Sport
     form_class = SportForm
     template_name = 'competitions/pages/sport-create.html'
-    success_url = reverse_lazy('competitions:sports:home')
-    success_message = 'Esporte editado com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    msg = {
+        'success': {'form': 'Esporte editado com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -101,12 +102,6 @@ class SportEditView(MessageMixin, UpdateView):
         form = super().get_form(form_class)
         form.fields['name'].disabled = True
         return form
-
-    def form_valid(self, form):
-        form_reg = form.save(commit=True)
-        form_reg.administrator = self.request.user
-        form_reg.save()
-        return super().form_valid(form)
 
 
 class SportDetailView(DetailView):
