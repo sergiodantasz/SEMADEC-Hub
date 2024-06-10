@@ -15,7 +15,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
-from home.views import BaseListView, BaseSearchView
+from home.views import BaseCreateView, BaseListView, BaseSearchView
 
 from apps.home.views.views import MessageMixin
 from apps.teams.forms import CourseForm
@@ -57,21 +57,19 @@ class CourseSearchView(BaseSearchView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class CourseCreateView(MessageMixin, FormView):
+class CourseCreateView(BaseCreateView):
     template_name = 'teams/pages/course-create.html'
     form_class = CourseForm
     success_url = reverse_lazy('teams:courses:home')
-    success_message = 'Curso adicionado com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    messages = {
+        'success': {'form': 'Curso adicionado com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context |= {'title': 'Criar curso'}
         return context
-
-    def form_valid(self, form):
-        form_reg = form.save()
-        return super().form_valid(form)
 
 
 @login_required
