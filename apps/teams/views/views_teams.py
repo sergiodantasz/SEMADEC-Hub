@@ -11,7 +11,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
 from home.views import BaseListView, BaseSearchView, MessageMixin
 
-from apps.home.views.views import BaseCreateView
+from apps.home.views.views import BaseCreateView, BaseEditView
 from apps.teams.forms import TeamForm
 from apps.teams.models import Class, Team
 from helpers.decorators import admin_required
@@ -27,9 +27,7 @@ class TeamListView(BaseListView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context |= {
-            'title': 'Times',
-        }
+        context |= {'title': 'Times'}
         return context
 
 
@@ -75,22 +73,19 @@ class TeamCreateView(BaseCreateView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class TeamEditView(MessageMixin, UpdateView):
+class TeamEditView(BaseEditView):
     model = Team
     form_class = TeamForm
     template_name = 'teams/pages/team-create.html'
-    success_url = reverse_lazy('teams:home')
-    success_message = 'Time editado com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    msg = {
+        'success': {'form': 'Time editado com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context |= {'title': 'Editar time'}
         return context
-
-    def form_valid(self, form):
-        form_reg = form.save()
-        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
