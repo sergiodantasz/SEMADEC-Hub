@@ -11,7 +11,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
 from home.views import BaseListView, BaseSearchView, MessageMixin
 
-from apps.home.views.views import BaseCreateView
+from apps.home.views.views import BaseCreateView, BaseEditView
 from apps.teams.forms import ClassForm
 from apps.teams.models import Class, Course
 from helpers.decorators import admin_required
@@ -78,22 +78,19 @@ class ClassCreateView(BaseCreateView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class ClassEditView(MessageMixin, UpdateView):
+class ClassEditView(BaseEditView):
     model = Class
     form_class = ClassForm
     template_name = 'teams/pages/class-create.html'
-    success_url = reverse_lazy('teams:classes:home')
-    success_message = 'Turma editada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    msg = {
+        'success': {'form': 'Turma editada com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context |= {'title': 'Editar turma'}
         return context
-
-    def form_valid(self, form):
-        form_reg = form.save()
-        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
