@@ -17,7 +17,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
 from home.views import BaseCreateView, BaseListView, BaseSearchView
 
-from apps.home.views.views import MessageMixin
+from apps.home.views.views import BaseEditView, MessageMixin
 from apps.teams.forms import CourseForm
 from apps.teams.models import Course
 from helpers.decorators import admin_required
@@ -58,9 +58,8 @@ class CourseSearchView(BaseSearchView):
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
 class CourseCreateView(BaseCreateView):
-    template_name = 'teams/pages/course-create.html'
     form_class = CourseForm
-    success_url = reverse_lazy('teams:courses:home')
+    template_name = 'teams/pages/course-create.html'
     msg = {
         'success': {'form': 'Curso adicionado com sucesso.'},
         'error': {'form': 'Preencha os campos do formulário corretamente.'},
@@ -74,22 +73,19 @@ class CourseCreateView(BaseCreateView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class CourseEditView(MessageMixin, UpdateView):
+class CourseEditView(BaseEditView):
     model = Course
     form_class = CourseForm
     template_name = 'teams/pages/course-create.html'
-    success_url = reverse_lazy('teams:courses:home')
-    success_message = 'Curso editado com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    msg = {
+        'success': {'form': 'Curso editado com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context |= {'title': 'Editar curso'}
         return context
-
-    def form_valid(self, form):
-        form_reg = form.save()
-        return super().form_valid(form)
 
 
 class CourseDeleteView(MessageMixin, DeleteView):
