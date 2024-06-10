@@ -67,7 +67,7 @@ class TeamCreateView(BaseCreateView):
 
     def get(self, request, *args, **kwargs):
         if not self.is_model_populated(Class):
-            messages.error(self.request, self.messages['error']['class'])
+            messages.error(self.request, self.msg['error']['class'])
             return redirect(self.get_success_url())
         context = self.get_context_data()
         return self.render_to_response(context)
