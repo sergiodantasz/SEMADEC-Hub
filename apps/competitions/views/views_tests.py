@@ -23,7 +23,7 @@ from apps.competitions.forms import (
     TestTeamForm,
 )
 from apps.competitions.models import Test, TestTeam
-from apps.home.views.views import BaseSearchView, MessageMixin
+from apps.home.views.views import BaseCreateView, BaseSearchView, MessageMixin
 from apps.teams.models import Team
 from helpers.decorators import admin_required
 
@@ -65,16 +65,16 @@ class TestSearchView(BaseSearchView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class TestCreateView(MessageMixin, FormView):
-    template_name = 'competitions/pages/test-create.html'
+class TestCreateView(BaseCreateView):
     form_class = TestForm
-    success_url = reverse_lazy('competitions:tests:home')
-    success_message = 'Prova adicionada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
-    error_message_teams = 'Adicione ao menos um time antes de criar uma prova.'
-
-    def is_model_populated(self, model: Model):
-        return model.objects.exists()
+    template_name = 'competitions/pages/test-create.html'
+    msg = {
+        'success': {'form': 'Prova adicionada com sucesso.'},
+        'error': {
+            'form': 'Preencha os campos do formulário corretamente.',
+            'team': 'Adicione ao menos um time antes de criar uma prova.',
+        },
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -85,8 +85,8 @@ class TestCreateView(MessageMixin, FormView):
         self, request, *args, **kwargs
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         if not self.is_model_populated(Team):
-            messages.error(request, self.error_message_teams)
-            return redirect(reverse('competitions:tests:home'))
+            messages.error(request, self.msg['error']['team'])
+            return redirect(self.get_success_url())
         context = self.get_context_data()
         return self.render_to_response(context)
 
