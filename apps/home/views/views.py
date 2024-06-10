@@ -6,7 +6,7 @@ from django.db.models import Model, Q
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import FormView, ListView
+from django.views.generic import FormView, ListView, UpdateView
 
 from apps.home.forms import TagForm
 from apps.home.models import Tag
@@ -90,14 +90,11 @@ class BaseSearchView(MessageMixin, ListView):
         return queryset
 
 
-class BaseCreateView(MessageMixin, FormView):
+class BaseFormView(MessageMixin, FormView):
     msg = {
         'success': dict(),
         'error': {'form': 'Preencha os campos do formulário corretamente.'},
     }
-
-    def is_model_populated(self, model: Model):
-        return model.objects.exists()
 
     def get_app_name(self) -> str:
         return self.request.resolver_match.app_name
@@ -108,6 +105,15 @@ class BaseCreateView(MessageMixin, FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+class BaseCreateView(BaseFormView):
+    def is_model_populated(self, model: Model):
+        return model.objects.exists()
+
+
+class BaseEditView(BaseFormView, UpdateView):
+    pass
 
 
 def home(request):
