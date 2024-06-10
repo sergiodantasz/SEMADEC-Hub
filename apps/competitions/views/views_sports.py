@@ -23,6 +23,7 @@ from apps.competitions.forms import (
 from apps.competitions.models import Sport
 from apps.competitions.tests.factories import CategoryFactory
 from apps.editions.models import Edition
+from apps.home.views.views import BaseCreateView
 from helpers.decorators import admin_required
 
 
@@ -66,13 +67,14 @@ class SportSearchView(BaseSearchView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class SportCreateView(MessageMixin, FormView):
-    template_name = 'competitions/pages/sport-create.html'
+class SportCreateView(BaseCreateView):
     form_class = SportForm
+    template_name = 'competitions/pages/sport-create.html'
     # Add error for non existing categories
-    success_url = reverse_lazy('competitions:sports:home')
-    success_message = 'Esporte adicionado com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    msg = {
+        'success': {'form': 'Esporte adicionado com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
