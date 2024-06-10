@@ -82,9 +82,7 @@ class SportCreateView(BaseCreateView):
         return context
 
     def form_valid(self, form):
-        form_reg = form.save(commit=True)
-        form_reg.administrator = self.request.user
-        form_reg.save()
+        form.save()
         return super().form_valid(form)
 
 
