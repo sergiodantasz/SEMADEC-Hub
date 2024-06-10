@@ -2,11 +2,11 @@ from typing import Any
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Model, Q
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
-from django.views.generic import ListView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, ListView
 
 from apps.home.forms import TagForm
 from apps.home.models import Tag
@@ -17,6 +17,10 @@ class MessageMixin:
     success_message = ''
     error_message = ''
     warning_message = ''
+    messages = {
+        'success': dict(),
+        'error': dict(),
+    }
 
     def is_model_populated(self, model):
         if self.success_message:
@@ -41,12 +45,16 @@ class MessageMixin:
         response = super().form_valid(form)
         if self.success_message:
             messages.success(self.request, self.success_message)
+        elif msg := self.messages['success']['form']:
+            messages.success(self.request, msg)
         return response
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
         if self.error_message:
             messages.error(self.request, self.error_message)
+        elif msg := self.messages['error']['form']:
+            messages.error(self.request, msg)
         return response
 
 
@@ -56,7 +64,7 @@ class BaseListView(ListView):
     def get_queryset(self, ordering: str) -> QuerySet[Any]:
         return self.model.objects.order_by(ordering)
 
-    def get_app_name(self):
+    def get_app_name(self) -> str:
         return self.request.resolver_match.app_name
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
@@ -80,6 +88,22 @@ class BaseSearchView(MessageMixin, ListView):
 
         queryset = self.model.objects.filter(query).order_by(ordering)
         return queryset
+
+
+class BaseCreateView(MessageMixin, CreateView):
+    messages = {
+        'success': dict(),
+        'error': dict(),
+    }
+
+    def is_model_populated(self, model: Model):
+        return model.objects.exists()
+
+    def get_app_name(self) -> str:
+        return self.request.resolver_match.app_name
+
+    def get_success_url(self) -> str:
+        return reverse_lazy(f'{self.get_app_name()}:home')
 
 
 def home(request):
