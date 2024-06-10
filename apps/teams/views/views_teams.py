@@ -56,7 +56,7 @@ class TeamCreateView(BaseCreateView):
         'success': {'form': 'Time adicionado com sucesso.'},
         'error': {
             'form': 'Preencha os campos do formulário corretamente.',
-            'class': 'Adicione ao menos uma turma antes de criar uma edição.',
+            'class': 'Adicione ao menos uma turma antes de criar um time.',
         },
     }
 
