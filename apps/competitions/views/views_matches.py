@@ -20,7 +20,7 @@ from apps.competitions.forms import (
 )
 from apps.competitions.models import Match, MatchTeam
 from apps.editions.models import Edition
-from apps.home.views.views import BaseCreateView, MessageMixin
+from apps.home.views.views import BaseCreateView, BaseEditView, MessageMixin
 from apps.teams.models import Team
 from helpers.decorators import admin_required
 
@@ -28,8 +28,8 @@ from helpers.decorators import admin_required
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
 class MatchCreateView(BaseCreateView):
-    template_name = 'competitions/pages/match-create.html'
     form_class = MatchForm
+    template_name = 'competitions/pages/match-create.html'
     msg = {
         'success': {'form': 'Partida adicionada com sucesso.'},
         'error': {
@@ -69,7 +69,7 @@ class MatchCreateView(BaseCreateView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class MatchEditView(UpdateView):
+class MatchEditView(BaseEditView):
     model = Match
     form = MatchForm
     form_matches = modelformset_factory(
@@ -79,15 +79,10 @@ class MatchEditView(UpdateView):
         fields=['score'],
     )
     template_name = 'competitions/pages/match-edit.html'
-    # success_url = reverse_lazy('editions:detailed')
-    success_message = 'Partida editada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
-
-    def get_object_pk(self):
-        return self.kwargs.get('pk', '')
-
-    def is_model_populated(self, model: Model):
-        return model.objects.exists()
+    msg = {
+        'success': {'form': 'Partida editada com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_success_url(self) -> str:
         return reverse_lazy(
@@ -124,9 +119,9 @@ class MatchEditView(UpdateView):
         if form.is_valid() and form_matches.is_valid():
             form.save()
             form_matches.save()
-            messages.success(request, self.success_message)
+            messages.success(request, self.msg['success']['form'])
         else:
-            messages.error(request, self.error_message)
+            messages.error(request, self.msg['error']['form'])
         return redirect(self.get_success_url())
 
 
