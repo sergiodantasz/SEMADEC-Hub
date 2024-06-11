@@ -6,7 +6,7 @@ from django.db.models import Model, Q
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import FormView, ListView, UpdateView
+from django.views.generic import DeleteView, FormView, ListView, UpdateView
 
 from apps.home.forms import TagForm
 from apps.home.models import Tag
@@ -33,6 +33,8 @@ class MessageMixin:
         response = super().delete(request, *args, **kwargs)
         if self.success_message:
             messages.success(self.request, self.success_message)
+        elif msg := self.msg['success'].get('form', ''):
+            messages.success(self.request, msg)
         return response
 
     def get_queryset(self):
@@ -117,6 +119,13 @@ class BaseCreateView(BaseFormView):
 
 class BaseEditView(BaseFormView, UpdateView):
     pass
+
+
+class BaseDeleteView(BaseFormView, DeleteView):
+    def get(self, request, *args, **kwargs):
+        success_url = self.get_success_url()
+        self.delete(request, *args, **kwargs)
+        return redirect(success_url)
 
 
 def home(request):
