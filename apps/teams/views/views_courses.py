@@ -4,11 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.utils.decorators import method_decorator
-from home.views import BaseCreateView, BaseListView, BaseSearchView
+from home.views import BaseCreateView, BaseSearchView
 
 from apps.home.views.views import BaseDeleteView, BaseEditView
 from apps.teams.forms import CourseForm
 from apps.teams.models import Course
+from base.views import BaseListView
 from helpers.decorators import admin_required
 
 

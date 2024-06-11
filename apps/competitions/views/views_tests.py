@@ -13,7 +13,6 @@ from django.http import (
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
-from home.views import BaseListView
 
 from apps.competitions.forms import (
     TestForm,
@@ -28,6 +27,7 @@ from apps.home.views.views import (
     MessageMixin,
 )
 from apps.teams.models import Team
+from base.views import BaseListView
 from helpers.decorators import admin_required
 
 
