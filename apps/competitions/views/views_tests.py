@@ -25,6 +25,7 @@ from apps.competitions.forms import (
 from apps.competitions.models import Test, TestTeam
 from apps.home.views.views import (
     BaseCreateView,
+    BaseDeleteView,
     BaseEditView,
     BaseSearchView,
     MessageMixin,
@@ -160,12 +161,9 @@ class TestDetailView(DetailView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class TestDeleteView(MessageMixin, DeleteView):
+class TestDeleteView(BaseDeleteView):
     model = Test
-    success_url = reverse_lazy('competitions:tests:home')
-    success_message = 'Prova removida com sucesso!'
-    # error_message = 'Não foi possível remover esta prova'
-
-    def get(self, request, *args, **kwargs):
-        self.delete(request, *args, **kwargs)
-        return redirect(self.success_url)
+    msg = {
+        'success': {'form': 'Prova removida com sucesso!'},
+        'error': {'form': 'Não foi possível remover esta prova.'},
+    }
