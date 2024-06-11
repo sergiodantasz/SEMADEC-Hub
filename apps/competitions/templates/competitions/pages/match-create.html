@@ -4,10 +4,12 @@
 {% block form_fields %}
   {% csrf_token %}
   {{ form.management_form }}
+  {% load custom_tags %}
   {% for field in form %}
     <div class="field-group">
       <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
       {{ field }}
+      {% check_error field %}
     </div>
   {% endfor %}
 {% endblock form_fields %}
