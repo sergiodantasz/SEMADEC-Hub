@@ -40,11 +40,12 @@ class EditionListView(BaseListView):
 class EditionDetailView(DetailView):
     model = Edition
     template_name = 'editions/pages/edition-detailed.html'
+    context_object_name = 'reg'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         self.object = self.get_object()
-        context |= {'reg': self.object, 'matches': self.object.matches.all()}
+        context |= {'matches': self.object.matches.all()}
         return context
 
 
