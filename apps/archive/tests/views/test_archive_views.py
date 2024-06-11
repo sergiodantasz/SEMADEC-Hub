@@ -5,13 +5,13 @@ from apps.archive import views
 
 
 def test_archive_viewname_redirects_to_archive_view():
-    view = resolve(reverse('archive:home'))
-    assert view.func is views.archive_collection
+    view = resolve(reverse('archive:list'))
+    assert view.func.view_class is views.ArchiveListView
 
 
 def test_archive_detailed_viewname_redirects_to_archive_detailed_view():
-    view = resolve(reverse('archive:detailed', kwargs={'slug': 'test-slug'}))
-    assert view.func is views.view_archive_collection
+    view = resolve(reverse('archive:detail', kwargs={'slug': 'test-slug'}))
+    assert view.func.view_class is views.ArchiveDetailView
 
 
 def test_archive_create_viewname_redirects_to_archive_create_view():

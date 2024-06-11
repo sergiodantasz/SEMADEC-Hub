@@ -12,22 +12,6 @@ from helpers.model import is_owner
 from helpers.pagination import make_pagination
 
 
-def archive_collection(request):
-    archive_collection_objs = Collection.objects.filter(
-        collection_type='image'
-    ).order_by('-created_at')
-    page_obj, pagination_range, paginator = make_pagination(
-        request, archive_collection_objs, 15
-    )
-    context = {
-        'title': 'Acervo',
-        'db_regs': page_obj,
-        'search_url': '',
-        'pagination_range': pagination_range,
-    }
-    return render(request, 'archive/pages/archive.html', context)
-
-
 @login_required
 @admin_required
 def create_archive_collection(request):
@@ -54,20 +38,10 @@ def create_archive_collection(request):
                         content=image,
                     )
                 messages.success(request, 'Coleção de imagens criada com sucesso.')
-                return redirect(reverse('archive:home'))
+                return redirect(reverse('archive:list'))
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'archive/pages/create-archive.html', context)
-
-
-def view_archive_collection(request, slug):
-    archive_collection_obj = get_object_or_404(Collection, slug=slug)
-    context = {
-        'title': archive_collection_obj.title,
-        'archive_collection': archive_collection_obj,
-        'is_owner': is_owner(request.user, archive_collection_obj),
-    }
-    return render(request, 'archive/pages/view-archive.html', context)
 
 
 @login_required
@@ -78,7 +52,7 @@ def delete_archive_collection(request, slug):
         raise PermissionDenied()
     archive_collection_obj.delete()
     messages.success(request, 'Coleção de imagens apagada com sucesso.')
-    return redirect(reverse('archive:home'))
+    return redirect(reverse('archive:list'))
 
 
 @login_required
@@ -91,11 +65,11 @@ def delete_image(request, pk):
     if image_obj.collection.get_images.exists():
         messages.success(request, 'Imagem apagada com sucesso.')
         return redirect(
-            reverse('archive:detailed', kwargs={'slug': image_obj.collection.slug})
+            reverse('archive:detail', kwargs={'slug': image_obj.collection.slug})
         )
     image_obj.collection.delete()
     messages.success(request, 'Coleção de imagens apagada com sucesso.')
-    return redirect(reverse('archive:home'))
+    return redirect(reverse('archive:list'))
 
 
 @login_required
@@ -134,7 +108,7 @@ def edit_archive_collection(request, slug):
                 messages.success(request, 'Coleção de imagens apagada com sucesso.')
             else:
                 messages.success(request, 'Coleção de imagens editada com sucesso.')
-            return redirect(reverse('archive:home'))
+            return redirect(reverse('archive:list'))
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'archive/pages/edit-archive.html', context)

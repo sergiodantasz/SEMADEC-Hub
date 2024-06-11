@@ -7,32 +7,32 @@
   {% include "archive/partials/_archive-item-modal.html" %}
   {% if user.is_admin and is_owner %}
   <div class="admin-actions-wrapper">
-    <a class="button" href="{% url "archive:edit" archive_collection.slug %}">
+    <a class="button" href="{% url "archive:edit" archive.slug %}">
       <img src="{% static "global/img/edit.svg" %}" alt="">
       <span>Editar coleção</span>
     </a>
-    <a class="button" href="{% url "archive:delete" archive_collection.slug %}">
+    <a class="button" href="{% url "archive:delete" archive.slug %}">
       <img src="{% static "global/img/delete.svg" %}" alt="">
       <span>Apagar coleção</span>
     </a>
   </div>
   {% endif %}
   <div class="archive-cover-wrapper">
-    <img src="{{ archive_collection.cover.url }}" alt="" class="archive-cover">
+    <img src="{{ archive.cover.url }}" alt="" class="archive-cover">
   </div>
   <div class="archive-info-container">
-    <h3 class="archive-title">{{ archive_collection.title }}</h3>
-    <span class="archive-meta">Por {{ archive_collection.administrator.name }} em {{ archive_collection.created_at }}</span>
+    <h3 class="archive-title">{{ archive.title }}</h3>
+    <span class="archive-meta">Por {{ archive.administrator.name }} em {{ archive.created_at }}</span>
     <span class="archive-count">
-      {% if archive_collection.get_images|length > 1 %}
-        {{ archive_collection.get_images.count }} imagens
+      {% if archive.get_images|length > 1 %}
+        {{ archive.get_images.count }} imagens
       {% else %}
         1 imagem
       {% endif %}
     </span>
-    {% if archive_collection.tags.all|length > 0 %}
+    {% if archive.tags.all|length > 0 %}
       <div class="archive-tags-container">
-        {% for tag in archive_collection.tags.all %}
+        {% for tag in archive.tags.all %}
           <div class="archive-tag-item">{{tag}}</div><!-- add link to search containing archive with the tag -->
         {% endfor %}
       </div>
@@ -40,7 +40,7 @@
   </div>
   <hr class="archive-separator">
   <div class="images-container">
-    {% for image in archive_collection.get_images %}
+    {% for image in archive.get_images %}
       <div class="archive-image-wrapper" pk="{{ image.id }}">
         <img class="archive-image-item" src="{{ image.content.url }}" alt="">
       </div>

@@ -12,10 +12,10 @@ image_urls = (
 )
 
 urlpatterns = [
-    path('', views.archive_collection, name='home'),
+    path('', views.ArchiveListView.as_view(), name='list'),
     path('criar/', views.create_archive_collection, name='create'),
     # path('buscar/', views.search_archive_collection, name='search'),
-    path('visualizar/<slug:slug>/', views.view_archive_collection, name='detailed'),
+    path('visualizar/<slug:slug>/', views.ArchiveDetailView.as_view(), name='detail'),
     path('editar/<slug:slug>/', views.edit_archive_collection, name='edit'),
     path('apagar/<slug:slug>/', views.delete_archive_collection, name='delete'),
     path('imagem/', include(image_urls)),
