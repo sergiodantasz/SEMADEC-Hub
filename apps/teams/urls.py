@@ -6,7 +6,7 @@ app_name = 'teams'
 
 classes_urls = (
     [
-        path('', views.ClassView.as_view(), name='home'),
+        path('', views.ClassListView.as_view(), name='home'),
         path('criar/', views.ClassCreateView.as_view(), name='create'),
         path('buscar/', views.ClassSearchView.as_view(), name='search'),
         path('editar/<slug:slug>/', views.ClassEditView.as_view(), name='edit'),
@@ -17,7 +17,7 @@ classes_urls = (
 
 courses_urls = (
     [
-        path('', views.CourseView.as_view(), name='home'),
+        path('', views.CourseListView.as_view(), name='home'),
         path('buscar/', views.CourseSearchView.as_view(), name='search'),
         path('criar/', views.CourseCreateView.as_view(), name='create'),
         path('editar/<slug:slug>/', views.CourseEditView.as_view(), name='edit'),
@@ -27,7 +27,7 @@ courses_urls = (
 )
 
 urlpatterns = [
-    path('', views.TeamView.as_view(), name='home'),
+    path('', views.TeamListView.as_view(), name='home'),
     path('criar/', views.TeamCreateView.as_view(), name='create'),
     path('buscar/', views.TeamSearchView.as_view(), name='search'),
     path('editar/<slug:slug>/', views.TeamEditView.as_view(), name='edit'),

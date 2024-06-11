@@ -9,6 +9,6 @@
   {% if db_regs|length != 0 %}
     {% include "global/partials/_search-bar.html" %}
   {% endif %}
-  {% load_create_button user=user namespace="editions:editions_create" label="Criar edição" %}
+  {% load_create_button user=user namespace="editions:create" label="Criar edição" %}
   {% load_regs db_regs user=user template="editions/partials/_edition-item.html" empty="Nenhuma edição foi encontrada."%}
 {% endblock content %}

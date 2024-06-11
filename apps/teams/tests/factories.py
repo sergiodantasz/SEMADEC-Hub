@@ -1,4 +1,4 @@
-from random import choice
+from random import choice, randint
 
 from factory import RelatedFactory, Sequence, SubFactory, post_generation
 from factory.django import DjangoModelFactory
@@ -17,6 +17,9 @@ class ModelsDummyData(BaseProvider):
             'Graduação em Química',
         ]
         return choice(options)
+
+    def entry_year(self):
+        return randint(2000, 3000)
 
 
 fake = faker.Faker('pt_BR')
@@ -54,5 +57,6 @@ class ClassFactory(DjangoModelFactory):
         skip_postgeneration_save = True
 
     name = Sequence(lambda x: fake.text(max_nb_chars=30))
+    entry_year = Sequence(lambda x: fake.unique.entry_year())
     slug = Sequence(lambda x: fake.unique.slug())
     course = SubFactory(CourseFactory)

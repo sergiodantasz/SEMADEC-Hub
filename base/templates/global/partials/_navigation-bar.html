@@ -1,14 +1,18 @@
 <nav class="navigation-bar">
   <div class="content navigation-bar-container">
     <header class="navigation-bar-header">
-      <h4>SEMADEC Hub</h4>
+      <a href="{% url "home:home" %}" class="navigation-bar-home">
+        <h4>SEMADEC Hub</h4>
+      </a>
     </header>
     <div class="navigation-bar-menu">
       <ul class="navigation-bar-options">
-        <li><a href="{% url "home:home" %}">Início</a></li>
         <li><a href="{% url "competitions:home" %}">Competições</a></li>
+        <li><a href="{% url "teams:home" %}">Times</a></li>
+        <li><a href="{% url "teams:classes:home" %}">Turmas</a></li>
+        <li><a href="{% url "teams:courses:home" %}">Cursos</a></li>
         <li><a href="{% url "news:list" %}">Notícias</a></li>
-        <li><a href="{% url "editions:editions" %}">Edições</a></li>
+        <li><a href="{% url "editions:home" %}">Edições</a></li>
         <li><a href="{% url "archive:list" %}">Acervo</a></li>
         <li><a href="{% url "documents:documents" %}">Documentos</a></li>
       </ul>

@@ -10,63 +10,59 @@ from django.http import (
     HttpResponsePermanentRedirect,
     HttpResponseRedirect,
 )
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
+from home.views import BaseListView
 
 from apps.competitions.forms import (
     TestForm,
     TestTeamForm,
 )
 from apps.competitions.models import Test, TestTeam
-from apps.home.views.views import MessageMixin
+from apps.home.views.views import (
+    BaseCreateView,
+    BaseEditView,
+    BaseSearchView,
+    MessageMixin,
+)
 from apps.teams.models import Team
 from helpers.decorators import admin_required
 
 
-class TestView(ListView):
+class TestListView(BaseListView):
     model = Test
     template_name = 'competitions/pages/tests.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Test.objects.order_by('-date_time')
+        return super().get_queryset('-date_time')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context |= {
             'title': 'Competições',
             'page_variant': 'tests',
-            'search_url': reverse('competitions:tests:search'),
         }
         return context
 
 
-class TestSearchView(ListView):
+class TestSearchView(BaseSearchView):
     model = Test
     template_name = 'competitions/pages/competitions.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
-    warning_message = 'Digite um termo de busca válido.'
-
-    def get_search_term(self) -> str:
-        return self.request.GET.get('q', '').strip()
 
     def get_queryset(self) -> QuerySet[Any]:
-        querystr = self.get_search_term()
-        if not querystr:
-            messages.warning(self.request, self.warning_message)
-        queryset = Test.objects.filter(
-            Q(Q(title__icontains=querystr) | Q(description__icontains=querystr))
-        ).order_by('title')
-        return queryset
+        self.querystr = self.get_search_term()
+        query = Q(
+            Q(title__icontains=self.querystr) | Q(description__icontains=self.querystr)
+        )
+        return super().get_queryset(query, 'title')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        # Implement a better dict join solution
         context = super().get_context_data(**kwargs)
         context |= {'title': 'Competições', 'page_variant': 'tests'}
         return context
@@ -74,16 +70,16 @@ class TestSearchView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class TestCreateView(MessageMixin, FormView):
-    template_name = 'competitions/pages/test-create.html'
+class TestCreateView(BaseCreateView):
     form_class = TestForm
-    success_url = reverse_lazy('competitions:tests:home')
-    success_message = 'Prova adicionada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
-    error_message_teams = 'Adicione ao menos um time antes de criar uma prova.'
-
-    def is_model_populated(self, model: Model):
-        return model.objects.exists()
+    template_name = 'competitions/pages/test-create.html'
+    msg = {
+        'success': {'form': 'Prova adicionada com sucesso.'},
+        'error': {
+            'form': 'Preencha os campos do formulário corretamente.',
+            'team': 'Adicione ao menos um time antes de criar uma prova.',
+        },
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -94,22 +90,15 @@ class TestCreateView(MessageMixin, FormView):
         self, request, *args, **kwargs
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         if not self.is_model_populated(Team):
-            messages.error(request, self.error_message_teams)
-            return redirect(reverse('competitions:tests:home'))
+            messages.error(request, self.msg['error']['team'])
+            return redirect(self.get_success_url())
         context = self.get_context_data()
         return self.render_to_response(context)
-
-    def form_valid(self, form):
-        form_reg = form.save(commit=True)
-        form_reg.administrator = self.request.user
-        form_reg.save()
-        # Add success message
-        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class TestEditView(MessageMixin, UpdateView):
+class TestEditView(BaseEditView):
     model = Test
     form_class = TestForm
     form_teams = modelformset_factory(
@@ -119,9 +108,10 @@ class TestEditView(MessageMixin, UpdateView):
         fields=['score'],
     )
     template_name = 'competitions/pages/test-edit.html'
-    redirect_url = 'competitions:tests:home'
-    success_message = 'Prova editada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    msg = {
+        'success': {'form': 'Prova editada com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -151,19 +141,20 @@ class TestEditView(MessageMixin, UpdateView):
         if form.is_valid() and form_teams.is_valid():
             form.save()
             form_teams.save()
-            messages.success(request, self.success_message)
+            messages.success(request, self.msg['success']['form'])
         else:
-            messages.error(request, self.error_message)
-        return redirect(self.redirect_url)
+            messages.error(request, self.msg['success']['form'])
+        return redirect(self.get_success_url())
 
 
-class TestDetailedView(DetailView):
+class TestDetailView(DetailView):
     model = Test
     template_name = 'competitions/pages/test-detailed.html'
+    context_object_name = 'test'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context |= {'test': self.get_object()}
+        context |= {'title': self.get_object().title}
         return context
 
 

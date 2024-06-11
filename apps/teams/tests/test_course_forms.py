@@ -1,4 +1,4 @@
-from django.forms import CheckboxSelectMultiple
+from django.forms import CheckboxSelectMultiple, NumberInput
 from django.forms.widgets import RadioSelect
 
 from apps.teams.models import Class, Course
@@ -46,6 +46,27 @@ def test_class_form_name_max_length_is_30(db, class_form_fixture):
 def test_class_form_name_label_is_correct(db, class_form_fixture):
     form = class_form_fixture()
     assert form.fields['name'].label == 'Nome'
+
+
+# Add tests for entry_year
+def test_class_form_entry_year_label_is_correct(db, class_form_fixture):
+    form = class_form_fixture()
+    assert form.fields['entry_year'].label == 'Ano'
+
+
+def test_class_form_entry_year_widget_is_numberinput(db, class_form_fixture):
+    form = class_form_fixture()
+    assert isinstance(form.fields['entry_year'].widget, NumberInput)
+
+
+def test_class_form_entry_year_min_value_is_2000(db, class_form_fixture):
+    form = class_form_fixture()
+    assert form.fields['entry_year'].widget.attrs['min'] == 2000
+
+
+def test_class_form_entry_year_max_value_is_3000(db, class_form_fixture):
+    form = class_form_fixture()
+    assert form.fields['entry_year'].widget.attrs['max'] == 3000
 
 
 def test_class_form_course_label_is_correct(db, class_form_fixture):

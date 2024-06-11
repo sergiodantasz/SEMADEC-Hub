@@ -6,7 +6,10 @@ from removemigrations import remove_migrations
 
 if __name__ == '__main__':
     remove_migrations()
-    remove_data()
+    if '-db' not in argv:
+        remove_data()
+    else:
+        remove_data(db=False)
 
     system('python manage.py makemigrations')
     system('python manage.py migrate')

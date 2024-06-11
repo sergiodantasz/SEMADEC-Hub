@@ -8,16 +8,17 @@ matches_urls = (
     [
         path('criar/<int:pk>/', views.MatchCreateView.as_view(), name='create'),
         path('editar/<int:pk>/', views.MatchEditView.as_view(), name='edit'),
+        path('apagar/<int:pk>/', views.MatchDeleteView.as_view(), name='delete'),
     ],
     'matches',
 )
 
 sports_urls = (
     [
-        path('', views.SportView.as_view(), name='home'),
+        path('', views.SportListView.as_view(), name='home'),
         path(
             'visualizar/<slug:slug>/',
-            views.SportDetailedView.as_view(),
+            views.SportDetailView.as_view(),
             name='detailed',
         ),
         path('criar', views.SportCreateView.as_view(), name='create'),
@@ -31,9 +32,9 @@ sports_urls = (
 
 tests_urls = (
     [
-        path('', views.TestView.as_view(), name='home'),
+        path('', views.TestListView.as_view(), name='home'),
         path(
-            'visualizar/<slug:slug>/', views.TestDetailedView.as_view(), name='detailed'
+            'visualizar/<slug:slug>/', views.TestDetailView.as_view(), name='detailed'
         ),
         path('criar', views.TestCreateView.as_view(), name='create'),
         path('buscar', views.TestSearchView.as_view(), name='search'),

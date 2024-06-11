@@ -20,35 +20,43 @@ from apps.competitions.forms import (
 )
 from apps.competitions.models import Match, MatchTeam
 from apps.editions.models import Edition
+from apps.home.views.views import BaseCreateView, BaseEditView, MessageMixin
 from apps.teams.models import Team
 from helpers.decorators import admin_required
 
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class MatchCreateView(FormView):
-    template_name = 'competitions/pages/match-create.html'
+class MatchCreateView(BaseCreateView):
     form_class = MatchForm
-    # success_url = reverse_lazy('editions:editions_detailed')
-    success_url = reverse_lazy('editions:editions')
-    success_message = 'Partida adicionada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
-    error_message_teams = 'Adicione ao menos um time antes de criar uma prova.'
-
-    def get_object_pk(self):
-        return self.kwargs.get('pk', '')
+    template_name = 'competitions/pages/match-create.html'
+    msg = {
+        'success': {'form': 'Partida adicionada com sucesso.'},
+        'error': {
+            'form': 'Preencha os campos do formulário corretamente.',
+            'team': 'Adicione ao menos um time antes de criar uma prova.',
+        },
+    }
 
     def is_model_populated(self, model: Model):
         return model.objects.exists()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context |= {'title': 'Criar partida'}
+        return context
+
+    def get_success_url(self) -> str:
+        return reverse_lazy('editions:detailed', kwargs={'pk': self.get_object_pk()})
 
     def get(
         self, request, *args, **kwargs
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         if not self.is_model_populated(Team):
-            messages.error(request, self.error_message_teams)
-            return redirect(reverse('editions:editions'))
-        context = {'title': 'Criar partida', 'form': self.get_form()}
-        return render(request, self.template_name, context)
+            messages.error(request, self.msg['error']['team'])
+            return redirect(self.get_success_url())
+        context = self.get_context_data()
+        return self.render_to_response(context)
 
     def form_valid(self, form):
         edition_obj = Edition.objects.get(pk=self.get_object_pk())
@@ -56,17 +64,12 @@ class MatchCreateView(FormView):
         form_reg.edition = edition_obj
         form_reg.save()
         form.save_m2m()
-        messages.success(self.request, self.success_message)
         return super().form_valid(form)
-
-    def form_invalid(self, form):
-        messages.error(self.request, self.error_message)
-        return super().form_invalid(form)
 
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class MatchEditView(UpdateView):
+class MatchEditView(BaseEditView):
     model = Match
     form = MatchForm
     form_matches = modelformset_factory(
@@ -76,16 +79,15 @@ class MatchEditView(UpdateView):
         fields=['score'],
     )
     template_name = 'competitions/pages/match-edit.html'
-    # success_url = reverse_lazy('editions:editions_detailed')
-    redirect_url = reverse_lazy('editions:editions')
-    success_message = 'Partida editada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    msg = {
+        'success': {'form': 'Partida editada com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
-    def get_object_pk(self):
-        return self.kwargs.get('pk', '')
-
-    def is_model_populated(self, model: Model):
-        return model.objects.exists()
+    def get_success_url(self) -> str:
+        return reverse_lazy(
+            'editions:detailed', kwargs={'pk': self.get_object().edition.pk}
+        )
 
     def get(
         self, request, *args, **kwargs
@@ -117,7 +119,25 @@ class MatchEditView(UpdateView):
         if form.is_valid() and form_matches.is_valid():
             form.save()
             form_matches.save()
-            messages.success(request, self.success_message)
+            messages.success(request, self.msg['success']['form'])
         else:
-            messages.error(request, self.error_message)
-        return redirect(self.redirect_url)
+            messages.error(request, self.msg['error']['form'])
+        return redirect(self.get_success_url())
+
+
+@method_decorator(login_required, name='dispatch')
+@method_decorator(admin_required, name='dispatch')
+class MatchDeleteView(MessageMixin, DeleteView):
+    model = Match
+    success_message = 'Partida removida com sucesso!'
+    # error_message = 'Não foi possível remover esta partida'
+
+    def get_success_url(self) -> str:
+        return reverse_lazy(
+            'editions:detailed', kwargs={'pk': self.get_object().edition.pk}
+        )
+
+    def get(self, request, *args, **kwargs):
+        success_url = self.get_success_url()
+        self.delete(request, *args, **kwargs)
+        return redirect(success_url)

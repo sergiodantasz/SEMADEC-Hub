@@ -18,69 +18,57 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
-from home.views import MessageMixin
+from home.views import BaseListView, BaseSearchView, MessageMixin
 
 from apps.competitions.models import Sport
 from apps.competitions.tests.factories import SportFactory
 from apps.editions.forms import EditionForm, EditionTeamForm
 from apps.editions.models import Edition, EditionTeam
+from apps.home.views.views import BaseCreateView
 from apps.teams.models import Team
 from apps.teams.tests.factories import ClassFactory, CourseFactory, TeamFactory
 from helpers.decorators import admin_required
 
 
-class EditionView(ListView):
+class EditionListView(BaseListView):
     model = Edition
     template_name = 'editions/pages/editions.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Edition.objects.order_by('-year')
+        return super().get_queryset('-year')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context |= {
-            'title': 'Edições',
-            'search_url': reverse('editions:editions_search'),
-        }
+        context |= {'title': 'Edições'}
         return context
 
 
-class EditionDetailedView(DetailView):
+class EditionDetailView(DetailView):
     model = Edition
     template_name = 'editions/pages/edition-detailed.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         self.object = self.get_object()
-        context |= {'reg': self.object, 'matches': self.objects.matches.all()}
+        context |= {'reg': self.object, 'matches': self.object.matches.all()}
         return context
 
 
-class EditionSearchView(ListView):
+class EditionSearchView(BaseSearchView):
     model = Edition
     template_name = 'editions/pages/editions.html'
-    context_object_name = 'db_regs'
     paginate_by = 10
-    warning_message = 'Digite um termo de busca válido.'
-
-    def get_search_term(self) -> str:
-        return self.request.GET.get('q', '').strip()
 
     def get_queryset(self) -> QuerySet[Any]:
-        querystr = self.get_search_term()
-        if not querystr:
-            messages.warning(self.request, self.warning_message)
-        queryset = Edition.objects.filter(
-            Q(
-                Q(year__icontains=querystr)
-                | Q(name__icontains=querystr)
-                | Q(edition_type__icontains=querystr)
-                | Q(theme__icontains=querystr)
-            )
+        self.querystr = self.get_search_term()
+        query = Q(
+            Q(year__icontains=self.querystr)
+            | Q(name__icontains=self.querystr)
+            | Q(edition_type__icontains=self.querystr)
+            | Q(theme__icontains=self.querystr)
         )
-        return queryset
+        return super().get_queryset(query, '-year')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -90,17 +78,17 @@ class EditionSearchView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class EditionCreateView(MessageMixin, FormView):
-    template_name = 'editions/pages/edition-create.html'
+class EditionCreateView(BaseCreateView):
     form_class = EditionForm
-    error_message_sport = 'Adicione ao menos um esporte antes de criar uma edição.'
-    error_message_team = 'Adicione ao menos um time antes de criar uma edição.'
-    success_url = reverse_lazy('editions:editions')
-    success_message = 'Edição adicionada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
-
-    def is_model_populated(self, model: Model):
-        return model.objects.exists()
+    template_name = 'editions/pages/edition-create.html'
+    msg = {
+        'success': {'form': 'Edição adicionada com sucesso.'},
+        'error': {
+            'form': 'Preencha os campos do formulário corretamente.',
+            'sport': 'Adicione ao menos um esporte antes de criar uma edição.',
+            'team': 'Adicione ao menos um time antes de criar uma edição.',
+        },
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -108,28 +96,14 @@ class EditionCreateView(MessageMixin, FormView):
         return context
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
-        # Remove later
-        # sport = SportFactory()
-        # cursos = CourseFactory()
-        # class1 = ClassFactory(course=cursos)
-        # time = TeamFactory(classes=(class1,))
-        # Remove later
         if not self.is_model_populated(Sport):
-            # Change for a better message displaying
-            messages.error(self.request, self.error_message_sport)
-            return redirect(self.success_url)
+            messages.error(self.request, self.msg['error']['sport'])
+            return redirect(self.get_success_url())
         if not self.is_model_populated(Team):
-            # Change for a better message displaying
-            messages.error(self.request, self.error_message_team)
-            return redirect(self.success_url)
+            messages.error(self.request, self.msg['error']['team'])
+            return redirect(self.get_success_url())
         context = self.get_context_data()
         return self.render_to_response(context)
-
-    def form_valid(self, form):
-        form_reg = form.save(commit=True)
-        form_reg.administrator = self.request.user
-        form_reg.save()
-        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -144,7 +118,7 @@ class EditionEditView(MessageMixin, UpdateView):
         fields=['score'],
     )
     template_name = 'editions/pages/edition-edit.html'
-    redirect_url = reverse_lazy('editions:editions')  # Change to success_url
+    redirect_url = reverse_lazy('editions:home')  # Change to success_url
     success_message = 'Edição editada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
@@ -192,7 +166,7 @@ class EditionEditView(MessageMixin, UpdateView):
 @method_decorator(admin_required, name='dispatch')
 class EditionDeleteView(MessageMixin, DeleteView):
     model = Edition
-    success_url = reverse_lazy('editions:editions')
+    success_url = reverse_lazy('editions:home')
     success_message = 'Edição removida com sucesso!'
     # error_message = 'Não foi possível remover esta edição.'
 

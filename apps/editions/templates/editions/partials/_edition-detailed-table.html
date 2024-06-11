@@ -12,6 +12,7 @@
   <th class="base-table-header">Esporte</th>
   <th class="base-table-header">Times</th>
   <th class="base-table-header">Categoria</th>
+  <th class="base-table-header">Horário</th>
   <th class="base-table-header">Placar</th>
   {% if user.is_admin %}
     <th class="base-table-header">Ações</th>
@@ -28,11 +29,15 @@
       </td>
       <td class="base-table-cell">{{ match.sport_category.category.name }}</td>
       <td class="base-table-cell">
+        <span class="base-table-date">{{ match.date_time|date:"SHORT_DATETIME_FORMAT" }}</span>
+      </td>
+      <td class="base-table-cell">
         <span>{{ match.get_scoreboard|join:" x " }}</span>
       </td>
       {% if user.is_admin %}
         <td class="base-table-cell base-table-cell-right">
           <a href="{% url 'competitions:sports:matches:edit' match.pk %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/edit.svg" alt=""></a>
+          <a href="{% url 'competitions:sports:matches:delete' match.pk %}"><img style="filter:var(--filter-green-500);" class="base-table-edit" src="/static/global/img/delete.svg" alt=""></a>
         </td>
       {% endif %}
     </tr>

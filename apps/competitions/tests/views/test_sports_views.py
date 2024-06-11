@@ -5,12 +5,12 @@ from apps.competitions import views
 
 def test_sports_viewname_redirects_to_sports_view():
     view = resolve(reverse('competitions:sports:home'))
-    assert view.func.view_class is views.SportView
+    assert view.func.view_class is views.SportListView
 
 
 def test_sports_detailed_viewname_redirects_to_sports_detailed_view():
     view = resolve(reverse('competitions:sports:detailed', kwargs={'slug': 'test'}))
-    assert view.func.view_class is views.SportDetailedView
+    assert view.func.view_class is views.SportDetailView
 
 
 def test_sports_create_viewname_redirects_to_sports_create_view():

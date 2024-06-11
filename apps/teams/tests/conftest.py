@@ -28,6 +28,7 @@ def class_fixture():
 def class_form_fixture():
     data = {
         'name': 'test',
+        'entry_year': 2500,
         'course': CourseFactory(),
     }
     caller = lambda **kwargs: ClassForm(data=data | kwargs)  # noqa
