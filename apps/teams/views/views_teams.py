@@ -11,7 +11,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
 from home.views import BaseListView, BaseSearchView, MessageMixin
 
-from apps.home.views.views import BaseCreateView, BaseEditView
+from apps.home.views.views import BaseCreateView, BaseDeleteView, BaseEditView
 from apps.teams.forms import TeamForm
 from apps.teams.models import Class, Team
 from helpers.decorators import admin_required
@@ -90,11 +90,9 @@ class TeamEditView(BaseEditView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class TeamDeleteView(MessageMixin, DeleteView):
+class TeamDeleteView(BaseDeleteView):
     model = Team
-    success_url = reverse_lazy('teams:home')
-    success_message = 'Time removido com sucesso!'
-
-    def get(self, request, *args, **kwargs):
-        self.delete(request, *args, **kwargs)
-        return redirect(self.success_url)
+    msg = {
+        'success': {'form': 'Time removido com sucesso!'},
+        'error': {'form': 'Não foi possível remover este time.'},
+    }
