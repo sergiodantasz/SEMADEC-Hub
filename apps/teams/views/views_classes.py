@@ -42,7 +42,9 @@ class ClassSearchView(BaseSearchView):
     def get_queryset(self) -> QuerySet[Any]:
         self.querystr = self.get_search_term()
         query = Q(
-            Q(name__icontains=self.querystr) | Q(course__name__icontains=self.querystr),
+            Q(name__icontains=self.querystr)
+            | Q(course__name__icontains=self.querystr)
+            | Q(entry_year__icontains=self.querystr),
         )
         return super().get_queryset(query, 'name')
 
