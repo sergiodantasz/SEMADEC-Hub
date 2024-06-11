@@ -13,7 +13,12 @@ from apps.competitions.forms import (
 from apps.competitions.models import Sport
 from apps.competitions.tests.factories import CategoryFactory
 from apps.editions.models import Edition
-from apps.home.views.views import BaseCreateView, BaseDeleteView, BaseEditView
+from apps.home.views.views import (
+    BaseCreateView,
+    BaseDeleteView,
+    BaseDetailView,
+    BaseEditView,
+)
 from helpers.decorators import admin_required
 
 
@@ -94,7 +99,7 @@ class SportEditView(BaseEditView):
         return form
 
 
-class SportDetailView(DetailView):
+class SportDetailView(BaseDetailView):
     model = Sport
     template_name = 'competitions/pages/sport-detailed.html'
 
