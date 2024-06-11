@@ -6,7 +6,7 @@ from django.db.models import Model, Q
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import DeleteView, FormView, ListView, UpdateView
+from django.views.generic import DeleteView, DetailView, FormView, ListView, UpdateView
 
 from apps.home.forms import TagForm
 from apps.home.models import Tag
@@ -110,6 +110,10 @@ class BaseFormView(MessageMixin, FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+class BaseDetailView(DetailView):
+    pass
 
 
 class BaseCreateView(BaseFormView):
