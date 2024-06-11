@@ -23,7 +23,7 @@ from apps.competitions.forms import (
 from apps.competitions.models import Sport
 from apps.competitions.tests.factories import CategoryFactory
 from apps.editions.models import Edition
-from apps.home.views.views import BaseCreateView, BaseEditView
+from apps.home.views.views import BaseCreateView, BaseDeleteView, BaseEditView
 from helpers.decorators import admin_required
 
 
@@ -126,12 +126,9 @@ class SportDetailView(DetailView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class SportDeleteView(MessageMixin, DeleteView):
+class SportDeleteView(BaseDeleteView):
     model = Sport
-    success_url = reverse_lazy('competitions:sports:home')
-    success_message = 'Esporte removido com sucesso!'
-    # error_message = 'Não foi possível remover este esporte'
-
-    def get(self, request, *args, **kwargs):
-        self.delete(request, *args, **kwargs)
-        return redirect(self.success_url)
+    msg = {
+        'success': {'form': 'Esporte removido com sucesso!'},
+        'error': {'form': 'Não foi possível remover este esporte.'},
+    }
