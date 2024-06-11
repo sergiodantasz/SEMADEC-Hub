@@ -11,7 +11,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
 from home.views import BaseListView, BaseSearchView, MessageMixin
 
-from apps.home.views.views import BaseCreateView, BaseEditView
+from apps.home.views.views import BaseCreateView, BaseDeleteView, BaseEditView
 from apps.teams.forms import ClassForm
 from apps.teams.models import Class, Course
 from helpers.decorators import admin_required
@@ -95,11 +95,9 @@ class ClassEditView(BaseEditView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class ClassDeleteView(MessageMixin, DeleteView):
+class ClassDeleteView(BaseDeleteView):
     model = Class
-    success_url = reverse_lazy('teams:classes:home')
-    success_message = 'Turma removida com sucesso!'
-
-    def get(self, request, *args, **kwargs):
-        self.delete(request, *args, **kwargs)
-        return redirect(self.success_url)
+    msg = {
+        'success': {'form': 'Turma removida com sucesso!'},
+        'error': {'form': 'Não foi possível remover esta turma.'},
+    }
