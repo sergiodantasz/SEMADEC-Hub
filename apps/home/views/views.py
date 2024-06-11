@@ -102,6 +102,9 @@ class BaseFormView(MessageMixin, FormView):
     def get_success_url(self) -> str:
         return reverse_lazy(f'{self.get_app_name()}:home')
 
+    def get_object_pk(self):
+        return self.kwargs.get('pk', '')
+
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
@@ -110,9 +113,6 @@ class BaseFormView(MessageMixin, FormView):
 class BaseCreateView(BaseFormView):
     def is_model_populated(self, model: Model):
         return model.objects.exists()
-
-    def get_object_pk(self):
-        return self.kwargs.get('pk', '')
 
 
 class BaseEditView(BaseFormView, UpdateView):
