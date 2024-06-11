@@ -20,7 +20,12 @@ from apps.competitions.forms import (
 )
 from apps.competitions.models import Match, MatchTeam
 from apps.editions.models import Edition
-from apps.home.views.views import BaseCreateView, BaseEditView, MessageMixin
+from apps.home.views.views import (
+    BaseCreateView,
+    BaseDeleteView,
+    BaseEditView,
+    MessageMixin,
+)
 from apps.teams.models import Team
 from helpers.decorators import admin_required
 
@@ -127,10 +132,12 @@ class MatchEditView(BaseEditView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class MatchDeleteView(MessageMixin, DeleteView):
+class MatchDeleteView(BaseDeleteView):
     model = Match
-    success_message = 'Partida removida com sucesso!'
-    # error_message = 'Não foi possível remover esta partida'
+    msg = {
+        'success': {'form': 'Partida removida com sucesso!'},
+        'error': {'form': 'Não foi possível remover esta partida.'},
+    }
 
     def get_success_url(self) -> str:
         return reverse_lazy(
