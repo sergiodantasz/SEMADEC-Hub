@@ -24,7 +24,7 @@ from apps.competitions.models import Sport
 from apps.competitions.tests.factories import SportFactory
 from apps.editions.forms import EditionForm, EditionTeamForm
 from apps.editions.models import Edition, EditionTeam
-from apps.home.views.views import BaseCreateView
+from apps.home.views.views import BaseCreateView, BaseDeleteView
 from apps.teams.models import Team
 from apps.teams.tests.factories import ClassFactory, CourseFactory, TeamFactory
 from helpers.decorators import admin_required
@@ -164,12 +164,9 @@ class EditionEditView(MessageMixin, UpdateView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class EditionDeleteView(MessageMixin, DeleteView):
+class EditionDeleteView(BaseDeleteView):
     model = Edition
-    success_url = reverse_lazy('editions:home')
-    success_message = 'Edição removida com sucesso!'
-    # error_message = 'Não foi possível remover esta edição.'
-
-    def get(self, request, *args, **kwargs):
-        self.delete(request, *args, **kwargs)
-        return redirect(self.success_url)
+    msg = {
+        'success': {'form': 'Edição removida com sucesso!'},
+        'error': {'form': 'Não foi possível remover esta edição.'},
+    }
