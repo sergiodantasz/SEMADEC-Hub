@@ -15,7 +15,7 @@
       <td class="base-table-cell base-table-cell-left">
         <a href="{% url 'competitions:tests:detailed' reg.slug %}">{{ reg.title }}</a>
       </td>
-      <td class="base-table-cell base-table-cell-right table-cell-flex">
+      <td class="base-table-cell base-table-cell-right">
         <span class="base-table-date">{{ reg.date_time|date:"SHORT_DATETIME_FORMAT" }}</span>
       </td>
       {% if user.is_admin %}
