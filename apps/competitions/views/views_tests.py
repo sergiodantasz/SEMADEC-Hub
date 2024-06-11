@@ -23,11 +23,10 @@ from apps.home.views.views import (
     BaseCreateView,
     BaseDeleteView,
     BaseEditView,
-    BaseSearchView,
     MessageMixin,
 )
 from apps.teams.models import Team
-from base.views import BaseListView
+from base.views import BaseListView, BaseSearchView
 from helpers.decorators import admin_required
 
 

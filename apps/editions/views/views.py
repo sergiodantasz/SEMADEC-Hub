@@ -13,7 +13,7 @@ from django.http import (
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
-from home.views import BaseSearchView
+from base.views import BaseSearchView
 
 from apps.competitions.models import Sport
 from apps.editions.forms import EditionForm, EditionTeamForm

@@ -5,7 +5,6 @@ from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
-from home.views import BaseSearchView
 
 from apps.competitions.forms import (
     SportForm,
@@ -19,7 +18,7 @@ from apps.home.views.views import (
     BaseDetailView,
     BaseEditView,
 )
-from base.views import BaseListView
+from base.views import BaseListView, BaseSearchView
 from helpers.decorators import admin_required
 
 
