@@ -14,10 +14,6 @@ from base.views import MessageMixin
 from helpers.decorators import admin_required
 
 
-class BaseDetailView(DetailView):
-    pass
-
-
 def home(request):
     context = {'title': 'Início'}
     return render(request, 'home/pages/home.html', context)
