@@ -71,7 +71,7 @@ class MatchCreateView(BaseCreateView):
 @method_decorator(admin_required, name='dispatch')
 class MatchEditView(BaseEditView):
     model = Match
-    form = MatchForm
+    form_class = MatchForm
     form_matches = modelformset_factory(
         MatchTeam,
         MatchTeamForm,
@@ -89,33 +89,33 @@ class MatchEditView(BaseEditView):
             'editions:detailed', kwargs={'pk': self.get_object().edition.pk}
         )
 
-    def get(
-        self, request, *args, **kwargs
-    ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
-        self.object = self.get_object()
-        form = self.form(instance=self.object)
+    def get_form(self, form_class=None):
+        form = self.form_class(self.request.POST or None, instance=self.get_object())
         form.fields['sport_category'].disabled = True
         form.fields['teams'].disabled = True
+        return form
+
+    def get_form_matches(self, form_class=None):
         form_matches = self.form_matches(
-            queryset=MatchTeam.objects.filter(match__pk=self.object.pk)
+            self.request.POST or None,
+            queryset=MatchTeam.objects.filter(match__pk=self.object.pk),
         )
-        context = {
+        return form_matches
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context |= {
             'title': 'Editar partida',
-            'form': form,
-            'form_matches': form_matches,
+            'form_matches': self.get_form_matches(),
         }
-        return render(request, self.template_name, context)
+        return context
 
     def post(
         self, request, *args, **kwargs
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         self.object = self.get_object()
-        form = self.form(request.POST, instance=self.object)
-        form.fields['sport_category'].disabled = True
-        form.fields['teams'].disabled = True
-        form_matches = self.form_matches(
-            request.POST, queryset=MatchTeam.objects.filter(match__pk=self.object.pk)
-        )
+        form = self.get_form()
+        form_matches = self.get_form_matches()
         if form.is_valid() and form_matches.is_valid():
             form.save()
             form_matches.save()
