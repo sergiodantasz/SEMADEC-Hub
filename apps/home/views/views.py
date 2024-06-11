@@ -111,6 +111,9 @@ class BaseCreateView(BaseFormView):
     def is_model_populated(self, model: Model):
         return model.objects.exists()
 
+    def get_object_pk(self):
+        return self.kwargs.get('pk', '')
+
 
 class BaseEditView(BaseFormView, UpdateView):
     pass
