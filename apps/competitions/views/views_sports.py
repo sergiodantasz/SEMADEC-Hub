@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.utils.decorators import method_decorator
-from django.views.generic.detail import DetailView
 
 from apps.competitions.forms import (
     SportForm,
