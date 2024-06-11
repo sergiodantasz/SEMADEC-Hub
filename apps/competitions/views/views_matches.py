@@ -143,8 +143,3 @@ class MatchDeleteView(BaseDeleteView):
         return reverse_lazy(
             'editions:detailed', kwargs={'pk': self.get_object().edition.pk}
         )
-
-    def get(self, request, *args, **kwargs):
-        success_url = self.get_success_url()
-        self.delete(request, *args, **kwargs)
-        return redirect(success_url)
