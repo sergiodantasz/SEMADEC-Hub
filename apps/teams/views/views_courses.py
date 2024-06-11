@@ -17,7 +17,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
 from home.views import BaseCreateView, BaseListView, BaseSearchView
 
-from apps.home.views.views import BaseEditView, MessageMixin
+from apps.home.views.views import BaseDeleteView, BaseEditView, MessageMixin
 from apps.teams.forms import CourseForm
 from apps.teams.models import Course
 from helpers.decorators import admin_required
@@ -88,12 +88,9 @@ class CourseEditView(BaseEditView):
         return context
 
 
-class CourseDeleteView(MessageMixin, DeleteView):
+class CourseDeleteView(BaseDeleteView):
     model = Course
-    success_url = reverse_lazy('teams:courses:home')
-    success_message = 'Curso removido com sucesso!'
-    # error_message = 'Não foi possível remover este curso.'
-
-    def get(self, request, *args, **kwargs):
-        self.delete(request, *args, **kwargs)
-        return redirect(self.success_url)
+    msg = {
+        'success': {'form': 'Curso removido com sucesso!'},
+        'error': {'form': 'Não foi possível remover este curso.'},
+    }
