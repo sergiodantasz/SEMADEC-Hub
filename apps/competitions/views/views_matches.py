@@ -20,13 +20,13 @@ from apps.competitions.forms import (
 )
 from apps.competitions.models import Match, MatchTeam
 from apps.editions.models import Edition
-from apps.home.views.views import (
+from apps.teams.models import Team
+from base.views import (
     BaseCreateView,
     BaseDeleteView,
     BaseEditView,
     MessageMixin,
 )
-from apps.teams.models import Team
 from helpers.decorators import admin_required
 
 

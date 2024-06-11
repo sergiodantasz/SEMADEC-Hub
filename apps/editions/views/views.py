@@ -13,14 +13,18 @@ from django.http import (
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
-from base.views import BaseSearchView
 
 from apps.competitions.models import Sport
 from apps.editions.forms import EditionForm, EditionTeamForm
 from apps.editions.models import Edition, EditionTeam
-from apps.home.views.views import BaseCreateView, BaseDeleteView, BaseEditView
 from apps.teams.models import Team
-from base.views import BaseListView
+from base.views import (
+    BaseCreateView,
+    BaseDeleteView,
+    BaseEditView,
+    BaseListView,
+    BaseSearchView,
+)
 from helpers.decorators import admin_required
 
 

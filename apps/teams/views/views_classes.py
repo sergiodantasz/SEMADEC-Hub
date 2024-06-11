@@ -7,10 +7,15 @@ from django.db.models.query import QuerySet
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 
-from apps.home.views.views import BaseCreateView, BaseDeleteView, BaseEditView
 from apps.teams.forms import ClassForm
 from apps.teams.models import Class, Course
-from base.views import BaseListView, BaseSearchView
+from base.views import (
+    BaseCreateView,
+    BaseDeleteView,
+    BaseEditView,
+    BaseListView,
+    BaseSearchView,
+)
 from helpers.decorators import admin_required
 
 

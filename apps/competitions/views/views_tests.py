@@ -19,14 +19,15 @@ from apps.competitions.forms import (
     TestTeamForm,
 )
 from apps.competitions.models import Test, TestTeam
-from apps.home.views.views import (
+from apps.teams.models import Team
+from base.views import (
     BaseCreateView,
     BaseDeleteView,
     BaseEditView,
+    BaseListView,
+    BaseSearchView,
     MessageMixin,
 )
-from apps.teams.models import Team
-from base.views import BaseListView, BaseSearchView
 from helpers.decorators import admin_required
 
 
