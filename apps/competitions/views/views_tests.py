@@ -2,7 +2,7 @@ from typing import Any
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Model, Q
+from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.forms import modelformset_factory
 from django.http import (
@@ -11,11 +11,8 @@ from django.http import (
     HttpResponseRedirect,
 )
 from django.shortcuts import redirect
-from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import DeleteView, FormView, UpdateView
 from home.views import BaseListView
 
 from apps.competitions.forms import (

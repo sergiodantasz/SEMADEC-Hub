@@ -1,21 +1,11 @@
 from typing import Any
 
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.db.models.query import QuerySet
-from django.http import (
-    HttpResponse,
-    HttpResponsePermanentRedirect,
-    HttpResponseRedirect,
-)
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import DeleteView, FormView, UpdateView
-from home.views import BaseListView, BaseSearchView, MessageMixin
+from home.views import BaseListView, BaseSearchView
 
 from apps.competitions.forms import (
     SportForm,

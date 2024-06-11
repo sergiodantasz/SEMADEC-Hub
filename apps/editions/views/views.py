@@ -2,9 +2,7 @@ from typing import Any
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.messages.views import SuccessMessageMixin
-from django.db import DatabaseError
-from django.db.models import Model, Q
+from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.forms import HiddenInput, modelformset_factory
 from django.http import (
@@ -12,21 +10,18 @@ from django.http import (
     HttpResponsePermanentRedirect,
     HttpResponseRedirect,
 )
-from django.shortcuts import redirect, render
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import DeleteView, FormView, UpdateView
+from django.views.generic.edit import UpdateView
 from home.views import BaseListView, BaseSearchView, MessageMixin
 
 from apps.competitions.models import Sport
-from apps.competitions.tests.factories import SportFactory
 from apps.editions.forms import EditionForm, EditionTeamForm
 from apps.editions.models import Edition, EditionTeam
 from apps.home.views.views import BaseCreateView, BaseDeleteView
 from apps.teams.models import Team
-from apps.teams.tests.factories import ClassFactory, CourseFactory, TeamFactory
 from helpers.decorators import admin_required
 
 

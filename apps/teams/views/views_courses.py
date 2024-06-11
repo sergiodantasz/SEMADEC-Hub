@@ -1,23 +1,12 @@
 from typing import Any
 
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Model, Q
+from django.db.models import Q
 from django.db.models.query import QuerySet
-from django.forms import modelformset_factory
-from django.http import (
-    HttpResponse,
-    HttpResponsePermanentRedirect,
-    HttpResponseRedirect,
-)
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
-from django.views.generic.edit import DeleteView, FormView, UpdateView
 from home.views import BaseCreateView, BaseListView, BaseSearchView
 
-from apps.home.views.views import BaseDeleteView, BaseEditView, MessageMixin
+from apps.home.views.views import BaseDeleteView, BaseEditView
 from apps.teams.forms import CourseForm
 from apps.teams.models import Course
 from helpers.decorators import admin_required

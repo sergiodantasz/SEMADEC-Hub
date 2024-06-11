@@ -2,14 +2,11 @@ from typing import Any
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Model, Q
+from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
-from django.views.generic.edit import DeleteView, FormView, UpdateView
-from home.views import BaseListView, BaseSearchView, MessageMixin
+from home.views import BaseListView, BaseSearchView
 
 from apps.home.views.views import BaseCreateView, BaseDeleteView, BaseEditView
 from apps.teams.forms import TeamForm
