@@ -11,16 +11,14 @@ from django.http import (
     HttpResponseRedirect,
 )
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView
-from home.views import BaseListView, BaseSearchView, MessageMixin
+from home.views import BaseListView, BaseSearchView
 
 from apps.competitions.models import Sport
 from apps.editions.forms import EditionForm, EditionTeamForm
 from apps.editions.models import Edition, EditionTeam
-from apps.home.views.views import BaseCreateView, BaseDeleteView
+from apps.home.views.views import BaseCreateView, BaseDeleteView, BaseEditView
 from apps.teams.models import Team
 from helpers.decorators import admin_required
 
@@ -103,7 +101,7 @@ class EditionCreateView(BaseCreateView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class EditionEditView(MessageMixin, UpdateView):
+class EditionEditView(BaseEditView):
     model = Edition
     form_class = EditionForm
     form_teams = modelformset_factory(
@@ -113,9 +111,10 @@ class EditionEditView(MessageMixin, UpdateView):
         fields=['score'],
     )
     template_name = 'editions/pages/edition-edit.html'
-    redirect_url = reverse_lazy('editions:home')  # Change to success_url
-    success_message = 'Edição editada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    msg = {
+        'success': {'form': 'Edição editada com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -124,15 +123,6 @@ class EditionEditView(MessageMixin, UpdateView):
             'form_teams': self.get_form_teams(),
         }
         return context
-
-    def get_form_teams(self, form_class=None):
-        form_teams = self.form_teams(
-            self.request.POST or None,
-            queryset=EditionTeam.objects.filter(
-                edition__pk=self.get_object().pk,
-            ),
-        )
-        return form_teams
 
     def get_form(self, form_class=None):
         form = self.form_class(self.request.POST or None, instance=self.get_object())
@@ -143,6 +133,15 @@ class EditionEditView(MessageMixin, UpdateView):
         form.fields['sports'].required = False
         return form
 
+    def get_form_teams(self, form_class=None):
+        form_teams = self.form_teams(
+            self.request.POST or None,
+            queryset=EditionTeam.objects.filter(
+                edition__pk=self.get_object().pk,
+            ),
+        )
+        return form_teams
+
     def post(
         self, request, *args, **kwargs
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
@@ -151,10 +150,10 @@ class EditionEditView(MessageMixin, UpdateView):
         if form.is_valid() and form_teams.is_valid():
             form.save()
             form_teams.save()
-            messages.success(self.request, self.success_message)
+            messages.success(self.request, self.msg['success']['form'])
         else:
-            messages.error(request, self.error_message)
-        return redirect(self.redirect_url)
+            messages.error(request, self.msg['error']['form'])
+        return redirect(self.get_success_url())
 
 
 @method_decorator(login_required, name='dispatch')
