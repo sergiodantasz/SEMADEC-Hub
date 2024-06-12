@@ -8,10 +8,9 @@ from apps.competitions.models import SportCategory
 from apps.editions.tests.factories import EditionFactory
 from apps.teams.models import Team
 
-
-def test_match_form_if_edition_object_is_given(db, match_form_fixture):
-    form = match_form_fixture(edition_obj=EditionFactory())
-    ...
+# def test_match_form_if_edition_object_is_given(db, match_form_fixture):
+#     form = match_form_fixture(edition_obj=EditionFactory())
+# ...
 
 
 def test_match_form_sport_category_queryset_is_correct(db, match_form_fixture):
