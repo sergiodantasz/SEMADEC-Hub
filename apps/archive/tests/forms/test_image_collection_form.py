@@ -5,6 +5,16 @@ from apps.competitions import forms
 from apps.home.models import Tag
 
 
+def test_image_collection_form_title_field_placeholder_is_correct(
+    db, image_collection_form_fixture
+):
+    form = image_collection_form_fixture()
+    assert (
+        form.fields['title'].widget.attrs['placeholder']
+        == 'Digite o título da coleção...'
+    )
+
+
 def test_image_collection_form_cover_widget_is_fileinput(
     db, image_collection_form_fixture
 ):
@@ -24,6 +34,11 @@ def test_image_collection_form_cover_required_is_false(
 ):
     form = image_collection_form_fixture()
     assert form.fields['cover'].required is False
+
+
+def test_image_collection_form_cover_is_hidden(db, image_collection_form_fixture):
+    form = image_collection_form_fixture()
+    assert form.fields['cover'].widget.attrs['hidden'] is True
 
 
 def test_image_collection_form_title_has_max_length_200(
