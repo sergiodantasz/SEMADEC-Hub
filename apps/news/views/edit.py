@@ -9,19 +9,20 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from apps.home.views.views import MessageMixin
 from apps.news.forms import NewsForm
 from apps.news.models import News
+from base.views.base_form_views import BaseCreateView, BaseDeleteView, BaseEditView
 from helpers.decorators import admin_required
 from helpers.model import is_owner
 
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class NewsCreateView(MessageMixin, CreateView):
-    model = News
+class NewsCreateView(BaseCreateView):
     form_class = NewsForm
     template_name = 'news/pages/news_form.html'
-    success_url = reverse_lazy('news:list')
-    success_message = 'Notícia criada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    msg = {
+        'success': {'form': 'Notícia criada com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) | {'title': 'Criar notícia'}
@@ -37,13 +38,13 @@ class NewsCreateView(MessageMixin, CreateView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class NewsEditView(MessageMixin, UpdateView):
-    model = News
+class NewsEditView(BaseEditView):
     form_class = NewsForm
     template_name = 'news/pages/news_form.html'
-    success_url = reverse_lazy('news:list')
-    success_message = 'Notícia editada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    msg = {
+        'success': {'form': 'Notícia editada com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) | {'title': 'Editar notícia'}
@@ -57,13 +58,17 @@ class NewsEditView(MessageMixin, UpdateView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class NewsDeleteView(MessageMixin, DeleteView):
+class NewsDeleteView(BaseDeleteView):
     model = News
-    success_url = reverse_lazy('news:list')
+    msg = {
+        'success': {'form': 'Notícia apagada com sucesso.'},
+        'error': {'form': 'Não foi possível remover este curso.'},
+    }
     success_message = 'Notícia apagada com sucesso.'
 
     def get(self, request, *args, **kwargs):
         if not is_owner(request.user, self.get_object()):  # type: ignore
-            raise PermissionDenied()
-        self.delete(request, *args, **kwargs)
-        return redirect(self.success_url)
+            messages.error(request, self.msg['error']['form'])
+        else:
+            self.delete(request, *args, **kwargs)
+        return redirect(self.get_success_url())

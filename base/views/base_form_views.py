@@ -1,4 +1,7 @@
+from typing import Any
+
 from django.db.models import Model
+from django.db.models.query import QuerySet
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, FormView, UpdateView
@@ -21,6 +24,13 @@ class BaseFormView(MessageMixin, FormView):
     def get_object_pk(self):
         return self.kwargs.get('pk', '')
 
+    def get_queryset(self) -> QuerySet[Any]:
+        return (
+            super().get_queryset()
+            if self.model
+            else self.form_class._meta.model.objects.all()
+        )
+
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
@@ -31,8 +41,7 @@ class BaseCreateView(BaseFormView):
         return model.objects.exists()
 
 
-class BaseEditView(BaseFormView, UpdateView):
-    pass
+class BaseEditView(BaseFormView, UpdateView): ...
 
 
 class BaseDeleteView(BaseFormView, DeleteView):
