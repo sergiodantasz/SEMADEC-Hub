@@ -100,7 +100,10 @@ class MatchForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if edition_obj:
             self.set_sport_category_queryset(edition_obj)
-            self.fields['teams'].queryset = edition_obj.teams.all()
+            self.set_teams_queryset(edition_obj)
+
+    def set_teams_queryset(self, edition_obj):
+        self.fields['teams'].queryset = edition_obj.teams.all()
 
     def set_sport_category_queryset(self, edition_obj):
         sport_category_ids = edition_obj.sports.values_list('sport_category', flat=True)
