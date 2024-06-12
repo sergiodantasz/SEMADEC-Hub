@@ -9,19 +9,20 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from apps.home.views.views import MessageMixin
 from apps.news.forms import NewsForm
 from apps.news.models import News
+from base.views.base_form_views import BaseCreateView
 from helpers.decorators import admin_required
 from helpers.model import is_owner
 
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class NewsCreateView(MessageMixin, CreateView):
-    model = News
+class NewsCreateView(BaseCreateView):
     form_class = NewsForm
     template_name = 'news/pages/news_form.html'
-    success_url = reverse_lazy('news:home')
-    success_message = 'Notícia criada com sucesso.'
-    error_message = 'Preencha os campos do formulário corretamente.'
+    msg = {
+        'success': {'form': 'Notícia criada com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) | {'title': 'Criar notícia'}
