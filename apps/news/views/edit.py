@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from apps.home.views.views import MessageMixin
 from apps.news.forms import NewsForm
 from apps.news.models import News
-from base.views.base_form_views import BaseCreateView, BaseEditView
+from base.views.base_form_views import BaseCreateView, BaseDeleteView, BaseEditView
 from helpers.decorators import admin_required
 from helpers.model import is_owner
 
@@ -58,13 +58,17 @@ class NewsEditView(BaseEditView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
-class NewsDeleteView(MessageMixin, DeleteView):
+class NewsDeleteView(BaseDeleteView):
     model = News
-    success_url = reverse_lazy('news:home')
+    msg = {
+        'success': {'form': 'Notícia apagada com sucesso.'},
+        'error': {'form': 'Não foi possível remover este curso.'},
+    }
     success_message = 'Notícia apagada com sucesso.'
 
     def get(self, request, *args, **kwargs):
         if not is_owner(request.user, self.get_object()):  # type: ignore
-            raise PermissionDenied()
-        self.delete(request, *args, **kwargs)
-        return redirect(self.success_url)
+            messages.error(request, self.msg['error']['form'])
+        else:
+            self.delete(request, *args, **kwargs)
+        return redirect(self.get_success_url())
