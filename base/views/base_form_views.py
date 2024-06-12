@@ -24,6 +24,9 @@ class BaseFormView(MessageMixin, FormView):
     def get_object_pk(self):
         return self.kwargs.get('pk', '')
 
+    def get_queryset(self) -> QuerySet[Any]:
+        return self.form_class._meta.model.objects.all()
+
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
@@ -34,9 +37,7 @@ class BaseCreateView(BaseFormView):
         return model.objects.exists()
 
 
-class BaseEditView(BaseFormView, UpdateView):
-    def get_queryset(self) -> QuerySet[Any]:
-        return self.form_class._meta.model.objects.all()
+class BaseEditView(BaseFormView, UpdateView): ...
 
 
 class BaseDeleteView(BaseFormView, DeleteView):
