@@ -64,7 +64,6 @@ class NewsDeleteView(BaseDeleteView):
         'success': {'form': 'Notícia apagada com sucesso.'},
         'error': {'form': 'Não foi possível remover este curso.'},
     }
-    success_message = 'Notícia apagada com sucesso.'
 
     def get(self, request, *args, **kwargs):
         if not is_owner(request.user, self.get_object()):  # type: ignore
