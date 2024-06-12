@@ -10,7 +10,7 @@ def test_news_list_viewname_redirects_to_news_list_view():
 
 def test_news_search_viewname_redirects_to_news_search_view():
     view = resolve(reverse('news:search'))
-    assert view.func.view_class is views.NewsSearchListView
+    assert view.func.view_class is views.NewsSearchView
 
 
 def test_news_create_viewname_redirects_to_create_view():

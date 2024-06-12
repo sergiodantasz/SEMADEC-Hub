@@ -14,14 +14,14 @@
       </a>
     </div>
   {% endif %}
-  {% if news_list|length > 0 %}
+  {% if db_regs|length > 0 %}
     {% include "global/partials/_search-bar.html" %}
     <div class="news-list">
-      {% for news in news_list %}
+      {% for news in db_regs %}
         {% include "news/partials/_news-item.html" %}
       {% endfor %}
     </div>
-    {% if news_list.has_other_pages %}
+    {% if db_regs.has_other_pages %}
       {% include "global/partials/_pagination.html" %}
     {% endif %}
   {% else %}
