@@ -4,7 +4,7 @@ from apps.news import views
 
 
 def test_news_list_viewname_redirects_to_news_list_view():
-    view = resolve(reverse('news:list'))
+    view = resolve(reverse('news:home'))
     assert view.func.view_class is views.NewsListView
 
 

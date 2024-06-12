@@ -19,7 +19,7 @@ class NewsCreateView(MessageMixin, CreateView):
     model = News
     form_class = NewsForm
     template_name = 'news/pages/news_form.html'
-    success_url = reverse_lazy('news:list')
+    success_url = reverse_lazy('news:home')
     success_message = 'Notícia criada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
@@ -41,7 +41,7 @@ class NewsEditView(MessageMixin, UpdateView):
     model = News
     form_class = NewsForm
     template_name = 'news/pages/news_form.html'
-    success_url = reverse_lazy('news:list')
+    success_url = reverse_lazy('news:home')
     success_message = 'Notícia editada com sucesso.'
     error_message = 'Preencha os campos do formulário corretamente.'
 
@@ -59,7 +59,7 @@ class NewsEditView(MessageMixin, UpdateView):
 @method_decorator(admin_required, name='dispatch')
 class NewsDeleteView(MessageMixin, DeleteView):
     model = News
-    success_url = reverse_lazy('news:list')
+    success_url = reverse_lazy('news:home')
     success_message = 'Notícia apagada com sucesso.'
 
     def get(self, request, *args, **kwargs):
