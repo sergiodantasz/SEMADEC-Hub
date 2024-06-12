@@ -25,7 +25,11 @@ class BaseFormView(MessageMixin, FormView):
         return self.kwargs.get('pk', '')
 
     def get_queryset(self) -> QuerySet[Any]:
-        return self.form_class._meta.model.objects.all()
+        return (
+            super().get_queryset()
+            if self.model
+            else self.form_class._meta.model.objects.all()
+        )
 
     def form_valid(self, form):
         form.save()
