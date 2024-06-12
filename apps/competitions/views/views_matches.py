@@ -54,6 +54,11 @@ class MatchCreateView(BaseCreateView):
     def get_success_url(self) -> str:
         return reverse_lazy('editions:detailed', kwargs={'pk': self.get_object_pk()})
 
+    def get_form(self, form_class=None):
+        edition_obj = Edition.objects.get(pk=self.get_object_pk())
+        form = self.form_class(self.request.POST or None, edition_obj=edition_obj)
+        return form
+
     def get(
         self, request, *args, **kwargs
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
