@@ -1,4 +1,7 @@
+from typing import Any
+
 from django.db.models import Model
+from django.db.models.query import QuerySet
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, FormView, UpdateView
@@ -32,7 +35,8 @@ class BaseCreateView(BaseFormView):
 
 
 class BaseEditView(BaseFormView, UpdateView):
-    pass
+    def get_queryset(self) -> QuerySet[Any]:
+        return self.form_class._meta.model.objects.all()
 
 
 class BaseDeleteView(BaseFormView, DeleteView):
