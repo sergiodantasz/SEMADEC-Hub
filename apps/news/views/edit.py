@@ -62,7 +62,7 @@ class NewsDeleteView(BaseDeleteView):
     model = News
     msg = {
         'success': {'form': 'Notícia apagada com sucesso.'},
-        'error': {'form': 'Não foi possível remover este curso.'},
+        'error': {'form': 'Não foi possível remover esta notícia.'},
     }
 
     def get(self, request, *args, **kwargs):
