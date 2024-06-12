@@ -99,14 +99,15 @@ class MatchForm(forms.ModelForm):
             kwargs.pop('edition_obj')
         super().__init__(*args, **kwargs)
         if edition_obj:
-            sport_category_ids = edition_obj.sports.values_list(
-                'sport_category', flat=True
-            )
-            sport_category_queryset = SportCategory.objects.filter(
-                pk__in=sport_category_ids
-            )
+            self.set_sport_category_queryset(edition_obj)
             self.fields['teams'].queryset = edition_obj.teams.all()
-            self.fields['sport_category'].queryset = sport_category_queryset
+
+    def set_sport_category_queryset(self, edition_obj):
+        sport_category_ids = edition_obj.sports.values_list('sport_category', flat=True)
+        sport_category_queryset = SportCategory.objects.filter(
+            pk__in=sport_category_ids
+        )
+        self.fields['sport_category'].queryset = sport_category_queryset
 
     class Meta:
         model = Match
