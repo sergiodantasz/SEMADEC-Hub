@@ -83,7 +83,6 @@ class ClassCreateView(BaseCreateView):
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
 class ClassEditView(BaseEditView):
-    model = Class
     form_class = ClassForm
     template_name = 'teams/pages/class-create.html'
     msg = {

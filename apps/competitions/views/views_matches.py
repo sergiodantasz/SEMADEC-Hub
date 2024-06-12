@@ -75,7 +75,6 @@ class MatchCreateView(BaseCreateView):
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
 class MatchEditView(BaseEditView):
-    model = Match
     form_class = MatchForm
     form_matches = modelformset_factory(
         MatchTeam,

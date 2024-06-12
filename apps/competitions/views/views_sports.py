@@ -80,7 +80,6 @@ class SportCreateView(BaseCreateView):
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
 class SportEditView(BaseEditView):
-    model = Sport
     form_class = SportForm
     template_name = 'competitions/pages/sport-create.html'
     msg = {

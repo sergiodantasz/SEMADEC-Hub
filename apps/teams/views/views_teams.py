@@ -76,7 +76,6 @@ class TeamCreateView(BaseCreateView):
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
 class TeamEditView(BaseEditView):
-    model = Team
     form_class = TeamForm
     template_name = 'teams/pages/team-create.html'
     msg = {

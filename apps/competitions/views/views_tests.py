@@ -97,7 +97,6 @@ class TestCreateView(BaseCreateView):
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
 class TestEditView(BaseEditView):
-    model = Test
     form_class = TestForm
     form_teams = modelformset_factory(
         TestTeam,

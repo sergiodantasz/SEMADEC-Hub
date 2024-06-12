@@ -108,7 +108,6 @@ class EditionCreateView(BaseCreateView):
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_required, name='dispatch')
 class EditionEditView(BaseEditView):
-    model = Edition
     form_class = EditionForm
     form_teams = modelformset_factory(
         EditionTeam,
