@@ -1,7 +1,8 @@
 import pytest
 from django.conf import settings
+from factory.django import FileField
 
-from apps.documents.forms import DocumentCollectionForm
+from apps.documents.forms import DocumentCollectionForm, DocumentForm
 from apps.documents.tests.factories import DocumentFactory
 from apps.home.tests.factories import TagFactory
 
@@ -20,6 +21,15 @@ def document_collection_form_fixture():
         'tags': TagFactory.create_batch(3),
     }
     caller = lambda **kwargs: DocumentCollectionForm(data=data | kwargs)  # noqa
+    yield caller
+
+
+@pytest.fixture
+def document_form_fixture():
+    data = {
+        'documents': FileField(),
+    }
+    caller = lambda **kwargs: DocumentForm(data=data | kwargs)  # noqa
     yield caller
 
 
