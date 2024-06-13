@@ -5,12 +5,31 @@ from django.forms import (
 )
 
 from apps.competitions.models import SportCategory
+from apps.editions.tests.conftest import edition_fixture
 from apps.editions.tests.factories import EditionFactory
 from apps.teams.models import Team
 
 # def test_match_form_if_edition_object_is_given(db, match_form_fixture):
 #     form = match_form_fixture(edition_obj=EditionFactory())
 # ...
+
+
+def test_match_form_set_teams_queryset_updates_teams_queryset(
+    db, match_form_fixture, edition_fixture
+):
+    edition_obj = edition_fixture()
+    form = match_form_fixture(edition_obj=edition_obj)
+    assert list(form.fields['teams'].queryset) == list(edition_obj.teams.all())
+
+
+def test_match_form_set_sport_category_queryset_updates_sport_category_queryset(
+    db, match_form_fixture, edition_fixture
+):
+    edition_obj = edition_fixture()
+    form = match_form_fixture(edition_obj=edition_obj)
+    sport_category_ids = edition_obj.sports.values_list('sport_category', flat=True)
+    sport_category_queryset = SportCategory.objects.filter(pk__in=sport_category_ids)
+    assert list(form.fields['sport_category'].queryset) == list(sport_category_queryset)
 
 
 def test_match_form_sport_category_queryset_is_correct(db, match_form_fixture):
