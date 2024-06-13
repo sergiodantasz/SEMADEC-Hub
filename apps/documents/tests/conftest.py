@@ -1,12 +1,25 @@
 import pytest
 from django.conf import settings
 
+from apps.documents.forms import DocumentCollectionForm
 from apps.documents.tests.factories import DocumentFactory
+from apps.home.tests.factories import TagFactory
 
 
 @pytest.fixture(scope='session')
 def document_fixture():
     caller = lambda size=1, **kwargs: DocumentFactory.create_batch(size, **kwargs)  # noqa
+    yield caller
+
+
+@pytest.fixture
+def document_collection_form_fixture():
+    data = {
+        'title': 'test',
+        'collection_type': 'document',
+        'tags': TagFactory.create_batch(3),
+    }
+    caller = lambda **kwargs: DocumentCollectionForm(data=data | kwargs)  # noqa
     yield caller
 
 
