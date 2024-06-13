@@ -3,18 +3,35 @@ from django.conf import settings
 
 from apps.competitions.tests.factories import (
     MatchTeamFactory,
+    SportFactory,
     TestTeamFactory,
     TestWithTeamFactory,
 )
+from apps.editions.forms import EditionForm
 from apps.editions.tests.factories import (
     EditionTeamFactory,
     EditionWithTeamFactory,
+    TeamWith2EditionsFactory,
 )
 
 
 @pytest.fixture
 def edition_fixture():
     yield EditionWithTeamFactory
+
+
+@pytest.fixture
+def edition_form_fixture():
+    data = {
+        'year': 2000,
+        'name': 'name',
+        'edition_type': 'courses',
+        'theme': 'theme',
+        'teams': TeamWith2EditionsFactory(),
+        'sports': SportFactory.create_batch(3),
+    }
+    caller = lambda **kwargs: EditionForm(data=data | kwargs)  # noqa
+    yield caller
 
 
 @pytest.fixture
