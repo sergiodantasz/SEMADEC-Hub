@@ -1,8 +1,24 @@
 {% extends "global/pages/base_no_header.html" %}
 {% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "home/css/home.css" %}">
+{% endblock additional_head %}
+{% load static %}
 {% block main %}
 <div>{% include "home/partials/_home-banner.html" %}</div>
 {{ block.super }}
 {% endblock main %}
 {% block content %}
+  <article class="homepage-block">
+    <div class="homepage-block-header">
+      <hr class="homepage-block-divider">
+        <h3 class="homepage-block-heading">Últimas Notícias</h3>
+      <hr class="homepage-block-divider">
+    </div>
+    <div class="block-news-container">
+      {% include "home/partials/_news-item.html" %}
+      {% include "home/partials/_news-item.html" %}
+      {% include "home/partials/_news-item.html" %}
+      {% include "home/partials/_news-item.html" %}
+  </article>
 {% endblock content %}
