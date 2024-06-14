@@ -7,7 +7,7 @@ from apps.competitions.tests.factories import (
     TestTeamFactory,
     TestWithTeamFactory,
 )
-from apps.editions.forms import EditionForm
+from apps.editions.forms import EditionForm, EditionTeamForm
 from apps.editions.tests.factories import (
     EditionTeamFactory,
     EditionWithTeamFactory,
@@ -37,6 +37,15 @@ def edition_form_fixture():
 @pytest.fixture
 def edition_team_fixture():
     yield EditionTeamFactory
+
+
+@pytest.fixture
+def edition_team_form_fixture():
+    data = {
+        'score': 10,
+    }
+    caller = lambda **kwargs: EditionTeamForm(data=data | kwargs)  # noqa
+    yield caller
 
 
 @pytest.fixture
