@@ -1,17 +1,10 @@
-from typing import Any
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Model, Q
-from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse, reverse_lazy
-from django.views.generic import DeleteView, DetailView, FormView, ListView, UpdateView
 
 from apps.editions.models import Edition
 from apps.home.forms import TagForm
 from apps.home.models import Tag
-from base.views import MessageMixin
 from helpers.decorators import admin_required
 
 
