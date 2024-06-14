@@ -6,9 +6,9 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
-from apps.home.views.views import MessageMixin
 from apps.news.forms import NewsForm
 from apps.news.models import News
+from base.views import MessageMixin
 from base.views.base_form_views import BaseCreateView, BaseDeleteView, BaseEditView
 from helpers.decorators import admin_required
 from helpers.model import is_owner

@@ -1,7 +1,7 @@
 from django.views.generic.detail import DetailView
 
-from apps.home.views.views import MessageMixin
 from apps.news.models import News
+from base.views import MessageMixin
 from helpers.model import is_owner
 
 
