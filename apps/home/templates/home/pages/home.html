@@ -1,5 +1,8 @@
-{% extends "global/pages/base_header.html" %}
-{% block header %}Início{% endblock header %}
+{% extends "global/pages/base_no_header.html" %}
+{% load static %}
+{% block main %}
+<div>{% include "home/partials/_home-banner.html" %}</div>
+{{ block.super }}
+{% endblock main %}
 {% block content %}
-  <span>Content</span>
 {% endblock content %}

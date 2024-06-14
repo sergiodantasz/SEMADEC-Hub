@@ -1,0 +1,49 @@
+div#home-banner-container {
+  height: 30rem;
+  width: 100%;
+  margin-top: -5rem;
+  background-image: url("../img/home-banner-image.png");
+  position: relative;
+}
+
+#home-banner-elements {
+  position: absolute;
+  top: min(15vw, 12rem);
+  left: min(10vw, 20rem);
+}
+
+#home-banner-header1 {
+  color: var(--green-50);
+  font-weight: 700;
+  font-size: var(--font-size-heading-large);
+  margin-bottom: 0.5rem;
+}
+
+#home-banner-header3 {
+  color: var(--green-50);
+  font-weight: 400;
+  font-size: var(--font-size-heading-normal);
+  margin-bottom: 0.5rem;
+}
+
+#home-banner-divider {
+  height: 2px;
+  width: 15rem;
+  background-color: var(--green-50);
+  margin-bottom: 1rem;
+}
+
+#home-banner-button {
+  font-family: var(--font-family);
+  color: var(--green-50);
+  background-color: var(--green-600);
+  font-size: var(--font-size-content-normal);
+  padding: 0.4rem 1.5rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+#home-banner-button:hover {
+  background-color: var(--green-700);
+}

@@ -1,0 +1,19 @@
+{% load static %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "home/css/home-banner.css" %}">
+{% endblock additional_head %}
+<div id="home-banner-container">
+  <div id="home-banner-elements">
+    <h1 id="home-banner-header1">
+      {{ last_edition.name }} <!--last SEMADEC name goes here-->
+    </h1>
+    <!--add conditional because theme is not obligatory-->
+    {% if last_edition.theme %}
+      <h3 id="home-banner-header3">
+        {{ last_edition.theme }} <!--last SEMADEC theme-->
+      </h3>
+    {% endif %}
+    <hr id="home-banner-divider">
+    <button id="home-banner-button" onclick="location.href='{% url 'editions:detailed' last_edition.pk%}'">Saiba mais</button>
+  </div>
+</div>

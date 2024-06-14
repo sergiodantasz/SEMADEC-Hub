@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DeleteView, DetailView, FormView, ListView, UpdateView
 
+from apps.editions.models import Edition
 from apps.home.forms import TagForm
 from apps.home.models import Tag
 from base.views import MessageMixin
@@ -15,7 +16,8 @@ from helpers.decorators import admin_required
 
 
 def home(request):
-    context = {'title': 'Início'}
+    last_edition = Edition.objects.order_by('-year').first()
+    context = {'title': 'Início', 'last_edition': last_edition}
     return render(request, 'home/pages/home.html', context)
 
 
