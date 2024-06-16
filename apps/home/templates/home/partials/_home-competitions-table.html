@@ -1,0 +1,36 @@
+{% extends "global/partials/_table.html" %}
+{% load static %}
+{% block additional_head %}
+  {{ block.super }}
+  <style>
+    .base-table-cell-left {
+      width: 25%;
+    }
+  </style>
+{% endblock additional_head %}
+{% block table_header_rows %}
+  <th class="base-table-header">Esporte</th>
+  <th class="base-table-header">Times</th>
+  <th class="base-table-header">Categoria</th>
+  <th class="base-table-header">Horário</th>
+  <th class="base-table-header">Placar</th>
+{% endblock table_header_rows %}
+{% block table_rows %}
+  {% for match in matches%}
+    <tr class="base-table-row">
+      <td class="base-table-cell base-table-cell-left">{{ match.sport_category.sport.name }}</td>
+      <td class="base-table-cell">
+        {% for team in match.teams.all %}
+          <p>{{ team.name }}</p>
+        {% endfor %}
+      </td>
+      <td class="base-table-cell">{{ match.sport_category.category.name }}</td>
+      <td class="base-table-cell">
+        <span class="base-table-date">{{ match.date_time|date:"SHORT_DATETIME_FORMAT" }}</span>
+      </td>
+      <td class="base-table-cell">
+        <span>{{ match.get_scoreboard|join:" x " }}</span>
+      </td>
+    </tr>
+  {% endfor %}
+{% endblock table_rows %}

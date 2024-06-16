@@ -1,8 +1,15 @@
-.homepage-block {
+.homepage-block-outer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 5rem;
+  row-gap: 5rem;
+}
+
+.homepage-block-inner {
   display: flex;
   flex-direction: column;
-  width: 50%;
 }
+
 .homepage-block-header {
   display: flex;
   align-items: center;
@@ -28,6 +35,20 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   row-gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.block-show-more {
+  align-self: center;
+  margin-top: 2rem;
+}
+
+.block-show-more a {
+  font-size: 1.6rem;
+  color: var(--green-950);
+  font-family: var(--font-family);
+  font-weight: 700;
+  text-decoration-line: underline;
 }
 
 .block-news-item-outer {

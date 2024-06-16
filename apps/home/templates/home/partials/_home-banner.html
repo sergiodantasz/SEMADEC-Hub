@@ -5,15 +5,15 @@
 <div id="home-banner-container">
   <div id="home-banner-elements">
     <h1 id="home-banner-header1">
-      {{ last_edition.name }} <!--last SEMADEC name goes here-->
+      {{ last_edition.name|default:"SEMADEC Hub" }} <!--last SEMADEC name goes here-->
     </h1>
     <!--add conditional because theme is not obligatory-->
-    {% if last_edition.theme %}
-      <h3 id="home-banner-header3">
-        {{ last_edition.theme }} <!--last SEMADEC theme-->
-      </h3>
-    {% endif %}
+    <h3 id="home-banner-header3">
+      {{ last_edition.theme|default:"Portal de informações da SEMADEC do Campus Currais Novos" }} <!--last SEMADEC theme-->
+    </h3>
     <hr id="home-banner-divider">
-    <button id="home-banner-button" onclick="location.href='{% url 'editions:detailed' last_edition.pk%}'">Saiba mais</button>
+    {% if last_edition %}
+      <button id="home-banner-button" onclick="location.href='{% url 'editions:detailed' last_edition.pk%}'">Saiba mais</button>
+    {% endif %}
   </div>
 </div>

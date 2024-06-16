@@ -4,13 +4,26 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.editions.models import Edition
 from apps.home.forms import TagForm
-from apps.home.models import Tag
+from apps.home.models import Collection, Tag
+from apps.news.models import News
 from helpers.decorators import admin_required
 
 
 def home(request):
     last_edition = Edition.objects.order_by('-year').first()
-    context = {'title': 'Início', 'last_edition': last_edition}
+    context = {
+        'title': 'Início',
+        'last_edition': last_edition or '',
+        'news': News.objects.all(),
+        'document_collection': Collection.objects.filter(
+            collection_type='document'
+        ).first()
+        or '',
+    }
+    if last_edition:
+        context |= {'matches': last_edition.matches.all() or ''}
+    else:
+        context |= {'matches': ''}
     return render(request, 'home/pages/home.html', context)
 
 

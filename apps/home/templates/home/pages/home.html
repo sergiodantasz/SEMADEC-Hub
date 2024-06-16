@@ -9,16 +9,85 @@
 {{ block.super }}
 {% endblock main %}
 {% block content %}
-  <article class="homepage-block">
-    <div class="homepage-block-header">
-      <hr class="homepage-block-divider">
-        <h3 class="homepage-block-heading">Últimas Notícias</h3>
-      <hr class="homepage-block-divider">
+  <!--Competições-->
+  <article class="homepage-block-outer">
+    <div class="homepage-block-inner">
+      <div class="homepage-block-header">
+        <hr class="homepage-block-divider">
+          <h3 class="homepage-block-heading">Últimas Notícias</h3>
+        <hr class="homepage-block-divider">
+      </div>
+      {% if news %}
+        <div class="block-news-container">
+          {% include "home/partials/_news-item.html" %}
+          {% include "home/partials/_news-item.html" %}
+          {% include "home/partials/_news-item.html" %}
+          {% include "home/partials/_news-item.html" %}
+        </div>
+        <div class="block-show-more">
+          <a href="{% url "news:home" %}">Clique aqui</a>
+          para acessar mais notícias
+        </div>
+      {% else %}
+        <p class="nothing-found">Nenhuma notícia foi encontrada.</p>
+      {% endif %}
     </div>
-    <div class="block-news-container">
-      {% include "home/partials/_news-item.html" %}
-      {% include "home/partials/_news-item.html" %}
-      {% include "home/partials/_news-item.html" %}
-      {% include "home/partials/_news-item.html" %}
+    <!--Competições-->
+    <div class="homepage-block-inner">
+      <div class="homepage-block-header">
+        <hr class="homepage-block-divider">
+          <h3 class="homepage-block-heading">Últimas Competições</h3>
+        <hr class="homepage-block-divider">
+      </div>
+      {% if matches %}
+        <div class="block-competitions-container">
+          {% include "home/partials/_home-competitions-table.html" %}
+        </div>
+        <div class="block-show-more">
+          <a href="{% url "competitions:home" %}">Clique aqui</a>
+          para acessar mais competições
+        </div>
+      {% else %}
+        <p class="nothing-found">Nenhuma competição foi encontrada.</p>
+      {% endif %}
+    </div>
+    <!--Documentos-->
+    <div class="homepage-block-inner">
+      <div class="homepage-block-header">
+        <hr class="homepage-block-divider">
+          <h3 class="homepage-block-heading">Últimos Documentos</h3>
+        <hr class="homepage-block-divider">
+      </div>
+      {% if document_collection %}
+        <div class="block-competitions-container">
+          {% include "home/partials/_home-documents.html" %}
+        </div>
+        <div class="block-show-more">
+          <a href="{% url "documents:documents" %}">Clique aqui</a>
+          para acessar mais documentos
+        </div>
+      {% else %}
+        <p class="nothing-found">Nenhum documento foi encontrado.</p>
+      {% endif %}
+    </div>
+    <!--Imagens-->
+    <div class="homepage-block-inner">
+      <div class="homepage-block-header">
+        <hr class="homepage-block-divider">
+          <h3 class="homepage-block-heading">Últimas Imagens</h3>
+        <hr class="homepage-block-divider">
+      </div>
+      {% if images %}
+        <div class="block-competitions-container">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem, odio voluptate unde consequatur voluptatibus alias voluptatum incidunt ullam repellat esse adipisci dicta numquam doloribus eos rerum. Tenetur provident veritatis blanditiis.
+        </div>
+        <div class="block-show-more">
+          <a href="{% url "archive:list" %}">Clique aqui</a>
+          para acessar mais imagens
+        </div>
+      {% else %}
+        <p class="nothing-found">Nenhuma imagem foi encontrada.</p>
+      {% endif %}
+    </div>
   </article>
 {% endblock content %}
