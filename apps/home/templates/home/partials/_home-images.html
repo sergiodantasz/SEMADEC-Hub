@@ -1,0 +1,27 @@
+{% load static %}
+{% block additional_head %}
+  <style>
+    .images-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+      gap: 2rem;
+    }
+
+    .archive-image-item {
+      width: 100%;
+      height: 100%;
+      border-radius: 1rem;
+      object-fit: cover;
+    }
+  </style>
+{% endblock additional_head %}
+<div class="images-container">
+  {% for image in archive.get_images %}
+    <div class="archive-image-wrapper" pk="{{ image.id }}">
+      <img class="archive-image-item" src="{{ image.content.url }}" alt="">
+    </div>
+  {% endfor %}
+</div>
+{% block additional_script %}
+  <script src="{% static "archive/js/archive-item-modal.js" %}"></script>
+{% endblock additional_script %}

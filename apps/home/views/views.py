@@ -15,10 +15,13 @@ def home(request):
         'title': 'Início',
         'last_edition': last_edition or '',
         'news': News.objects.all(),
-        'document_collection': Collection.objects.filter(
-            collection_type='document'
-        ).first()
+        'document_collection': Collection.objects.filter(collection_type='document')
+        .order_by('-created_at')
+        .first()
         or '',
+        'archive': Collection.objects.filter(collection_type='image')
+        .order_by('-created_at')
+        .first(),
     }
     if last_edition:
         context |= {'matches': last_edition.matches.all() or ''}
