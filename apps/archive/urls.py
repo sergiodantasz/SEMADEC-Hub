@@ -12,8 +12,8 @@ image_urls = (
 )
 
 urlpatterns = [
-    path('', views.ArchiveListView.as_view(), name='list'),
-    path('criar/', views.create_archive_collection, name='create'),
+    path('', views.ArchiveListView.as_view(), name='home'),
+    path('criar/', views.ArchiveCreateView.as_view(), name='create'),
     # path('buscar/', views.search_archive_collection, name='search'),
     path('visualizar/<slug:slug>/', views.ArchiveDetailView.as_view(), name='detail'),
     path('editar/<slug:slug>/', views.edit_archive_collection, name='edit'),

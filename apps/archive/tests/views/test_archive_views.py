@@ -5,7 +5,7 @@ from apps.archive import views
 
 
 def test_archive_viewname_redirects_to_archive_view():
-    view = resolve(reverse('archive:list'))
+    view = resolve(reverse('archive:home'))
     assert view.func.view_class is views.ArchiveListView
 
 
@@ -16,7 +16,7 @@ def test_archive_detailed_viewname_redirects_to_archive_detailed_view():
 
 def test_archive_create_viewname_redirects_to_archive_create_view():
     view_new = resolve(reverse('archive:create'))
-    assert view_new.func is views.create_archive_collection
+    assert view_new.func.view_class is views.ArchiveCreateView
 
 
 @mark.skip
