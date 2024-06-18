@@ -27,7 +27,7 @@ def edition_form_fixture():
         'name': 'name',
         'edition_type': 'courses',
         'theme': 'theme',
-        'teams': TeamWith2EditionsFactory(),
+        'teams': TeamWith2EditionsFactory.create_batch(2),
         'sports': SportFactory.create_batch(3),
     }
     caller = lambda **kwargs: EditionForm(data=data | kwargs)  # noqa

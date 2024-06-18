@@ -1,3 +1,8 @@
+def test_image_form_is_valid(db, image_form_fixture):
+    form = image_form_fixture()
+    assert form.is_valid()
+
+
 def test_image_form_images_field_multiple_is_true(db, image_form_fixture):
     form = image_form_fixture()
     assert form.fields['images'].widget.attrs['multiple'] is True

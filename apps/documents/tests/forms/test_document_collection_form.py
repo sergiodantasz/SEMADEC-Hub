@@ -3,6 +3,11 @@ from django.forms import CheckboxSelectMultiple, HiddenInput
 from apps.home.models import Tag
 
 
+def test_document_collection_form_is_valid(db, document_collection_form_fixture):
+    form = document_collection_form_fixture()
+    assert form.is_valid()
+
+
 def test_document_collection_form_title_placeholder_is_correct(
     db, document_collection_form_fixture
 ):

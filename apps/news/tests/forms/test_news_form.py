@@ -4,6 +4,11 @@ from django_summernote.widgets import SummernoteWidget
 from apps.home.models import Tag
 
 
+def test_news_form_is_valid(db, news_form_fixture):
+    form = news_form_fixture()
+    assert form.is_valid()
+
+
 def test_news_form_cover_hidden_is_true(db, news_form_fixture):
     form = news_form_fixture()
     assert form.fields['cover'].widget.attrs['hidden'] is True

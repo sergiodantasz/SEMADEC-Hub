@@ -4,6 +4,11 @@ from apps.competitions.models import Sport
 from apps.teams.models import Team
 
 
+def test_edition_form_is_valid(db, edition_form_fixture):
+    form = edition_form_fixture()
+    assert form.is_valid()
+
+
 def test_edition_form_year_placeholder_is_correct(db, edition_form_fixture):
     form = edition_form_fixture()
     assert (

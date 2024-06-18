@@ -3,15 +3,19 @@ from django.forms import (
     DateTimeInput,
     RadioSelect,
 )
+from pytest import mark
 
 from apps.competitions.models import SportCategory
 from apps.editions.tests.conftest import edition_fixture
 from apps.editions.tests.factories import EditionFactory
 from apps.teams.models import Team
 
-# def test_match_form_if_edition_object_is_given(db, match_form_fixture):
-#     form = match_form_fixture(edition_obj=EditionFactory())
-# ...
+
+@mark.skip
+def test_match_form_is_valid(db, match_form_fixture, edition_fixture):
+    edition_obj = edition_fixture()
+    form = match_form_fixture(edition_obj=edition_obj)
+    assert form.is_valid()
 
 
 def test_match_form_set_teams_queryset_updates_teams_queryset(

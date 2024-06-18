@@ -7,6 +7,11 @@ from django.forms import (
 from apps.teams.models import Team
 
 
+def test_test_form_is_valid(db, test_form_fixture):
+    form = test_form_fixture()
+    assert form.is_valid()
+
+
 def test_test_form_title_field_placeholder_is_correct(db, test_form_fixture):
     form = test_form_fixture()
     assert (

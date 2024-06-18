@@ -5,6 +5,11 @@ from django.forms import (
 from apps.competitions.models import Category
 
 
+def test_sport_form_is_valid(db, sport_form_fixture):
+    form = sport_form_fixture()
+    assert form.is_valid()
+
+
 def test_sport_form_name_field_placeholder_is_correct(db, sport_form_fixture):
     form = sport_form_fixture()
     assert (

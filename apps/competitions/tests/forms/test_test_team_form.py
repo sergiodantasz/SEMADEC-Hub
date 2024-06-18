@@ -3,6 +3,11 @@ from django.forms import (
 )
 
 
+def test_test_team_form_is_valid(db, test_team_form_fixture):
+    form = test_team_form_fixture()
+    assert form.is_valid()
+
+
 def test_test_team_form_score_label_is_correct(db, test_team_form_fixture):
     form = test_team_form_fixture()
     assert form.fields['score'].label == 'Pontuação'

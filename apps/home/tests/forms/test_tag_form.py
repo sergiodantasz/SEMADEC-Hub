@@ -1,6 +1,11 @@
 from pytest import mark
 
 
+def test_tag_form_is_valid(db, tag_form_fixture):
+    form = tag_form_fixture()
+    assert form.is_valid()
+
+
 def test_tag_form_name_max_length_is_50(db, tag_form_fixture):
     form = tag_form_fixture()
     assert form.fields['name'].max_length == 50
