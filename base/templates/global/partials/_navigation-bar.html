@@ -1,3 +1,4 @@
+{% load static %}
 <nav class="navigation-bar">
   <div class="content navigation-bar-container">
     <header class="navigation-bar-header">
@@ -6,15 +7,15 @@
       </a>
     </header>
     <div class="navigation-bar-menu">
-      <ul class="navigation-bar-options">
-        <li><a href="{% url "competitions:home" %}">Competições</a></li>
-        <li><a href="{% url "teams:home" %}">Times</a></li>
-        <li><a href="{% url "teams:classes:home" %}">Turmas</a></li>
-        <li><a href="{% url "teams:courses:home" %}">Cursos</a></li>
-        <li><a href="{% url "news:home" %}">Notícias</a></li>
-        <li><a href="{% url "editions:home" %}">Edições</a></li>
-        <li><a href="{% url "archive:list" %}">Acervo</a></li>
-        <li><a href="{% url "documents:documents" %}">Documentos</a></li>
+      <ul class="navigation-bar-options" current-namespace={{ request.resolver_match.view_name }}>
+        <li id="competitions"><a href="{% url "competitions:home" %}">Competições</a></li>
+        <li id="teams"><a href="{% url "teams:home" %}">Times</a></li>
+        <li id="classes"><a href="{% url "teams:classes:home" %}">Turmas</a></li>
+        <li id="courses"><a href="{% url "teams:courses:home" %}">Cursos</a></li>
+        <li id="news"><a href="{% url "news:home" %}">Notícias</a></li>
+        <li id="editions"><a href="{% url "editions:home" %}">Edições</a></li>
+        <li id="archive"><a href="{% url "archive:list" %}">Acervo</a></li>
+        <li id="documents"><a href="{% url "documents:documents" %}">Documentos</a></li>
       </ul>
       <hr class="navigation-bar-divider">
       {% if request.user.is_authenticated %}
@@ -30,3 +31,6 @@
     </div>
   </div>
 </nav>
+{% block additional_script %}
+  <script src="{% static "global/js/navigation-bar-marker.js" %}"></script>
+{% endblock additional_script %}
