@@ -87,7 +87,7 @@ omit = [
 ]
 
 [tool.coverage.report]
-exclude_also = ["def __init__", "super().__init__", "def save"]
+exclude_also = ["def __init__", "super().__init__", "def save", "if TYPE_CHECKING"]
 
 [tool.coverage.html]
 directory = "coverage"
