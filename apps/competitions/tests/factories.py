@@ -108,7 +108,7 @@ class MatchTeamFactory(DjangoModelFactory):
 
     match = SubFactory(MatchFactory)
     team = SubFactory(TeamFactory)
-    score = randfloat(1.0, 100.0)
+    score = round(randfloat(1.0, 100.0), 2)
 
 
 class MatchWithTeamFactory(MatchFactory):
