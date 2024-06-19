@@ -20,7 +20,7 @@ class HomeView(TemplateView):
         context |= {
             'title': 'Início',
             'last_edition': last_edition or '',
-            'news': News.objects.all(),
+            'news_regs': News.objects.all(),
             'document_collection': Collection.objects.filter(collection_type='document')
             .order_by('-created_at')
             .first()

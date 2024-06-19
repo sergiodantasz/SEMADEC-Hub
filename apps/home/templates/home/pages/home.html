@@ -17,12 +17,11 @@
           <h3 class="homepage-block-heading">Últimas Notícias</h3>
         <hr class="homepage-block-divider">
       </div>
-      {% if news %}
+      {% if news_regs %}
         <div class="block-news-container">
-          {% include "home/partials/_news-item.html" %}
-          {% include "home/partials/_news-item.html" %}
-          {% include "home/partials/_news-item.html" %}
-          {% include "home/partials/_news-item.html" %}
+          {% for news in news_regs %}
+            {% include "home/partials/_news-item.html" %}
+          {% endfor %}
         </div>
         <div class="block-show-more">
           <a href="{% url "news:home" %}">Clique aqui</a>
