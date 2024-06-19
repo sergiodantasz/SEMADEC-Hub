@@ -36,6 +36,7 @@
   grid-template-columns: repeat(2, 1fr);
   row-gap: 2rem;
   margin-bottom: 2rem;
+  column-gap: 3rem;
 }
 
 .block-show-more {
@@ -52,7 +53,7 @@
 }
 
 .block-news-item-outer {
-  width: 25rem !important;
+  width: 100%;
 }
 
 .block-news-item-inner {
@@ -82,8 +83,8 @@
   font-weight: 400;
 }
 
-@media screen and (max-width: 1000px) {
-  .homepage-block {
-    width: 100%;
+@media screen and (max-width: 900px) {
+  .homepage-block-outer {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
