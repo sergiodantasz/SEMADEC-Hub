@@ -6,6 +6,10 @@
     .base-table-cell-left {
       width: 25%;
     }
+
+    .base-table-header, .base-table-cell {
+      padding: 1rem 1rem;
+    }
   </style>
 {% endblock additional_head %}
 {% block table_header_rows %}
@@ -16,7 +20,7 @@
   <th class="base-table-header">Placar</th>
 {% endblock table_header_rows %}
 {% block table_rows %}
-  {% for match in matches%}
+  {% for match in matches_regs%}
     <tr class="base-table-row">
       <td class="base-table-cell base-table-cell-left">{{ match.sport_category.sport.name }}</td>
       <td class="base-table-cell">

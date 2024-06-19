@@ -28,7 +28,7 @@ class HomeView(TemplateView):
             'archive_reg': Collection.objects.filter(collection_type='image')
             .order_by('-created_at')
             .first(),
-            'matches': '' if not last_edition else last_edition.matches.all(),
+            'matches_regs': '' if not last_edition else last_edition.matches.all(),
         }
         return context
 
