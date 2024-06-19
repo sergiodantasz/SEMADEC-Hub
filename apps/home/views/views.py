@@ -21,7 +21,7 @@ class HomeView(TemplateView):
             'title': 'Início',
             'last_edition': last_edition or '',
             'news_regs': News.objects.all(),
-            'document_collection': Collection.objects.filter(collection_type='document')
+            'document_reg': Collection.objects.filter(collection_type='document')
             .order_by('-created_at')
             .first()
             or '',

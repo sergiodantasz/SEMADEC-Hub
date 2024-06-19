@@ -5,18 +5,18 @@
 {% endblock additional_head %}
 <div class="document-collection-item-container">
   <header class="document-collection-item-header">
-    <h5 class="document-collection-item-title">{{ document_collection.title }}</h5>
-    <p class="document-collection-item-meta">Por {{ document_collection.administrator.name }} em {{ document_collection.created_at }}</p>
-    {% if document_collection.tags.all|length > 0 %}
+    <h5 class="document-collection-item-title">{{ document_reg.title }}</h5>
+    <p class="document-collection-item-meta">Por {{ document_reg.administrator.name }} em {{ document_reg.created_at }}</p>
+    {% if document_reg.tags.all|length > 0 %}
       <div class="document-tags-container">
-        {% for tag in document_collection.tags.all %}
+        {% for tag in document_reg.tags.all %}
           <div class="document-tag-item">{{tag}}</div><!-- add link to search containing documents with the tag -->
         {% endfor %}
       </div>
     {% endif %}
   </header>
   <div class="document-list">
-    {% for document in document_collection.get_documents %}
+    {% for document in document_reg.get_documents %}
       {% include "documents/partials/_document-item.html" %}
     {% endfor %}
   </div>
