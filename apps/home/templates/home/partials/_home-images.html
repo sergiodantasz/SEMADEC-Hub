@@ -3,7 +3,7 @@
   <style>
     .images-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
       gap: 2rem;
     }
 
@@ -16,7 +16,7 @@
   </style>
 {% endblock additional_head %}
 <div class="images-container">
-  {% for image in archive.get_images %}
+  {% for image in archive_reg.get_images %}
     <div class="archive-image-wrapper" pk="{{ image.id }}">
       <img class="archive-image-item" src="{{ image.content.url }}" alt="">
     </div>
