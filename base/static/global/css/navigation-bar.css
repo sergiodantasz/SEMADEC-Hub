@@ -59,36 +59,17 @@
   transition: var(--transition);
 }
 
-/* PENSAR */
-
 li.navigation-bar-current {
   color: var(--green-700);
 }
 
-/* li.navigation-bar-current::after {
-  width: 0.5rem;
-  height: 0.5rem;
-  bottom: -4rem;
-  content: "";
-  position: absolute;
-  background-color: var(--green-700);
-  border-radius: 50%;
-  right: 0;
-  left: 0;
-  top: 0;
-  margin: auto;
-  transition: var(--transition);
-} */
-
-.navigation-bar-options > li:hover::after,
-.navigation-bar-home:hover::after {
+.navigation-bar-options > li:hover::after {
   width: 0.5rem;
   height: 0.5rem;
   bottom: -4rem;
 }
 
-.navigation-bar-options > li:active::after,
-.navigation-bar-home:active::after {
+.navigation-bar-options > li:active::after {
   background-color: var(--green-800);
 }
 
