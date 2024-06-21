@@ -25,5 +25,5 @@ class BaseSearchView(MessageMixin, ListView):
         if not self.querystr:
             messages.warning(self.request, self.warning_message)
 
-        queryset = self.model.objects.filter(query).order_by(ordering)
+        queryset = self.model.objects.filter(query).order_by(ordering)  # type: ignore
         return queryset

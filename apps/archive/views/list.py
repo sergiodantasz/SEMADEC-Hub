@@ -3,6 +3,7 @@ from typing import Any
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -12,6 +13,7 @@ from apps.archive.forms import ImageCollectionForm, ImageForm
 from apps.archive.models import Image
 from apps.archive.tests.factories import CollectionArchiveFactory
 from apps.home.models import Collection
+from base.views.base_search_view import BaseSearchView
 from helpers.decorators import admin_required
 from helpers.model import is_owner
 from helpers.pagination import make_pagination
@@ -40,3 +42,19 @@ class ArchiveListView(ListView):
         queryset = super().get_queryset()
         queryset = queryset.filter(collection_type='image')
         return queryset
+
+
+class ArchiveSearchView(BaseSearchView):
+    model = Collection
+    template_name = 'archive/pages/archive_list.html'
+    paginate_by = 10
+
+    def get_queryset(self) -> QuerySet[Any]:
+        self.querystr = self.get_search_term()
+        query = Q(title__icontains=self.querystr)
+        return super().get_queryset(query, 'title')
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context |= {'title': 'Acervo'}
+        return context
