@@ -367,6 +367,21 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-browser-reload"
+version = "1.13.0"
+description = "Automatically reload your browser in development."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django_browser_reload-1.13.0-py3-none-any.whl", hash = "sha256:5c1705eb29f0b72808b702484f10a8d5da9cd9243e55ab81446cb697e96b3e8c"},
+    {file = "django_browser_reload-1.13.0.tar.gz", hash = "sha256:4e3507c10518f4c7439588aaed2f0c21b503878ecea7b18893f1e635e0cbe3ab"},
+]
+
+[package.dependencies]
+asgiref = ">=3.6"
+django = ">=3.2"
+
+[[package]]
 name = "django-debug-toolbar"
 version = "4.4.2"
 description = "A configurable set of panels that display various debug information about the current request/response."
@@ -868,4 +883,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.12"
-content-hash = "f69d08b338684606e932fc9ed9110b70429a7593b696094cc08e0ee77756387f"
+content-hash = "0bc28f46f9d2694209348f1c260dc34ecdcd48a5f2ca505e6880e14eefb070b1"

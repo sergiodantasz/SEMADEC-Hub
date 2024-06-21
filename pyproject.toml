@@ -26,6 +26,7 @@ ruff = ">=0.1.14"
 factory-boy = ">=3.3.0"
 faker = ">=22.7.0"
 django-debug-toolbar = ">=4.3.0"
+django-browser-reload = "^1.13.0"
 
 [build-system]
 requires = ["poetry-core"]

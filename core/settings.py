@@ -18,6 +18,7 @@ DEBUG = env.bool('DEBUG')
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 DEBUG_TOOLBAR = env.bool('DEBUG_TOOLBAR')
+BROWSER_RELOAD = env.bool('BROWSER_RELOAD')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -193,3 +194,7 @@ if DEBUG_TOOLBAR:
     INTERNAL_IPS = ['127.0.0.1']
     INSTALLED_APPS.append('debug_toolbar')
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+
+if BROWSER_RELOAD:
+    INSTALLED_APPS.append('django_browser_reload')
+    MIDDLEWARE.append('django_browser_reload.middleware.BrowserReloadMiddleware')
