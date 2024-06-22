@@ -6,6 +6,10 @@
     {% block additional_head %}{% endblock additional_head %}
   </head>
   <body>
+    {% if user.is_admin %}
+      {% include "global/partials/_sidebar.html" %}
+      <script src="{% static "global/js/sidebar.js" %}"></script>
+    {% endif %}
     {% include "global/partials/_navigation-bar.html" %}
     {% if messages %}
       {% include "global/partials/_messages.html" %}
