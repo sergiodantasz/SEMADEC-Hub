@@ -76,6 +76,32 @@ def test_edition_model_teams_has_related_name_editions(db, edition_fixture):
     assert isinstance(team_reg.editions.first(), Edition)
 
 
+def test_edition_model_get_teams_method_returns_correct_value(db, edition_fixture):
+    reg = edition_fixture()
+    assert list(reg.get_teams) == list(reg.teams.all())
+
+
+def test_edition_model_get_matches_method_returns_correct_value(db, edition_fixture):
+    reg = edition_fixture()
+    assert list(reg.get_matches) == list(reg.matches.all())
+
+
+def test_edition_model_get_edition_team_method_returns_correct_value(
+    db, edition_fixture
+):
+    reg = edition_fixture()
+    assert list(reg.get_edition_team) == list(reg.edition_team.all())
+
+
+def test_edition_model_get_edition_team_current_method_returns_correct_value(
+    db, edition_fixture
+):
+    reg = edition_fixture()
+    assert list(reg.get_edition_team_current) == list(
+        reg.edition_team.all().filter(edition__year=reg.year).order_by('-score')
+    )
+
+
 def test_edition_model_dunder_str_method_returns_edition_name(db, edition_fixture):
     reg = edition_fixture()
     assert str(reg) == reg.name
