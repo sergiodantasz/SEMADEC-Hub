@@ -50,3 +50,18 @@ def test_user_model_academic_email_has_max_length_250(db, user_fixture):
     reg = user_fixture(academic_email='a' * 242 + '@test.com')
     with assert_raises(ValidationError):
         reg.full_clean()
+
+
+def test_user_model_first_name_method_returns_correct_value(db, user_fixture):
+    reg = user_fixture()
+    assert reg.first_name == reg.full_name.split()[0]
+
+
+def test_user_model_last_name_method_returns_correct_value(db, user_fixture):
+    reg = user_fixture()
+    assert reg.last_name == reg.full_name.split()[-1]
+
+
+def test_user_model_name_method_returns_correct_value(db, user_fixture):
+    reg = user_fixture()
+    assert reg.name == f'{reg.first_name} {reg.last_name}'
