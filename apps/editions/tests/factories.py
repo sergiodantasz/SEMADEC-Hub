@@ -51,14 +51,6 @@ fake = faker.Faker('pt_BR')
 fake.add_provider(ModelsDummyData)
 
 
-# class CourseFactory(DjangoModelFactory):
-#     class Meta:
-#         model = 'teams.Course'
-#         skip_postgeneration_save = True
-
-#     name = Sequence(lambda x: fake.unique.text(max_nb_chars=75))
-
-
 class EditionFactory(DjangoModelFactory):
     class Meta:
         model = 'editions.Edition'
@@ -75,26 +67,6 @@ class EditionFactory(DjangoModelFactory):
         if not created or not extracted:
             return
         self.sports.add(*extracted)
-
-
-# class TeamFactory(DjangoModelFactory):
-#     class Meta:
-#         model = 'teams.Team'
-#         skip_postgeneration_save = True
-#         django_get_or_create = ('name',)
-
-#     # name = Sequence(lambda x: fake.pystr(max_chars=75))
-#     name = Sequence(lambda x: fake.team_name())  # Change later
-
-
-# class ClassFactory(DjangoModelFactory):
-#     class Meta:
-#         model = 'teams.Class'
-#         skip_postgeneration_save = True
-
-#     name = Sequence(lambda x: fake.text(max_nb_chars=30))
-#     course = SubFactory(CourseFactory)
-#     team = SubFactory(TeamFactory)
 
 
 class EditionTeamFactory(DjangoModelFactory):
