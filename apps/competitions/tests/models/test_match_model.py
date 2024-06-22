@@ -25,6 +25,20 @@ def test_match_model_date_time_default_value_is_none(db, match_fixture):
     assert date_time_default is None
 
 
+def test_match_model_get_scoreboard_method_returns_correct_value(db, match_fixture):
+    reg = match_fixture()
+    desired_out = reg.match_team.values_list('score', flat=True)
+    assert list(reg.get_scoreboard) == list(desired_out)
+
+
+def test_match_model_get_match_teams_display_method_returns_correct_value(
+    db, match_fixture
+):
+    reg = match_fixture()
+    desired_out = f'{reg.teams.first()} x {reg.teams.last()}'
+    assert reg.get_match_teams_display == desired_out
+
+
 def test_match_model_dunder_str_method_returns_match_sport_name(db, match_fixture):
     reg = match_fixture()
     desired_out = 'Partida: ' + ' x '.join(team.name for team in reg.teams.all())
