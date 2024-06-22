@@ -24,8 +24,8 @@ def test_tag_form_name_has_unique_error_message(db, tag_form_fixture):
     )
 
 
-@mark.skip
 def test_tag_form_clean_name_method_returns_name(db, tag_form_fixture):
     form = tag_form_fixture()
+    form.full_clean()
     method = form.clean_name()
-    assert method == form.fields['name']
+    assert method == form.cleaned_data['name']
