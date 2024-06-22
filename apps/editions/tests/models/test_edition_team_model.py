@@ -27,3 +27,10 @@ def test_edition_team_model_score_default_value_is_zero(db, edition_team_fixture
     reg = edition_team_fixture()
     score_default = reg._meta.get_field('score').get_default()
     assert score_default == 0
+
+
+def test_edition_team_model_dunder_str_method_returns_correct_value(
+    db, edition_team_fixture
+):
+    reg = edition_team_fixture()
+    assert str(reg) == f'{reg.team} - {reg.edition}'
