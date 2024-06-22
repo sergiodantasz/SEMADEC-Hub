@@ -10,14 +10,18 @@ from apps.competitions.tests.factories import (
 from apps.editions.forms import EditionForm, EditionTeamForm
 from apps.editions.tests.factories import (
     EditionTeamFactory,
-    EditionWithTeamFactory,
+    EditionWith2TeamsFactory,
     TeamWith2EditionsFactory,
 )
 
 
 @pytest.fixture
 def edition_fixture():
-    yield EditionWithTeamFactory
+    sports = SportFactory.create_batch(2)
+    caller = lambda **kwargs: EditionWith2TeamsFactory(  # noqa
+        sports=sports, **kwargs
+    )
+    yield caller
 
 
 @pytest.fixture
