@@ -80,6 +80,7 @@ omit = [
     "*/*test*.py",
     "*/conftest.py",
     "*/factory.py",
+    "**/factories.py",
     "manage.py",
     "core/*.py",
     "utils/*.py",
