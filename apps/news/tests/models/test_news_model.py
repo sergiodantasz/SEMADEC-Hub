@@ -43,6 +43,11 @@ def test_news_model_tags_has_related_name_news(db, news_fixture):
     assert isinstance(tag_reg.news.first(), News)
 
 
+def test_news_model_get_tags_method_returns_correct_value(db, news_fixture):
+    reg = news_fixture()
+    assert list(reg.get_tags) == list(reg.tags.all())
+
+
 def test_news_model_dunder_str_method_returns_news_title(db, news_fixture):
     reg = news_fixture()
     assert str(reg) == reg.title
