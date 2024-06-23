@@ -16,3 +16,10 @@ def test_course_search_view_get_queryset_method_returns_queryset(db):
     view = views.CourseSearchView()
     view.request = request
     assert isinstance(view.get_queryset(), QuerySet)
+
+
+def test_course_search_view_context_data_is_dict(db):
+    request = RequestFactory().get(reverse('teams:courses:search'))
+    request.GET |= {'q': 'test'}
+    response = views.CourseSearchView.as_view()(request)
+    assert isinstance(response.context_data, dict)
