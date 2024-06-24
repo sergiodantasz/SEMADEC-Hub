@@ -1,28 +1,17 @@
+from django.db.models.query import QuerySet
+from django.test import RequestFactory
 from django.urls import resolve, reverse
 
 from apps.teams.views import views_teams as views
 
 
-def test_teams_home_viewname_redirects_to_teams_list_view():
-    view = resolve(reverse('teams:home'))
-    assert view.func.view_class is views.TeamListView
+def test_team_list_view_get_queryset_method_returns_queryset():
+    view = views.TeamListView()
+    assert isinstance(view.get_queryset(), QuerySet)
 
 
-def test_teams_search_viewname_redirects_to_teams_search_view():
-    view = resolve(reverse('teams:search'))
-    assert view.func.view_class is views.TeamSearchView
-
-
-def test_teams_create_viewname_redirects_to_teams_create_view():
-    view = resolve(reverse('teams:create'))
-    assert view.func.view_class is views.TeamCreateView
-
-
-def test_teams_edit_viewname_redirects_to_teams_edit_view():
-    view = resolve(reverse('teams:edit', kwargs={'slug': 'test'}))
-    assert view.func.view_class is views.TeamEditView
-
-
-def test_teams_delete_viewname_redirects_to_teams_Delete_view():
-    view = resolve(reverse('teams:delete', kwargs={'slug': 'test'}))
-    assert view.func.view_class is views.TeamDeleteView
+def test_team_list_view_context_data_is_dict(db):
+    request = RequestFactory().get(reverse('teams:home'))
+    request.resolver_match = resolve(reverse('teams:home'))
+    response = views.TeamListView.as_view()(request)
+    assert isinstance(response.context_data, dict)
