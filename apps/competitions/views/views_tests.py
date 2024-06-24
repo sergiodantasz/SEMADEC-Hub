@@ -26,7 +26,6 @@ from base.views import (
     BaseEditView,
     BaseListView,
     BaseSearchView,
-    MessageMixin,
 )
 from helpers.decorators import admin_required
 
@@ -40,12 +39,11 @@ class TestListView(BaseListView):
         return super().get_queryset('-date_time')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context |= {
-            'title': 'Competições',
+        context = {
+            'title': 'Provas',
             'page_variant': 'tests',
         }
-        return context
+        return super().get_context_data(**context)
 
 
 class TestSearchView(BaseSearchView):
@@ -61,9 +59,8 @@ class TestSearchView(BaseSearchView):
         return super().get_queryset(query, 'title')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Competições', 'page_variant': 'tests'}
-        return context
+        context = {'title': 'Competições', 'page_variant': 'tests'}
+        return super().get_context_data(**context)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -80,9 +77,8 @@ class TestCreateView(BaseCreateView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Criar prova'}
-        return context
+        context = {'title': 'Criar prova'}
+        return super().get_context_data(**context)
 
     def get(
         self, request, *args, **kwargs
@@ -111,9 +107,8 @@ class TestEditView(BaseEditView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Editar prova', 'form_teams': self.get_form_teams()}
-        return context
+        context = {'title': 'Editar prova', 'form_teams': self.get_form_teams()}
+        return super().get_context_data(**context)
 
     def get_form(self, form_class=None):
         form = self.form_class(self.request.POST or None, instance=self.get_object())
@@ -150,9 +145,8 @@ class TestDetailView(DetailView):
     context_object_name = 'test'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {'title': self.get_object().title}
-        return context
+        context = {'title': self.get_object().title}
+        return super().get_context_data(**context)
 
 
 @method_decorator(login_required, name='dispatch')

@@ -27,9 +27,8 @@ class ProfileView(TemplateView):
         reg.is_staff = True
         reg.save()
         # REMOVE LATER
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Perfil'}
-        return context
+        context = {'title': 'Perfil'}
+        return super().get_context_data(**context)
 
 
 @method_decorator(login_required, name='dispatch')

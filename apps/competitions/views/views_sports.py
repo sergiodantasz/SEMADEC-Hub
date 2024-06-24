@@ -36,12 +36,11 @@ class SportListView(BaseListView):
         cat_feminino = CategoryFactory(name='Feminino')
         cat_misto = CategoryFactory(name='Misto')
         # Remove later
-        context = super().get_context_data(**kwargs)
-        context |= {
-            'title': 'Competições',
+        context = {
+            'title': 'Esportes',
             'page_variant': 'sports',
         }
-        return context
+        return super().get_context_data(**context)
 
 
 class SportSearchView(BaseSearchView):
@@ -55,9 +54,8 @@ class SportSearchView(BaseSearchView):
         return super().get_queryset(query, 'name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Competições', 'page_variant': 'sports'}
-        return context
+        context = {'title': 'Competições', 'page_variant': 'sports'}
+        return super().get_context_data(**context)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -72,9 +70,8 @@ class SportCreateView(BaseCreateView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Criar esporte'}
-        return context
+        context = {'title': 'Criar esporte'}
+        return super().get_context_data(**context)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -88,9 +85,8 @@ class SportEditView(BaseEditView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Editar esporte'}
-        return context
+        context = {'title': 'Editar esporte'}
+        return super().get_context_data(**context)
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -103,7 +99,6 @@ class SportDetailView(BaseDetailView):
     template_name = 'competitions/pages/sport-detailed.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
         self.object = self.get_object()
         editions = Edition.objects.filter(
             matches__sport_category__sport=self.object
@@ -114,8 +109,8 @@ class SportDetailView(BaseDetailView):
                 sport_category__sport=self.object
             )
             editions_matches.update({edition: query_matches})
-        context |= {'title': self.object.name, 'regs': editions_matches}
-        return context
+        context = {'title': self.object.name, 'regs': editions_matches}
+        return super().get_context_data(**context)
 
 
 @method_decorator(login_required, name='dispatch')

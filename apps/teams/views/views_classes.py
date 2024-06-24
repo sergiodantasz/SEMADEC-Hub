@@ -28,11 +28,8 @@ class ClassListView(BaseListView):
         return super().get_queryset('name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context |= {
-            'title': 'Turmas',
-        }
-        return context
+        context = {'title': 'Turmas'}
+        return super().get_context_data(**context)
 
 
 class ClassSearchView(BaseSearchView):
@@ -49,9 +46,8 @@ class ClassSearchView(BaseSearchView):
         return super().get_queryset(query, 'name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Turmas'}
-        return context
+        context = {'title': 'Turmas'}
+        return super().get_context_data(**context)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -68,9 +64,8 @@ class ClassCreateView(BaseCreateView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Criar turma'}
-        return context
+        context = {'title': 'Criar turma'}
+        return super().get_context_data(**context)
 
     def get(self, request, *args, **kwargs):
         if not self.is_model_populated(Course):
@@ -91,9 +86,8 @@ class ClassEditView(BaseEditView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Editar turma'}
-        return context
+        context = {'title': 'Editar turma'}
+        return super().get_context_data(**context)
 
 
 @method_decorator(login_required, name='dispatch')

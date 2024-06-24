@@ -28,9 +28,8 @@ class TeamListView(BaseListView):
         return super().get_queryset('name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Times'}
-        return context
+        context = {'title': 'Times'}
+        return super().get_context_data(**context)
 
 
 class TeamSearchView(BaseSearchView):
@@ -44,9 +43,8 @@ class TeamSearchView(BaseSearchView):
         return super().get_queryset(query, 'name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Times'}
-        return context
+        context = {'title': 'Times'}
+        return super().get_context_data(**context)
 
 
 class TeamCreateView(BaseCreateView):
@@ -61,9 +59,8 @@ class TeamCreateView(BaseCreateView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Criar time'}
-        return context
+        context = {'title': 'Criar time'}
+        return super().get_context_data(**context)
 
     def get(self, request, *args, **kwargs):
         if not self.is_model_populated(Class):
@@ -84,9 +81,8 @@ class TeamEditView(BaseEditView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Editar time'}
-        return context
+        context = {'title': 'Editar time'}
+        return super().get_context_data(**context)
 
 
 @method_decorator(login_required, name='dispatch')

@@ -15,9 +15,8 @@ class HomeView(TemplateView):
     template_name = 'home/pages/home.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
         last_edition = Edition.objects.order_by('-year').first()
-        context |= {
+        context = {
             'title': 'Início',
             'last_edition': last_edition or '',
             'news_regs': News.objects.all(),
@@ -30,7 +29,7 @@ class HomeView(TemplateView):
             .first(),
             'matches_regs': '' if not last_edition else last_edition.matches.all(),
         }
-        return context
+        return super().get_context_data(**context)
 
 
 def tags(request):

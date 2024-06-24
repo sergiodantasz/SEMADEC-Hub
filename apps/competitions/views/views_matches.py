@@ -7,12 +7,9 @@ from django.http import (
     HttpResponsePermanentRedirect,
     HttpResponseRedirect,
 )
-from django.shortcuts import redirect, render
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import DeleteView, FormView, UpdateView
 
 from apps.competitions.forms import (
     MatchForm,
@@ -25,7 +22,6 @@ from base.views import (
     BaseCreateView,
     BaseDeleteView,
     BaseEditView,
-    MessageMixin,
 )
 from helpers.decorators import admin_required
 
@@ -47,9 +43,8 @@ class MatchCreateView(BaseCreateView):
         return model.objects.exists()
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Criar partida'}
-        return context
+        context = {'title': 'Criar partida'}
+        return super().get_context_data(**context)
 
     def get_success_url(self) -> str:
         return reverse_lazy('editions:detailed', kwargs={'pk': self.get_object_pk()})
@@ -112,12 +107,11 @@ class MatchEditView(BaseEditView):
         return form_matches
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {
+        context = {
             'title': 'Editar partida',
             'form_matches': self.get_form_matches(),
         }
-        return context
+        return super().get_context_data(**context)
 
     def post(
         self, request, *args, **kwargs

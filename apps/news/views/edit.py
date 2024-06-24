@@ -2,13 +2,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from apps.news.forms import NewsForm
 from apps.news.models import News
-from base.views import MessageMixin
 from base.views.base_form_views import BaseCreateView, BaseDeleteView, BaseEditView
 from helpers.decorators import admin_required
 from helpers.model import is_owner
@@ -25,8 +22,8 @@ class NewsCreateView(BaseCreateView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs) | {'title': 'Criar notícia'}
-        return context
+        context = {'title': 'Criar notícia'}
+        return super().get_context_data(**context)
 
     def form_valid(self, form):
         news = form.save(commit=False)
@@ -47,8 +44,8 @@ class NewsEditView(BaseEditView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs) | {'title': 'Editar notícia'}
-        return context
+        context = {'title': 'Editar notícia'}
+        return super().get_context_data(**context)
 
     def get(self, request, *args, **kwargs):
         if not is_owner(request.user, self.get_object()):  # type: ignore

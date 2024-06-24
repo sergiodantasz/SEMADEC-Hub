@@ -68,12 +68,11 @@ class ArchiveCreateView(BaseCreateView):
         return image_form
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context |= {
+        context = {
             'title': 'Criar coleção de imagens',
             'image_form': self.get_image_form(),
         }
-        return context
+        return super().get_context_data(**context)
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
@@ -121,18 +120,16 @@ class ArchiveEditView(BaseEditView):
         return image_form
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context |= {
+        context = {
             'title': 'Editar coleção de imagens',
             'image_form': self.get_image_form(),
             'is_editing': True,
         }
-        return context
+        return super().get_context_data(**context)
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         image_form = self.get_image_form()
-        ...
         images = request.FILES.getlist('images')
         if form.is_valid() and image_form.is_valid():
             images_to_remove_ids = [

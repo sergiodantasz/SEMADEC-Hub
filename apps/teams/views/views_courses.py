@@ -26,11 +26,8 @@ class CourseListView(BaseListView):
         return super().get_queryset('name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context |= {
-            'title': 'Cursos',
-        }
-        return context
+        context = {'title': 'Cursos'}
+        return super().get_context_data(**context)
 
 
 class CourseSearchView(BaseSearchView):
@@ -44,9 +41,8 @@ class CourseSearchView(BaseSearchView):
         return super().get_queryset(query, 'name')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Cursos'}
-        return context
+        context = {'title': 'Cursos'}
+        return super().get_context_data(**context)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -60,9 +56,8 @@ class CourseCreateView(BaseCreateView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Criar curso'}
-        return context
+        context = {'title': 'Criar curso'}
+        return super().get_context_data(**context)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -76,9 +71,8 @@ class CourseEditView(BaseEditView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context |= {'title': 'Editar curso'}
-        return context
+        context = {'title': 'Editar curso'}
+        return super().get_context_data(**context)
 
 
 class CourseDeleteView(BaseDeleteView):

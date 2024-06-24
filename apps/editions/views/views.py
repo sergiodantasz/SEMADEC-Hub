@@ -37,9 +37,8 @@ class EditionListView(BaseListView):
         return super().get_queryset('-year')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Edições'}
-        return context
+        context = {'title': 'Edições'}
+        return super().get_context_data(**context)
 
 
 class EditionDetailView(DetailView):
@@ -48,10 +47,9 @@ class EditionDetailView(DetailView):
     context_object_name = 'reg'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
         self.object = self.get_object()
-        context |= {'title': self.object.name, 'matches': self.object.matches.all()}
-        return context
+        context = {'title': self.object.name, 'matches': self.object.matches.all()}
+        return super().get_context_data(**context)
 
 
 class EditionSearchView(BaseSearchView):
@@ -70,9 +68,8 @@ class EditionSearchView(BaseSearchView):
         return super().get_queryset(query, '-year')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Edições'}
-        return context
+        context = {'title': 'Edições'}
+        return super().get_context_data(**context)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -90,9 +87,8 @@ class EditionCreateView(BaseCreateView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {'title': 'Criar edição'}
-        return context
+        context = {'title': 'Criar edição'}
+        return super().get_context_data(**context)
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
         if not self.is_model_populated(Sport):
@@ -122,12 +118,8 @@ class EditionEditView(BaseEditView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context |= {
-            'title': 'Editar edição',
-            'form_teams': self.get_form_teams(),
-        }
-        return context
+        context = {'title': 'Editar edição', 'form_teams': self.get_form_teams()}
+        return super().get_context_data(**context)
 
     def get_form(self, form_class=None):
         form = self.form_class(self.request.POST or None, instance=self.get_object())
