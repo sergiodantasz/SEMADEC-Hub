@@ -22,7 +22,6 @@ from helpers.decorators import admin_required
 class ClassListView(BaseListView):
     model = Class
     template_name = 'teams/pages/classes.html'
-    paginate_by = 10
 
     def get_queryset(self) -> QuerySet[Any]:
         return super().get_queryset('name')
