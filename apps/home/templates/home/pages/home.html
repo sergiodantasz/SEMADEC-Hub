@@ -20,7 +20,7 @@
       {% if news_regs %}
         <div class="block-news-container">
           {% for news in news_regs %}
-            {% include "home/partials/_news-item.html" %}
+            <a href="{% url "news:view" news.slug %}">{% include "home/partials/_news-item.html" %}</a>
           {% endfor %}
         </div>
         <div class="block-show-more">

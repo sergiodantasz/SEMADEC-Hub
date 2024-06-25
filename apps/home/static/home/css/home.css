@@ -63,7 +63,7 @@
 .block-news-item-title {
   font-family: var(--font-family);
   color: var(--green-950);
-  font-size: 1.8rem;
+  font-size: var(--font-size-heading-normal);
   font-weight: 700;
   margin-bottom: 0.7rem;
 }
@@ -71,7 +71,7 @@
   display: block;
   font-family: var(--font-family);
   color: var(--gray-700);
-  font-size: 1.6rem;
+  font-size: var(--font-size-content-small);
   font-weight: 400;
   margin-bottom: 0.5rem;
 }
@@ -79,7 +79,7 @@
   display: block;
   font-family: var(--font-family);
   color: var(--gray-950);
-  font-size: 1.6rem;
+  font-size: var(--font-size-content-tiny);
   font-weight: 400;
 }
 
