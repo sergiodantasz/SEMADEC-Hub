@@ -25,8 +25,9 @@ def test_course_search_view_get_queryset_method_returns_queryset(db):
     request = RequestFactory().get(reverse('teams:courses:search'))
     request.GET |= {'q': 'test'}
     view = views.CourseSearchView()
-    view.request = request
-    assert isinstance(view.get_queryset(), QuerySet)
+    view.setup(request)
+    queryset = view.get_queryset()
+    assert isinstance(queryset, QuerySet)
 
 
 def test_course_search_view_context_data_is_dict(db):
@@ -44,16 +45,13 @@ def test_course_create_view_context_data_is_dict(db):
     assert isinstance(response.context_data, dict)
 
 
-@mark.skip
 def test_course_edit_view_context_data_is_dict(db):
-    CourseFactory(slug='test-slug')
+    obj = CourseFactory(slug='test-slug')
     request = RequestFactory().post(
         reverse('teams:courses:edit', kwargs={'slug': 'test-slug'})
     )
-    request.resolver_match = resolve(
-        reverse('teams:courses:edit', kwargs={'slug': 'test-slug'})
-    )
-    request.user = UserFactory(is_admin=True)
-    # request.course = Course.objects.get(slug='test-slug')
-    response = views.CourseEditView.as_view()(request)
-    assert isinstance(response.context_data, dict)
+    view = views.CourseEditView()
+    view.setup(request)
+    view.object = obj
+    context = view.get_context_data()
+    assert isinstance(context, dict)
