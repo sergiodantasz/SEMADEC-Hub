@@ -1,8 +1,10 @@
 from django.contrib.messages import get_messages
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.db.models.query import QuerySet
+from django.http import QueryDict
 from django.test import Client, RequestFactory
 from django.urls import resolve, reverse
+from pytest import mark
 
 from apps.teams.models import Course
 from apps.teams.views import views_classes as views
@@ -40,5 +42,26 @@ def test_class_create_view_context_data_is_dict(db):
     request = RequestFactory().get(reverse('teams:classes:create'))
     view = views.ClassCreateView()
     view.setup(request)
+    context = view.get_context_data()
+    assert isinstance(context, dict)
+
+
+@mark.skip
+def test_class_create_view_get(db):
+    request = RequestFactory().get(reverse('teams:classes:create'))
+    request.resolver_match = resolve(reverse('teams:classes:create'))
+    request.user = UserFactory(is_admin=True, course=None)
+    view = views.ClassCreateView()
+    view.setup(request)
+
+
+def test_class_edit_view_context_data_is_dict(db, class_fixture):
+    obj = class_fixture(slug='test-slug')
+    request = RequestFactory().get(
+        reverse('teams:classes:edit', kwargs={'slug': 'test-slug'})
+    )
+    view = views.ClassEditView()
+    view.setup(request)
+    view.object = obj
     context = view.get_context_data()
     assert isinstance(context, dict)
