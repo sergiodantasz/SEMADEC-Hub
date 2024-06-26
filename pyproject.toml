@@ -86,6 +86,7 @@ omit = [
     "utils/*.py",
     "**/__init__.py",
     "*/migrations/*.py",
+    "**/scripts/*.py"
 ]
 
 [tool.coverage.report]
