@@ -1,10 +1,7 @@
 from django.db.models.query import QuerySet
 from django.test import RequestFactory
 from django.urls import resolve, reverse
-from pytest import mark
 
-from apps.teams.models import Course
-from apps.teams.tests.factories import CourseFactory
 from apps.teams.views import views_courses as views
 from apps.users.tests.factories import UserFactory
 
@@ -45,8 +42,8 @@ def test_course_create_view_context_data_is_dict(db):
     assert isinstance(response.context_data, dict)
 
 
-def test_course_edit_view_context_data_is_dict(db):
-    obj = CourseFactory(slug='test-slug')
+def test_course_edit_view_context_data_is_dict(db, course_fixture):
+    obj = course_fixture(slug='test-slug')
     request = RequestFactory().post(
         reverse('teams:courses:edit', kwargs={'slug': 'test-slug'})
     )
