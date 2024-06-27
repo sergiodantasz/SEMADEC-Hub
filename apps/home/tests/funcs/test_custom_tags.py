@@ -1,6 +1,7 @@
 from django.db.models import QuerySet
 from django.utils.safestring import mark_safe
 
+from apps.archive.tests.factories import ImageFactory
 from apps.home.templatetags import custom_tags
 from apps.home.tests.factories import TagFactory
 from apps.users.models import User
@@ -122,3 +123,10 @@ def test_load_create_button_returns_dict_without_dispatcher_if_dispatcher_is_non
             isinstance(response['label'], str),
         )
     )
+
+
+def test_filename_returns_str_object(db):
+    file = ImageFactory()
+    response = custom_tags.filename(file.content)
+    file.content.close()
+    assert isinstance(response, str)
