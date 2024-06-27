@@ -123,7 +123,7 @@ class TestFactory(DjangoModelFactory):
         model = 'competitions.Test'
         skip_postgeneration_save = True
 
-    title = Sequence(lambda x: fake.unique.test())
+    title = Sequence(lambda x: fake.unique.pystr(max_chars=50))  # Change to .test()
     slug = Sequence(lambda x: fake.unique.slug())
     description = fake.text(max_nb_chars=200)
     date_time = fake.date_time(tzinfo=timezone.get_current_timezone())
@@ -146,6 +146,7 @@ class TestTeamFactory(DjangoModelFactory):
     team = SubFactory(TeamFactory)
     score = randfloat(1.0, 100.0)
     # winner = choice([True, False])
+    post_generation(fake.unique.clear())
 
 
 class TestWithTeamFactory(TestFactory):
@@ -153,3 +154,4 @@ class TestWithTeamFactory(TestFactory):
         TestTeamFactory,
         factory_related_name='test',
     )
+    post_generation(fake.unique.clear())
