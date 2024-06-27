@@ -12,10 +12,9 @@ class ArchiveDetailView(DetailView):
     context_object_name = 'archive'
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
         obj = self.get_object()
-        context |= {
+        context = {
             'title': obj.title,  # type: ignore
             'is_owner': is_owner(self.request.user, obj),  # type: ignore
         }
-        return context
+        return super().get_context_data(**context)
