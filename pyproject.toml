@@ -77,7 +77,7 @@ docstring-code-line-length = "dynamic"
 branch = true
 omit = [
     "*/venv/*",
-    "*/*test*.py",
+    "*/test*.py",
     "*/conftest.py",
     "*/factory.py",
     "**/factories.py",
