@@ -1,3 +1,4 @@
+from django.core.files import File
 from django.forms import CheckboxSelectMultiple, FileInput, HiddenInput
 from pytest import mark
 
@@ -101,10 +102,12 @@ def test_image_collection_form_tags_label_is_correct(db, image_collection_form_f
     assert form.fields['tags'].label == 'Tags'
 
 
-@mark.skip
-def test_image_collection_form_clean_cover_method_returns_cover(
-    db, image_collection_form_fixture
+def test_image_collection_form_clean_name_method_returns_error_if_no_cover_provided(
+    db, image_collection_form_fixture, image_fixture
 ):
+    image = image_fixture()[0]
     form = image_collection_form_fixture()
-    test = form.clean_cover()
-    ...
+    form.full_clean()
+    form.cleaned_data['cover'] = image.content
+    response = form.clean_cover()
+    assert isinstance(response, File)
