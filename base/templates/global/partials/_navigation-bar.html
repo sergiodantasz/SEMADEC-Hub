@@ -15,7 +15,7 @@
         <li id="news"><a href="{% url "news:home" %}">Notícias</a></li>
         <li id="editions"><a href="{% url "editions:home" %}">Edições</a></li>
         <li id="archive"><a href="{% url "archive:home" %}">Acervo</a></li>
-        <li id="documents"><a href="{% url "documents:documents" %}">Documentos</a></li>
+        <li id="documents"><a href="{% url "documents:home" %}">Documentos</a></li>
       </ul>
       <hr class="navigation-bar-divider">
       {% if request.user.is_authenticated %}

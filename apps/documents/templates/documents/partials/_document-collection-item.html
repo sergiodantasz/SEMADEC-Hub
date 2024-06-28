@@ -18,7 +18,7 @@
   </div>
   {% if user.is_admin and document_collection.administrator == user %}
     <div class="admin-actions">
-      <a class="button" href="{% url "documents:delete_document" document_collection.slug %}">
+      <a class="button" href="{% url "documents:delete" document_collection.slug %}">
         <img src="{% static "global/img/delete.svg" %}" alt="">
         <span>Apagar coleção</span>
       </a>

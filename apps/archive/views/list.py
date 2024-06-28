@@ -1,20 +1,18 @@
 from typing import Any
 
-from django.contrib import messages
 from django.db.models import Q
 from django.db.models.query import QuerySet
-from django.views.generic.list import ListView
 
 from apps.home.models import Collection
+from base.views.base_list_view import BaseListView
 from base.views.base_search_view import BaseSearchView
 from helpers.pagination import make_pagination
 
 
-class ArchiveListView(ListView):
+class ArchiveListView(BaseListView):
     model = Collection
-    context_object_name = 'db_regs'
-    ordering = '-created_at'
     template_name = 'archive/pages/archive_list.html'
+    ordering = '-created_at'
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -30,7 +28,7 @@ class ArchiveListView(ListView):
         return context
 
     def get_queryset(self) -> QuerySet[Any]:
-        queryset = super().get_queryset()
+        queryset = super().get_queryset(ordering=self.ordering)  # type: ignore
         queryset = queryset.filter(collection_type='image')
         return queryset
 

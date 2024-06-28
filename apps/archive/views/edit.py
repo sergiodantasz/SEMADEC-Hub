@@ -77,26 +77,24 @@ class ArchiveCreateView(BaseCreateView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         image_form = self.get_image_form()
-        images = request.FILES.getlist('images')
         if form.is_valid() and image_form.is_valid():
+            images = request.FILES.getlist('images')
             if not images:
                 messages.error(request, self.msg['error']['image'])
                 return super().get(self.request, *args, **kwargs)
-            else:
-                archive_collection = form.save(commit=False)  # type: ignore
-                archive_collection.administrator = request.user
-                archive_collection.save()
-                form.save_m2m()  # type: ignore
-                for image in images:
-                    Image.objects.create(
-                        collection=archive_collection,
-                        content=image,
-                    )
-                messages.success(request, self.msg['success']['form'])
-                return redirect(self.get_success_url())
-        else:
-            messages.error(request, self.msg['error']['form'])
-            return super().get(self.request, *args, **kwargs)
+            archive_collection = form.save(commit=False)  # type: ignore
+            archive_collection.administrator = request.user
+            archive_collection.save()
+            form.save_m2m()  # type: ignore
+            for image in images:
+                Image.objects.create(
+                    collection=archive_collection,
+                    content=image,
+                )
+            messages.success(request, self.msg['success']['form'])
+            return redirect(self.get_success_url())
+        messages.error(request, self.msg['error']['form'])
+        return super().get(self.request, *args, **kwargs)
 
 
 @method_decorator(login_required, name='dispatch')
