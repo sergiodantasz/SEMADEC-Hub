@@ -65,7 +65,7 @@ class SuapOAuth2(BaseOAuth2):
 
     def user_data(self, access_token, *args, **kwargs):
         method = 'GET'
-        data = {'scope': kwargs.get('response').get('scope')}  # type: ignore
+        data = {'scope': ' '.join(self.DEFAULT_SCOPE)}
         headers = {'Authorization': f'Bearer {access_token}'}
         response = self.request(
             url=self.USER_DATA_URL, method=method, data=data, headers=headers
