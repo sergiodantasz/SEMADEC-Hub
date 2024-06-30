@@ -41,13 +41,6 @@ def test_userdata_class_set_user_permissions_update_reg_permissions(
     )
 
 
-@pytest.mark.skip
-def test_suapoauth2_user_data_returns_response():
-    obj = SuapOAuth2()
-    response = obj.user_data(access_token='test_token')
-    ...
-
-
 def test_suapoauth2_get_user_details_returns_dict(db, user_data_fixture):
     obj = SuapOAuth2()
     data = user_data_fixture
