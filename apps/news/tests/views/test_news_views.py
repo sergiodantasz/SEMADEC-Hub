@@ -68,7 +68,7 @@ def test_news_create_view_context_data_is_dict(db):
     assert isinstance(response.context_data, dict)
 
 
-def test_news_create_view(db, news_form_fixture):
+def test_news_create_view_form_valid_redirects_to_news_home(db, news_form_fixture):
     c = Client()
     user = UserFactory()
     request = c.get(reverse('news:create')).wsgi_request

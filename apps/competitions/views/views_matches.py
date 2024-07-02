@@ -39,9 +39,6 @@ class MatchCreateView(BaseCreateView):
         },
     }
 
-    def is_model_populated(self, model: Model):
-        return model.objects.exists()
-
     def get_context_data(self, **kwargs):
         context = {'title': 'Criar partida'}
         return super().get_context_data(**context)
