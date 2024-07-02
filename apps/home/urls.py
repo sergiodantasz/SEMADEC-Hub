@@ -5,9 +5,9 @@ from apps.home import views
 app_name = 'home'
 tags_urls = (
     [
-        path('', views.tags, name='home'),
-        path('criar/', views.tags_create, name='create'),
-        path('apagar/<slug:slug>/', views.tags_delete, name='delete'),
+        path('', views.TagListView.as_view(), name='home'),
+        path('criar/', views.TagCreateView.as_view(), name='create'),
+        path('apagar/<slug:slug>/', views.TagDeleteView.as_view(), name='delete'),
     ],
     'tags',
 )

@@ -1,7 +1,7 @@
 from typing import Any
 
 from django.db.models.query import QuerySet
-from django.urls import reverse
+from django.urls import NoReverseMatch, reverse
 from django.views.generic import ListView
 
 
@@ -16,5 +16,9 @@ class BaseListView(ListView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context |= {'search_url': reverse(f'{self.get_app_name()}:search')}
-        return context
+        try:
+            context |= {'search_url': reverse(f'{self.get_app_name()}:search')}
+        except NoReverseMatch:
+            pass
+        finally:
+            return context

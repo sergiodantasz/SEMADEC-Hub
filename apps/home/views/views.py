@@ -1,13 +1,19 @@
+from typing import Any
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 
 from apps.editions.models import Edition
 from apps.home.forms import TagForm
 from apps.home.models import Collection, Tag
 from apps.news.models import News
+from base.views.base_form_views import BaseCreateView, BaseDeleteView
+from base.views.base_list_view import BaseListView
 from helpers.decorators import admin_required
 
 
@@ -32,37 +38,38 @@ class HomeView(TemplateView):
         return super().get_context_data(**context)
 
 
-def tags(request):
-    tags_objs = Tag.objects.order_by('name')
-    context = {
-        'title': 'Tags',
-        'tags': tags_objs,
+class TagListView(BaseListView):
+    model = Tag
+    template_name = 'home/pages/tags.html'
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return super().get_queryset('name')
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = {'title': 'Tags'}
+        return super().get_context_data(**context)
+
+
+@method_decorator(login_required, name='dispatch')
+@method_decorator(admin_required, name='dispatch')
+class TagCreateView(BaseCreateView):
+    form_class = TagForm
+    template_name = 'home/pages/create-tag.html'
+    msg = {
+        'success': {'form': 'Tag criada com sucesso.'},
+        'error': {'form': 'Preencha os campos do formulário corretamente.'},
     }
-    return render(request, 'home/pages/tags.html', context)
+
+    def get_context_data(self, **kwargs):
+        context = {'title': 'Criar tag'}
+        return super().get_context_data(**context)
 
 
-@login_required
-@admin_required
-def tags_create(request):
-    form = TagForm(request.POST or None)
-    context = {
-        'title': 'Criar tag',
-        'form': form,
+@method_decorator(login_required, name='dispatch')
+@method_decorator(admin_required, name='dispatch')
+class TagDeleteView(BaseDeleteView):
+    model = Tag
+    msg = {
+        'success': {'form': 'Tag apagada com sucesso.'},
+        'error': {'form': 'Não foi possível remover esta tag.'},
     }
-    if request.POST:
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Tag criada com sucesso.')
-            return redirect(reverse('home:tags:home'))
-        else:
-            messages.error(request, 'Preencha os campos do formulário corretamente.')
-    return render(request, 'home/pages/create-tag.html', context)
-
-
-@login_required
-@admin_required
-def tags_delete(request, slug):
-    tag_obj = get_object_or_404(Tag, slug=slug)
-    tag_obj.delete()
-    messages.success(request, 'Tag apagada com sucesso.')
-    return redirect(reverse('home:tags:home'))

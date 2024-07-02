@@ -14,7 +14,7 @@
   </div>
   {% endif %}
   <div class="tags-list">
-    {% for tag in tags %}
+    {% for tag in db_regs %}
       <div class="tag-item">
         {{ tag }}
         <a class="tag-action" href="{% url "home:tags:delete" tag.slug %}">
