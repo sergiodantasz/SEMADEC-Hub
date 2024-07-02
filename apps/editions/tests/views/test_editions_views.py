@@ -71,7 +71,7 @@ def test_edition_create_view_get_raises_error_if_no_team(db):
     view.setup(request)
     view.get(request)
     messages = list(get_messages(request))
-    assert len(messages) == 1
+    assert messages[0].level_tag == 'message-error'
 
 
 def test_edition_create_view_get_raises_error_if_no_sport(db):
@@ -124,4 +124,3 @@ def test_edition_edit_view_get_form_teams_returns_form(db, edition_fixture):
     view.object = obj
     form = view.get_form_teams()
     assert isinstance(form.empty_form, EditionTeamForm)
-

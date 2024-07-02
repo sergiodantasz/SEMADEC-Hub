@@ -1,5 +1,6 @@
+from django.contrib.messages import get_messages
 from django.db.models.query import QuerySet
-from django.test import RequestFactory
+from django.test import Client, RequestFactory
 from django.urls import resolve, reverse
 
 from apps.competitions import views
@@ -45,6 +46,26 @@ def test_test_create_view_context_data_is_dict(db):
     assert isinstance(response.context_data, dict)
 
 
+def test_test_create_view_get_raises_error_if_no_team(db):
+    c = Client()
+    request = c.get(reverse('competitions:tests:create')).wsgi_request
+    view = views.TestCreateView()
+    view.setup(request)
+    view.get(request)
+    messages = list(get_messages(request))
+    assert messages[0].level_tag == 'message-error'
+
+
+def test_test_create_view_get_renders_response_if_no_errors(db):
+    TeamFactory()
+    c = Client()
+    request = c.get(reverse('competitions:tests:create')).wsgi_request
+    view = views.TestCreateView()
+    view.setup(request)
+    response = view.get(request)
+    assert response._request.path == reverse('competitions:tests:create')
+
+
 def test_tests_edit_view_context_data_is_dict(db, test_fixture):
     obj = test_fixture()
     request = RequestFactory().get(
@@ -79,6 +100,18 @@ def test_test_edit_view_get_form_teams_returns_form(db, test_fixture):
     view.object = obj
     form = view.get_form_teams()
     assert isinstance(form.empty_form, TestTeamForm)
+
+
+def test_test_create_post_method_redirects_to_correct_url(db, test_fixture):
+    obj = test_fixture()
+    c = Client()
+    request = c.get(
+        reverse('competitions:tests:edit', kwargs={'slug': obj.slug})
+    ).wsgi_request
+    view = views.TestEditView()
+    view.setup(request, slug=obj.slug)
+    response = view.post(request)
+    assert response.url == reverse('competitions:tests:home')
 
 
 def test_test_detail_view_context_data_is_dict(db, test_fixture):
