@@ -135,7 +135,7 @@ class TestEditView(BaseEditView):
             form_teams.save()
             messages.success(request, self.msg['success']['form'])
         else:
-            messages.error(request, self.msg['success']['form'])
+            messages.error(request, self.msg['error']['form'])
         return redirect(self.get_success_url())
 
 
