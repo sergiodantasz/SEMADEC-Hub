@@ -29,5 +29,36 @@
       </div>
     </div>
   </div>
+  {% if is_editing %}
+    <table class="documents-table">
+      <thead>
+        <tr>
+          <th>Nome de exibição</th>
+          <th>Arquivo</th>
+          <th>Remover?</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for document in form.instance.get_documents %}
+          <tr>
+            <td>
+              <input type="text" name="document-{{ document.id }}" value="{{ document.name }}" maxlength="100" required="true">
+            </td>
+            <td>
+              <span>{{ document.content|filename }} ({{ document.content.size|filesizeformat }})</span>
+            </td>
+            <td>
+              <label>
+                <input type="radio" name="document-{{ document.id }}" value="yes"> Sim
+              </label>
+              <label>
+                <input type="radio" name="document-{{ document.id }}" value="no" checked> Não
+              </label>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
   {% include "global/partials/_form-buttons.html" %}
 </form>

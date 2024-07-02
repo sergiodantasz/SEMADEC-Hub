@@ -22,6 +22,10 @@
         <img src="{% static "global/img/delete.svg" %}" alt="">
         <span>Apagar coleção</span>
       </a>
+      <a class="button" href="{% url "documents:edit" document_collection.slug %}">
+        <img src="{% static "global/img/edit.svg" %}" alt="">
+        <span>Editar coleção</span>
+      </a>
     </div>
   {% endif %}
 </div>

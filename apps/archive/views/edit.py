@@ -74,16 +74,17 @@ class ArchiveCreateView(BaseCreateView):
         }
         return super().get_context_data(**context)
 
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
+    def form_valid(self, form):
         image_form = self.get_image_form()
-        if form.is_valid() and image_form.is_valid():
-            images = request.FILES.getlist('images')
+        if image_form.is_valid():
+            images = self.request.FILES.getlist('images')
             if not images:
-                messages.error(request, self.msg['error']['image'])
-                return super().get(self.request, *args, **kwargs)
+                messages.error(self.request, self.msg['error']['image'])
+                # Raise exception
+                # Idea: create a method that first check if other form has error and
+                # then run form_valid()
             archive_collection = form.save(commit=False)  # type: ignore
-            archive_collection.administrator = request.user
+            archive_collection.administrator = self.request.user
             archive_collection.save()
             form.save_m2m()  # type: ignore
             for image in images:
@@ -91,10 +92,7 @@ class ArchiveCreateView(BaseCreateView):
                     collection=archive_collection,
                     content=image,
                 )
-            messages.success(request, self.msg['success']['form'])
-            return redirect(self.get_success_url())
-        messages.error(request, self.msg['error']['form'])
-        return super().get(self.request, *args, **kwargs)
+        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -125,17 +123,16 @@ class ArchiveEditView(BaseEditView):
         }
         return super().get_context_data(**context)
 
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
+    def form_valid(self, form):
         image_form = self.get_image_form()
-        images = request.FILES.getlist('images')
-        if form.is_valid() and image_form.is_valid():
+        if image_form.is_valid():
+            images = self.request.FILES.getlist('images')
             images_to_remove_ids = [
                 k.split('-')[-1]
-                for k, v in request.POST.items()
+                for k, v in self.request.POST.items()
                 if k.startswith('image-') and v == 'yes'
             ]
-            images = request.FILES.getlist('images')
+            images = self.request.FILES.getlist('images')
             archive_collection = form.save()  # type: ignore
             for image in images:
                 Image.objects.create(
@@ -146,11 +143,8 @@ class ArchiveEditView(BaseEditView):
                 image = Image.objects.get(id=image_id)
                 image.delete()
             if not archive_collection.get_images.exists():
-                archive_collection.delete()
-                messages.success(request, 'Coleção de imagens apagada com sucesso.')
-            else:
-                messages.success(request, 'Coleção de imagens editada com sucesso.')
-            return redirect(self.get_success_url())
-        else:
-            messages.error(request, 'Preencha os campos do formulário corretamente.')
-            return super().get(self.request, *args, **kwargs)
+                archive_collection.delete()  # Not working
+                messages.success(
+                    self.request, 'Coleção de imagens apagada com sucesso.'
+                )
+        return super().form_valid(form)

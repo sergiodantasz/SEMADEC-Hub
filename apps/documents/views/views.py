@@ -92,21 +92,20 @@ class DocumentCreateView(BaseCreateView):
         }
         return super().get_context_data(**context)
 
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
+    def form_valid(self, form):
         document_form = self.get_document_form()
-        if form.is_valid() and document_form.is_valid():
-            documents = request.FILES.getlist('documents')
+        if document_form.is_valid():
+            documents = self.request.FILES.getlist('documents')
             names = [
                 name
-                for item, name in request.POST.items()
+                for item, name in self.request.POST.items()
                 if item.startswith('document-')
             ]
             if not documents or not names:
-                messages.error(request, self.msg['error']['documents'])
-                return super().get(self.request, *args, **kwargs)
+                messages.error(self.request, self.msg['error']['documents'])
+                # Raise exception
             document_collection = form.save(commit=False)  # type: ignore
-            document_collection.administrator = request.user
+            document_collection.administrator = self.request.user
             document_collection.save()
             form.save_m2m()  # type: ignore
             for i, document in enumerate(documents):
@@ -115,10 +114,7 @@ class DocumentCreateView(BaseCreateView):
                     name=names[i],
                     content=document,
                 )
-            messages.success(request, self.msg['success']['form'])
-            return redirect(self.get_success_url())
-        messages.error(request, self.msg['error']['form'])
-        return super().get(self.request, *args, **kwargs)
+        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -138,18 +134,61 @@ class DocumentDeleteView(BaseDeleteView):
         return redirect(self.get_success_url())
 
 
-###### TO DO ######
+@method_decorator(login_required, name='dispatch')
+@method_decorator(admin_required, name='dispatch')
+class DocumentEditView(BaseEditView):
+    form_class = DocumentCollectionForm
+    document_form = DocumentForm
+    template_name = 'documents/pages/document_form.html'
+    msg = {
+        'success': {'form': 'Coleção de documentos editada com sucesso.'},
+        'error': {
+            'form': 'Preencha os campos do formulário corretamente.',
+            'image': 'Nenhum arquivo foi selecionado.',
+        },
+    }
 
-# @method_decorator(login_required, name='dispatch')
-# @method_decorator(admin_required, name='dispatch')
-# class DocumentEditView(BaseEditView):
-#     form_class = DocumentCollectionForm
-#     document_form = DocumentForm
-#     template_name = 'documents/pages/document_form.html'
-#     msg = {
-#         'success': {'form': 'Coleção de documentos editada com sucesso.'},
-#         'error': {
-#             'form': 'Preencha os campos do formulário corretamente.',
-#             'image': 'Nenhum arquivo foi selecionado.',
-#         },
-#     }
+    def get_document_form(self, form_class=None):
+        document_form = self.document_form(
+            self.request.POST or None, self.request.FILES or None
+        )
+        return document_form
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = {
+            'title': 'Editar coleção de documentos',
+            'document_form': self.get_document_form(),
+            'is_editing': True,
+        }
+        return super().get_context_data(**context)
+
+    def form_valid(self, form):
+        document_form = self.get_document_form()
+        if document_form.is_valid():
+            documents = self.request.FILES.getlist('documents')
+            names = [
+                name
+                for item, name in self.request.POST.items()
+                if item.startswith('document-')
+            ]
+            documents_to_remove_ids = [
+                k.split('-')[-1]
+                for k, v in self.request.POST.items()
+                if k.startswith('document-') and v == 'yes'
+            ]
+            document_collection = form.save()  # type: ignore
+            for i, document in enumerate(documents):
+                Document.objects.create(
+                    collection=document_collection,
+                    name=names[i],
+                    content=document,
+                )
+            for document_id in documents_to_remove_ids:
+                document = Document.objects.get(id=document_id)
+                document.delete()
+            if not document_collection.get_documents.exists():
+                document_collection.delete()  # Not working
+                messages.success(
+                    self.request, 'Coleção de documentos apagada com sucesso.'
+                )
+        return super().form_valid(form)

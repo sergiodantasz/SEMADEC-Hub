@@ -9,5 +9,5 @@ urlpatterns = [
     path('criar/', views.DocumentCreateView.as_view(), name='create'),
     path('apagar/<slug:slug>/', views.DocumentDeleteView.as_view(), name='delete'),
     path('buscar/', views.DocumentSearchView.as_view(), name='search'),
-    # path('editar/<slug:slug>/', views.DocumentEditView.as_view(), name='edit'),
+    path('editar/<slug:slug>/', views.DocumentEditView.as_view(), name='edit'),
 ]
