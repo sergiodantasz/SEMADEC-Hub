@@ -6,16 +6,16 @@
   <div class="sidebar-content">
     <h4 class="sidebar-title">Criar...</h4>
     <div class="sidebar-options">
-      <a href="">Esporte</a>
-      <a href="">Prova</a>
-      <a href="">Edição</a>
-      <a href="">Time</a>
-      <a href="">Turma</a>
-      <a href="">Curso</a>
-      <a href="">Notícia</a>
-      <a href="">Acervo</a>
-      <a href="">Documento</a>
-      <a href="">Tag</a>
+      <a href="{% url "competitions:sports:create" %}">Esporte</a>
+      <a href="{% url "competitions:tests:create" %}">Prova</a>
+      <a href="{% url "editions:create" %}">Edição</a>
+      <a href="{% url "teams:create" %}">Time</a>
+      <a href="{% url "teams:classes:create" %}">Turma</a>
+      <a href="{% url "teams:courses:create" %}">Curso</a>
+      <a href="{% url "news:create" %}">Notícia</a>
+      <a href="{% url "archive:create" %}">Acervo</a>
+      <a href="{% url "documents:create" %}">Documento</a>
+      <a href="{% url "home:tags:create" %}">Tag</a>
     </div>
   </div>
 </nav>
