@@ -90,7 +90,7 @@ def test_load_create_button_returns_dict_with_dispatcher_if_dispatcher_is_not_no
     tag = tag_fixture()
     response = custom_tags.load_create_button(
         user=user,
-        namespace='home:tags_delete',
+        namespace='home:tags:delete',
         label='test',
         dispatcher=tag.pk,
         id_field='slug',
@@ -112,7 +112,7 @@ def test_load_create_button_returns_dict_without_dispatcher_if_dispatcher_is_non
     tag = tag_fixture()
     response = custom_tags.load_create_button(
         user=user,
-        namespace='home:tags',
+        namespace='home:tags:home',
         label='test',
     )
     assert all(

@@ -53,7 +53,7 @@ def tags_create(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Tag criada com sucesso.')
-            return redirect(reverse('home:tags'))
+            return redirect(reverse('home:tags:home'))
         else:
             messages.error(request, 'Preencha os campos do formulário corretamente.')
     return render(request, 'home/pages/create-tag.html', context)
@@ -65,4 +65,4 @@ def tags_delete(request, slug):
     tag_obj = get_object_or_404(Tag, slug=slug)
     tag_obj.delete()
     messages.success(request, 'Tag apagada com sucesso.')
-    return redirect(reverse('home:tags'))
+    return redirect(reverse('home:tags:home'))

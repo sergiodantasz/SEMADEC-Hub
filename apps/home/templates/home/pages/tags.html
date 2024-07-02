@@ -7,7 +7,7 @@
 {% block content %}
   {% if user.is_admin %}
   <div class="admin-actions-wrapper">
-    <a class="button" href="{% url "home:tags_create" %}">
+    <a class="button" href="{% url "home:tags:create" %}">
       <img src="{% static "global/img/add.svg" %}" alt="">
       <span>Criar tag</span>
     </a>
@@ -17,7 +17,7 @@
     {% for tag in tags %}
       <div class="tag-item">
         {{ tag }}
-        <a class="tag-action" href="{% url "home:tags_delete" tag.slug %}">
+        <a class="tag-action" href="{% url "home:tags:delete" tag.slug %}">
           <img src="{% static "global/img/delete.svg" %}" alt="">
         </a>
       </div>
