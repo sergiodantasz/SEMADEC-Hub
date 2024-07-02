@@ -6,9 +6,15 @@ app_name = 'competitions'
 
 matches_urls = (
     [
-        path('criar/<int:pk>/', views.MatchCreateView.as_view(), name='create'),
-        path('editar/<int:pk>/', views.MatchEditView.as_view(), name='edit'),
-        path('apagar/<int:pk>/', views.MatchDeleteView.as_view(), name='delete'),
+        path(
+            'criar/<int:pk>/', views.MatchCreateView.as_view(), name='create'
+        ),  # Edition pk
+        path(
+            'editar/<int:pk>/', views.MatchEditView.as_view(), name='edit'
+        ),  # Match pk
+        path(
+            'apagar/<int:pk>/', views.MatchDeleteView.as_view(), name='delete'
+        ),  # Match pk
     ],
     'matches',
 )
