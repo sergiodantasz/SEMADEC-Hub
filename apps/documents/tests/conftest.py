@@ -3,13 +3,21 @@ from django.conf import settings
 from factory.django import FileField
 
 from apps.documents.forms import DocumentCollectionForm, DocumentForm
-from apps.documents.tests.factories import DocumentFactory
+from apps.documents.tests.factories import CollectionDocumentsFactory, DocumentFactory
 from apps.home.tests.factories import TagFactory
 
 
 @pytest.fixture(scope='session')
 def document_fixture():
     caller = lambda size=1, **kwargs: DocumentFactory.create_batch(size, **kwargs)  # noqa
+    yield caller
+
+
+@pytest.fixture(scope='session')
+def document_collection_fixture():
+    caller = lambda size=1, **kwargs: CollectionDocumentsFactory.create_batch(  # noqa
+        size, **kwargs
+    )
     yield caller
 
 
