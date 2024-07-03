@@ -1,5 +1,6 @@
-import django
 from django.conf import settings
+
+# import django
 from django.contrib.messages import get_messages
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.db.models.query import QuerySet
@@ -12,7 +13,7 @@ from apps.editions.forms import EditionForm, EditionTeamForm
 from apps.teams.tests.factories import TeamFactory
 from apps.users.tests.factories import UserFactory
 
-django.setup()
+# django.setup()
 
 
 def test_edition_list_view_get_queryset_method_returns_queryset():
@@ -124,3 +125,13 @@ def test_edition_edit_view_get_form_teams_returns_form(db, edition_fixture):
     view.object = obj
     form = view.get_form_teams()
     assert isinstance(form.empty_form, EditionTeamForm)
+
+
+def test_edition_edit_post_method_redirects_to_correct_url(db, edition_fixture):
+    obj = edition_fixture()
+    c = Client()
+    request = c.get(reverse('editions:edit', kwargs={'pk': obj.pk})).wsgi_request
+    view = views.EditionEditView()
+    view.setup(request, pk=obj.pk)
+    response = view.post(request)
+    assert response.url == reverse('editions:home')

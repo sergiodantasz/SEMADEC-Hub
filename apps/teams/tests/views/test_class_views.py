@@ -46,13 +46,24 @@ def test_class_create_view_context_data_is_dict(db):
     assert isinstance(context, dict)
 
 
-@mark.skip
-def test_class_create_view_get(db):
-    request = RequestFactory().get(reverse('teams:classes:create'))
-    request.resolver_match = resolve(reverse('teams:classes:create'))
-    request.user = UserFactory(is_admin=True, course=None)
+def test_class_create_get_method_shows_error_if_no_course_found(db):
+    c = Client()
+    request = c.get(reverse('teams:classes:create')).wsgi_request
     view = views.ClassCreateView()
     view.setup(request)
+    view.get(request)
+    messages = list(get_messages(request))
+    assert messages[0].level_tag == 'message-error'
+
+
+def test_class_create_get_method(db, course_fixture):
+    course_fixture()
+    c = Client()
+    request = c.get(reverse('teams:classes:create')).wsgi_request
+    view = views.ClassCreateView()
+    view.setup(request)
+    response = view.get(request)
+    assert response._request.path == reverse('teams:classes:create')
 
 
 def test_class_edit_view_context_data_is_dict(db, class_fixture):

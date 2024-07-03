@@ -5,7 +5,7 @@ from django.urls import resolve, reverse
 
 from apps.archive.tests.factories import CollectionArchiveFactory
 from apps.documents import views
-from apps.documents.forms import DocumentForm
+from apps.documents.forms import DocumentCollectionForm, DocumentForm
 from apps.users.tests.factories import UserFactory
 
 
@@ -60,6 +60,57 @@ def test_documents_create_post_method_returns_status_code_200(db):
     view.setup(request)
     response = view.post(request)
     assert response.status_code == 200
+
+
+def test_documents_create_view_form_valid_redirects_to_documents_home(
+    db, document_collection_form_fixture
+):
+    c = Client()
+    user = UserFactory()
+    request = c.get(reverse('documents:create')).wsgi_request
+    request.user = user
+    form = document_collection_form_fixture()
+    view = views.DocumentCreateView()
+    view.setup(request)
+    response = view.form_valid(form)
+    assert response.url == reverse('documents:home')
+
+
+def test_documents_edit_view_get_document_form_returns_form(
+    db, document_collection_fixture
+):
+    obj = document_collection_fixture()[0]
+    request = RequestFactory().get(reverse('documents:edit', kwargs={'slug': obj.slug}))
+    view = views.DocumentEditView()
+    view.setup(request, slug=obj.slug)
+    view.object = obj
+    form = view.get_form()
+    assert isinstance(form, DocumentCollectionForm)
+
+
+def test_documents_edit_view_context_data_is_dict(db, document_collection_fixture):
+    obj = document_collection_fixture()[0]
+    request = RequestFactory().get(reverse('documents:edit', kwargs={'slug': obj.slug}))
+    view = views.DocumentEditView()
+    view.setup(request, slug=obj.slug)
+    view.object = obj
+    context = view.get_context_data()
+    assert isinstance(context, dict)
+
+
+def test_documents_edit_view_form_valid_redirects_to_documents_home(
+    db, document_collection_fixture, document_collection_form_fixture
+):
+    obj = document_collection_fixture()[0]
+    c = Client()
+    user = UserFactory()
+    request = c.get(reverse('documents:edit', kwargs={'slug': obj.slug})).wsgi_request
+    request.user = user
+    form = document_collection_form_fixture()
+    view = views.DocumentEditView()
+    view.setup(request)
+    response = view.form_valid(form)
+    assert response.url == reverse('documents:home')
 
 
 def test_documents_delete_get_method_shows_error_if_user_not_owner(db):

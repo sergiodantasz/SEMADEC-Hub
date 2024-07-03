@@ -60,6 +60,17 @@ def test_news_search_view_get_tags_return_tags(db):
     assert len(response) == 2
 
 
+def test_news_detailed_view_context_data_is_dict(db, news_fixture):
+    obj = news_fixture()
+    request = RequestFactory().get(reverse('news:view', kwargs={'slug': obj.slug}))
+    request.user = UserFactory()
+    view = views.NewsDetailView()
+    view.setup(request, slug=obj.slug)
+    view.object = obj
+    context = view.get_context_data()
+    assert isinstance(context, dict)
+
+
 def test_news_create_view_context_data_is_dict(db):
     request = RequestFactory().get(reverse('news:create'))
     request.resolver_match = resolve(reverse('news:create'))
