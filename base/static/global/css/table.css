@@ -50,6 +50,10 @@
   border-bottom-right-radius: 1rem;
 }
 
+.base-table-header-actions {
+  width: 10rem;
+}
+
 .table-cell-flex {
   display: flex;
   align-items: center;
