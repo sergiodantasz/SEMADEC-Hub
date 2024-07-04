@@ -5,6 +5,7 @@
 {% endblock additional_head %}
 {% block header %}Notícias{% endblock header %}
 {% block content %}
+  {% load custom_tags %}
   {% if user.is_admin %}
     <div class="admin-actions-wrapper">
       <a class="button" href="{% url "news:create" %}">
@@ -15,12 +16,6 @@
   {% endif %}
   {% if db_regs|length > 0 %}
     {% include "global/partials/_search-bar.html" %}
-    <div class="news-list">
-      {% for news in db_regs %}
-        {% include "news/partials/_news-item.html" %}
-      {% endfor %}
-    </div>
-  {% else %}
-    <p class="nothing-found">Nenhuma notícia foi encontrada.</p>
   {% endif %}
+  {% load_regs db_regs user=user template="news/partials/_news-item.html" empty="Nenhuma notícia foi encontrada." reg="news" div="news-list" %}
 {% endblock content %}
