@@ -31,10 +31,9 @@ class BaseFormView(MessageMixin, FormView):
             else self.form_class._meta.model.objects.all()
         )
 
-    # Is it necessary?
-    # def form_valid(self, form):
-    #     form.save()
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 
 class BaseCreateView(BaseFormView):
