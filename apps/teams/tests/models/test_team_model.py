@@ -18,8 +18,8 @@ def test_team_model_slug_has_max_length_100(db, team_fixture):
 
 def test_team_model_slug_is_unique(db, team_fixture):
     with assert_raises(IntegrityError):
-        reg1 = team_fixture(slug='test-slug')
-        reg2 = team_fixture(slug='test-slug')
+        team_fixture(slug='test-slug')
+        team_fixture(slug='test-slug')
 
 
 def test_team_model_get_classes_method_returns_correct_value(db, team_fixture):

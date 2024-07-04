@@ -37,7 +37,7 @@ def class_form_fixture():
 
 @pytest.fixture
 def team_fixture():
-    classes = ClassFactory.create_batch(2)
+    classes = ClassFactory.create_batch(1)
     caller = lambda **kwargs: TeamFactory(classes=classes, **kwargs)  # noqa
     yield caller
 
