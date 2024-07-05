@@ -1,4 +1,5 @@
 from pytest import mark
+from pytest import raises as assert_raises
 
 
 def test_tag_form_is_valid(db, tag_form_fixture):
@@ -31,11 +32,11 @@ def test_tag_form_clean_name_method_returns_name(db, tag_form_fixture):
     assert method == form.cleaned_data['name']
 
 
-@mark.skip
-def test_tag_form_clean_name_method_raises_error_is_name_has_punctuation(
+def test_tag_form_clean_name_method_raises_error_if_name_has_punctuation(
     db, tag_form_fixture
 ):
     form = tag_form_fixture(name='test.')
     form.full_clean()
-    method = form.clean_name()
-    assert form.cleaned_data['name']
+    form.clean_name()
+    with assert_raises(KeyError):
+        form.cleaned_data['name']

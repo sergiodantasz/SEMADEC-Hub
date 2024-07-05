@@ -131,6 +131,20 @@ def test_match_edit_view_get_form_returns_form(db, match_fixture, match_form_fix
     assert isinstance(response, MatchForm)
 
 
+def test_match_edit_post_method_redirects_to_matches_home(
+    db, match_fixture, match_form_fixture, match_team_form_fixture
+):
+    obj = match_fixture()
+    c = Client()
+    request = c.get(
+        reverse('competitions:sports:matches:edit', kwargs={'pk': obj.pk})
+    ).wsgi_request
+    view = views.MatchEditView()
+    view.setup(request, pk=obj.pk)
+    response = view.post(request)
+    assert response.url == reverse('editions:detailed', kwargs={'pk': obj.edition.pk})
+
+
 def test_match_delete_view_get_success_url_returns_correct_url(db, match_fixture):
     obj = match_fixture()
     edition_pk = obj.edition.pk
