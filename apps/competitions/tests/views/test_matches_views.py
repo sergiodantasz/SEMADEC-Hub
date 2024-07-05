@@ -90,6 +90,19 @@ def test_match_create_view_form_valid_redirects_to_matches_home(db, match_form_f
     assert response.url == reverse('editions:detailed', kwargs={'pk': edition_obj.pk})
 
 
+def test_match_edit_view_context_data_is_dict(db, match_fixture, match_form_fixture):
+    obj = match_fixture()
+    c = Client()
+    request = c.get(
+        reverse('competitions:sports:matches:edit', kwargs={'pk': obj.pk})
+    ).wsgi_request
+    request.user = UserFactory(is_admin=True)
+    view = views.MatchEditView()
+    view.setup(request, pk=obj.pk)
+    response = view.get(request)
+    assert isinstance(response.context_data, dict)
+
+
 def test_match_edit_view_get_success_url_returns_correct_url(db, match_fixture):
     obj = match_fixture()
     edition_pk = obj.edition.pk

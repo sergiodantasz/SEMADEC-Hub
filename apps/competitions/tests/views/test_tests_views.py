@@ -114,6 +114,18 @@ def test_test_create_post_method_redirects_to_correct_url(db, test_fixture):
     assert response.url == reverse('competitions:tests:home')
 
 
+def test_test_create_post_method_adds_success_message_if_forms_are_valid(db, test_fixture):
+    obj = test_fixture()
+    c = Client()
+    request = c.get(
+        reverse('competitions:tests:edit', kwargs={'slug': obj.slug})
+    ).wsgi_request
+    view = views.TestEditView()
+    view.setup(request, slug=obj.slug)
+    response = view.post(request)
+    assert response.url == reverse('competitions:tests:home')
+
+
 def test_test_detail_view_context_data_is_dict(db, test_fixture):
     obj = test_fixture()
     request = RequestFactory().get(
