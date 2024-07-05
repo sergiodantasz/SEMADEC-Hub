@@ -14,7 +14,7 @@ class MessageMixin:
         if self.success_message:
             messages.success(self.request, self.success_message)
         elif self.error_message:
-            messages.success(self.request, self.error_message)
+            messages.error(self.request, self.error_message)
         return model.objects.exists()
 
     def delete(self, request, *args, **kwargs):
