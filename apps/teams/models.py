@@ -80,11 +80,11 @@ class Team(models.Model):
 
     @property
     def get_editions(self):
-        return self.editions.all()
+        return self.editions.all()  # type: ignore
 
     @property
     def get_edition_team(self):
-        return self.edition_team.all()
+        return self.edition_team.all()  # type: ignore
 
     def save(self, *args, **kwargs):
         if not self.slug:
