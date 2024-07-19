@@ -8,22 +8,7 @@
 {% block header %}Notícias{% endblock header %}
 {% block content %}
   {% include "global/partials/_search-bar.html" %}
-  <div class="query-info">
-    {% if search_term %}
-      <p class="query-result">Exibindo resultados da pesquisa: <span class="query-result-search-term">"{{ search_term }}"</span></p>
-    {% endif %}
-    {% if tags %}
-      <div class="tags-list-container">
-        <p>Filtrando por tags:</p>
-        <div class="tags-list">
-          {% for tag in tags %}
-            <div class="tag">{{ tag }}</div>
-          {% endfor %}
-        </div>
-      </div>
-    {% endif %}
-    <div class="result-value">Quantidade: <span class="result-value-number">{{ paginator.count }}</span></div>
-  </div>
+  {% include "global/partials/_search-query-info.html" %}
   {% if db_regs|length > 0 %}
     <div class="news-list">
       {% for news in db_regs %}
