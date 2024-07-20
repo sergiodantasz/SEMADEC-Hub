@@ -56,6 +56,7 @@ class DocumentSearchView(BaseSearchView):
             & Q(
                 Q(title__icontains=self.querystr)
                 | Q(documents__name__icontains=self.querystr)
+                # Add document display name
             )
         )
         return super().get_queryset(query, 'title')
