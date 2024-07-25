@@ -80,9 +80,7 @@ class ArchiveCreateView(BaseCreateView):
             images = self.request.FILES.getlist('images')
             if not images:
                 messages.error(self.request, self.msg['error']['image'])
-                # Raise exception
-                # Idea: create a method that first check if other form has error and
-                # then run form_valid()
+                return self.form_invalid(form)
             archive_collection = form.save(commit=False)  # type: ignore
             archive_collection.administrator = self.request.user
             archive_collection.save()

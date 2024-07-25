@@ -15,7 +15,7 @@
             <span>Selecionar arquivo</span>
           </button>
           <p>... ou arraste o arquivo até aqui.</p>
-          {% if form.instance.cover %}
+          {% if is_editing is True and form.instance.cover %}
             <a class="dropzone-cover-link" href="{{ form.instance.cover.url }}" target="_blank">Clique aqui para ver a capa atual.</a>
           {% endif %}
           <div id="dropzone-area"></div>
