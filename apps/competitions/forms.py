@@ -1,5 +1,3 @@
-from tkinter import Widget
-
 from django import forms
 
 from apps.competitions.models import (
@@ -12,7 +10,7 @@ from apps.competitions.models import (
     TestTeam,
 )
 from apps.teams.models import Team
-from helpers.form import set_attr, set_placeholder
+from helpers.form import set_placeholder
 
 
 class SportForm(forms.ModelForm):
