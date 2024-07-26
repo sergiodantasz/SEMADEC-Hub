@@ -1,5 +1,6 @@
 import pytest
 from django.conf import settings
+from factory.django import ImageField
 
 from apps.archive.forms import ImageCollectionForm, ImageForm
 from apps.archive.tests.factories import (
@@ -27,8 +28,8 @@ def collection_archive_fixture():
 @pytest.fixture
 def image_collection_form_fixture():
     data = {
-        'cover': ImageFactory(),
-        'title': 'Título teste',
+        'cover': ImageField(),
+        'title': 'titulo teste',
         'collection_type': 'image',
         'tags': TagFactory.create_batch(2),
     }

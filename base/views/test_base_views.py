@@ -3,7 +3,6 @@ from django.db.models import Q
 from django.http import QueryDict
 from django.test import Client
 from django.urls import reverse
-from pyparsing import C
 from pytest import mark
 
 from apps.teams.models import Course

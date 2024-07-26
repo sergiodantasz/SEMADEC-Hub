@@ -4,6 +4,12 @@ from pytest import mark
 from pytest import raises as assert_raises
 
 
+def test_team_model_slug_is_unique(db, team_fixture):
+    with assert_raises(IntegrityError):
+        team_fixture(slug='test-slug')
+        team_fixture(slug='test-slug')
+
+
 def test_team_model_name_has_max_length_75(db, team_fixture):
     reg = team_fixture(name='a' * 76)
     with assert_raises(ValidationError):
@@ -14,12 +20,6 @@ def test_team_model_slug_has_max_length_100(db, team_fixture):
     reg = team_fixture(slug='a' * 101)
     with assert_raises(ValidationError):
         reg.full_clean()
-
-
-def test_team_model_slug_is_unique(db, team_fixture):
-    with assert_raises(IntegrityError):
-        team_fixture(slug='test-slug')
-        team_fixture(slug='test-slug')
 
 
 def test_team_model_get_classes_method_returns_correct_value(db, team_fixture):

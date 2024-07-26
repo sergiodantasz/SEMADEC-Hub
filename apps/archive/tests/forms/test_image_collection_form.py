@@ -9,7 +9,8 @@ from apps.home.models import Tag
 @mark.skip
 def test_image_collection_form_is_valid(db, image_collection_form_fixture):
     form = image_collection_form_fixture()
-    assert form.full_clean()
+    form.full_clean()
+    assert form.is_valid()
 
 
 def test_image_collection_form_title_field_placeholder_is_correct(
