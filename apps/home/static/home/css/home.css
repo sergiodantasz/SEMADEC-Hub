@@ -18,7 +18,7 @@
 }
 
 .homepage-block-divider {
-  width: 73px;
+  width: 7rem;
   height: 3px;
   background-color: black;
   border-radius: 1rem;
@@ -26,7 +26,7 @@
 .homepage-block-heading {
   font-family: var(--font-family);
   color: var(--green-950);
-  font-size: 2.4rem;
+  font-size: clamp(1.5rem, 5vw, 2.4rem);
   margin: 0 1rem;
   font-weight: 700;
 }
