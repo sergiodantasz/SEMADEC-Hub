@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -107,6 +109,10 @@ class ArchiveEditView(BaseEditView):
         },
     }
 
+    def __init__(self, **kwargs: Any) -> None:
+        self.delete_collection = False
+        super().__init__(**kwargs)
+
     def get_image_form(self, form_class=None):
         image_form = self.image_form(
             self.request.POST or None, self.request.FILES or None
@@ -124,7 +130,6 @@ class ArchiveEditView(BaseEditView):
     def form_valid(self, form):
         image_form = self.get_image_form()
         if image_form.is_valid():
-            images = self.request.FILES.getlist('images')
             images_to_remove_ids = [
                 k.split('-')[-1]
                 for k, v in self.request.POST.items()
@@ -141,8 +146,14 @@ class ArchiveEditView(BaseEditView):
                 image = Image.objects.get(id=image_id)
                 image.delete()
             if not archive_collection.get_images.exists():
-                archive_collection.delete()  # Not working
-                messages.success(
-                    self.request, 'Coleção de imagens apagada com sucesso.'
-                )
+                self.delete_collection = True
+                return self.form_invalid(form)
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        if self.delete_collection:
+            archive_collection = form.instance
+            archive_collection.delete()
+            messages.error(self.request, 'Coleção de imagens apagada com sucesso.')
+            return redirect(reverse('archive:home'))
+        return super().form_invalid(form)
