@@ -93,4 +93,9 @@ def load_create_button(
 
 @register.filter
 def filename(file: File):
+    """Returns the final component of a file path.
+
+    Args:
+        file (File): File object to extract the name from.
+    """
     return path.basename(file.name)
