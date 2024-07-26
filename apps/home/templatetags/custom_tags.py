@@ -2,6 +2,7 @@ from os import path
 from typing import Any
 
 from django import template
+from django.core.files import File
 from django.db.models import QuerySet
 from django.forms.boundfield import BoundField
 from django.template.loader import render_to_string
@@ -91,7 +92,5 @@ def load_create_button(
 
 
 @register.filter
-def filename(value):
-    """Returns
-    """
-    return path.basename(value.file.name)
+def filename(file: File):
+    return path.basename(file.name)

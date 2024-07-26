@@ -50,7 +50,7 @@
       <tbody>
         {% for image in form.instance.get_images %}
           <tr>
-            <td class="image-link"><a href="{{ image.content.url }}" target="_blank">{{ image.content|filename }}</a></td>
+            <td class="image-link"><a href="{{ image.content.url }}" target="_blank">{{ image.content.file|filename }}</a></td>
             <td>
               <label>
                 <input type="radio" name="image-{{ image.id }}" value="yes"> Sim

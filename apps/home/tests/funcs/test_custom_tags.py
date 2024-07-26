@@ -127,6 +127,6 @@ def test_load_create_button_returns_dict_without_dispatcher_if_dispatcher_is_non
 
 def test_filename_returns_str_object(db):
     file = ImageFactory()
-    response = custom_tags.filename(file.content)
+    response = custom_tags.filename(file.content.file)
     file.content.close()
     assert isinstance(response, str)

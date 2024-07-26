@@ -104,7 +104,7 @@ class DocumentCreateView(BaseCreateView):
             ]
             if not documents or not names:
                 messages.error(self.request, self.msg['error']['documents'])
-                # Raise exception
+                return self.form_invalid(form)
             document_collection = form.save(commit=False)  # type: ignore
             document_collection.administrator = self.request.user
             document_collection.save()
@@ -192,4 +192,5 @@ class DocumentEditView(BaseEditView):
                 messages.success(
                     self.request, 'Coleção de documentos apagada com sucesso.'
                 )
+            # Conflito entre o "name" dos inputs
         return super().form_valid(form)

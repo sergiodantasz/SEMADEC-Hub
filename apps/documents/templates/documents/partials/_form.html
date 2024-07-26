@@ -42,17 +42,17 @@
         {% for document in form.instance.get_documents %}
           <tr>
             <td>
-              <input type="text" name="document-{{ document.id }}" value="{{ document.name }}" maxlength="100" required="true">
+              <input type="text" name="document-{{ forloop.counter0 }}" value="{{ document.name }}" maxlength="100" required="true">
             </td>
             <td>
-              <span>{{ document.content|filename }} ({{ document.content.size|filesizeformat }})</span>
+              <span>{{ document.content.file|filename }} ({{ document.content.size|filesizeformat }})</span>
             </td>
             <td>
               <label>
-                <input type="radio" name="document-{{ document.id }}" value="yes"> Sim
+                <input type="radio" name="document-{{ forloop.counter0 }}" value="yes"> Sim
               </label>
               <label>
-                <input type="radio" name="document-{{ document.id }}" value="no" checked> Não
+                <input type="radio" name="document-{{ forloop.counter0 }}" value="no" checked> Não
               </label>
             </td>
           </tr>
