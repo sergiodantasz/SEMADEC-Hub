@@ -10,10 +10,8 @@ if __name__ == '__main__':
         remove_data()
     else:
         remove_data(db=False)
-
     system('python manage.py makemigrations')
     system('python manage.py migrate')
     system('python manage.py collectstatic --no-input --clear')
-
     if '-r' not in argv:
         system('python manage.py runserver')
