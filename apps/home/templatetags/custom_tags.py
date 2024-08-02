@@ -3,6 +3,7 @@ from typing import Any
 
 from django import template
 from django.core.files import File
+from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.forms.boundfield import BoundField
 from django.template.loader import render_to_string
@@ -99,3 +100,32 @@ def filename(file: File):
         file (File): File object to extract the name from.
     """
     return path.basename(file.name)
+
+
+def get_custom_page_range(p, **kwargs):
+    paginator = Paginator(p.object_list, p.per_page)
+    paginator.ELLIPSIS = '...'  # type: ignore
+    elided_page_range = paginator.get_elided_page_range(**kwargs)  # type: ignore
+    return elided_page_range
+
+
+@register.inclusion_tag('global/partials/_pagination2.html')
+def load_paginator_partial(p, number, on_each_side=2, on_ends=1):
+    if number == p.page_range.start or number == p.page_range.stop - 1:
+        on_each_side = 2
+        on_ends = 1
+    else:
+        on_each_side = 1
+        on_ends = 1
+    page_range = list(
+        get_custom_page_range(
+            p, number=number, on_each_side=on_each_side, on_ends=on_ends
+        )
+    )
+    if '...' in page_range:
+        page_range.remove('...')
+    return {
+        'start_range': page_range[0],
+        'middle_range': page_range[1:-1],
+        'end_range': page_range[-1],
+    }

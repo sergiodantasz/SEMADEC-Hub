@@ -1,8 +1,5 @@
 {% extends "global/pages/base_header.html" %}
 {% load static %}
-{% block additional_head %}
-  <link rel="stylesheet" href="{% static "competitions/css/competitions.css" %}">
-{% endblock additional_head %}
 {% block header %}Edições{% endblock header %}
 {% block content %}
   {% load custom_tags %}
@@ -11,4 +8,5 @@
   {% endif %}
   {% load_create_button user=user namespace="editions:create" label="Criar edição" %}
   {% load_regs db_regs user=user template="editions/partials/_edition-item.html" empty="Nenhuma edição foi encontrada."%}
+  {% load_paginator_partial paginator number=page_obj.number%}
 {% endblock content %}
