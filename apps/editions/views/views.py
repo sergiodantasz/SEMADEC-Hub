@@ -31,7 +31,7 @@ from helpers.decorators import admin_required
 class EditionListView(BaseListView):
     model = Edition
     template_name = 'editions/pages/editions.html'
-    paginate_by = 10
+    paginate_by = 2  # Change later
 
     def get_queryset(self) -> QuerySet[Any]:
         return super().get_queryset('-year')
