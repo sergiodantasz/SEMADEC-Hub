@@ -24,7 +24,6 @@ def test_news_model_excerpt_has_max_length_200(db, news_fixture):
         reg.full_clean()
 
 
-@mark.skip
 def test_news_model_slug_has_max_length_225(db, news_fixture):
     reg = news_fixture(slug='a' * 226)
     with assert_raises(ValidationError):

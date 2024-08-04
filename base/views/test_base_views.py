@@ -1,8 +1,8 @@
 from django.contrib.messages import get_messages
 from django.db.models import Q
 from django.http import QueryDict
-from django.test import Client
-from django.urls import reverse
+from django.test import Client, RequestFactory
+from django.urls import resolve, reverse
 from pytest import mark
 
 from apps.teams.models import Course
@@ -63,15 +63,17 @@ def test_base_search_view_does_not_raise_error_if_querystr_is_not_empty(db):
     assert len(messages) == 0
 
 
-@mark.skip
 def test_base_delete_view_get_method_redirects_to_success_url(db):
-    obj = CourseFactory()
-    c = Client()
-    request = c.get(
+    obj = CourseFactory.create_batch(1)[0]
+    obj.save()
+    request = RequestFactory().get(
         reverse('teams:courses:delete', kwargs={'slug': obj.slug})
-    ).wsgi_request
+    )
+    request.resolver_match = resolve(
+        reverse('teams:courses:delete', kwargs={'slug': obj.slug})
+    )
     view = BaseDeleteView()
     view.model = Course
     view.setup(request, slug=obj.slug)
-    response = view.get(request)
-    ...
+    response = view.get(request, slug=obj.slug)
+    assert response.url == view.get_success_url()
