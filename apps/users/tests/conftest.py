@@ -3,7 +3,6 @@ from django.conf import settings
 
 from apps.users.tests.factories import (
     CampusFactory,
-    EmailFactory,
     UserFactory,
 )
 
@@ -16,11 +15,6 @@ def campus_fixture():
 @pytest.fixture
 def user_fixture():
     yield UserFactory
-
-
-@pytest.fixture
-def email_fixture():
-    yield EmailFactory
 
 
 if __name__.startswith('test'):

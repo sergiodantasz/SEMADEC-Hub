@@ -34,13 +34,3 @@ class UserFactory(DjangoModelFactory, DjangoOptions):
     date_of_birth = fake.date()
     photo = ImageField()
     password = fake.password(length=15)
-
-
-class EmailFactory(DjangoModelFactory):
-    class Meta:
-        model = 'users.Email'
-        skip_postgeneration_save = True
-
-    user = SubFactory(UserFactory)
-    address = Sequence(lambda x: fake.unique.email())
-    email_type = fake.pystr(max_chars=15)
