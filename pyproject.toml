@@ -100,4 +100,4 @@ exclude_also = [
 ]
 
 [tool.coverage.html]
-directory = "docs/coverage"
+directory = "assets/coverage"
