@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 
 from helpers.model import get_object
@@ -118,6 +119,9 @@ class MatchTeam(models.Model):
         on_delete=models.CASCADE,
     )
     score = models.FloatField(
+        validators=[
+            MinValueValidator(0),
+        ],
         null=True,
         blank=True,
         default=0,
