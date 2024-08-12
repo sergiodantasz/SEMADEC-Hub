@@ -120,11 +120,11 @@ class MatchEditView(BaseEditView):
             form.save()
             form_matches.save()
             messages.success(request, self.msg['success']['form'])
+            return redirect(self.get_success_url())
         else:
             messages.error(request, self.msg['error']['form'])
             context = self.get_context_data()
             return self.render_to_response(context)  # type: ignore
-        return redirect(self.get_success_url())
 
 
 @method_decorator(login_required, name='dispatch')
