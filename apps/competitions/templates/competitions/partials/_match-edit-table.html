@@ -15,3 +15,13 @@
     </tr>
   {% endfor %}
 {% endblock table_rows %}
+{% block table_outer %}
+  <div class="messages-container">
+    {% for error in form_matches.errors %}
+      {% for key, value in error.items %}
+        <div class="message message-error">{{value.as_text|cut:"* "}}</div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+{% endblock table_outer %}
+

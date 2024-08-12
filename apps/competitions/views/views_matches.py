@@ -8,7 +8,7 @@ from django.http import (
     HttpResponseRedirect,
 )
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 
 from apps.competitions.forms import (
@@ -122,6 +122,8 @@ class MatchEditView(BaseEditView):
             messages.success(request, self.msg['success']['form'])
         else:
             messages.error(request, self.msg['error']['form'])
+            context = self.get_context_data()
+            return self.render_to_response(context)  # type: ignore
         return redirect(self.get_success_url())
 
 
