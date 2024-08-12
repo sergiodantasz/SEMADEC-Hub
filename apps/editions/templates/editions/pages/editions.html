@@ -8,5 +8,7 @@
   {% endif %}
   {% load_create_button user=user namespace="editions:create" label="Criar edição" %}
   {% load_regs db_regs user=user template="editions/partials/_edition-item.html" empty="Nenhuma edição foi encontrada."%}
-  {% load_paginator_partial paginator number=page_obj.number%}
+  {% if paginator %}
+    {% load_paginator_partial paginator number=page_obj.number%}
+  {% endif %}
 {% endblock content %}
