@@ -69,7 +69,8 @@ class EditionTeamForm(forms.ModelForm):
         model = EditionTeam
         fields = ['score']
 
-    score = forms.CharField(
+    score = forms.DecimalField(
         label='Pontuação',
-        widget=forms.NumberInput(),
+        min_value=0,
+        decimal_places=2,
     )
