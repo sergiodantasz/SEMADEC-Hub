@@ -1,6 +1,9 @@
 {% extends "global/pages/base_header.html" %}
 {% load static %}
 {% block header %}Edições{% endblock header %}
+{% block additional_head %}
+  <link rel="stylesheet" href="{% static "global/css/pagination.css" %}">
+{% endblock additional_head %}
 {% block content %}
   {% load custom_tags %}
   {% if db_regs|length != 0 %}
@@ -9,6 +12,8 @@
   {% load_create_button user=user namespace="editions:create" label="Criar edição" %}
   {% load_regs db_regs user=user template="editions/partials/_edition-item.html" empty="Nenhuma edição foi encontrada."%}
   {% if paginator %}
-    {% load_paginator_partial paginator number=page_obj.number%}
+    {% comment %} {% load_paginator_partial paginator number=page_obj.number%} {% endcomment %}
+    {% comment %} {% debug %} {% endcomment %}
+    {% make_pagination_range paginator.page_range paginator.num_pages page_obj.number %}
   {% endif %}
 {% endblock content %}
