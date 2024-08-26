@@ -138,7 +138,10 @@ def load_paginator_partial(p, number, on_each_side=2, on_ends=1):
 
 
 @register.inclusion_tag('global/partials/_pagination3.html')
-def make_pagination_range(page_range, qty_pages, current_page):
+def make_pagination_range(paginator, current_page):
+    page_range = paginator.page_range
+    # qty_pages = paginator.num_pages
+    qty_pages = 4
     middle_range = ceil(qty_pages / 2)
     start_range = current_page - middle_range
     stop_range = current_page + middle_range
@@ -150,7 +153,7 @@ def make_pagination_range(page_range, qty_pages, current_page):
     if stop_range >= total_pages:
         start_range = start_range - abs(total_pages - stop_range)
     pagination = page_range[start_range:stop_range]
-    return {
+    pagination_range = {
         'pagination': pagination,
         'page_range': page_range,
         'qty_page': qty_pages,
@@ -161,3 +164,4 @@ def make_pagination_range(page_range, qty_pages, current_page):
         'first_page_out_of_range': current_page > middle_range,
         'last_page_out_of_range': stop_range < total_pages,
     }
+    return pagination_range
