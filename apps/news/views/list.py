@@ -26,6 +26,7 @@ class NewsListView(BaseListView):
 class NewsSearchView(BaseSearchView):
     model = News
     template_name = 'news/pages/news_search.html'
+    paginate_by = 2  # Change later
 
     def get_tags_from_url(self) -> list[str | Any]:
         return self.request.GET.get('tags', '').split(',')
@@ -64,16 +65,10 @@ class NewsSearchView(BaseSearchView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         search_term = self.get_search_term()
-        page_obj, pagination_range, paginator = make_pagination(
-            self.request, context.get('db_regs'), 10
-        )
         context |= {
             'title': 'Pesquisa - Notícias',
             'search_term': search_term,
             'tags': self.get_tags(self.get_tags_from_url()),
-            'db_regs': page_obj,
-            'pagination_range': pagination_range,
-            'paginator': paginator,
             'additional_url_params': f'&q={search_term}',
         }
         return context

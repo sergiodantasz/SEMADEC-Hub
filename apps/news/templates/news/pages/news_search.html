@@ -7,6 +7,7 @@
 {% endblock additional_head %}
 {% block header %}Notícias{% endblock header %}
 {% block content %}
+  {% load custom_tags %}
   {% include "global/partials/_search-bar.html" %}
   {% include "global/partials/_search-query-info.html" %}
   {% if db_regs|length > 0 %}
@@ -15,8 +16,8 @@
         {% include "news/partials/_news-item.html" %}
       {% endfor %}
     </div>
-    {% if db_regs.has_other_pages %}
-      {% include "global/partials/_pagination.html" %}
+    {% if paginator or page_obj.has_other_pages %}
+      {% make_pagination_range paginator=paginator current_page=page_obj.number %}
     {% endif %}
   {% else %}
     <p class="nothing-found">Nenhuma notícia foi encontrada.</p>
