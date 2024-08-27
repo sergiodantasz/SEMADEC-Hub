@@ -13,21 +13,14 @@ from helpers.pagination import make_pagination
 class NewsListView(BaseListView):
     model = News
     template_name = 'news/pages/news_list.html'
+    paginate_by = 2  # Change lter
 
     def get_queryset(self) -> QuerySet[Any]:
         return super().get_queryset('-created_at')
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        page_obj, pagination_range, paginator = make_pagination(
-            self.request, context.get('db_regs'), 10
-        )
-        context |= {
-            'title': 'Notícias',
-            'db_regs': page_obj,  # Remove later
-            'pagination_range': pagination_range,
-        }
-        return context
+        context = {'title': 'Notícias'}
+        return super().get_context_data(**context)
 
 
 class NewsSearchView(BaseSearchView):

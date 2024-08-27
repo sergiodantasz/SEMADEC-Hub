@@ -6,6 +6,7 @@
 {% endblock additional_head %}
 {% block header %}Notícias{% endblock header %}
 {% block content %}
+  {% load custom_tags %}
   {% if user.is_admin %}
     <div class="admin-actions-wrapper">
       <a class="button" href="{% url "news:create" %}">
@@ -21,8 +22,8 @@
         {% include "news/partials/_news-item.html" %}
       {% endfor %}
     </div>
-    {% if db_regs.has_other_pages %}
-      {% include "global/partials/_pagination.html" %}
+    {% if paginator and page_obj.has_other_pages %}
+      {% make_pagination_range paginator=paginator current_page=page_obj.number %}
     {% endif %}
   {% else %}
     <p class="nothing-found">Nenhuma notícia foi encontrada.</p>
