@@ -13,7 +13,7 @@ class ArchiveListView(BaseListView):
     model = Collection
     template_name = 'archive/pages/archive_list.html'
     ordering = '-created_at'
-    paginate_by = 2
+    paginate_by = 2  # Change later
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = {'title': 'Acervo', 'search_url': ''}
