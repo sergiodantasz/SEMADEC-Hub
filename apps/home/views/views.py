@@ -25,7 +25,7 @@ class HomeView(TemplateView):
         context = {
             'title': 'Início',
             'last_edition': last_edition or '',
-            'news_regs': News.objects.all(),
+            'news_regs': News.objects.order_by('-created_at')[:4],
             'document_reg': Collection.objects.filter(collection_type='document')
             .order_by('-created_at')
             .first()
@@ -33,7 +33,9 @@ class HomeView(TemplateView):
             'archive_reg': Collection.objects.filter(collection_type='image')
             .order_by('-created_at')
             .first(),
-            'matches_regs': '' if not last_edition else last_edition.matches.all(),
+            'matches_regs': ''
+            if not last_edition
+            else last_edition.get_matches.order_by('-date_time')[:10],
         }
         return super().get_context_data(**context)
 
