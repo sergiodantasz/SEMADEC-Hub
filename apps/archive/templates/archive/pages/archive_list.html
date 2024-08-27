@@ -7,12 +7,13 @@
 {% endblock additional_head %}
 {% block header %}Acervo{% endblock header %}
 {% block content %}
+  {% load custom_tags %}
   {% if db_regs|length > 0 %}
     {% include "global/partials/_search-bar.html" %}
   {% endif %}
   {% load_create_button user=user namespace="archive:create" label="Criar arquivo"%}
   {% load_regs db_regs user=user template="archive/partials/_archive-item.html" div="archive-list" empty="Nenhuma coleção de acervo foi encontrada." %}
-  {% if db_regs.has_other_pages %}
-    {% include "global/partials/_pagination.html" %}
+  {% if paginator and page_obj.has_other_pages %}
+    {% make_pagination_range paginator=paginator current_page=page_obj.number %}
   {% endif %}
 {% endblock content %}

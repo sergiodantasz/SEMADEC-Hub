@@ -13,19 +13,11 @@ class ArchiveListView(BaseListView):
     model = Collection
     template_name = 'archive/pages/archive_list.html'
     ordering = '-created_at'
+    paginate_by = 2
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        page_obj, pagination_range, paginator = make_pagination(
-            self.request, context.get('db_regs'), 15
-        )
-        context |= {
-            'title': 'Acervo',
-            'search_url': '',
-            'db_regs': page_obj,
-            'pagination_range': pagination_range,
-        }
-        return context
+        context = {'title': 'Acervo', 'search_url': ''}
+        return super().get_context_data(**context)
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset(ordering=self.ordering)  # type: ignore
