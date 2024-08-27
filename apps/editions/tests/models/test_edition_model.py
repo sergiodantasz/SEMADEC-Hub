@@ -35,11 +35,10 @@ def test_edition_model_name_has_max_length_20(db, edition_fixture):
         reg.full_clean()
 
 
-@mark.skip
 def test_edition_model_name_is_unique(db, edition_fixture):
     with assert_raises(IntegrityError):
-        reg1 = edition_fixture(name='name test')
-        reg2 = edition_fixture(name='name test')
+        reg1 = edition_fixture(name='nametest')
+        reg2 = edition_fixture(name='nametest')
 
 
 def test_edition_model_name_can_be_blank(db, edition_fixture):
@@ -51,12 +50,6 @@ def test_edition_model_edition_type_has_max_length_10(db, edition_fixture):
     reg = edition_fixture(edition_type='a' * 11)
     with assert_raises(ValidationError):
         reg.full_clean()
-
-
-@mark.skip
-def test_edition_model_edition_type_db_column_is_type(db, edition_fixture):
-    reg = edition_fixture()
-    assert hasattr(reg, 'type')
 
 
 def test_edition_model_theme_has_max_length_100(db, edition_fixture):

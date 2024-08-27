@@ -18,7 +18,10 @@ from apps.editions.tests.factories import (
 @pytest.fixture
 def edition_fixture():
     sports = SportFactory.create_batch(2)
-    caller = lambda **kwargs: EditionWith2TeamsFactory(  # noqa
+    edition_factory = EditionWith2TeamsFactory
+    edition_factory._meta.django_get_or_create = ''
+
+    caller = lambda **kwargs: edition_factory(  # noqa
         sports=sports, **kwargs
     )
     yield caller
