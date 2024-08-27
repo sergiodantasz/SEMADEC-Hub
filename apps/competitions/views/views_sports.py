@@ -88,11 +88,6 @@ class SportEditView(BaseEditView):
         context = {'title': 'Editar esporte'}
         return super().get_context_data(**context)
 
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        form.fields['name'].disabled = True
-        return form
-
 
 class SportDetailView(BaseDetailView):
     model = Sport
