@@ -110,7 +110,7 @@ def get_custom_page_range(p, **kwargs):
     return elided_page_range
 
 
-@register.inclusion_tag('global/partials/_pagination3.html')
+@register.inclusion_tag('global/partials/_pagination.html')
 def make_pagination_range(paginator, current_page, additional_params=''):
     page_range = paginator.page_range
     qty_pages = 4
