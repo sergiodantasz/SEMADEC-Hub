@@ -17,7 +17,7 @@
       {% endfor %}
     </div>
     {% if paginator or page_obj.has_other_pages %}
-      {% make_pagination_range paginator=paginator current_page=page_obj.number %}
+      {% make_pagination_range paginator=paginator current_page=page_obj.number additional_params=additional_url_params %}
     {% endif %}
   {% else %}
     <p class="nothing-found">Nenhuma notícia foi encontrada.</p>

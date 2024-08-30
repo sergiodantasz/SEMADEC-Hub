@@ -14,6 +14,6 @@
   {% load_create_button user=user namespace="documents:create" label="Criar documento"%}
   {% load_regs db_regs user=user template="documents/partials/_document-collection-item.html" empty="Nenhum documento foi encontrado." reg="document_collection" div="document-collection-list" %}
   {% if paginator and page_obj.has_other_pages %}
-    {% make_pagination_range paginator=paginator current_page=page_obj.number %}
+    {% make_pagination_range paginator=paginator current_page=page_obj.number additional_params=additional_url_params %}
   {% endif %}
 {% endblock content %}

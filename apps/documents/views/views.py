@@ -42,6 +42,7 @@ class DocumentListView(BaseListView):
 class DocumentSearchView(BaseSearchView):
     model = Collection
     template_name = 'documents/pages/documents_list.html'
+    paginate_by = 2  # Change later
 
     def get_queryset(self) -> QuerySet[Any]:
         self.querystr = self.get_search_term()

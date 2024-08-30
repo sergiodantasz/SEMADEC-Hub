@@ -28,7 +28,7 @@ class ArchiveListView(BaseListView):
 class ArchiveSearchView(BaseSearchView):
     model = Collection
     template_name = 'archive/pages/archive_list.html'
-    paginate_by = 10
+    paginate_by = 2  # Change later
 
     def get_queryset(self) -> QuerySet[Any]:
         self.querystr = self.get_search_term()
