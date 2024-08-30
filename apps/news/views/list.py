@@ -1,19 +1,17 @@
 from typing import Any, Iterable
 
-from django.db.models import Count, Q
+from django.db.models import Q
 from django.db.models.query import QuerySet
 
 from apps.home.models import Tag
 from apps.news.models import News
-from apps.news.tests.factories import NewsFactory
 from base.views import BaseListView, BaseSearchView
-from helpers.pagination import make_pagination
 
 
 class NewsListView(BaseListView):
     model = News
     template_name = 'news/pages/news_list.html'
-    paginate_by = 2  # Change lter
+    paginate_by = 2  # Change later
 
     def get_queryset(self) -> QuerySet[Any]:
         return super().get_queryset('-created_at')

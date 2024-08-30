@@ -6,7 +6,6 @@ from django.db.models.query import QuerySet
 from apps.home.models import Collection
 from base.views.base_list_view import BaseListView
 from base.views.base_search_view import BaseSearchView
-from helpers.pagination import make_pagination
 
 
 class ArchiveListView(BaseListView):

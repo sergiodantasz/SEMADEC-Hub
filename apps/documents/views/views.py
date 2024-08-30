@@ -17,7 +17,6 @@ from base.views.base_list_view import BaseListView
 from base.views.base_search_view import BaseSearchView
 from helpers.decorators import admin_required
 from helpers.model import is_owner
-from helpers.pagination import make_pagination
 
 
 class DocumentListView(BaseListView):
