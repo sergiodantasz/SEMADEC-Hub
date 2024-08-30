@@ -17,26 +17,20 @@ from base.views.base_list_view import BaseListView
 from base.views.base_search_view import BaseSearchView
 from helpers.decorators import admin_required
 from helpers.model import is_owner
-from helpers.pagination import make_pagination
 
 
 class DocumentListView(BaseListView):
     model = Collection
     template_name = 'documents/pages/documents_list.html'
     ordering = '-created_at'
+    paginate_by = 2  # Change later
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        page_obj, pagination_range, paginator = make_pagination(
-            self.request, context.get('db_regs'), 10
-        )
-        context |= {
+        context = {
             'title': 'Documentos',
             'search_url': reverse('documents:search'),
-            'db_regs': page_obj,
-            'pagination_range': pagination_range,
         }
-        return context
+        return super().get_context_data(**context)
 
     def get_queryset(self):
         queryset = super().get_queryset(ordering=self.ordering)  # type: ignore
@@ -47,6 +41,7 @@ class DocumentListView(BaseListView):
 class DocumentSearchView(BaseSearchView):
     model = Collection
     template_name = 'documents/pages/documents_list.html'
+    paginate_by = 2  # Change later
 
     def get_queryset(self) -> QuerySet[Any]:
         self.querystr = self.get_search_term()

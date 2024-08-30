@@ -1,38 +1,30 @@
 from typing import Any, Iterable
 
-from django.db.models import Count, Q
+from django.db.models import Q
 from django.db.models.query import QuerySet
 
 from apps.home.models import Tag
 from apps.news.models import News
-from apps.news.tests.factories import NewsFactory
 from base.views import BaseListView, BaseSearchView
-from helpers.pagination import make_pagination
 
 
 class NewsListView(BaseListView):
     model = News
     template_name = 'news/pages/news_list.html'
+    paginate_by = 2  # Change later
 
     def get_queryset(self) -> QuerySet[Any]:
         return super().get_queryset('-created_at')
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        page_obj, pagination_range, paginator = make_pagination(
-            self.request, context.get('db_regs'), 10
-        )
-        context |= {
-            'title': 'Notícias',
-            'db_regs': page_obj,  # Remove later
-            'pagination_range': pagination_range,
-        }
-        return context
+        context = {'title': 'Notícias'}
+        return super().get_context_data(**context)
 
 
 class NewsSearchView(BaseSearchView):
     model = News
     template_name = 'news/pages/news_search.html'
+    paginate_by = 2  # Change later
 
     def get_tags_from_url(self) -> list[str | Any]:
         return self.request.GET.get('tags', '').split(',')
@@ -71,16 +63,10 @@ class NewsSearchView(BaseSearchView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         search_term = self.get_search_term()
-        page_obj, pagination_range, paginator = make_pagination(
-            self.request, context.get('db_regs'), 10
-        )
         context |= {
             'title': 'Pesquisa - Notícias',
             'search_term': search_term,
             'tags': self.get_tags(self.get_tags_from_url()),
-            'db_regs': page_obj,
-            'pagination_range': pagination_range,
-            'paginator': paginator,
             'additional_url_params': f'&q={search_term}',
         }
         return context
