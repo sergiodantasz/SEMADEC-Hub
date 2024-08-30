@@ -110,33 +110,6 @@ def get_custom_page_range(p, **kwargs):
     return elided_page_range
 
 
-@register.inclusion_tag('global/partials/_pagination2.html')
-def load_paginator_partial(p, number, on_each_side=2, on_ends=1):
-    if number == p.page_range.start or number == p.page_range.stop - 1:
-        on_each_side = 2
-    elif number == p.page_range.start + 1 or number == p.page_range.stop - 2:
-        on_each_side = 3
-    else:
-        on_each_side = 1
-    page_range = list(
-        get_custom_page_range(
-            p, number=number, on_each_side=on_each_side, on_ends=on_ends
-        )
-    )
-    if '...' in page_range:
-        page_range.remove('...')
-    return_range = {}
-    if p.num_pages <= 4:
-        return_range |= {'middle_range': page_range}
-    else:
-        return_range |= {
-            'start_range': page_range[0],
-            'middle_range': page_range[1:-1],
-            'end_range': page_range[-1],
-        }
-    return return_range
-
-
 @register.inclusion_tag('global/partials/_pagination3.html')
 def make_pagination_range(paginator, current_page, additional_params=''):
     page_range = paginator.page_range
