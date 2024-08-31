@@ -89,7 +89,7 @@ def match_form_fixture():
         'date_time': fake.date_time(tzinfo=timezone.get_current_timezone()),
         'teams': TeamFactory.create_batch(3),
     }
-    caller = lambda **kwargs: MatchForm(data=data, **kwargs)  # noqa
+    caller = lambda **kwargs: MatchForm(data=data | kwargs)  # noqa
     yield caller
 
 

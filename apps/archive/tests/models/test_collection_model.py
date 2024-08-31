@@ -23,12 +23,6 @@ def test_collection_model_title_has_max_length_200(db, collection_fixture):
         reg.full_clean()
 
 
-@mark.skip
-def test_collection_model_collection_type_db_column_is_type(db, collection_fixture):
-    reg = collection_fixture()
-    assert hasattr(reg, 'type')
-
-
 def test_collection_model_collection_type_has_max_length_10(db, collection_fixture):
     reg = collection_fixture(collection_type='a' * 11)
     with assert_raises(ValidationError):
